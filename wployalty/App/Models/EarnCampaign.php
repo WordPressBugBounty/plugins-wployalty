@@ -253,16 +253,16 @@ class EarnCampaign extends Base {
 	}
 
 	function getCampaignByType( $type = "coupon" ) {
-		if ( empty( $type ) || ! is_string( $type ) || ! in_array( $type, array( 'point', 'coupon' ) ) ) {
-			return array();
+		if ( empty( $type ) || ! is_string( $type ) || ! in_array( $type, [ 'point', 'coupon' ] ) ) {
+			return [];
 		}
 		if ( isset( self::$campaign_by_types[ $type ] ) && ! empty( self::$campaign_by_types[ $type ] ) ) {
 			return self::$campaign_by_types[ $type ];
 		}
-		$campaign_where     = self::$db->prepare( 'campaign_type = %s OR action_type = %s', array(
+		$campaign_where     = self::$db->prepare( 'campaign_type = %s OR action_type = %s', [
 			$type,
 			'referral'
-		) );
+		] );
 		$campaign_list      = $this->getWhere( $campaign_where, '*', false );
 		$woocommerce_helper = Woocommerce::getInstance();
 		foreach ( $campaign_list as &$campaign ) {

@@ -26,6 +26,7 @@ class WlrPointExpireEmail extends \WC_Email
         $this->default_heading = __('Your points are about to expire. Redeem now!', 'wp-loyalty-rules');
         $this->template_html = 'emails/wlr-point-expire-email.php';
         $this->template_plain = 'emails/plain/wlr-point-expire-email.php';
+	    add_action('wlr_notify_send_expire_point_email', array($this, 'sendPointExpireEmail'));
         parent::__construct();
         $this->recipient = $this->get_option('recipient', get_option('admin_email'));
         $this->template_base = __DIR__ . '/Templates/';

@@ -7,11 +7,8 @@
 
 namespace Wll\V2\App\Controllers;
 
-use Wll\V2\App\Helpers\Settings;
 use Wlr\App\Helpers\Input;
-use Wlr\App\Helpers\Template;
 use Wlr\App\Helpers\Woocommerce;
-use Wlr\App\Models\EarnCampaign;
 use Wlr\App\Models\EarnCampaignTransactions;
 
 defined( 'ABSPATH' ) or die();
@@ -35,7 +32,6 @@ class Base {
 	public function __construct() {
 		self::$woocommerce = empty( self::$woocommerce ) ? Woocommerce::getInstance() : self::$woocommerce;
 		self::$input       = empty( self::$input ) ? new Input() : self::$input;
-		self::$template    = empty( self::$template ) ? new Template() : self::$template;
 		self::$settings    = empty( self::$settings ) ? new \Wll\V2\App\Helpers\Settings() : self::$settings;
 		self::$validation  = empty( self::$validation ) ? new \Wll\V2\App\Helpers\Validation() : self::$validation;
 	}

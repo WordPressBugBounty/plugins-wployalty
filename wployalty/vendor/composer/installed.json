@@ -136,15 +136,15 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:wployalty/notifications.git",
-                "reference": "913a5f1fbfa074f83def1f550f33bcba7ab0ddbf"
+                "reference": "c12b0ad0c783807f7abb9f264e5a88bba90ab4a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wployalty/notifications/zipball/913a5f1fbfa074f83def1f550f33bcba7ab0ddbf",
-                "reference": "913a5f1fbfa074f83def1f550f33bcba7ab0ddbf",
+                "url": "https://api.github.com/repos/wployalty/notifications/zipball/c12b0ad0c783807f7abb9f264e5a88bba90ab4a2",
+                "reference": "c12b0ad0c783807f7abb9f264e5a88bba90ab4a2",
                 "shasum": ""
             },
-            "time": "2024-03-15T06:48:50+00:00",
+            "time": "2024-11-27T09:01:35+00:00",
             "default-branch": true,
             "type": "project",
             "installation-source": "dist",
@@ -170,6 +170,6 @@
             "install-path": "../wployalty/notifications"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }

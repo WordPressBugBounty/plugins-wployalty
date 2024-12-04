@@ -128,6 +128,7 @@ class Users extends Base {
 			$status = $this->insertRow( $user_fields );
 		}
 		if ( $status && ( $old_level_id != $user_fields['level_id'] ) ) {
+			\WC_Emails::instance();
 			do_action( 'wlr_after_user_level_changed', $old_level_id, $user_fields );
 		}
 
@@ -147,6 +148,27 @@ class Users extends Base {
 		);
 
 		return $this->insertOrUpdate( $user_fields, $id );
+	}
+
+	public static function updateSentEmailData( $user_email, $enable_sent_email ) {
+		if ( empty( $user_email ) || ! in_array( (int) $enable_sent_email, array( 0, 1 ) ) ) {
+			return false;
+		}
+		$user_email = sanitize_email( $user_email );
+		if ( empty( $user_email ) ) {
+			return false;
+		}
+		$user_model = new Users();
+		global $wpdb;
+		$where     = $wpdb->prepare( 'user_email = %s', [ $user_email ] );
+		$user_data = $user_model->getWhere( $where, '*', true );
+		$status    = false;
+		if ( ! empty( $user_data ) && is_object( $user_data ) && isset( $user_data->id ) && $user_data->id > 0 ) {
+			$data   = [ 'is_allow_send_email' => (int) $enable_sent_email ];
+			$status = $user_model->insertOrUpdate( $data, $user_data->id );
+		}
+
+		return $status;
 	}
 
 }

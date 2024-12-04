@@ -28,6 +28,7 @@ class WlrEarnPointEmail extends \WC_Email
         $this->default_heading = __('You have earned points', 'wp-loyalty-rules');
         $this->template_html = 'emails/wlr-earn-point.php';
         $this->template_plain = 'emails/plain/wlr-earn-point.php';
+	    add_action('wlr_notify_after_add_earn_point', array($this, 'sendPointEmail'), 10, 4);
         parent::__construct();
         $this->recipient = $this->get_option('recipient', get_option('admin_email'));
         $this->template_base = __DIR__ . '/Templates/';

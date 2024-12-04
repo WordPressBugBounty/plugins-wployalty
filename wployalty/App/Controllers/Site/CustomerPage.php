@@ -9,7 +9,10 @@ namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Controllers\Base;
 use Wlr\App\Helpers\EarnCampaign;
+use Wlr\App\Helpers\Input;
 use Wlr\App\Helpers\Settings;
+use Wlr\App\Helpers\Util;
+use Wlr\App\Helpers\Woocommerce;
 use Wlr\App\Models\Levels;
 use Wlr\App\Models\Logs;
 use Wlr\App\Models\Rewards;
@@ -103,7 +106,7 @@ class CustomerPage extends Base {
 		];
 		$page_content           = wc_get_template_html(
 			'recent_activity_content.php',
-			$recent_activity_params, '',
+			$recent_activity_params, Util::getTemplatePath( 'recent_activity_content.php' ),
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
@@ -123,7 +126,7 @@ class CustomerPage extends Base {
 		];
 		$page_content       = wc_get_template_html(
 			'recent_activity.php',
-			$transaction_params, '',
+			$transaction_params, Util::getTemplatePath( 'recent_activity.php' ),
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
@@ -158,7 +161,7 @@ class CustomerPage extends Base {
 		$my_rewards_and_coupons                   = wc_get_template_html(
 			$template_name,
 			$my_reward_params,
-			'',
+			Util::getTemplatePath( 'my_reward_tabs.php' ),
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
@@ -207,7 +210,7 @@ class CustomerPage extends Base {
 		$page_params       = wp_parse_args( $args, $page_params );
 		$page_content      = wc_get_template_html(
 			'reward_content.php',
-			$page_params, '',
+			$page_params, Util::getTemplatePath( 'reward_content.php' ),
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
@@ -242,7 +245,7 @@ class CustomerPage extends Base {
 		$page_params ['current_count'] = (int) ( $offset * $limit );
 		$page_content                  = wc_get_template_html(
 			'coupon_content.php',
-			$page_params, '',
+			$page_params, Util::getTemplatePath( 'coupon_content.php' ),
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
@@ -283,7 +286,7 @@ class CustomerPage extends Base {
 		$page_params ['current_count'] = (int) ( $offset * $limit );
 		$page_content                  = wc_get_template_html(
 			'expired_coupon_content.php',
-			$page_params, '',
+			$page_params, Util::getTemplatePath( 'expired_coupon_content.php' ),
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
@@ -298,9 +301,9 @@ class CustomerPage extends Base {
 			'wp_user' => ''
 		];
 		$args         = wp_parse_args( $args, $default );
-		$reward_types = self::$woocommerce->getRewardDiscountTypes();
+		$reward_types = Woocommerce::getRewardDiscountTypes();
 
-		foreach ( $reward_list as &$user_reward_data ) {
+		foreach ( $reward_list as $key => &$user_reward_data ) {
 			$user_reward_data->reward_type_name = ! empty( $user_reward_data->discount_type ) && isset( $reward_types[ $user_reward_data->discount_type ] ) && $reward_types[ $user_reward_data->discount_type ] ? $reward_types[ $user_reward_data->discount_type ] : '';
 			$user_reward_data->expiry_date      = ( ! empty( $user_reward_data->end_at ) && $user_reward_data->end_at >= 0 ) ? self::$woocommerce->beforeDisplayDate( $user_reward_data->end_at ) : '';
 			$user_reward_data->created_at       = ( ! empty( $user_reward_data->created_at ) && $user_reward_data->created_at >= 0 ) ? self::$woocommerce->beforeDisplayDate( $user_reward_data->created_at ) : '';
@@ -333,11 +336,22 @@ class CustomerPage extends Base {
 				}
 				$user_reward_data->is_stock_empty_products = $is_stock_empty;
 			}
+			if ( isset( $user_reward_data->discount_code ) && in_array( $user_reward_data->reward_type, [
+					'redeem_coupon',
+					'redeem_point'
+				] ) && $user_reward_data->status === 'active' ) {
+				$coupon      = new \WC_Coupon( $user_reward_data->discount_code );
+				$usage_count = $coupon->get_usage_count();
+				if ( isset( $usage_count ) && $usage_count >= 1 ) {
+					unset( $reward_list[ $key ] );
+				}
+			}
 		}
 
 		return apply_filters( 'wlr_tab_process_reward_list', $reward_list );
 	}
 
+	//old
 	function rewardPageData( $page_type = '' ) {
 		if ( ! $this->canShowRewardPage( $page_type ) ) {
 			return array();
@@ -424,6 +438,7 @@ class CustomerPage extends Base {
 		return apply_filters( 'wlr_myaccount_page_data', $page_params );
 	}
 
+	//old
 	function getNewMyRewardsSection( $page_params, $user_email ) {
 		if ( empty( $page_params ) || empty( $user_email ) ) {
 			return '';
@@ -450,6 +465,7 @@ class CustomerPage extends Base {
 		return apply_filters( 'wlr_customer_page_new_my_rewards_section', $my_rewards_and_coupons, $page_params );
 	}
 
+	//old
 	function getRewardsPageContent( $page_params, $user_email ) {
 		if ( empty( $page_params ) || empty( $user_email ) ) {
 			return '';
@@ -463,6 +479,7 @@ class CustomerPage extends Base {
 		return apply_filters( 'wlr_customer_page_new_rewards_section', $page_content, $page_params );
 	}
 
+	//old
 	function getCouponsPageContent( $page_params, $user_email, $pagination_params = array() ) {
 		if ( empty( $page_params ) || empty( $user_email ) ) {
 			return '';
@@ -477,6 +494,7 @@ class CustomerPage extends Base {
 		return apply_filters( 'wlr_customer_page_new_coupons_section', $page_content, $page_params );
 	}
 
+	//old
 	function getExpiredCouponsPageContent( $page_params, $user_email, $pagination_params = array() ) {
 		if ( empty( $page_params ) || empty( $user_email ) ) {
 			return '';
@@ -828,7 +846,7 @@ class CustomerPage extends Base {
 			? $pagination_params['limit'] : 5;
 		$start                = ( $offset - 1 ) * $limit;
 		$used_expired_coupons = ( new UserRewards() )->getUserUsedExpiredRewardByEmail( $user_email, $limit, $start );
-		$reward_types         = self::$woocommerce->getRewardDiscountTypes();
+		$reward_types         = Woocommerce::getRewardDiscountTypes();
 		foreach ( $used_expired_coupons['data'] as &$used_expired_reward ) {
 			$used_expired_reward->expiry_date      = ( isset( $used_expired_reward->end_at ) && ! empty( $used_expired_reward->end_at ) && $used_expired_reward->end_at >= 0 ) ? self::$woocommerce->beforeDisplayDate( $used_expired_reward->end_at ) : '';
 			$used_expired_reward->created_at       = ( isset( $used_expired_reward->created_at ) && ! empty( $used_expired_reward->created_at ) && $used_expired_reward->created_at >= 0 ) ? self::$woocommerce->beforeDisplayDate( $used_expired_reward->created_at ) : '';
@@ -1001,7 +1019,7 @@ class CustomerPage extends Base {
 		/*$user_model = new Users();
 		$user = $user_model->getQueryData(array('user_email' => array('operator' => '=', 'value' => $user_email,),), '*', array(), false);*/
 		if ( ! empty( $user_reward_list ) ) {
-			$reward_types = self::$woocommerce->getRewardDiscountTypes();
+			$reward_types = Woocommerce::getRewardDiscountTypes();
 			foreach ( $user_reward_list as &$user_reward_data ) {
 				$user_reward_data->reward_type_name = isset( $user_reward_data->discount_type ) && ! empty( $user_reward_data->discount_type ) && isset( $reward_types[ $user_reward_data->discount_type ] ) && $reward_types[ $user_reward_data->discount_type ] ? $reward_types[ $user_reward_data->discount_type ] : '';
 				$user_reward_data->expiry_date      = ( isset( $user_reward_data->end_at ) && ! empty( $user_reward_data->end_at ) && $user_reward_data->end_at >= 0 ) ? self::$woocommerce->beforeDisplayDate( $user_reward_data->end_at ) : '';
@@ -1182,5 +1200,43 @@ class CustomerPage extends Base {
 			'apply_coupon_button_text'       => __( Settings::get( 'apply_coupon_button_text', 'Apply Coupon' ), 'wp-loyalty-rules' ),
 			'apply_coupon_background'        => Settings::get( 'apply_coupon_background', '#FFF8F3' )
 		] );
+	}
+
+	/**
+	 * Enable or disable the option to send email to a user.
+	 *
+	 * @return void
+	 */
+	public static function enableEmailSend() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_enable_sent_email_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
+		}
+		$woocommerce       = Woocommerce::getInstance();
+		$input             = new Input();
+		$user_email        = $woocommerce->get_login_user_email();
+		$enable_sent_email = (int) $input->post_get( 'is_allow_send_email', 1 );
+
+		if ( Users::updateSentEmailData( $user_email, $enable_sent_email ) ) {
+			wp_send_json_success( [ 'message' => __( 'Email Opt-in updated successfully.', 'wp-loyalty-rules' ) ] );
+		}
+		wp_send_json_error( [
+			'message' => __( 'Email Opt-in update failed', 'wp-loyalty-rules' )
+		] );
+	}
+
+	/**
+	 * Change level ID based on point
+	 *
+	 * @param int $level_id The current level ID
+	 * @param int $point The total earn point
+	 *
+	 * @return int The updated level ID, or 0 if level ID is less than or equal to 0
+	 */
+	public static function changeLevelId( $level_id, $point ) {
+		$level_model      = new Levels();
+		$current_level_id = $level_model->getCurrentLevelId( $point );
+		$current_level_id = apply_filters( 'wlr_after_level_update', $current_level_id, $point );
+
+		return $current_level_id > 0 ? $current_level_id : 0;
 	}
 }

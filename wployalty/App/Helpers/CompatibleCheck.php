@@ -96,7 +96,7 @@ class CompatibleCheck {
 	 * Admin Message for display any requirement missing
 	 * @return void
 	 */
-	public function inactiveNotice() {
+	public function inActiveNotice() {
 		$message = $this->getCompatibleContent();
 		echo '<div class="error"><p><strong>' . esc_html( $message ) . '</strong></p></div>';
 	}

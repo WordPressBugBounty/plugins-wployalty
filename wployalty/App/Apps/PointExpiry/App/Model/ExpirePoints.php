@@ -149,6 +149,7 @@ class ExpirePoints extends Base {
 		foreach ( $credit_fields as $key => $value ) {
 			$credit_fields[ $key ] = isset( $args[ $key ] ) && ! empty( $args[ $key ] ) ? $args[ $key ] : ( isset( $earn_tran->$key ) ? $earn_tran->$key : $value );
 		}
+		$credit_fields = apply_filters( 'wlpr_before_credit_insert', $credit_fields );
 
 		return $this->insertRow( $credit_fields );
 	}
@@ -231,6 +232,7 @@ class ExpirePoints extends Base {
 				}
 			}
 		}
+		$credit_fields = apply_filters( 'wlpr_before_starting_credit_insert', $credit_fields );
 
 		return $this->insertRow( $credit_fields );
 	}

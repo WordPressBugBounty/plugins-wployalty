@@ -1852,9 +1852,28 @@ class Validation {
 
 	}
 
+	/**
+	 * Method to find length of string including multibyte string.
+	 *
+	 * @param string $string String to compute the length.
+	 *
+	 * @return int
+	 */
+
+	static function getStringCount( $string ) {
+		if ( function_exists( 'mb_strlen' ) ) {
+			return mb_strlen( $string );
+		}
+		if ( function_exists( 'iconv_strlen' ) ) {
+			return iconv_strlen( $string );
+		}
+
+		return strlen( $string );
+	}
+
 	static function validateLimitLength( $field, $value, array $params, array $fields ) {
 		$status = false;
-		if ( ( strlen( $value ) >= 5 ) && ( strlen( $value ) <= 20 ) ) {
+		if ( ( self::getStringCount( $value ) >= 5 ) && ( self::getStringCount( $value ) <= 20 ) ) {
 			$status = true;
 		}
 

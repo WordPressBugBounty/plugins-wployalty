@@ -3,7 +3,7 @@
  * Plugin Name: WPLoyalty
  * Plugin URI: https://wployalty.net
  * Description: Loyalty Rules and Referrals for WooCommerce. Turn your hard-earned sales into repeat purchases by rewarding your customers and building loyalty.
- * Version: 1.2.13
+ * Version: 1.2.14
  * Author: wployalty
  * Slug: wp-loyalty-rules-lite
  * Text Domain: wp-loyalty-rules
@@ -11,18 +11,18 @@
  * Requires Plugins: woocommerce
  * Requires at least: 4.9.0
  * WC requires at least: 6.5
- * WC tested up to: 9.1
+ * WC tested up to: 9.4
  * Contributors: wployalty
  * Author URI: https://wployalty.net
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
-defined( 'ABSPATH' ) or die;
+defined( 'ABSPATH' ) || exit;
 if ( ! function_exists( 'isWoocommerceActive' ) ) {
 	function isWoocommerceActive() {
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
 		}
 
 		return in_array( 'woocommerce/woocommerce.php', $active_plugins, false ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
@@ -38,9 +38,9 @@ add_action( 'before_woocommerce_init', function () {
 } );
 if ( ! function_exists( 'isWlrProActive' ) ) {
 	function isWlrProActive() {
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
+		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
-			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
+			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
 		}
 
 		return in_array( 'wp-loyalty-rules/wp-loyalty-rules.php', $active_plugins, false );
@@ -50,7 +50,7 @@ if ( isWlrProActive() ) {
 	return;
 }
 //Define the plugin version
-defined( 'WLR_PLUGIN_VERSION' ) or define( 'WLR_PLUGIN_VERSION', '1.2.13' );
+defined( 'WLR_PLUGIN_VERSION' ) or define( 'WLR_PLUGIN_VERSION', '1.2.14' );
 // Define the plugin text domain
 defined( 'WLR_TEXT_DOMAIN' ) or define( 'WLR_TEXT_DOMAIN', 'wp-loyalty-rules' );
 // Define the slug
@@ -81,7 +81,7 @@ if ( ! class_exists( 'Wlr\App\Helpers\CompatibleCheck' ) ) {
 }
 $activation_check = new \Wlr\App\Helpers\CompatibleCheck();
 if ( ! $activation_check->init_check() ) {
-	add_action( 'all_admin_notices', array( $activation_check, 'inactiveNotice' ) );
+	add_action( 'all_admin_notices', [ $activation_check, 'inActiveNotice' ] );
 
 	return;
 }
@@ -103,17 +103,18 @@ $plugin_rel_path = $plugin_dir . '/i18n/languages/';
 load_plugin_textdomain( WLR_TEXT_DOMAIN, false, $plugin_rel_path );
 add_filter( 'extra_plugin_headers', 'isWLRExtraPluginData' );
 //Init the router
+\Wlr\App\Setup::init();
 $router = new \Wlr\App\Router();
 $router->init();
-$wlr_apps_class = array(
+
+// In-build plugin load
+$wlr_apps_class = [
 	'Launcher'    => WLR_PLUGIN_PATH . 'App/Apps/Launcher/wp-loyalty-launcher.php',
 	'PointExpiry' => WLR_PLUGIN_PATH . 'App/Apps/PointExpiry/wp-loyalty-point-expire.php'
-);
+];
 $wlr_apps_class = apply_filters( 'wlr_app_init_class', $wlr_apps_class );
 foreach ( $wlr_apps_class as $app_name => $app_path ) {
-	// $app_path = $path . ucfirst($app_name). '/vendor/autoload.php';
 	if ( file_exists( $app_path ) ) {
 		include $app_path;
-		// $app_router = new $app_class();
 	}
 }

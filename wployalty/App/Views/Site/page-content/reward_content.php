@@ -22,7 +22,7 @@ $is_right_to_left     = is_rtl();
 		<?php foreach ( $items as $item ): ?>
 			<?php
 			$is_out_of_stock = ( $item->discount_type == 'free_product' && isset( $item->is_out_of_stock ) && ( $item->is_out_of_stock ) ); ?>
-            <div class="wlr-rewards-content wlr-reward-card wlr-border-color <?php if ( $is_out_of_stock ): ?> wlr-out-of-stock <?php endif; ?>"
+            <div class="wlr-rewards-content wlr-reward-card wlr-border-color <?php echo esc_attr(!empty($item->discount_type)?$item->discount_type : '');?> <?php if ( $is_out_of_stock ): ?> wlr-out-of-stock <?php endif; ?>"
 				<?php if ( $is_out_of_stock ) : ?>   title="<?php echo $item->out_of_stock_message; ?>" <?php endif; ?> >
 
                 <div style="<?php echo $is_right_to_left ? "margin-left: -12px;" : "margin-right: -12px;"; ?>">

@@ -234,6 +234,9 @@ class Input {
 	 * @return string|string[]|null
 	 */
 	function remove_invisible_characters( $str, $url_encoded = true ) {
+		if ( is_null( $str ) ) {
+			return $str;
+		}
 		$non_displayables = array();
 		// every control character except newline (dec 10),
 		// carriage return (dec 13) and horizontal tab (dec 09)

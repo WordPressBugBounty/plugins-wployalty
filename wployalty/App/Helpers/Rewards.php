@@ -62,7 +62,7 @@ class Rewards extends EarnCampaign {
 	 * Set remain coupon amount.
 	 *
 	 * @param string $code Coupon code.
-	 * @param array $cart_items_data Remaining cart items data.
+	 * @param mixed $cart_items_data Remaining cart items data.
 	 *
 	 * @return void
 	 */

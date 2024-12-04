@@ -3,10 +3,10 @@ Contributors: flycart
 Donate link: https://wployalty.net
 Tags: points, rewards, loyalty, referrals, coupons
 Requires at least: 4.9.0
-Tested up to: 6.6
+Tested up to: 6.7
 WC requires at least: 6.5.0
-WC tested up to: 9.1
-Stable tag: 1.2.13
+WC tested up to: 9.4
+Stable tag: 1.2.14
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,14 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.2.14 =
+- Improved: Optimizing Launcher Widget Display for a Slow Site
+- Improved: Template override for loyalty page
+- Fix: Prevent Duplicate Earnings in Social Shares for Slow Sites
+- Fix: Usage Limit condition
+- Fix: Do it wrong warning message in WooCommerce 9.4
+- Fix: Warning message in cart block
+
 = 1.2.13 =
 - Fix: Birthday class not found in free plugin.
 

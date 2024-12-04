@@ -10,7 +10,7 @@ namespace Wll\V2\App\Controllers\Admin;
 use Wll\V2\App\Controllers\Base;
 use Wll\V2\App\Controllers\Guest;
 use Wll\V2\App\Controllers\Member;
-use Wlr\App\Helpers\EarnCampaign;
+use Wlr\App\Helpers\Util;
 use Wlr\App\Helpers\Woocommerce;
 use Wlr\App\Models\Levels;
 
@@ -62,7 +62,7 @@ class Admin extends Base {
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify.css', array(), WLR_PLUGIN_VERSION );
 		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify.js', array(), WLR_PLUGIN_VERSION . '&t=' . time() );
 		$common_path   = WLL_PLUGIN_DIR . '/V2/Assets/Admin/Js/dist';
-		$js_files      = self::$woocommerce->getDirFileLists( $common_path );
+		$js_files      = Woocommerce::getDirFileLists( $common_path );
 		$localize_name = "";
 		foreach ( $js_files as $file ) {
 			$path         = str_replace( WLR_PLUGIN_PATH, '', $file );
@@ -109,7 +109,7 @@ class Admin extends Base {
 		$params = array();
 		$params = apply_filters( "wll_before_launcher_admin_page", $params );
 		$path   = WLL_PLUGIN_DIR . '/V2/App/Views/Admin/main.php';
-		self::$template->setData( $path, $params )->display();
+		Util::renderTemplate( $path, $params );
 	}
 
 	/**

@@ -1,19 +1,19 @@
 <?php return array(
     'root' => array(
         'name' => 'flycartinc/wp-loyalty',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '2a2ec9aa17f181a3580a437195d63df1a808bd62',
+        'pretty_version' => '1.2.14.x-dev',
+        'version' => '1.2.14.9999999-dev',
+        'reference' => '44b1f7b72976848252c11e4efcfc789e591c631b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'flycartinc/wp-loyalty' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '2a2ec9aa17f181a3580a437195d63df1a808bd62',
+            'pretty_version' => '1.2.14.x-dev',
+            'version' => '1.2.14.9999999-dev',
+            'reference' => '44b1f7b72976848252c11e4efcfc789e591c631b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -40,7 +40,7 @@
         'wployalty/notifications' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '913a5f1fbfa074f83def1f550f33bcba7ab0ddbf',
+            'reference' => 'c12b0ad0c783807f7abb9f264e5a88bba90ab4a2',
             'type' => 'project',
             'install_path' => __DIR__ . '/../wployalty/notifications',
             'aliases' => array(

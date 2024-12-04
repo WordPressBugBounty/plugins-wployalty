@@ -28,7 +28,7 @@ class UserRole extends Base {
 		$user       = '';
 		if ( is_string( $user_email ) && ! empty( $user_email ) ) {
 			$user = get_user_by( 'email', $user_email );
-			$user = apply_filters( 'wlr_rule_user_role_on_condition_check', $user );
+			$user = apply_filters( 'wlr_rule_user_role_on_condition_check', $user, $data );
 		}
 		if ( ! empty( $user ) ) {
 			$current_user_role = self::$woocommerce_helper->getRole( $user );

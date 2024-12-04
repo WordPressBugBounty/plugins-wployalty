@@ -516,54 +516,7 @@ class Base {
 
 		return $total_amount_list;
 	}
-
-	function getStartAndEnd() {
-		$start     = 0;
-		$end       = 0;
-		$null_date = 0;
-		try {
-			$filter_type = (string) self::$input->post_get( 'fil_type', '90_days' );
-			$timezone    = new DateTimeZone( 'UTC' );
-			if ( $filter_type == '90_days' ) {
-				$current_time = new DateTime( 'now', $timezone );
-				$last_time    = new DateTime( '-90 days', $timezone );
-				$start        = $last_time->format( 'Y-m-d 00:00:00' );
-				$end          = $current_time->format( 'Y-m-d 23:59:59' );
-			} elseif ( $filter_type == 'this_month' ) {
-				$current_time = new DateTime( 'now', $timezone );
-				$start        = $current_time->format( 'Y-m-01 00:00:00' );
-				$end          = $current_time->format( 'Y-m-d 23:59:59' );
-			} elseif ( $filter_type == 'last_month' ) {
-				$current_time = new DateTime();
-				$current_time->modify( 'last day of last month' );
-				//$current_time = new DateTime('-1 month', $timezone);
-				$start = $current_time->format( 'Y-m-01 00:00:00' );
-				$end   = $current_time->format( 'Y-m-t 23:59:59' );
-			} elseif ( $filter_type == 'last_year' ) {
-				$current_time = new DateTime( '-1 year', $timezone );
-				$start        = $current_time->format( 'Y-01-01 00:00:00' );
-				$end          = $current_time->format( 'Y-12-t 23:59:59' );
-			} elseif ( $filter_type == 'custom' ) {
-				$from_date = self::$input->post( 'from_date', $null_date );
-				$to_date   = self::$input->post( 'to_date', $null_date );
-				if ( $to_date != $null_date ) {
-					$current_time = new DateTime( $to_date );
-					$end          = $current_time->format( 'Y-m-d 23:59:59' );
-				}
-				if ( $from_date != $null_date ) {
-					$current_time = new DateTime( $from_date );
-					$start        = $current_time->format( 'Y-m-d 00:00:00' );
-				}
-			}
-		} catch ( Exception $e ) {
-		}
-
-		return array(
-			'start' => $start,
-			'end'   => $end,
-		);
-	}
-
+	
 	function getRewardById( $reward_id ) {
 		if ( empty( $reward_id ) ) {
 			return '';

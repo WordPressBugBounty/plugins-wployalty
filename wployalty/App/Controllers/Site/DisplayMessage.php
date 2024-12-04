@@ -108,7 +108,7 @@ class DisplayMessage extends Base {
 
 	}
 
-	protected function getProductDisplayMessageOption() {
+	public function getProductDisplayMessageOption() {
 		$options = self::$woocommerce->getOptions( 'wlr_settings' );
 		$display_product_display_position
 		         = ( isset( $options['product_message_display_position'] )

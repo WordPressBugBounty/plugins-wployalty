@@ -9,17 +9,26 @@ namespace Wlr\App\Controllers\Site\Blocks;
 
 use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
 use Automattic\WooCommerce\StoreApi\Schemas\V1\CartSchema;
-use Wlr\App\Controllers\Base;
 use Wlr\App\Controllers\Site\Blocks\Integration\Message;
 use Wlr\App\Controllers\Site\Main;
+use Wlr\App\Helpers\Rewards;
 use Wlr\App\Helpers\Woocommerce;
 
 
 defined( 'ABSPATH' ) or die;
 
-class Blocks extends Base {
-	/* Block */
-	function initBlocks() {
+class Blocks {
+
+	/**
+	 * Initializes the blocks for WooCommerce.
+	 *
+	 * This method checks if the necessary functions and classes for block registration exist,
+	 * and initializes the blocks if they are enabled and the user is not banned.
+	 *
+	 * @return void
+	 * @throws RouteException
+	 */
+	public static function init() {
 		if ( ! ( function_exists( 'woocommerce_store_api_register_endpoint_data' ) && class_exists( '\Automattic\WooCommerce\StoreApi\Schemas\V1\CartSchema' ) ) ) {
 			return;
 		}
@@ -74,7 +83,7 @@ class Blocks extends Base {
 			if ( empty( $coupons ) ) {
 				return;
 			}
-			$reward_helper  = \Wlr\App\Helpers\Rewards::getInstance();
+			$reward_helper  = Rewards::getInstance();
 			$payment_method = $woocommerce->isMethodExists( $order, 'get_payment_method' ) ? $order->get_payment_method() : '';
 			if ( empty( $payment_method ) ) {
 				return;
@@ -91,7 +100,7 @@ class Blocks extends Base {
 						'is_calculate_based' => 'order',
 						'allowed_condition'  => [ 'payment_method' ]
 					];
-					if ( ! $reward_helper->processRewardConditions( $user_reward, $extra, false ) ) {
+					if ( ! $reward_helper->processRewardConditions( $user_reward, $extra ) ) {
 						throw new RouteException(
 							'woocommerce_rest_cart_coupon_errors',
 							sprintf( __( 'Sorry.. %s coupon code invalid for %s payment.', 'wp-loyalty-rules' ), $coupon_code, $payment_method ),
@@ -104,7 +113,12 @@ class Blocks extends Base {
 		do_action( 'wlr_block_init' );
 	}
 
-	function updateCartFreeProduct() {
+	/**
+	 * Updates the cart with a free product if WooCommerce block is enabled.
+	 *
+	 * @return void
+	 */
+	public static function updateCartFreeProduct() {
 		if ( ! Woocommerce::isBlockEnabled() ) {
 			return;
 		}

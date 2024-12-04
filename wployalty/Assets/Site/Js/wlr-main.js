@@ -102,10 +102,13 @@ wlr = window.wlr || {};
         var copyText = document.getElementById(link_id);
         /* Select the text field */
         copyText.disabled = false;
+        var url = copyText.value;
+        wlr_jquery(document).trigger('wlr_copy_link_custom_url', [copyText]);
         copyText.select();
         copyText.focus();
         copyText.select();
         document.execCommand('copy');
+        copyText.value = url;
         copyText.disabled = true;
     });
 

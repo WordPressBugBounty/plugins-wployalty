@@ -11,6 +11,8 @@ use Wll\V2\App\Controllers\Base;
 use Wll\V2\App\Controllers\Guest;
 use Wll\V2\App\Controllers\Member;
 use Wlr\App\Helpers\EarnCampaign;
+use Wlr\App\Helpers\Util;
+use Wlr\App\Helpers\Woocommerce;
 
 defined( 'ABSPATH' ) or die();
 
@@ -34,7 +36,7 @@ class Site extends Base {
 		wp_register_style( WLL_PLUGIN_SLUG . '-wlr-launcher', WLL_PLUGIN_URL . 'V2/Assets/Site/Css/launcher_site_ui.css', array(), WLR_PLUGIN_VERSION . $add_cache_fix );
 		wp_enqueue_style( WLL_PLUGIN_SLUG . '-wlr-launcher' );
 		$common_path   = WLL_PLUGIN_DIR . '/V2/Assets/Site/Js/dist';
-		$js_files      = self::$woocommerce->getDirFileLists( $common_path );
+		$js_files      = Woocommerce::getDirFileLists( $common_path );
 		$localize_name = "";
 		foreach ( $js_files as $file ) {
 			$path         = str_replace( WLR_PLUGIN_PATH, '', $file );
@@ -60,12 +62,12 @@ class Site extends Base {
 		if ( self::$woocommerce->isBannedUser() || ! apply_filters( 'wll_before_launcher_display', true ) ) {
 			return;
 		}
-		$args = array(
-			'style' => self::$template->setData( WLL_PLUGIN_DIR . '/V2/Assets/Site/Css/launcher_site.css', array() )->render(),
-		);
+		$args = [
+			'style' => Util::renderTemplate( WLL_PLUGIN_DIR . '/V2/Assets/Site/Css/launcher_site.css', [], false ),
+		];
 		$args = apply_filters( "wll_before_launcher_site_page", $args );
 		$path = WLL_PLUGIN_DIR . '/V2/App/Views/Site/main_site.php';
-		echo apply_filters( 'wll_launcher_widget', self::$template->setData( $path, $args )->render(), $args );
+		echo apply_filters( 'wll_launcher_widget', Util::renderTemplate( $path, $args, false ), $args );
 	}
 
 	public function launcherWidgetData() {
@@ -91,17 +93,17 @@ class Site extends Base {
 		$settings['is_pro']                       = $earn_campaign_helper->isPro();
 		$user                                     = $this->getUserDetails();
 		$settings['available_point']              = ( isset( $user ) && isset( $user->points ) && ! empty( $user->points ) ) ? $user->points : 0;
-		$settings['labels']                       = array(
-			'birth_date_label'        => array(
+		$settings['labels']                       = apply_filters( 'wll_launcher_widget_labels', [
+			'birth_date_label'        => [
 				'day'   => __( 'Day', 'wp-loyalty-rules' ),
 				'month' => __( 'Month', 'wp-loyalty-rules' ),
 				'year'  => __( 'Year', 'wp-loyalty-rules' ),
-			),
-			'footer'                  => array(
+			],
+			'footer'                  => [
 				"powered_by"            => __( "Powered by", 'wp-loyalty-rules' ),
 				'launcher_power_by_url' => 'https://wployalty.net/?utm_campaign=wployalty-link&utm_medium=launcher&utm_source=powered_by',
 				"title"                 => __( "WPLoyalty", "wp-loyalty-rules" ),
-			),
+			],
 			'reward_text'             => sprintf( __( "%s", 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getRewardLabel( 3 ) ) ),
 			'coupon_text'             => __( "Coupons", 'wp-loyalty-rules' ),
 			'loading_text'            => __( "Loading...", 'wp-loyalty-rules' ),
@@ -111,7 +113,7 @@ class Site extends Base {
 			'apply_button_text'       => __( 'Apply', 'wp-loyalty-rules' ),
 			'read_more_text'          => __( 'Read more', 'wp-loyalty-rules' ),
 			'read_less_text'          => __( 'Read less', 'wp-loyalty-rules' ),
-		);
+		] );
 		$settings['nonces']                       = array(
 			'render_page_nonce'   => wp_create_nonce( 'render_page_nonce' ),
 			'wlr_redeem_nonce'    => wp_create_nonce( 'wlr_redeem_nonce' ),
@@ -162,7 +164,42 @@ class Site extends Base {
 	}
 
 	function isUrlValidToLoadLauncher() {
-		$current_url = site_url() . $_SERVER['REQUEST_URI'];
+		$show_condition = self::$settings->opt( 'launcher.show_conditions', [], 'launcher_button' );
+		if ( empty( $show_condition ) ) {
+			return true;
+		}
+		$all_condition_status = [];
+		$current_url          = site_url() . $_SERVER['REQUEST_URI'];
+		foreach ( $show_condition as $condition ) {
+			if ( empty( $condition['operator']['value'] ) ) {
+				$all_condition_status[] = false;
+				continue;
+			}
+			$url    = ! empty( $condition['url_path'] ) ? $condition['url_path'] : '';
+			$status = false;
+			switch ( $condition['operator']['value'] ) {
+				case 'home_page':
+					$status = $current_url == site_url() . "/";
+					break;
+				case 'contains':
+					$status = ( strpos( $current_url, $url ) !== false );
+					break;
+				case 'do_not_contains':
+					$status = ( strpos( $current_url, $url ) !== false ) ? false : true;
+					break;
+			}
+			$all_condition_status[] = $status;
+		}
+		$condition_relationship = ! empty( $settings['launcher']['condition_relationship'] ) && $settings['launcher']['condition_relationship'] === 'and' ? 'and' : 'or';
+		$condition_status       = true;
+		if ( $condition_relationship === 'and' && ! empty( $all_condition_status ) && in_array( false, $all_condition_status ) ) {
+			$condition_status = false;
+		} elseif ( $condition_relationship === 'or' && ! empty( $all_condition_status ) && ! in_array( true, $all_condition_status ) ) {
+			$condition_status = false;
+		}
+
+		return $condition_status;
+		/*$current_url = site_url() . $_SERVER['REQUEST_URI'];
 		$settings    = $this->getLauncherButtonContentData( false );
 		if ( empty( $settings ) || ! is_array( $settings ) || ! isset( $settings['launcher'] ) || ! is_array( $settings['launcher'] ) ) {
 			return true;
@@ -197,7 +234,7 @@ class Site extends Base {
 			}
 		}
 
-		return $condition_status;
+		return $condition_status;*/
 	}
 
 }

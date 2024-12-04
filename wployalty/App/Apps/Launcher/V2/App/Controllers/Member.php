@@ -264,14 +264,15 @@ class Member extends Base {
 				'offset' => 0
 			] );
 			$reward_helper  = \Wlr\App\Helpers\Rewards::getInstance();
+			$customer_page  = new \Wlr\App\Controllers\Site\CustomerPage();
+			$coupon_rewards = $customer_page->processRewardList( $coupon_rewards );
 			if ( empty( $coupon_rewards ) ) {
 				wp_send_json_success( [
 					'redeem_coupons' => [],
 					'message'        => __( 'No coupons found!', 'wp-loyalty-rules' )
 				] );
 			}
-			$customer_page  = new \Wlr\App\Controllers\Site\CustomerPage();
-			$coupon_rewards = $customer_page->processRewardList( $coupon_rewards );
+			$coupon_rewards = array_values( $coupon_rewards );// For React, key must start from 0
 			foreach ( $coupon_rewards as &$coupon_reward ) {
 				$coupon_reward->reward_table = 'user_reward';
 			}

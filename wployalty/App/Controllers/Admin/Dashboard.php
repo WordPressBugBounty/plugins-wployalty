@@ -8,80 +8,82 @@
 namespace Wlr\App\Controllers\Admin;
 defined( 'ABSPATH' ) or die;
 
+use DateTime;
+use DateTimeZone;
 use Exception;
-use Wlr\App\Controllers\Base;
+use Wlr\App\Helpers\Input;
+use Wlr\App\Helpers\Util;
 use Wlr\App\Helpers\Validation;
+use Wlr\App\Helpers\Woocommerce;
 use Wlr\App\Models\EarnCampaignTransactions;
 use Wlr\App\Models\RewardTransactions;
 use Wlr\App\Models\Logs;
 use Wlr\App\Models\UserRewards;
 
-class Dashboard extends Base {
-	public function getDashboardAnalyticData() {
-		$data = array();
-		if ( ! $this->isBasicSecurityValid( 'wlr_dashboard_nonce' ) ) {
-			$data['success'] = false;
-			$data['data']    = array(
-				'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' )
-			);
-			wp_send_json( $data );
+class Dashboard {
+	/**
+	 * Get analytic data.
+	 *
+	 * @return void
+	 */
+	public static function getDashboardAnalyticData() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_dashboard_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
-		$post          = self::$input->post();
+		$input         = new Input();
+		$post          = $input->post();
 		$validate_data = Validation::validateDashboard( $post, 'getActivityLoyalData' );
-		$data          = self::getValidateData( $validate_data, $data );
+		$data          = self::getValidateData( $validate_data, [] );
 		if ( ! empty( $data ) && isset( $data['success'] ) ) {
 			wp_send_json( $data );
 		}
 
 		try {
 			global $wpdb;
-			$base_helper         = new \Wlr\App\Helpers\Base();
-			$currency            = (string) self::$input->post_get( 'currency', '' );
-			$start_and_end       = $base_helper->getStartAndEnd();
-			$start               = isset( $start_and_end['start'] ) && ! empty( $start_and_end['start'] ) ? strtotime( $start_and_end['start'] ) : 0;
-			$end                 = isset( $start_and_end['end'] ) && ! empty( $start_and_end['end'] ) ? strtotime( $start_and_end['end'] ) : 0;
+			$currency            = (string) $input->post_get( 'currency', '' );
+			$start_and_end       = self::getStartAndEnd();
+			$start               = ! empty( $start_and_end['start'] ) ? strtotime( $start_and_end['start'] ) : 0;
+			$end                 = ! empty( $start_and_end['end'] ) ? strtotime( $start_and_end['end'] ) : 0;
 			$reward_transactions = new RewardTransactions();
 			//total order count
 			$campaign_transaction = new EarnCampaignTransactions();
 			//total points, total rewards
-			$points_where = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND transaction_type = %s', array(
+			$points_where = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND transaction_type = %s', [
 				$start,
 				$end,
 				'credit'
-			) );
+			] );
 			//AND action_type != 'revoke_coupon'
 			$points_lists = $campaign_transaction->getWhere( $points_where, "SUM(CASE WHEN campaign_type='point'  THEN points ELSE 0 END) as total_points, 
-       SUM(CASE WHEN campaign_type='coupon' THEN 1 ELSE 0 END) as total_reward", true );
-			$total_points = (int) ( isset( $points_lists->total_points ) && ! empty( $points_lists->total_points ) ) ? $points_lists->total_points : 0;
-			$total_reward = (int) ( isset( $points_lists->total_reward ) && ! empty( $points_lists->total_reward ) ) ? $points_lists->total_reward : 0;
+       SUM(CASE WHEN campaign_type='coupon' THEN 1 ELSE 0 END) as total_reward" );
+			$total_points = (int) ( ! empty( $points_lists->total_points ) ? $points_lists->total_points : 0 );
+			$total_reward = (int) ( ! empty( $points_lists->total_reward ) ? $points_lists->total_reward : 0 );
 			// total user reward count
-			$user_reward_model = new UserRewards();
-
-			$user_reward_where    = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND reward_type= %s ', array(
+			$user_reward_model    = new UserRewards();
+			$user_reward_where    = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND reward_type= %s ', [
 				$start,
 				$end,
 				'redeem_point'
-			) );
-			$allowed_action_types = apply_filters( 'wlr_dashboard_point_reward_action_type', array( 'redeem_point' ) );
+			] );
+			$allowed_action_types = apply_filters( 'wlr_dashboard_point_reward_action_type', [ 'redeem_point' ] );
 			$user_reward_where    .= $wpdb->prepare( ' AND action_type IN (' . trim( str_repeat( '%s,', count( $allowed_action_types ) ), ',' ) . ')', $allowed_action_types );
-			$user_redeem_reward   = $user_reward_model->getWhere( $user_reward_where, 'COUNT(DISTINCT id) as total_point_reward', true );
-			$total_reward         += ( ! empty( $user_redeem_reward ) && isset( $user_redeem_reward->total_point_reward ) && ! empty( $user_redeem_reward->total_point_reward ) ) ? $user_redeem_reward->total_point_reward : 0;
-			$reward_where         = $wpdb->prepare( 'reward_currency = %s AND discount_code != %s', array(
+			$user_redeem_reward   = $user_reward_model->getWhere( $user_reward_where, 'COUNT(DISTINCT id) as total_point_reward' );
+			$total_reward         += ( ! empty( $user_redeem_reward ) && ! empty( $user_redeem_reward->total_point_reward ) ) ? $user_redeem_reward->total_point_reward : 0;
+			$reward_where         = $wpdb->prepare( 'reward_currency = %s AND discount_code != %s', [
 				sanitize_text_field( $currency ),
 				''
-			) );
-			$reward_where         .= $wpdb->prepare( ' AND (created_at >= %s OR created_at = 0) AND (created_at <= %s OR created_at = 0) AND order_id > 0', array(
+			] );
+			$reward_where         .= $wpdb->prepare( ' AND (created_at >= %s OR created_at = 0) AND (created_at <= %s OR created_at = 0) AND order_id > 0', [
 				$start,
 				$end
-			) );
+			] );
 			//total order count
-			$order_lists_count = $reward_transactions->getWhere( $reward_where, 'COUNT(DISTINCT order_id) as total_count', true );
-			$total_order_count = (int) isset( $order_lists_count->total_count ) && ! empty( $order_lists_count->total_count ) ? $order_lists_count->total_count : 0;
+			$order_lists_count = $reward_transactions->getWhere( $reward_where, 'COUNT(DISTINCT order_id) as total_count' );
+			$total_order_count = (int) ( ! empty( $order_lists_count->total_count ) ? $order_lists_count->total_count : 0 );
 			//total order value
 			$order_lists_total = $reward_transactions->getWhere( $reward_where, 'order_id, order_total, reward_amount', false );
-			//$total_order_value = !empty($order_lists_total) ? array_sum(array_column($order_lists_total, 'order_total')) : 0;
 			$total_order_value = 0;
-			$used_order_ids    = array();
+			$used_order_ids    = [];
 			foreach ( $order_lists_total as $order_total_data ) {
 				if ( isset( $order_total_data->order_id ) && ! in_array( $order_total_data->order_id, $used_order_ids ) ) {
 					$total_order_value += $order_total_data->order_total;
@@ -89,22 +91,18 @@ class Dashboard extends Base {
 				}
 			}
 			//Reward redeem amount
-			$redeem_reward       = $reward_transactions->getWhere( $reward_where, 'SUM(reward_amount) as total_redeem_reward', true );
+			$redeem_reward       = $reward_transactions->getWhere( $reward_where, 'SUM(reward_amount) as total_redeem_reward' );
 			$total_redeem_reward = ! empty( $redeem_reward ) && isset( $redeem_reward->total_redeem_reward ) && $redeem_reward->total_redeem_reward > 0 ? $redeem_reward->total_redeem_reward : 0;
-			//$total_redeem_reward = !empty($order_lists_total) ? array_sum(array_column($order_lists_total, 'reward_amount')) : 0;
-			$data['success'] = true;
-			$data['data']    = array(
+			wp_send_json_success( [
 				'total_order_count'   => $total_order_count,
-				'total_order_value'   => wc_price( $total_order_value, array( 'currency' => $currency ) ),
+				'total_order_value'   => wc_price( $total_order_value, [ 'currency' => $currency ] ),
 				'total_points'        => $total_points,
 				'total_reward'        => $total_reward,
-				'total_redeem_reward' => wc_price( $total_redeem_reward, array( 'currency' => $currency ) )
-			);
+				'total_redeem_reward' => wc_price( $total_redeem_reward, [ 'currency' => $currency ] )
+			] );
 		} catch ( Exception $e ) {
-			$data['success'] = false;
-			$data['data']    = array();
 		}
-		wp_send_json( $data );
+		wp_send_json_error( [] );
 	}
 
 	/**
@@ -120,114 +118,102 @@ class Dashboard extends Base {
 			}
 			$data['success']     = false;
 			$data['field_error'] = $validate_data;
-			$data['data']        = array();
+			$data['data']        = [];
 		}
 
 		return $data;
 	}
 
-	public function getChartsData() {
-		$data = array();
-		if ( ! $this->isBasicSecurityValid( 'wlr_dashboard_nonce' ) ) {
-			$data['success'] = false;
-			$data['data']    = array(
-				'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' )
-			);
-			wp_send_json( $data );
+	/**
+	 * Get chart data.
+	 *
+	 * @return void
+	 */
+	public static function getChartsData() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_dashboard_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
-		$post          = self::$input->post();
+		$input         = new Input();
+		$post          = $input->post();
 		$validate_data = Validation::validateDashboard( $post, 'getChartData' );
-		$data          = self::getValidateData( $validate_data, $data );
+		$data          = self::getValidateData( $validate_data, [] );
 		if ( ! empty( $data ) && isset( $data['success'] ) ) {
 			wp_send_json( $data );
 		}
 
 		global $wpdb;
-		$base_helper   = new \Wlr\App\Helpers\Base();
-		$currency      = (string) self::$input->post_get( 'currency', '' );
-		$filter_type   = (string) self::$input->post_get( 'fil_type', '90_days' );
-		$start_and_end = $base_helper->getStartAndEnd();
-		$start         = isset( $start_and_end['start'] ) && ! empty( $start_and_end['start'] ) ? strtotime( $start_and_end['start'] ) : 0;
-		$end           = isset( $start_and_end['end'] ) && ! empty( $start_and_end['end'] ) ? strtotime( $start_and_end['end'] ) : 0;
-		/*switch ($filter_type) {
-			case '90_days':
-			case 'last_year':
-				$date_format = "m-Y";
-				break;
-			case 'this_month':
-			case 'last_month':
-			case 'custom':
-			default:
-				$date_format = "d-m-Y";
-				break;
-		}*/
-		$date_format = in_array( $filter_type, array( '90_days', 'last_year' ) ) ? "m-Y" : "d-m-Y";
+		$currency      = (string) $input->post_get( 'currency', '' );
+		$filter_type   = (string) $input->post_get( 'fil_type', '90_days' );
+		$start_and_end = self::getStartAndEnd();
+		$start         = ! empty( $start_and_end['start'] ) ? strtotime( $start_and_end['start'] ) : 0;
+		$end           = ! empty( $start_and_end['end'] ) ? strtotime( $start_and_end['end'] ) : 0;
+		$date_format   = in_array( $filter_type, [ '90_days', 'last_year' ] ) ? "m-Y" : "d-m-Y";
 		//Revenue chart
 		$reward_transactions = new RewardTransactions();
 		$order_query_where   = $wpdb->prepare( " discount_code != %s 
                 AND reward_currency = %s AND (created_at >= %s OR created_at = 0) 
-                AND (created_at <= %s OR created_at = 0) AND order_id > 0", array(
+                AND (created_at <= %s OR created_at = 0) AND order_id > 0", [
 			'',
 			sanitize_text_field( $currency ),
 			$start,
 			$end
-		) );
+		] );
 		$chart_data          = $reward_transactions->getWhere( $order_query_where, 'order_id,created_at,order_total', false );
-		$new_chart_data      = array();
-		$used_order_ids      = array();
+		$new_chart_data      = [];
+		$used_order_ids      = [];
 		foreach ( $chart_data as $chart_value ) {
 			if ( isset( $chart_value->order_id ) && ! in_array( $chart_value->order_id, $used_order_ids ) ) {
 				$new_chart_data[] = $chart_value;
 				$used_order_ids[] = $chart_value->order_id;
 			}
 		}
-
+		$data                    = [];
 		$data['success']         = true;
-		$data['data']['revenue'] = array();
-		$revenue_data            = array();
+		$data['data']['revenue'] = [];
+		$revenue_data            = [];
+		$woocommerce_helper      = Woocommerce::getInstance();
 		foreach ( $new_chart_data as $chart ) {
-			$revenue_date = self::$woocommerce->beforeDisplayDate( $chart->created_at, $date_format );
+			$revenue_date = $woocommerce_helper->beforeDisplayDate( $chart->created_at, $date_format );
 			if ( ! isset( $revenue_data[ $revenue_date ] ) ) {
-				$revenue_data[ $revenue_date ] = isset( $chart->order_total ) && ! empty( $chart->order_total ) ? $chart->order_total : 0;
+				$revenue_data[ $revenue_date ] = ! empty( $chart->order_total ) ? $chart->order_total : 0;
 			} else {
-				$revenue_data[ $revenue_date ] += isset( $chart->order_total ) && ! empty( $chart->order_total ) ? $chart->order_total : 0;
+				$revenue_data[ $revenue_date ] += ! empty( $chart->order_total ) ? $chart->order_total : 0;
 			}
 		}
 		if ( ! empty( $revenue_data ) ) {
-			$data['data']['revenue'][] = array( __( 'Date', 'wp-loyalty-rules' ), __( 'Revenue', 'wp-loyalty-rules' ) );
+			$data['data']['revenue'][] = [ __( 'Date', 'wp-loyalty-rules' ), __( 'Revenue', 'wp-loyalty-rules' ) ];
 			//ksort($revenue_data);
-			$revenue_data = $this->sortByDate( $revenue_data );
+			$revenue_data = self::sortByDate( $revenue_data );
 			foreach ( $revenue_data as $key => $value ) {
-				$data['data']['revenue'][] = array( $key, round( (float) $value, 2 ) );
+				$data['data']['revenue'][] = [ $key, round( (float) $value, 2 ) ];
 			}
 		}
 		//Reward chart
 		$campaign_transaction = new EarnCampaignTransactions();
-		//$where = $wpdb->prepare(' (order_currency = %s OR order_currency = %s) ', array(sanitize_text_field($currency), null));
-		$where              = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) 
-                AND ((created_at) <= %s OR created_at = 0)  AND campaign_type = %s AND transaction_type = %s', array(
+		$where                = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) 
+                AND ((created_at) <= %s OR created_at = 0)  AND campaign_type = %s AND transaction_type = %s', [
 			$start,
 			$end,
 			'coupon',
 			'credit'
-		) );
-		$where              .= 'ORDER BY created_at';
-		$reward_redeem_data = $campaign_transaction->getWhere( $where, '*', false );
+		] );
+		$where                .= 'ORDER BY created_at';
+		$reward_redeem_data   = $campaign_transaction->getWhere( $where, '*', false );
 
 		$user_reward_model      = new UserRewards();
-		$user_reward_where      = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND reward_type= %s', array(
+		$user_reward_where      = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND reward_type= %s', [
 			$start,
 			$end,
 			'redeem_point'
-		) );
-		$allowed_action_types   = apply_filters( 'wlr_dashboard_point_reward_action_type', array( 'redeem_point' ) );
+		] );
+		$allowed_action_types   = apply_filters( 'wlr_dashboard_point_reward_action_type', [ 'redeem_point' ] );
 		$user_reward_where      .= $wpdb->prepare( ' AND action_type IN (' . trim( str_repeat( '%s,', count( $allowed_action_types ) ), ',' ) . ')', $allowed_action_types );
 		$user_reward_where      .= 'ORDER BY created_at';
 		$user_redeem_rewards    = $user_reward_model->getWhere( $user_reward_where, '*', false );
-		$data['data']['reward'] = array();
-		$reward_data            = array();
+		$data['data']['reward'] = [];
+		$reward_data            = [];
 		foreach ( $reward_redeem_data as $reward_redeem ) {
-			$reward_date = self::$woocommerce->beforeDisplayDate( $reward_redeem->created_at, $date_format );
+			$reward_date = $woocommerce_helper->beforeDisplayDate( $reward_redeem->created_at, $date_format );
 			if ( ! isset( $reward_data[ $reward_date ] ) ) {
 				$reward_data[ $reward_date ] = 1;
 			} else {
@@ -236,7 +222,7 @@ class Dashboard extends Base {
 		}
 
 		foreach ( $user_redeem_rewards as $user_redeem_reward ) {
-			$reward_date = self::$woocommerce->beforeDisplayDate( $user_redeem_reward->created_at, $date_format );
+			$reward_date = $woocommerce_helper->beforeDisplayDate( $user_redeem_reward->created_at, $date_format );
 			if ( ! isset( $reward_data[ $reward_date ] ) ) {
 				$reward_data[ $reward_date ] = 1;
 			} else {
@@ -245,27 +231,26 @@ class Dashboard extends Base {
 		}
 
 		if ( ! empty( $reward_data ) ) {
-			$data['data']['reward'][] = array( __( 'Date', 'wp-loyalty-rules' ), __( 'Reward', 'wp-loyalty-rules' ) );
+			$data['data']['reward'][] = [ __( 'Date', 'wp-loyalty-rules' ), __( 'Reward', 'wp-loyalty-rules' ) ];
 			//ksort($reward_data);
-			$reward_data = $this->sortByDate( $reward_data );
+			$reward_data = self::sortByDate( $reward_data );
 			foreach ( $reward_data as $key => $value ) {
-				$data['data']['reward'][] = array( $key, (int) $value );
+				$data['data']['reward'][] = [ $key, (int) $value ];
 			}
 		}
 		//Points chart
-		//$earn_where = $wpdb->prepare("(order_currency = %s OR order_currency = %s)", array(sanitize_text_field($currency), null));
-		$earn_where            = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND campaign_type = %s AND transaction_type = %s', array(
+		$earn_where            = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND campaign_type = %s AND transaction_type = %s', [
 			$start,
 			$end,
 			'point',
 			'credit'
-		) );
+		] );
 		$earn_where            .= 'ORDER BY created_at';
 		$earn_data             = $campaign_transaction->getWhere( $earn_where, '*', false );
-		$data['data']['point'] = array();
-		$points_data           = array();
+		$data['data']['point'] = [];
+		$points_data           = [];
 		foreach ( $earn_data as $earning ) {
-			$earning_date = self::$woocommerce->beforeDisplayDate( $earning->created_at, $date_format );
+			$earning_date = $woocommerce_helper->beforeDisplayDate( $earning->created_at, $date_format );
 			if ( ! isset( $points_data[ $earning_date ] ) ) {
 				$points_data[ $earning_date ] = $earning->points;
 			} else {
@@ -273,17 +258,27 @@ class Dashboard extends Base {
 			}
 		}
 		if ( ! empty( $points_data ) ) {
-			$data['data']['point'][] = array( __( 'Date', 'wp-loyalty-rules' ), __( 'Point', 'wp-loyalty-rules' ) );
+			$data['data']['point'][] = [ __( 'Date', 'wp-loyalty-rules' ), __( 'Point', 'wp-loyalty-rules' ) ];
 			//ksort($points_data);
-			$points_data = $this->sortByDate( $points_data );
+			$points_data = self::sortByDate( $points_data );
 			foreach ( $points_data as $key => $value ) {
-				$data['data']['point'][] = array( $key, (int) $value );
+				$data['data']['point'][] = [ $key, (int) $value ];
 			}
 		}
 		wp_send_json( $data );
 	}
 
-	public function sortByDate( $input ) {
+	/**
+	 * Sorts an array by the date values of its keys.
+	 *
+	 * @param array $input The array to be sorted by date keys.
+	 *
+	 * @return array The sorted array.
+	 */
+	public static function sortByDate( $input ) {
+		if ( empty( $input ) ) {
+			return $input;
+		}
 		// Custom comparison function
 		$compareDates = function ( $date1, $date2 ) {
 			$timestamp1 = strtotime( $date1 );
@@ -303,51 +298,177 @@ class Dashboard extends Base {
 
 
 	/**
-	 * @return void
+	 * Retrieves the recent customer activity lists.
+	 *
+	 * @return void This method does not return anything. It sends a JSON response instead.
 	 */
-	public function getCustomerRecentActivityLists() {
-		$data = array();
-		if ( ! $this->isBasicSecurityValid( 'wlr_dashboard_nonce' ) ) {
-			$data['success'] = false;
-			$data['data']    = array(
-				'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' )
-			);
-			wp_send_json( $data );
+	public static function getCustomerRecentActivityLists() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_dashboard_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
-		$post          = self::$input->post();
+		$input         = new Input();
+		$post          = $input->post();
 		$validate_data = Validation::validateDashboard( $post, 'getCustomerRecentActivity' );
-		$data          = self::getValidateData( $validate_data, $data );
+		$data          = self::getValidateData( $validate_data, [] );
 		if ( ! empty( $data ) && isset( $data['success'] ) ) {
 			wp_send_json( $data );
 		}
 
 		global $wpdb;
-		$base_helper     = new \Wlr\App\Helpers\Base();
-		$limit           = (int) self::$input->post_get( 'limit', 5 );
-		$offset          = (int) self::$input->post_get( 'offset', 0 );
-		$start_and_end   = $base_helper->getStartAndEnd();
-		$start           = isset( $start_and_end['start'] ) && ! empty( $start_and_end['start'] ) ? strtotime( $start_and_end['start'] ) : 0;
-		$end             = isset( $start_and_end['end'] ) && ! empty( $start_and_end['end'] ) ? strtotime( $start_and_end['end'] ) : 0;
-		$log_model       = new Logs();
-		$condition_where = $wpdb->prepare( ' id > %d  AND (created_at >= %s OR created_at=0) AND (created_at <= %s OR created_at = 0) ', array(
+		$limit              = (int) $input->post_get( 'limit', 5 );
+		$offset             = (int) $input->post_get( 'offset', 0 );
+		$start_and_end      = self::getStartAndEnd();
+		$start              = ! empty( $start_and_end['start'] ) ? strtotime( $start_and_end['start'] ) : 0;
+		$end                = ! empty( $start_and_end['end'] ) ? strtotime( $start_and_end['end'] ) : 0;
+		$log_model          = new Logs();
+		$condition_where    = $wpdb->prepare( ' id > %d  AND (created_at >= %s OR created_at=0) AND (created_at <= %s OR created_at = 0) ', [
 			0,
 			$start,
 			$end
-		) );
-		$where           = $condition_where . "  ORDER BY id DESC ";
-		$select_query    = $where . $wpdb->prepare( ' LIMIT %d OFFSET %d', array( $limit, $offset ) );
-		$items           = $log_model->getWhere( $select_query, '*', false );
-		$items_count     = $log_model->getWhere( $where, 'DISTINCT COUNT(id) as total_count', true );
-		$items_count     = ( isset( $items_count->total_count ) && ! empty( $items_count->total_count ) ) ? (int) $items_count->total_count : 0;
-		foreach ( $items as &$item ) {
-			$item->created_at = self::$woocommerce->beforeDisplayDate( $item->created_at, 'D j M Y H:i:s' );
+		] );
+		$where              = $condition_where . "  ORDER BY id DESC ";
+		$select_query       = $where . $wpdb->prepare( ' LIMIT %d OFFSET %d', [ $limit, $offset ] );
+		$items              = $log_model->getWhere( $select_query, '*', false );
+		$items_count        = $log_model->getWhere( $where, 'DISTINCT COUNT(id) as total_count' );
+		$items_count        = ( ! empty( $items_count->total_count ) ) ? (int) $items_count->total_count : 0;
+		$woocommerce_helper = Woocommerce::getInstance();
+		foreach ( $items as $item ) {
+			$item->created_at = $woocommerce_helper->beforeDisplayDate( $item->created_at, 'D j M Y H:i:s' );
 		}
-		$data['success'] = true;
-		$data['data']    = array(
+		wp_send_json_success( [
 			'items'       => $items,
 			'total_count' => $items_count,
 			'limit'       => $limit
-		);
-		wp_send_json( $data );
+		] );
+	}
+
+	/**
+	 * Retrieves the notification data.
+	 *
+	 * @return void
+	 */
+	public static function getNotification() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_common_user_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' ) ] );
+		}
+		$woocommerce_helper = Woocommerce::getInstance();
+		$status             = $woocommerce_helper->checkStatusNewRewardSection();
+		if ( $status ) {
+			wp_send_json_error( [
+				'message'        => __( 'Status failed', 'wp-loyalty-rules' ),
+				'is_show_notify' => false
+			] );
+		}
+		wp_send_json_success( [
+			'is_show_notify' => true,
+			'labels'         => [
+				'title'           => __( 'Updates available for Customers Rewards page', 'wp-loyalty-rules' ),
+				'title_question'  => __( "We have rolled out a number of improvements for the Customer Rewards page. Would you like to apply these enhancements now?", "wp-loyalty-rules" ),
+				'yes'             => __( "Yes, update now", "wp-loyalty-rules" ),
+				'no'              => __( "No, remind me later.", "wp-loyalty-rules" ),
+				'popup_title'     => __( "Irreversible Action Alert", "wp-loyalty-rules" ),
+				'popup_desc'      => __( "It looks like you have theme level overrides for the Customer Rewards page. Applying these updates will overwrite these theme overrides. These changes are irreversible.", "wp-loyalty-rules" ),
+				'popup_yes_text'  => __( "Yes, update to the latest", "wp-loyalty-rules" ),
+				'popup_no_text'   => __( "No, remind me later.", "wp-loyalty-rules" ),
+				'upgreaded_title' => __( "Customer Rewards page updated!", "wp-loyalty-rules" ),
+				'preview_desc'    => __( "Great news! Your 'My Rewards' section has been successfully updated to the latest version. Enjoy all the exciting new features and improvements.", "wp-loyalty-rules" ),
+				'rename_desc'     => __( "We have renamed the previous theme override files. Here are the details:", "wp-loyalty-rules" ),
+				'thanks_text'     => __( "Your improved Customer Reward page is now ready.", "wp-loyalty-rules" ),
+				'okay_text'       => __( "Okay", "wp-loyalty-rules" ),
+			]
+		] );
+	}
+
+	/**
+	 * Enables the new "My Rewards" section.
+	 *
+	 * @return void
+	 */
+	public static function enableMyRewardSection() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_common_user_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' ) ] );
+		}
+		$input              = new Input();
+		$is_enabled         = $input->post_get( 'is_enabled', '' );
+		$renamed            = [];
+		$file_rename_status = false;
+		if ( $is_enabled === 'yes' ) {
+			$files              = apply_filters( 'wlr_customer_reward_page_templates', [
+				'customer_page.php',
+				'cart_page.php',
+				'my_account_reward.php',
+				'cart_page_rewards.php'
+			] );
+			$woocommerce_helper = Woocommerce::getInstance();
+			$renamed            = $woocommerce_helper->renameTemplateOverwritedFiles( $files );
+			if ( ! empty( $renamed ) && is_array( $renamed ) ) {
+				$file_rename_status = true;
+			}
+		}
+		update_option( 'wlr_new_rewards_section_enabled', $is_enabled );
+		wp_send_json_success( [
+			'labels'        => [
+				'renamed_files'       => __( "The template-overwritten files listed below have been successfully renamed:", "wp-loyalty-rules" ),
+				'failed_rename_files' => __( "The files that have undergone template overwrites but were not successfully renamed are as follows:", "wp-loyalty-rules" ),
+				'note'                => __( "Note:To address the issue of failed renaming for overwritten template files, you will need to manually create a template overwrite.", "wp-loyalty-rules" ),
+				'ok'                  => __( "Ok", "wp-loyalty-rules" ),
+			],
+			'renamed_files' => $renamed,
+			'rename_status' => $file_rename_status,
+			'message'       => __( 'Update successful!', 'wp-loyalty-rules' )
+		] );
+	}
+
+	/**
+	 * Retrieves the start and end dates based on the filter type.
+	 *
+	 * @return array An associative array containing the start and end dates.
+	 */
+	public static function getStartAndEnd() {
+		$start     = 0;
+		$end       = 0;
+		$null_date = 0;
+		try {
+			$input       = new Input();
+			$filter_type = (string) $input->post_get( 'fil_type', '90_days' );
+			$timezone    = new DateTimeZone( 'UTC' );
+			if ( $filter_type == '90_days' ) {
+				$current_time = new DateTime( 'now', $timezone );
+				$last_time    = new DateTime( '-90 days', $timezone );
+				$start        = $last_time->format( 'Y-m-d 00:00:00' );
+				$end          = $current_time->format( 'Y-m-d 23:59:59' );
+			} elseif ( $filter_type == 'this_month' ) {
+				$current_time = new DateTime( 'now', $timezone );
+				$start        = $current_time->format( 'Y-m-01 00:00:00' );
+				$end          = $current_time->format( 'Y-m-d 23:59:59' );
+			} elseif ( $filter_type == 'last_month' ) {
+				$current_time = new DateTime();
+				$current_time->modify( 'last day of last month' );
+				//$current_time = new DateTime('-1 month', $timezone);
+				$start = $current_time->format( 'Y-m-01 00:00:00' );
+				$end   = $current_time->format( 'Y-m-t 23:59:59' );
+			} elseif ( $filter_type == 'last_year' ) {
+				$current_time = new DateTime( '-1 year', $timezone );
+				$start        = $current_time->format( 'Y-01-01 00:00:00' );
+				$end          = $current_time->format( 'Y-12-t 23:59:59' );
+			} elseif ( $filter_type == 'custom' ) {
+				$from_date = $input->post( 'from_date', $null_date );
+				$to_date   = $input->post( 'to_date', $null_date );
+				if ( $to_date != $null_date ) {
+					$current_time = new DateTime( $to_date );
+					$end          = $current_time->format( 'Y-m-d 23:59:59' );
+				}
+				if ( $from_date != $null_date ) {
+					$current_time = new DateTime( $from_date );
+					$start        = $current_time->format( 'Y-m-d 00:00:00' );
+				}
+			}
+		} catch ( Exception $e ) {
+		}
+
+		return [
+			'start' => $start,
+			'end'   => $end,
+		];
 	}
 }

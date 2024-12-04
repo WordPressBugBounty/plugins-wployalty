@@ -30,6 +30,8 @@ class WlrBirthdayEmail extends \WC_Email
         $this->default_heading = __('Happy Birthday! Celebrate Your Special Day!', 'wp-loyalty-rules');
         $this->template_html = 'emails/wlr-birthday-email.php';
         $this->template_plain = 'emails/plain/wlr-birthday-email.php';
+	    add_action('wlr_notify_after_add_earn_point', array($this, 'sendBirthdayPointEmail'), 10, 4);
+	    add_action('wlr_notify_after_add_earn_reward', array($this, 'sendBirthdayRewardEmail'), 10, 4);
         parent::__construct();
         $this->recipient = $this->get_option('recipient', get_option('admin_email'));
         $this->template_base = __DIR__ . '/Templates/';

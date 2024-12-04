@@ -7,7 +7,11 @@
 
 namespace Wlr\App\Controllers\Site;
 
-use Wlr\App\Controllers\Base;
+use stdClass;
+use WC_Emails;
+use Wlr\App\Helpers\Base;
+use Wlr\App\Helpers\Settings;
+use Wlr\App\Helpers\Woocommerce;
 use Wlr\App\Models\EarnCampaign;
 use Wlr\App\Models\Levels;
 use Wlr\App\Models\PointsLedger;
@@ -17,191 +21,234 @@ use Wlr\App\Models\Users;
 
 defined( 'ABSPATH' ) or die;
 
-class Schedules extends Base {
-	function initSchedule() {
+class Schedules {
+	/**
+	 * Initializes the schedule for various tasks.
+	 *
+	 * @return void
+	 */
+	public static function init() {
 		//every 1 hour
-		$hook      = 'wlr_expire_email';
-		$timestamp = wp_next_scheduled( $hook );
-		if ( false === $timestamp ) {
-			$scheduled_time = strtotime( '+1 hours', current_time( 'timestamp' ) );
-			wp_schedule_event( $scheduled_time, 'hourly', $hook );
-		}
-		$hook      = 'wlr_change_expire_status';
-		$timestamp = wp_next_scheduled( $hook );
-		if ( false === $timestamp ) {
-			$scheduled_time = strtotime( '+1 hours', current_time( 'timestamp' ) );
-			wp_schedule_event( $scheduled_time, 'hourly', $hook );
-		}
+		Woocommerce::addSchedule( 'wlr_expire_email' );
+		Woocommerce::addSchedule( 'wlr_change_expire_status' );
 		$is_point_transfer_complete = get_option( 'wlr_point_ledger_complete', 0 );
 		if ( ! $is_point_transfer_complete ) {
 			$user_model = new Users();
 			$user_list  = $user_model->getWhere( 'id > 0 LIMIT 5 OFFSET 0', '*', false );
 			if ( ! empty( $user_list ) ) {
-				$hook      = 'wlr_update_ledger_point';
-				$timestamp = wp_next_scheduled( $hook );
-				if ( false === $timestamp ) {
-					$scheduled_time = strtotime( '+1 hours', current_time( 'timestamp' ) );
-					wp_schedule_event( $scheduled_time, 'hourly', $hook );
-				}
+				Woocommerce::addSchedule( 'wlr_update_ledger_point' );
 			} else {
 				update_option( 'wlr_point_ledger_complete', 1 );
 			}
 		}
-		//notification remind me later schedule
-		$is_enabled = get_option( 'wlr_new_rewards_section_enabled', '' );
-		if ( $is_enabled != 'yes' ) {
-			$hook      = 'wlr_notification_remind_me';
-			$timestamp = wp_next_scheduled( $hook );
-			if ( false == $timestamp ) {
-				$scheduled_time = strtotime( '+10 days', current_time( 'timestamp' ) );
-				wp_schedule_event( $scheduled_time, 'daily', $hook );
-			}
+		//notification reminds me later schedule
+		if ( Settings::getSettings( 'wlr_new_rewards_section_enabled', '' ) != 'yes' ) {
+			Woocommerce::addSchedule( 'wlr_notification_remind_me', '+10 days', 'daily' );
 		}
 		do_action( 'wlr_schedule_event_register' );
 	}
 
-	function updatePointLedgerFromUser() {
-		$off_set = get_option( 'wlr_update_ledger_offset', 0 );
-		global $wpdb;
-		$user_model         = new Users();
-		$point_ledger_model = new PointsLedger();
-		$where              = $wpdb->prepare( 'id > 0 ORDER BY id ASC LIMIT 100 OFFSET %d', array( $off_set ) );
-		$user_list          = $user_model->getWhere( $where, '*', false );
-		if ( empty( $user_list ) ) {
-			update_option( 'wlr_point_ledger_complete', 1 );
-		} else {
-			update_option( 'wlr_update_ledger_offset', (int) ( $off_set + 100 ) );
-		}
-		if ( ! empty( $user_list ) ) {
-			foreach ( $user_list as $user ) {
-				$ledger_where = $wpdb->prepare( "user_email = %s", array( $user->user_email ) );
-				$ledger       = $point_ledger_model->getWhere( $ledger_where, '*', true );
-				if ( empty( $ledger ) ) {
-					$base_helper = new \Wlr\App\Helpers\Base();
-					$data        = array(
-						'user_email'  => $user->user_email,
-						'points'      => $user->points,
-						'action_type' => 'starting_point',
-						'note'        => __( 'Starting point of customer', 'wp-loyalty-rules' ),
-						'created_at'  => strtotime( date( "Y-m-d H:i:s" ) )
-					);
-					$base_helper->updatePointLedger( $data, 'credit', $is_update = false );
-				}
-			}
-		}
+	/**
+	 * Removes all schedule actions.
+	 *
+	 * @return void
+	 */
+	public static function remove() {
+		Woocommerce::removeSchedule( 'wlr_birth_day_points' );
+		Woocommerce::removeSchedule( 'wlr_expire_email' );
+		Woocommerce::removeSchedule( 'wlr_change_expire_status' );
+		Woocommerce::removeSchedule( 'wlr_update_ledger_point' );
+		Woocommerce::removeSchedule( 'wlr_point_expire_email' );
+		Woocommerce::removeSchedule( 'wlr_change_point_expire_status' );
+		Woocommerce::removeSchedule( 'wlr_notification_remind_me' );
 	}
 
-	function enableNotificationSection() {
-		$setting = self::$woocommerce->getOptions( 'wlr_new_rewards_section_enabled', '' );
-		if ( ! empty( $setting ) || $setting == 'no' ) {
-			update_option( 'wlr_new_rewards_section_enabled', '' );
-		}
-	}
-
-	function sendExpireEmail() {
+	/**
+	 * Sends the expiry email to users with expiring rewards.
+	 *
+	 * @return void
+	 */
+	public static function sendExpireEmail() {
 		$user_reward      = new UserRewards();
 		$user_reward_data = $user_reward->getExpireEmailList();
-		\WC_Emails::instance();
+		WC_Emails::instance();
 		foreach ( $user_reward_data as $single_user_reward ) {
 			do_action( 'wlr_notify_send_expire_email', $single_user_reward );
 		}
 	}
 
-	function changeExpireStatus() {
+	/**
+	 * Changes the expiry status of user rewards.
+	 *
+	 * @return void
+	 */
+	public static function changeExpireStatus() {
 		$user_reward      = new UserRewards();
 		$user_reward_data = $user_reward->getExpireStatusNeedToChangeList();
-		$updateData       = array(
-			'status' => 'expired',
-		);
+		$updateData       = [ 'status' => 'expired' ];
 		foreach ( $user_reward_data as $single_user_reward ) {
-			$where = array( 'id' => $single_user_reward->id );
+			$where = [ 'id' => $single_user_reward->id ];
 			$user_reward->updateRow( $updateData, $where );
 		}
 	}
 
-	function removeSchedule() {
-		$next_scheduled = wp_next_scheduled( 'wlr_birth_day_points' );
-		wp_unschedule_event( $next_scheduled, 'wlr_birth_day_points' );
-		$next_scheduled = wp_next_scheduled( 'wlr_expire_email' );
-		wp_unschedule_event( $next_scheduled, 'wlr_expire_email' );
-		$next_scheduled = wp_next_scheduled( 'wlr_change_expire_status' );
-		wp_unschedule_event( $next_scheduled, 'wlr_change_expire_status' );
-		$next_scheduled = wp_next_scheduled( 'wlr_update_ledger_point' );
-		wp_unschedule_event( $next_scheduled, 'wlr_update_ledger_point' );
-	}
+	/**
+	 * Updates the point ledger from the user.
+	 *
+	 * @return void
+	 */
+	public static function updatePointLedgerFromUser() {
+		$off_set = get_option( 'wlr_update_ledger_offset', 0 );
+		global $wpdb;
+		$user_model         = new Users();
+		$point_ledger_model = new PointsLedger();
+		$where              = $wpdb->prepare( 'id > 0 ORDER BY id ASC LIMIT 100 OFFSET %d', [ $off_set ] );
+		$user_list          = $user_model->getWhere( $where, '*', false );
 
-	function dynamicStrings( $new_strings, $domain_text ) {
-		if ( ! is_array( $new_strings ) || ! is_string( $domain_text ) || $domain_text != 'wp-loyalty-rules' ) {
-			return $new_strings;
+		if ( empty( $user_list ) ) {
+			update_option( 'wlr_point_ledger_complete', 1 );
+		} else {
+			update_option( 'wlr_update_ledger_offset', (int) ( $off_set + 100 ) );
 		}
-		$this->getCampaignDynamicStrings( $new_strings );
-		$this->getRewardDynamicStrings( $new_strings );
-		$this->getLevelDynamicStrings( $new_strings );
-		$this->getSettingsDynamicStrings( $new_strings );
 
-		return $new_strings;
-	}
-
-	function getCampaignDynamicStrings( &$new_strings ) {
-		$common_strings = array( 'name', 'description' );
-		$campaign_model = new EarnCampaign();
-		$campaign_list  = $campaign_model->getAll( '*' );
-		if ( ! empty( $campaign_list ) ) {
-			foreach ( $campaign_list as $campaign ) {
-				foreach ( $common_strings as $key ) {
-					if ( isset( $campaign->$key ) && ! empty( $campaign->$key ) ) {
-						$new_strings[] = $campaign->$key;
-					}
-				}
-				if ( isset( $campaign->action_type ) && in_array( $campaign->action_type, array(
-						'point_for_purchase',
-						'product_review',
-						'signup',
-						'facebook_share',
-						'twitter_share',
-						'whatsapp_share',
-						'email_share'
-					) ) ) {
-					$point_rule = new \stdClass();
-					if ( isset( $campaign->point_rule ) && ! empty( $campaign->point_rule ) && self::$woocommerce->isJson( $campaign->point_rule ) ) {
-						$point_rule = json_decode( $campaign->point_rule );
-					}
-					$this->getDynamicActionString( $new_strings, $point_rule, $campaign->action_type );
+		if ( ! empty( $user_list ) ) {
+			foreach ( $user_list as $user ) {
+				$ledger_where = $wpdb->prepare( 'user_email = %s', [ $user->user_email ] );
+				$ledger       = $point_ledger_model->getWhere( $ledger_where );
+				if ( empty( $ledger ) ) {
+					$base_helper = new Base();
+					$data        = [
+						'user_email'  => $user->user_email,
+						'points'      => $user->points,
+						'action_type' => 'starting_point',
+						'note'        => __( 'Starting point of customer', 'wp-loyalty-rules' ),
+						'created_at'  => strtotime( date( "Y-m-d H:i:s" ) )
+					];
+					$base_helper->updatePointLedger( $data, 'credit', false );
 				}
 			}
 		}
 	}
 
-	function getDynamicActionString( &$new_strings, $point_rule, $action_type ) {
+	/**
+	 * Enables the notification section.
+	 *
+	 * @return void
+	 */
+	public static function enableNotificationSection() {
+		$setting = Settings::getSettings( 'wlr_new_rewards_section_enabled', '' );
+		if ( ! empty( $setting ) || $setting == 'no' ) {
+			Settings::updateSettings( 'wlr_new_rewards_section_enabled', '' );
+		}
+	}
+
+
+	/**
+	 * Updates the dynamic strings in the given array.
+	 *
+	 * @param array $new_strings The array containing the dynamic strings.
+	 * @param string $domain_text The text domain to check against.
+	 *
+	 * @return array The updated array with dynamic strings.
+	 */
+	public static function dynamicStrings( $new_strings, $domain_text ) {
+		if ( ! is_array( $new_strings ) || ! is_string( $domain_text ) || $domain_text != 'wp-loyalty-rules' ) {
+			return $new_strings;
+		}
+		self::getCampaignDynamicStrings( $new_strings );
+		self::getRewardDynamicStrings( $new_strings );
+		self::getLevelDynamicStrings( $new_strings );
+		self::getSettingsDynamicStrings( $new_strings );
+
+		return $new_strings;
+	}
+
+	/**
+	 * Retrieves the dynamic strings for each campaign.
+	 *
+	 * @param array $new_strings The array to store the new dynamic strings.
+	 *
+	 * @return void
+	 */
+	public static function getCampaignDynamicStrings( &$new_strings ) {
+		$common_strings     = [ 'name', 'description' ];
+		$campaign_model     = new EarnCampaign();
+		$campaign_list      = $campaign_model->getAll();
+		$woocommerce_helper = Woocommerce::getInstance();
+		if ( empty( $campaign_list ) ) {
+			return;
+		}
+
+		foreach ( $campaign_list as $campaign ) {
+			foreach ( $common_strings as $key ) {
+				if ( ! empty( $campaign->$key ) ) {
+					$new_strings[] = $campaign->$key;
+				}
+			}
+			if ( isset( $campaign->action_type ) && in_array( $campaign->action_type, [
+					'point_for_purchase',
+					'product_review',
+					'signup',
+					'facebook_share',
+					'twitter_share',
+					'whatsapp_share',
+					'email_share'
+				] ) ) {
+				$point_rule = new stdClass();
+				if ( ! empty( $campaign->point_rule ) && $woocommerce_helper->isJson( $campaign->point_rule ) ) {
+					$point_rule = json_decode( $campaign->point_rule );
+				}
+				self::getDynamicActionString( $new_strings, $point_rule, $campaign->action_type );
+			}
+		}
+	}
+
+	/**
+	 * Generates dynamic action strings based on the specified action type and point rule.
+	 *
+	 * @param array &$new_strings An array to store the generated action strings.
+	 * @param mixed $point_rule The point rule object.
+	 * @param string $action_type The type of action.
+	 *
+	 * @return void
+	 */
+	public static function getDynamicActionString( &$new_strings, $point_rule, $action_type ) {
 		if ( empty( $action_type ) || ! is_string( $action_type ) || ! is_array( $new_strings ) || ! is_object( $point_rule ) ) {
 			return;
 		}
-		$action_strings = array(
-			'point_for_purchase' => array( 'variable_product_message', 'single_product_message' ),
-			'product_review'     => array( 'review_message' ),
-			'signup'             => array( 'signup_message' ),
-			'facebook_share'     => array( 'share_message' ),
-			'twitter_share'      => array( 'share_message' ),
-			'whatsapp_share'     => array( 'share_message' ),
-			'email_share'        => array( 'share_body', 'share_subject' )
-		);
-		if ( isset( $action_strings[ $action_type ] ) && ! empty( $action_strings[ $action_type ] ) ) {
+		$action_strings = [
+			'point_for_purchase' => [ 'variable_product_message', 'single_product_message' ],
+			'product_review'     => [ 'review_message' ],
+			'signup'             => [ 'signup_message' ],
+			'facebook_share'     => [ 'share_message' ],
+			'twitter_share'      => [ 'share_message' ],
+			'whatsapp_share'     => [ 'share_message' ],
+			'email_share'        => [ 'share_body', 'share_subject' ]
+		];
+		if ( ! empty( $action_strings[ $action_type ] ) ) {
 			foreach ( $action_strings[ $action_type ] as $key ) {
-				if ( isset( $point_rule->$key ) && ! empty( $point_rule->$key ) ) {
+				if ( ! empty( $point_rule->$key ) ) {
 					$new_strings[] = $point_rule->$key;
 				}
 			}
 		}
 	}
 
-	function getRewardDynamicStrings( &$new_strings ) {
-		$common_strings = array( 'name', 'description', 'display_name' );
+	/**
+	 * Retrieves dynamic reward strings and adds them to an array.
+	 *
+	 * @param array $new_strings A reference to the array where the new strings will be added.
+	 *
+	 * @return void
+	 */
+	public static function getRewardDynamicStrings( &$new_strings ) {
+		$common_strings = [ 'name', 'description', 'display_name' ];
 		$reward_model   = new Rewards();
-		$reward_list    = $reward_model->getAll( '*' );
+		$reward_list    = $reward_model->getAll();
 		if ( ! empty( $reward_list ) ) {
 			foreach ( $reward_list as $reward ) {
 				foreach ( $common_strings as $key ) {
-					if ( isset( $reward->$key ) && ! empty( $reward->$key ) ) {
+					if ( ! empty( $reward->$key ) ) {
 						$new_strings[] = $reward->$key;
 					}
 				}
@@ -209,14 +256,21 @@ class Schedules extends Base {
 		}
 	}
 
-	function getLevelDynamicStrings( &$new_strings ) {
-		$common_strings = array( 'name', 'description' );
+	/**
+	 * Retrieves the dynamic strings for levels and adds them to the specified array.
+	 *
+	 * @param array $new_strings The array to which the dynamic strings will be added.
+	 *
+	 * @return void
+	 */
+	public static function getLevelDynamicStrings( &$new_strings ) {
+		$common_strings = [ 'name', 'description' ];
 		$level_model    = new Levels();
-		$level_list     = $level_model->getAll( '*' );
+		$level_list     = $level_model->getAll();
 		if ( ! empty( $level_list ) ) {
 			foreach ( $level_list as $level ) {
 				foreach ( $common_strings as $key ) {
-					if ( isset( $level->$key ) && ! empty( $level->$key ) ) {
+					if ( ! empty( $level->$key ) ) {
 						$new_strings[] = $level->$key;
 					}
 				}
@@ -224,8 +278,15 @@ class Schedules extends Base {
 		}
 	}
 
-	function getSettingsDynamicStrings( &$new_strings ) {
-		$common_strings = array(
+	/**
+	 * Retrieves dynamic strings from the settings and adds them to the given array.
+	 *
+	 * @param array $new_strings The array to which dynamic strings are added.
+	 *
+	 * @return void
+	 */
+	public static function getSettingsDynamicStrings( &$new_strings ) {
+		$common_strings = [
 			'wlr_point_label',
 			'wlr_point_singular_label',
 			'reward_plural_label',
@@ -237,18 +298,25 @@ class Schedules extends Base {
 			'wlr_thank_you_message',
 			'redeem_button_text',
 			'apply_coupon_button_text'
-		);
-		$options        = self::$woocommerce->getOptions( 'wlr_settings' );
+		];
+		$options        = Settings::getSettings();
 		if ( isset( $options ) && is_array( $options ) ) {
 			foreach ( $common_strings as $key ) {
-				if ( isset( $options[ $key ] ) && ! empty( $options[ $key ] ) ) {
+				if ( ! empty( $options[ $key ] ) ) {
 					$new_strings[] = $options[ $key ];
 				}
 			}
 		}
 	}
 
-	function dynamicDomain( $domains ) {
+	/**
+	 * Adds a dynamic domain to the list of domains.
+	 *
+	 * @param array $domains The list of domains.
+	 *
+	 * @return array The updated list of domains.
+	 */
+	public static function dynamicDomain( $domains ) {
 		if ( ! in_array( 'wp-loyalty-rules', $domains ) ) {
 			$domains[] = 'wp-loyalty-rules';
 		}

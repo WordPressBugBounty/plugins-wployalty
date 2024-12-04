@@ -10,13 +10,18 @@ defined( 'ABSPATH' ) or die;
 
 use Wlr\App\Controllers\Admin\Apps;
 use Wlr\App\Controllers\Admin\CampaignPage;
+use Wlr\App\Controllers\Admin\Common;
 use Wlr\App\Controllers\Admin\Customers;
 use Wlr\App\Controllers\Admin\Dashboard;
 use Wlr\App\Controllers\Admin\Labels;
 use Wlr\App\Controllers\Admin\OnBoarding;
 use Wlr\App\Controllers\Admin\RewardPage;
 use Wlr\App\Controllers\Admin\Settings;
+use Wlr\App\Controllers\Site\Common as SiteCommon;
 use Wlr\App\Controllers\Site\Blocks\Blocks;
+use Wlr\App\Controllers\Site\Campaign;
+use Wlr\App\Controllers\Site\Coupon;
+use Wlr\App\Controllers\Site\CustomerPage;
 use Wlr\App\Controllers\Site\DisplayMessage;
 use Wlr\App\Controllers\Site\LoyaltyMail;
 use Wlr\App\Controllers\Site\MyAccount;
@@ -24,205 +29,38 @@ use Wlr\App\Controllers\Site\Schedules;
 
 
 class Router {
-	private static $admin, $labels, $settings, $customers, $campaigns, $rewards, $dashboard, $apps;
-	private static $site, $display_message, $my_account, $schedule, $loyalty_mail, $on_boarding, $block;
+	private static $site, $display_message, $my_account, $loyalty_mail;
 
 	function init() {
 		do_action( 'wlr_before_init' );
 		self::$site       = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
-		self::$admin      = empty( self::$admin ) ? new \Wlr\App\Controllers\Admin\Main() : self::$admin;
 		self::$my_account = empty( self::$my_account ) ? new MyAccount() : self::$my_account;
-		self::$schedule   = empty( self::$schedule ) ? new Schedules() : self::$schedule;
-
 		if ( is_admin() ) {
-			add_action( 'upgrader_process_complete', array( self::$admin, 'upgradeDatabase' ), 10, 2 );
-			register_activation_hook( WLR_PLUGIN_FILE, array( self::$admin, 'pluginActivation' ) );
-			add_action( 'wpmu_new_blog', array( self::$admin, 'onCreateBlog' ), 10, 6 );
-			add_filter( 'wpmu_drop_tables', array( self::$admin, 'onDeleteBlog' ) );
-			add_action( 'admin_menu', array( self::$admin, 'addMenu' ) );
-			add_action( 'network_admin_menu', array( self::$admin, 'addMenu' ) );
-			add_filter( 'plugin_action_links_' . plugin_basename( WLR_PLUGIN_FILE ), array(
-				self::$admin,
-				'pluginActionLinks'
-			) );
-			add_action( 'admin_enqueue_scripts', array( self::$admin, 'adminScripts' ), 100 );
-			add_filter( 'script_loader_tag', array( self::$admin, 'scriptLoaderTag' ), 10, 2 );
-			add_filter( 'dbdelta_create_queries', array( self::$admin, 'createQueryCheck' ) );
-			add_action( 'admin_footer', array( self::$admin, 'menuHideProperties' ) );
-			/* React request*/
-			self::$labels = empty( self::$labels ) ? new Labels() : self::$labels;
-			add_action( 'wp_ajax_wlr_local_data', array( self::$labels, 'localData' ) );
-			add_action( 'wp_ajax_wlr_get_labels', array( self::$labels, 'getPluginLabels' ) );
-			self::$settings = empty( self::$settings ) ? new Settings() : self::$settings;
-			add_action( 'wp_ajax_wlr_get_settings', array( self::$settings, 'getSettings' ) );
-			add_action( 'wp_ajax_wlr_save_settings', array( self::$settings, 'saveSettings' ) );
-			add_action( 'wp_ajax_wlr_create_block_page', array( self::$settings, 'createBlock' ) );
-			add_action( 'wp_ajax_wlr_save_email_template', array( self::$settings, 'updateEmailTemplate' ) );
-			add_action( 'wp_ajax_wlr_reset_email_template', array( self::$settings, 'resetEmailTemplate' ) );
-			add_action( 'wp_ajax_wlr_is_any_notifications', array( self::$settings, 'isAnyNotifications' ) );
-			//for new notifi section
-			add_filter( 'wp_ajax_wlr_new_my_reward_template_notification', array(
-				self::$admin,
-				'getNotification'
-			), 10, 1 );
-			add_filter( 'wp_ajax_wlr_enable_new_my_rewards_section', array(
-				self::$admin,
-				'enableMyRewardSection'
-			), 10, 1 );
-			/*Reward List*/
-			self::$rewards = empty( self::$rewards ) ? new RewardPage() : self::$rewards;
-			add_action( 'wp_ajax_wlr_get_rewards', array( self::$rewards, 'getRewards' ) );
-			add_action( 'wp_ajax_wlr_delete_reward', array( self::$rewards, 'deleteReward' ) );
-			add_action( 'wp_ajax_wlr_bulk_action_rewards', array( self::$rewards, 'bulkAction' ) );
-			add_action( 'wp_ajax_wlr_toggle_reward_active', array( self::$rewards, 'toggleRewardActive' ) );
-			add_action( 'wp_ajax_wlr_duplicate_reward', array( self::$rewards, 'duplicateReward' ) );
-			add_action( 'wp_ajax_wlr_get_reward_campaigns', array( self::$rewards, 'getRewardCampaigns' ) );
-			/*Reward Edit*/
-			add_action( 'wp_ajax_wlr_free_product_options', array( self::$rewards, 'freeProductOptions' ) );
-			add_action( 'wp_ajax_wlr_get_reward', array( self::$rewards, 'getReward' ) );
-			add_action( 'wp_ajax_wlr_save_reward', array( self::$rewards, 'saveReward' ) );
-			/*Customer List*/
-			self::$customers = empty( self::$customers ) ? new Customers() : self::$customers;
-			add_action( 'wp_ajax_wlr_get_customer_list', array( self::$customers, 'getCustomerList' ) );
-			add_action( 'wp_ajax_wlr_bulk_delete_users', array( self::$customers, 'getBulkCustomerDelete' ) );
-			add_action( 'wp_ajax_wlr_delete_customer', array( self::$customers, 'getCustomerDelete' ) );
-			add_action( 'wp_ajax_wlr_get_customer_activity', array( self::$customers, 'getCustomerActivityLog' ) );
-			/*Customer details*/
-			add_action( 'wp_ajax_wlr_get_customer', array( self::$customers, 'getCustomer' ) );
-			//add_action('wp_ajax_wlr_update_customer_point', array(self::$customers, 'updateCustomerPoint'));
-			add_action( 'wp_ajax_wlr_update_customer_point', array(
-				self::$customers,
-				'updateCustomerPointWithCommand'
-			) );
-			add_action( 'wp_ajax_wlr_update_customer_birth_date', array( self::$customers, 'updateCustomerBirthday' ) );
-			add_action( 'wp_ajax_wlr_get_customer_transaction', array( self::$customers, 'getCustomerTransaction' ) );
-			add_action( 'wp_ajax_wlr_get_customer_rewards', array( self::$customers, 'getCustomerRewards' ) );
-			add_action( 'wp_ajax_wlr_update_reward_expiry', array( self::$customers, 'updateExpiryDates' ) );
-
-			/*Campaign List*/
-			self::$campaigns = empty( self::$campaigns ) ? new CampaignPage() : self::$campaigns;
-			add_action( 'wp_ajax_wlr_get_campaigns', array( self::$campaigns, 'getCampaigns' ) );
-			add_action( 'wp_ajax_wlr_delete_campaign', array( self::$campaigns, 'deleteCampaign' ) );
-			add_action( 'wp_ajax_wlr_toggle_campaign_active', array( self::$campaigns, 'toggleCampaignActive' ) );
-			add_action( 'wp_ajax_wlr_bulk_action_campaigns', array( self::$campaigns, 'bulkAction' ) );
-			add_action( 'wp_ajax_wlr_duplicate_campaign', array( self::$campaigns, 'duplicateCampaign' ) );
-			/*Campaign Edit*/
-			add_action( 'wp_ajax_wlr_get_campaign', array( self::$campaigns, 'getCampaign' ) );
-			add_action( 'wp_ajax_wlr_save_campaign', array( self::$campaigns, 'saveCampaign' ) );
-			/*Ajax*/
-			add_action( 'wp_ajax_wlr_condition_data', array( self::$admin, 'getConditionData' ) );
-			/*Dashboard*/
-			self::$dashboard = empty( self::$dashboard ) ? new Dashboard() : self::$dashboard;
-			add_action( 'wp_ajax_wlr_chart_data', array( self::$dashboard, 'getChartsData' ) );
-			add_action( 'wp_ajax_wlr_dashboard_analytic_data', array( self::$dashboard, 'getDashboardAnalyticData' ) );
-			add_action( 'wp_ajax_wlr_all_customer_activities', array(
-				self::$dashboard,
-				'getCustomerRecentActivityLists'
-			) );
-			/* Apps */
-			self::$apps = empty( self::$apps ) ? new Apps() : self::$apps;
-			add_action( 'wp_ajax_wlr_get_apps', array( self::$apps, 'getApps' ) );
-			add_action( 'wp_ajax_wlr_activate_plugin', array( self::$apps, 'activateApp' ) );
-			add_action( 'wp_ajax_wlr_deactivate_plugin', array( self::$apps, 'deActivateApp' ) );
-
-			self::$on_boarding = empty( self::$on_boarding ) ? new OnBoarding() : self::$on_boarding;
-			add_action( 'wp_ajax_wlr_save_onboarding', array( self::$on_boarding, 'saveOnBoarding' ) );
-			add_action( 'wp_ajax_wlr_skip_onboarding', array( self::$on_boarding, 'skipOnBoarding' ) );
-
-			add_action( 'wp_ajax_wlr_admin_enable_email_sent', array( self::$site, 'enableUserEmailSend' ) );
-			add_action( 'wp_ajax_wlr_admin_toggle_banned_user', array( self::$admin, 'toggleIsBannedUser' ) );
+			self::initCommon();
+			self::initLabels();
+			self::initOnBoarding();
+			self::initDashboard();
+			self::initAddOns();
+			self::initSettings();
+			self::initCampaignPage();
+			self::initRewardPage();
 		} else {
-			add_action( 'wp_enqueue_scripts', array( self::$site, 'addFrontEndScripts' ) );
-			self::$display_message = empty( self::$display_message ) ? new DisplayMessage() : self::$display_message;
-			/* Product earn point message */
-			add_action( 'init', array( self::$display_message, 'init' ) );
 			/*My Account*/
 			add_action( 'plugins_loaded', array( self::$my_account, 'includes' ) );
 			add_action( 'woocommerce_init', array( self::$my_account, 'addEndPoints' ) );
-			/*End MyAccount*/
-			add_shortcode( 'wlr_thank_you_message', array(
-				self::$display_message,
-				'shortCodeForThankYouPageMessage'
-			) );
 		}
-		//add_filter('wlr_loyalty_page_data', array(self::$my_account, 'getLoyaltyPageData'));
-		add_action( 'wp_ajax_wlr_apply_reward', array( self::$site, 'applyReward' ) );
-		add_filter( 'woocommerce_coupon_get_discount_amount', array(
-			self::$site,
-			'getPointConversionDiscountAmount'
-		), 10, 5 );
-		add_action( 'wp_ajax_wlr_revoke_coupon', array( self::$site, 'revokeCoupon' ) );
-		add_action( 'wp_ajax_wlr_my_rewards_pagination', array( self::$site, 'myRewardsPagination' ) );
-		// add_action('woocommerce_applied_coupon',array(self::$site, 'validateRewardCoupon'));
-		add_action( 'woocommerce_coupon_is_valid', array( self::$site, 'validateRewardCoupon' ), 10, 3 );
-		add_action( 'woocommerce_coupon_error', array( self::$site, 'validateRewardCouponErrorMessage' ), 10, 3 );
-		add_action( 'woocommerce_before_cart', array( self::$site, 'updateFreeProduct' ) );
-		add_action( 'woocommerce_before_checkout_form', array( self::$site, 'updateFreeProduct' ), 10 );
-		add_action( 'woocommerce_removed_coupon', array( self::$site, 'removeFreeProduct' ) );
-		add_action( 'woocommerce_get_item_data', array( self::$site, 'displayFreeProductTextInCart' ), 100, 2 );
-		add_filter( 'woocommerce_checkout_create_order_line_item_object', [
-			self::$site,
-			'addItemMetaForFreeProduct'
-		], 10, 4 );
-		add_action( 'woocommerce_order_item_display_meta_key', array(
-			self::$site,
-			'displayFreeProductTextInOrder'
-		), 100, 3 );
-		add_action( 'woocommerce_cart_item_quantity', array(
-			self::$site,
-			'disableQuantityFieldForFreeProduct'
-		), 100, 3 );
-		add_action( 'woocommerce_cart_item_remove_link', array(
-			self::$site,
-			'disableCloseIconForFreeProduct'
-		), 100, 2 );
-		add_action( 'woocommerce_after_cart_item_name', array(
-			self::$site,
-			'loadCustomizableProductsAfterCartItemName'
-		), 10, 2 );
-		add_action( 'woocommerce_after_cart_item_name', array( self::$site, 'loadLoyaltyLabel' ), 11, 2 );
-		add_action( 'woocommerce_before_order_itemmeta', array( self::$site, 'loadLoyaltyLabelMeta' ), 11, 3 );
-
-		//add_filter('woocommerce_cart_item_name', array(self::$site, 'changeVariationName'), 10, 3);
-		//add_filter('woocommerce_order_item_name', array(self::$site, 'changeOrderVariationName'), 10, 3);
-
-		add_action( 'woocommerce_before_calculate_totals', array( self::$site, 'changeFreeProductPrice' ), 1000 );
-		add_action( 'woocommerce_init', array( self::$site, 'removeAppliedCouponForBannedUser' ), 999, 1 );
-		add_action( 'wp_ajax_wlr_change_reward_product_in_cart', array( self::$site, 'customerChangeProductOptions' ) );
-		/* Order Earn */
-		add_action( 'woocommerce_order_status_changed', array( self::$site, 'updatePoints' ), 1000, 4 );
-		add_filter( 'woocommerce_cart_totals_coupon_label', array( self::$site, 'changeCouponLabel' ), 10, 2 );
-
-		/*End React request*/
-		/*Actions*/
-		add_filter( 'wlr_earn_point_point_for_purchase', array( self::$site, 'getPointPointForPurchase' ), 10, 3 );
-		add_filter( 'wlr_earn_coupon_point_for_purchase', array( self::$site, 'getCouponPointForPurchase' ), 10, 3 );
-		/*Order validation*/
-		add_action( 'woocommerce_new_order', array( self::$site, 'canChangeCouponStatus' ), 10 );
-		add_action( 'woocommerce_update_order', array( self::$site, 'canChangeCouponStatus' ), 10 );
-		add_action( 'woocommerce_order_status_changed', array( self::$site, 'updateCouponStatus' ), 1000, 4 );
-
-		/* Schedule action */
-		add_action( 'woocommerce_init', array( self::$schedule, 'initSchedule' ) );
-		register_deactivation_hook( WLR_PLUGIN_FILE, array( self::$schedule, 'removeSchedule' ) );
-		add_action( 'wlr_expire_email', array( self::$schedule, 'sendExpireEmail' ) );
-		add_action( 'wlr_change_expire_status', array( self::$schedule, 'changeExpireStatus' ) );
-		add_action( 'wlr_update_ledger_point', array( self::$schedule, 'updatePointLedgerFromUser' ) );
-		add_action( 'wlr_notification_remind_me', array( self::$schedule, 'enableNotificationSection' ) );
-		add_filter( 'wlt_dynamic_string_list', array( self::$schedule, 'dynamicStrings' ), 10, 2 );
-		add_filter( 'wlt_loyalty_domain_list', array( self::$schedule, 'dynamicDomain' ) );
-		/*Common*/
-		add_action( "woocommerce_checkout_update_order_meta", array( self::$site, 'updateLoyaltyMetaUpdate' ), 10, 2 );
-		add_shortcode( 'wlr_my_point_balance', array( self::$site, 'processMyPointShortCode' ) );
-		add_action( 'wp_footer', array( self::$site, 'refreshFragmentScript' ), PHP_INT_MAX );
-		add_action( 'wp_loaded', array( self::$site, 'applyCartCoupon' ) );
-		add_action( 'user_register', array( self::$site, 'createAccountAction' ) );
-		add_action( 'wp_login', array( self::$site, 'userLogin' ), 10, 2 );
+		self::initCustomerPage();
+		self::initSchedules();
+		self::initDisplayMessage();
+		self::initSiteCommon();
+		self::initFreeProduct();
+		self::initLoyaltyPage();
+		self::initCouponAction();
+		self::initCampaignAction();
+		self::initBlocks();
 
 		self::$loyalty_mail = empty( self::$loyalty_mail ) ? new LoyaltyMail() : self::$loyalty_mail;
 		add_action( 'woocommerce_loaded', array( self::$loyalty_mail, 'initNotification' ) );
-		/* change email, point also transfer to that email*/
-		add_filter( 'send_email_change_email', array( self::$site, 'emailUpdatePointTransfer' ), 10, 3 );
 		do_action( 'wlr_after_init' );
 		if ( class_exists( 'Wlr\App\Integrations\MultiCurrency\MultiCurrency' ) ) {
 			$multi = new \Wlr\App\Integrations\MultiCurrency\MultiCurrency();
@@ -230,25 +68,330 @@ class Router {
 				$multi->init();
 			}
 		}
-		add_filter( 'wlr_user_level_id', array( self::$site, 'changeLevelId' ), 10, 2 );
-		add_action( 'wp_ajax_wlr_enable_email_sent', array( self::$site, 'enableEmailSend' ) );
-		/*if (!Woocommerce::isCheckoutBlock()) {
-			add_action('woocommerce_after_checkout_validation', array(self::$site, 'checkCustomerCoupons'), 1, 2);
-		}*/
-		add_action( 'woocommerce_before_cart', array( self::$site, 'removeFreeProductCouponCode' ) );
+	}
+
+	/**
+	 * Initialize common functionality.
+	 *
+	 * This method adds various hooks and filters to enable common functionality used throughout the plugin.
+	 *
+	 * @return void
+	 */
+	public static function initCommon() {
+		add_action( 'admin_menu', [ Common::class, 'addMenu' ] );
+		add_action( 'network_admin_menu', [ Common::class, 'addMenu' ] );
+		add_filter( 'plugin_action_links_' . plugin_basename( WLR_PLUGIN_FILE ), [
+			Common::class,
+			'pluginActionLinks'
+		] );
+		add_action( 'admin_enqueue_scripts', [ Common::class, 'adminScripts' ], 100 );
+		add_filter( 'script_loader_tag', [ Common::class, 'scriptLoaderTag' ], 10, 2 );
+		add_action( 'admin_footer', [ Common::class, 'hideMenu' ] );
+		/*Ajax*/
+		if ( wp_doing_ajax() ) {
+			add_action( 'wp_ajax_wlr_condition_data', [ Common::class, 'getConditionData' ] );
+		}
+	}
+
+	/**
+	 * Initialize labels functionality.
+	 *
+	 * This method adds hooks to enable labels functionality used in the plugin.
+	 *
+	 * @return void
+	 */
+	public static function initLabels() {
+		if ( ! wp_doing_ajax() ) {
+			return;
+		}
+		add_action( 'wp_ajax_wlr_local_data', [ Labels::class, 'localData' ] );
+		add_action( 'wp_ajax_wlr_get_labels', [ Labels::class, 'getPluginLabels' ] );
+	}
+
+	/**
+	 * Initializes the onboarding process.
+	 *
+	 * @return void
+	 */
+	public static function initOnBoarding() {
+		if ( ! wp_doing_ajax() ) {
+			return;
+		}
+		add_action( 'wp_ajax_wlr_save_onboarding', [ OnBoarding::class, 'saveOnBoarding' ] );
+		add_action( 'wp_ajax_wlr_skip_onboarding', [ OnBoarding::class, 'skipOnBoarding' ] );
+	}
+
+	/**
+	 * Initializes the dashboard.
+	 *
+	 * @return void
+	 */
+	public static function initDashboard() {
+		if ( ! wp_doing_ajax() ) {
+			return;
+		}
+		add_filter( 'wp_ajax_wlr_new_my_reward_template_notification', [ Dashboard::class, 'getNotification' ] );
+		add_filter( 'wp_ajax_wlr_enable_new_my_rewards_section', [ Dashboard::class, 'enableMyRewardSection' ] );
+		add_action( 'wp_ajax_wlr_chart_data', [ Dashboard::class, 'getChartsData' ] );
+		add_action( 'wp_ajax_wlr_dashboard_analytic_data', [ Dashboard::class, 'getDashboardAnalyticData' ] );
+		add_action( 'wp_ajax_wlr_all_customer_activities', [ Dashboard::class, 'getCustomerRecentActivityLists' ] );
+	}
+
+	/**
+	 * Initializes the add-ons for the plugin.
+	 *
+	 * @return void
+	 */
+	public static function initAddOns() {
+		if ( ! wp_doing_ajax() ) {
+			return;
+		}
+		add_action( 'wp_ajax_wlr_get_apps', [ Apps::class, 'getApps' ] );
+		add_action( 'wp_ajax_wlr_activate_plugin', [ Apps::class, 'activateApp' ] );
+		add_action( 'wp_ajax_wlr_deactivate_plugin', [ Apps::class, 'deActivateApp' ] );
+	}
+
+	/**
+	 * Initializes the settings process.
+	 *
+	 * @return void
+	 */
+	public static function initSettings() {
+		if ( ! wp_doing_ajax() ) {
+			return;
+		}
+		add_action( 'wp_ajax_wlr_get_settings', [ Settings::class, 'gets' ] );
+		add_action( 'wp_ajax_wlr_save_settings', [ Settings::class, 'save' ] );
+		add_action( 'wp_ajax_wlr_create_block_page', [ Settings::class, 'createBlockPage' ] );
+		add_action( 'wp_ajax_wlr_save_email_template', [ Settings::class, 'updateEmailTemplate' ] );
+		add_action( 'wp_ajax_wlr_reset_email_template', [ Settings::class, 'resetEmailTemplate' ] );
+		add_action( 'wp_ajax_wlr_is_any_notifications', [ Settings::class, 'isAnyNotifications' ] );
+	}
+
+	public static function initCampaignPage() {
+		if ( ! wp_doing_ajax() ) {
+			return;
+		}
+		/*Campaign List*/
+		add_action( 'wp_ajax_wlr_get_campaigns', [ CampaignPage::class, 'gets' ] );
+		add_action( 'wp_ajax_wlr_delete_campaign', [ CampaignPage::class, 'delete' ] );
+		add_action( 'wp_ajax_wlr_toggle_campaign_active', [ CampaignPage::class, 'toggleActive' ] );
+		add_action( 'wp_ajax_wlr_bulk_action_campaigns', [ CampaignPage::class, 'handleBulkAction' ] );
+		add_action( 'wp_ajax_wlr_duplicate_campaign', [ CampaignPage::class, 'duplicate' ] );
+		/*Campaign Edit*/
+		add_action( 'wp_ajax_wlr_get_campaign', [ CampaignPage::class, 'get' ] );
+		add_action( 'wp_ajax_wlr_save_campaign', [ CampaignPage::class, 'save' ] );
+	}
+
+	/**
+	 * Initializes the Reward Page.
+	 *
+	 * @return void
+	 */
+	public static function initRewardPage() {
+		if ( ! wp_doing_ajax() ) {
+			return;
+		}
+		/*Reward List*/
+		add_action( 'wp_ajax_wlr_get_rewards', [ RewardPage::class, 'gets' ] );
+		add_action( 'wp_ajax_wlr_delete_reward', [ RewardPage::class, 'delete' ] );
+		add_action( 'wp_ajax_wlr_bulk_action_rewards', [ RewardPage::class, 'bulkAction' ] );
+		add_action( 'wp_ajax_wlr_toggle_reward_active', [ RewardPage::class, 'toggleActive' ] );
+		add_action( 'wp_ajax_wlr_duplicate_reward', [ RewardPage::class, 'duplicate' ] );
+		add_action( 'wp_ajax_wlr_get_reward_campaigns', [ RewardPage::class, 'getRewardCampaigns' ] );
+		/*Reward Edit*/
+		add_action( 'wp_ajax_wlr_free_product_options', [ RewardPage::class, 'freeProductOptions' ] );
+		add_action( 'wp_ajax_wlr_get_reward', [ RewardPage::class, 'get' ] );
+		add_action( 'wp_ajax_wlr_save_reward', [ RewardPage::class, 'save' ] );
+	}
+
+	/**
+	 * Initializes the customer page.
+	 *
+	 * @return void
+	 */
+	public static function initCustomerPage() {
+		self::$site = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
+		if ( wp_doing_ajax() ) {
+			/*Customer List*/
+			add_action( 'wp_ajax_wlr_get_customer_list', [ Customers::class, 'gets' ] );
+			add_action( 'wp_ajax_wlr_bulk_delete_users', [ Customers::class, 'handleBulkDelete' ] );
+			add_action( 'wp_ajax_wlr_delete_customer', [ Customers::class, 'delete' ] );
+			add_action( 'wp_ajax_wlr_get_customer_activity', [ Customers::class, 'getActivityLog' ] );
+			/*Customer details*/
+			add_action( 'wp_ajax_wlr_get_customer', [ Customers::class, 'get' ] );
+			add_action( 'wp_ajax_wlr_update_customer_point', [ Customers::class, 'updatePointWithCommand' ] );
+			add_action( 'wp_ajax_wlr_update_customer_birth_date', [ Customers::class, 'updateBirthday' ] );
+			add_action( 'wp_ajax_wlr_get_customer_transaction', [ Customers::class, 'getTransaction' ] );
+			add_action( 'wp_ajax_wlr_get_customer_rewards', [ Customers::class, 'getRewards' ] );
+			add_action( 'wp_ajax_wlr_update_reward_expiry', [ Customers::class, 'updateExpiryDates' ] );
+			add_action( 'wp_ajax_wlr_admin_toggle_banned_user', [ Customers::class, 'toggleIsBannedUser' ] );
+			add_action( 'wp_ajax_wlr_admin_enable_email_sent', [ Customers::class, 'toggleEMailSend' ] );
+			/*Toggle opt-in*/
+			add_action( 'wp_ajax_wlr_enable_email_sent', [ CustomerPage::class, 'enableEmailSend' ] );
+		}
+
+		add_filter( 'wlr_user_level_id', [ CustomerPage::class, 'changeLevelId' ], 10, 2 );
+		/* change email, point also transfer to that email*/
+		add_filter( 'send_email_change_email', [ self::$site, 'emailUpdatePointTransfer' ], 10, 3 );
+	}
+
+	/**
+	 * Initializes the schedules for the loyalty program.
+	 *
+	 * @return void
+	 */
+	public static function initSchedules() {
+		/* Schedule action */
+		add_action( 'woocommerce_init', [ Schedules::class, 'init' ] );
+		register_deactivation_hook( WLR_PLUGIN_FILE, [ Schedules::class, 'remove' ] );
+		add_action( 'wlr_expire_email', [ Schedules::class, 'sendExpireEmail' ] );
+		add_action( 'wlr_change_expire_status', [ Schedules::class, 'changeExpireStatus' ] );
+		add_action( 'wlr_update_ledger_point', [ Schedules::class, 'updatePointLedgerFromUser' ] );
+		add_action( 'wlr_notification_remind_me', [ Schedules::class, 'enableNotificationSection' ] );
+		add_filter( 'wlt_dynamic_string_list', [ Schedules::class, 'dynamicStrings' ], 10, 2 );
+		add_filter( 'wlt_loyalty_domain_list', [ Schedules::class, 'dynamicDomain' ] );
+	}
+
+	/**
+	 * Initializes the display message feature.
+	 *
+	 * @return void
+	 */
+	public static function initDisplayMessage() {
+		if ( is_admin() ) {
+			return;
+		}
+		self::$display_message = empty( self::$display_message ) ? new DisplayMessage() : self::$display_message;
+		/* Product earn point message */
+		add_action( 'init', [ self::$display_message, 'init' ] );
+		add_shortcode( 'wlr_thank_you_message', [ self::$display_message, 'shortCodeForThankYouPageMessage' ] );
+	}
+
+	/**
+	 * Initializes the common site action and filter.
+	 *
+	 * @return void
+	 */
+	public static function initSiteCommon() {
+		if ( ! is_admin() ) {
+			add_action( 'wp_enqueue_scripts', [ SiteCommon::class, 'addFrontEndScripts' ] );
+		}
+		add_action( 'woocommerce_checkout_update_order_meta', [ SiteCommon::class, 'updateLoyaltyMetaData' ] );
+		add_shortcode( 'wlr_my_point_balance', [ SiteCommon::class, 'handleMyPointShortcode' ] );
+		add_action( 'wp_footer', [ SiteCommon::class, 'refreshFragmentScript' ], PHP_INT_MAX );
+	}
+
+	/**
+	 * Initializes the free product feature.
+	 *
+	 * @return void
+	 */
+	public static function initFreeProduct() {
+		self::$site = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
+		add_action( 'woocommerce_before_cart', [ self::$site, 'updateFreeProduct' ] );
+		add_action( 'woocommerce_before_checkout_form', [ self::$site, 'updateFreeProduct' ] );
+		add_action( 'woocommerce_removed_coupon', [ self::$site, 'removeFreeProduct' ] );
+
+		add_filter( 'woocommerce_checkout_create_order_line_item_object', [
+			self::$site,
+			'addItemMetaForFreeProduct'
+		], 10, 4 );
+
+		add_action( 'woocommerce_order_item_display_meta_key', [
+			self::$site,
+			'displayFreeProductTextInOrder'
+		], 100, 3 );
+
+		add_action( 'woocommerce_cart_item_quantity', [ self::$site, 'disableQuantityFieldForFreeProduct' ], 100, 3 );
+		add_action( 'woocommerce_cart_item_remove_link', [ self::$site, 'disableCloseIconForFreeProduct' ], 100, 2 );
+		add_action( 'woocommerce_get_item_data', [ self::$site, 'displayFreeProductTextInCart' ], 100, 2 );
+
+		add_action( 'woocommerce_after_cart_item_name', [
+			self::$site,
+			'loadCustomizableProductsAfterCartItemName'
+		], 10, 2 );
+
+		add_action( 'woocommerce_before_cart', [ self::$site, 'removeFreeProductCouponCode' ] );
+		add_action( 'woocommerce_before_calculate_totals', [ self::$site, 'changeFreeProductPrice' ], 1000 );
+		add_action( 'woocommerce_after_cart_item_name', [ self::$site, 'loadLoyaltyLabel' ], 11, 2 );
+		add_action( 'woocommerce_before_order_itemmeta', [ self::$site, 'loadLoyaltyLabelMeta' ], 11, 3 );
+		add_action( 'wp_ajax_wlr_change_reward_product_in_cart', [ self::$site, 'customerChangeProductOptions' ] );
+	}
+
+	/**
+	 * Initializes the loyalty page.
+	 *
+	 * @return void
+	 */
+	public static function initLoyaltyPage() {
+		self::$site = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
+		if ( wp_doing_ajax() ) {
+			add_action( 'wp_ajax_wlr_apply_reward', [ self::$site, 'applyReward' ] );
+			add_action( 'wp_ajax_wlr_revoke_coupon', [ self::$site, 'revokeCoupon' ] );
+			add_action( 'wp_ajax_wlr_my_rewards_pagination', [ self::$site, 'myRewardsPagination' ] );
+		}
+		self::$my_account = empty( self::$my_account ) ? new MyAccount() : self::$my_account;
 		/*My-account*/
 		//Reward link in message
-		add_action( 'wp_ajax_wlr_show_loyalty_rewards', array( self::$my_account, 'showRewardList' ) );
-		add_shortcode( 'wlr_page_content', array( self::$my_account, 'processShortCode' ) );
+		add_action( 'wp_ajax_wlr_show_loyalty_rewards', [ self::$my_account, 'showRewardList' ] );
+		add_shortcode( 'wlr_page_content', [ self::$my_account, 'processShortCode' ] );
 		//New Design pagination
-		add_action( 'wp_ajax_wlr_my_reward_section_pagination', array(
+		add_action( 'wp_ajax_wlr_my_reward_section_pagination', [
 			self::$my_account,
 			'myRewardSectionPagination'
-		) );
-		/* Block */
+		] );
+	}
 
-		self::$block = empty( self::$block ) ? new Blocks() : self::$block;
-		add_action( 'plugins_loaded', [ self::$block, 'initBlocks' ] );
-		add_action( 'woocommerce_check_cart_items', [ self::$block, 'updateCartFreeProduct' ] );
+	/**
+	 * Initializes the coupon action.
+	 *
+	 * @return void
+	 */
+	public static function initCouponAction() {
+		self::$site = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
+		add_filter( 'woocommerce_coupon_get_discount_amount', [
+			self::$site,
+			'getPointConversionDiscountAmount'
+		], 10, 5 );
+
+		add_action( 'wp_loaded', [ Coupon::class, 'applyCartCoupon' ] );
+		add_action( 'woocommerce_coupon_is_valid', [ Coupon::class, 'validateRewardCoupon' ], 10, 3 );
+		add_action( 'woocommerce_coupon_error', [ Coupon::class, 'validateRewardCouponErrorMessage' ], 10, 3 );
+		add_action( 'woocommerce_init', [ Coupon::class, 'removeAppliedCouponForBannedUser' ], 999, 1 );
+		add_filter( 'woocommerce_cart_totals_coupon_label', [ Coupon::class, 'changeCouponLabel' ], 10, 2 );
+		add_action( 'woocommerce_new_order', [ self::$site, 'canChangeCouponStatus' ] );
+		add_action( 'woocommerce_update_order', [ self::$site, 'canChangeCouponStatus' ] );
+		add_action( 'woocommerce_order_status_changed', [ self::$site, 'updateCouponStatus' ], 1000, 4 );
+	}
+
+	/**
+	 * Initializes the campaign actions.
+	 *
+	 * This method sets up various actions and filters related to campaign functionality.
+	 *
+	 * @return void
+	 */
+	public static function initCampaignAction() {
+		self::$site = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
+		/* Order Earn */
+		add_action( 'woocommerce_order_status_changed', [ self::$site, 'updatePoints' ], 1000, 4 );
+		/*Actions*/
+		add_filter( 'wlr_earn_point_point_for_purchase', [ self::$site, 'getPointPointForPurchase' ], 10, 3 );
+		add_filter( 'wlr_earn_coupon_point_for_purchase', [ self::$site, 'getCouponPointForPurchase' ], 10, 3 );
+
+		/*Common*/
+		add_action( 'user_register', [ Campaign::class, 'addLoyaltyUserFromWPRegister' ] );
+		add_action( 'wp_login', [ Campaign::class, 'addLoyaltyUserFromWPLogin' ], 10, 2 );
+	}
+
+	/**
+	 * Initializes the block functionality.
+	 *
+	 * @return void
+	 */
+	public static function initBlocks() {
+		add_action( 'plugins_loaded', [ Blocks::class, 'init' ] );
+		add_action( 'woocommerce_check_cart_items', [ Blocks::class, 'updateCartFreeProduct' ] );
 	}
 }

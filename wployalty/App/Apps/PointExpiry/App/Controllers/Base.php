@@ -13,8 +13,7 @@ use Wlpe\App\Helpers\Point;
 use Wlpe\App\Helpers\Validation;
 use Wlpe\App\Model\ExpirePoints;
 use Wlpe\App\Helpers\Input;
-use Wlr\App\Controllers\Admin\Main;
-use Wlr\App\Helpers\Template;
+use Wlr\App\Helpers\Util;
 use Wlr\App\Helpers\Woocommerce;
 use Exception;
 use Wlr\App\Models\EarnCampaignTransactions;
@@ -28,7 +27,6 @@ class Base {
 	function __construct() {
 		self::$input       = empty( self::$input ) ? new Input() : self::$input;
 		self::$woocommerce = empty( self::$woocommerce ) ? Woocommerce::getInstance() : self::$woocommerce;
-		self::$template    = empty( self::$template ) ? new Template() : self::$template;
 	}
 
 	function addExpirePointSection() {
@@ -126,8 +124,7 @@ class Base {
 			$suffix = SCRIPT_DEBUG ? '' : '.min';
 		}
 		if ( self::$input->get( 'page', null ) == WLPE_PLUGIN_SLUG ) {
-			$wlr_main = new Main();
-			$wlr_main->removeAdminNotice();
+			remove_all_actions( 'admin_notices' );
 		}
 		// media library for launcher icon image
 		//wp_enqueue_media();
@@ -195,7 +192,7 @@ class Base {
 						'back'               => WLPE_PLUGIN_URL . 'Assets/svg/back.svg',
 						'manage_email_url'   => admin_url( 'admin.php?' . http_build_query( array( 'page' => WLR_PLUGIN_SLUG ) ) ) . '#/settings/Emails/expire_point_email',
 					);
-					$main_page_params['tab_content'] = self::$template->setData( WLPE_PLUGIN_PATH . 'App/Views/Admin/settings.php', $page_details )->render();
+					$main_page_params['tab_content'] = Util::renderTemplate( WLPE_PLUGIN_PATH . 'App/Views/Admin/settings.php', $page_details, false );
 					break;
 				case 'expire_points':
 				default:
@@ -303,12 +300,12 @@ class Base {
 						'current_condition' => WLPE_PLUGIN_URL . 'Assets/svg/current_filter.svg',
 						'wp_date_format'    => get_option( 'date_format', 'Y-m-d H:i:s' ),
 					);
-					$main_page_params['tab_content'] = self::$template->setData( WLPE_PLUGIN_PATH . 'App/Views/Admin/expire_points.php', $page_details )->render();
+					$main_page_params['tab_content'] = Util::renderTemplate( WLPE_PLUGIN_PATH . 'App/Views/Admin/expire_points.php', $page_details, false );
 					break;
 			}
 			if ( in_array( $view, array( 'settings', 'expire_points' ) ) ) {
 				$path = WLPE_PLUGIN_PATH . 'App/Views/Admin/main.php';
-				self::$template->setData( $path, $main_page_params )->display();
+				Util::renderTemplate( $path, $main_page_params );
 			}
 			do_action( 'wlpe_manage_pages', $view );
 		} else {

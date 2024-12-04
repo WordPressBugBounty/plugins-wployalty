@@ -9,6 +9,7 @@ namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Controllers\Base;
 use Wlr\App\Helpers\Rewards;
+use Wlr\App\Helpers\Util;
 use Wlr\App\Helpers\Validation;
 use Wlr\App\Helpers\Woocommerce;
 
@@ -29,13 +30,15 @@ class MyAccount extends Base {
 	}
 
 	public function addMenuItems( $menu_items ) {
-		$logout = $menu_items['customer-logout'];
-		unset( $menu_items['customer-logout'] );
-		$base_helper                   = new \Wlr\App\Helpers\Base();
-		$menu_items['loyalty_reward']  = sprintf( __( '%s & %s',
-			'wp-loyalty-rules' ), ucfirst( $base_helper->getPointLabel( 3 ) ),
-			ucfirst( $base_helper->getRewardLabel( 3 ) ) );
-		$menu_items['customer-logout'] = $logout;
+		if ( isset( $menu_items['customer-logout'] ) ) {
+			$logout = $menu_items['customer-logout'];
+			unset( $menu_items['customer-logout'] );
+			$base_helper                   = new \Wlr\App\Helpers\Base();
+			$menu_items['loyalty_reward']  = sprintf( __( '%s & %s',
+				'wp-loyalty-rules' ), ucfirst( $base_helper->getPointLabel( 3 ) ),
+				ucfirst( $base_helper->getRewardLabel( 3 ) ) );
+			$menu_items['customer-logout'] = $logout;
+		}
 
 		return apply_filters( 'wlr_myaccount_loyalty_menu_label', $menu_items );
 	}
@@ -68,7 +71,8 @@ class MyAccount extends Base {
 				$template_name = 'customer_reward_page.php';
 			}
 		}
-		if ( file_exists( TEMPLATEPATH . '/' . $template_name ) ) {
+		$template_path = '';
+		if ( file_exists( get_template_directory() . '/' . $template_name ) ) {
 			$customer_page    = new CustomerPage();
 			$main_page_params = $customer_page->rewardPageData( $page_type );
 		} else {
@@ -78,11 +82,12 @@ class MyAccount extends Base {
 			}
 			$customer_page    = new CustomerPage();
 			$main_page_params = $customer_page->getRewardPageData( $page_type );
+			$template_path    = Util::getTemplatePath( $template_name, false );
 		}
 		$my_account_content = wc_get_template_html(
 			$template_name,
 			$main_page_params,
-			'',
+			$template_path,
 			WLR_PLUGIN_PATH . 'App/Views/Site/'
 		);
 

@@ -96,8 +96,16 @@ $is_right_to_left     = is_rtl();
         background: #ceced1;
         cursor: not-allowed;
     }
+
+    .ajs-dialog .ajs-ok {
+        border-radius: 6px;
+    }
+
+    .ajs-dialog .ajs-cancel {
+        border-radius: 6px;
+    }
 </style>
-<div class="wlr-myaccount-page">
+<div class="wlr-myaccount-page <?php echo esc_attr( ! empty( $page_type ) ? 'wlr-page-' . $page_type : '' ); ?>">
 	<?php do_action( 'wlr_before_customer_reward_cart_page_content' ); ?>
 	<?php if ( $is_user_available || get_current_user_id() ): ?>
         <div class="wlr-user-details">

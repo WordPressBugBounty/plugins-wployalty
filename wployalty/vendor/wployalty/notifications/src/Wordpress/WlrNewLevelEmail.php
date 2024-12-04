@@ -28,6 +28,7 @@ class WlrNewLevelEmail extends \WC_Email
         $this->default_heading = __('Well Done! You have Reached an Exciting New Level!', 'wp-loyalty-rules');
         $this->template_html = 'emails/wlr-new-level-email.php';
         $this->template_plain = 'emails/plain/wlr-new-level-email.php';
+	    add_action('wlr_after_user_level_changed',array($this,'sendNewLevelEmail'),10,2);
         parent::__construct();
         $this->recipient = $this->get_option('recipient', get_option('admin_email'));
         $this->template_base = __DIR__ . '/Templates/';

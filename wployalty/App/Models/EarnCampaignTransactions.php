@@ -9,8 +9,6 @@ namespace Wlr\App\Models;
 defined( 'ABSPATH' ) or die();
 
 class EarnCampaignTransactions extends Base {
-	static $particular_campaign_user_reward;
-
 	function __construct() {
 		parent::__construct();
 		$this->table       = self::$db->prefix . 'wlr_earn_campaign_transaction';
@@ -114,14 +112,14 @@ class EarnCampaignTransactions extends Base {
 		if ( empty( $email ) || empty( $campaign_id ) ) {
 			return array();
 		}
-		if ( isset( self::$particular_campaign_user_reward[ $email ][ $campaign_id ] ) && ! empty( self::$particular_campaign_user_reward[ $email ][ $campaign_id ] ) ) {
-			return self::$particular_campaign_user_reward[ $email ][ $campaign_id ];
-		}
-
+		// Don't use static variable. if we use, we face wrong point earning
+		// e.g: usage limit 2, Place 3 order in 'on-hold' status
+		// select 3 order and change to completed.
+		// if use static, all 3 order will earn(its wrong).
 		global $wpdb;
 		$where = $wpdb->prepare( 'user_email = %s AND campaign_id= %d', array( $email, $campaign_id ) );
 
-		return self::$particular_campaign_user_reward[ $email ][ $campaign_id ] = $this->getWhere( $where, '*', false );
+		return $this->getWhere( $where, '*', false );
 	}
 
 	function saveExtraTransaction( $action, $user_email, $params = array() ) {

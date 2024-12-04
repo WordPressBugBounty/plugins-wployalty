@@ -60,15 +60,20 @@ class Woocommerce {
 		}
 	}
 
-	public function getDatePeriod() {
-		$day_periods = array(
+	/**
+	 * Get the available date periods for loyalty rules.
+	 *
+	 * @return array The array of available date periods.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function getDatePeriod() {
+		return apply_filters( 'wlr_day_periods', [
 			'day'   => esc_html__( 'Day(s)', 'wp-loyalty-rules' ),
 			'week'  => esc_html__( 'Week(s)', 'wp-loyalty-rules' ),
 			'month' => esc_html__( 'Month(s)', 'wp-loyalty-rules' ),
 			'year'  => esc_html__( 'Year(s)', 'wp-loyalty-rules' ),
-		);
-
-		return apply_filters( 'wlr_day_periods', $day_periods );
+		] );
 	}
 
 	function isFullyDiscounted() {
@@ -228,63 +233,54 @@ class Woocommerce {
 		return self::$instance;
 	}
 
-	function getAllActionTypes() {
-		$earn_helper                        = \Wlr\App\Helpers\EarnCampaign::getInstance();
-		$action_types                       = array(
-			'point_for_purchase' => is_admin() ? __( 'Points For Purchase', 'wp-loyalty-rules' ) : sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), $earn_helper->getPointLabel( 3 ) ),
-		);
-		$action_types['subtotal']           = __( 'Reward based on spending', 'wp-loyalty-rules' );
-		$action_types['purchase_histories'] = __( 'Order Goals', 'wp-loyalty-rules' );
-		$action_types['referral']           = __( 'Referral', 'wp-loyalty-rules' );
-		$action_types['signup']             = __( 'Sign Up', 'wp-loyalty-rules' );
-		$action_types['product_review']     = __( 'Write a review', 'wp-loyalty-rules' );
-		$action_types['birthday']           = __( 'Birthday', 'wp-loyalty-rules' );
-		$action_types['facebook_share']     = __( 'Facebook Share', 'wp-loyalty-rules' );
-		$action_types['twitter_share']      = __( 'Twitter Share', 'wp-loyalty-rules' );
-		$action_types['whatsapp_share']     = __( 'WhatsApp Share', 'wp-loyalty-rules' );
-		$action_types['email_share']        = __( 'Email Share', 'wp-loyalty-rules' );
-		$action_types['followup_share']     = __( 'Follow', 'wp-loyalty-rules' );
-		$action_types['achievement']        = __( 'Achievement', 'wp-loyalty-rules' );
-
-		return apply_filters( 'wlr_all_action_types', $action_types );
+	public static function getAllActionTypes() {
+		return apply_filters( 'wlr_all_action_types', [
+			'point_for_purchase' => is_admin() ? __( 'Points For Purchase', 'wp-loyalty-rules' ) : sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), Settings::getPointLabel( 3 ) ),
+			'subtotal'           => __( 'Reward based on spending', 'wp-loyalty-rules' ),
+			'purchase_histories' => __( 'Order Goals', 'wp-loyalty-rules' ),//TODO: remove this action
+			'referral'           => __( 'Referral', 'wp-loyalty-rules' ),
+			'signup'             => __( 'Sign Up', 'wp-loyalty-rules' ),
+			'product_review'     => __( 'Write a review', 'wp-loyalty-rules' ),
+			'birthday'           => __( 'Birthday', 'wp-loyalty-rules' ),
+			'facebook_share'     => __( 'Facebook Share', 'wp-loyalty-rules' ),
+			'twitter_share'      => __( 'Twitter Share', 'wp-loyalty-rules' ),
+			'whatsapp_share'     => __( 'WhatsApp Share', 'wp-loyalty-rules' ),
+			'email_share'        => __( 'Email Share', 'wp-loyalty-rules' ),
+			'followup_share'     => __( 'Follow', 'wp-loyalty-rules' ),
+			'achievement'        => __( 'Achievement', 'wp-loyalty-rules' )
+		] );
 	}
 
-	function getRewardDiscountTypes() {
-		$earn_helper  = \Wlr\App\Helpers\EarnCampaign::getInstance();
-		$action_types = array(
+	/**
+	 * Get reward discount types.
+	 *
+	 * @return array Returns an array of reward discount types.
+	 */
+	public static function getRewardDiscountTypes() {
+		return apply_filters( 'wlr_reward_types', [
 			'fixed_cart'        => __( 'Fixed discount', 'wp-loyalty-rules' ),
 			'percent'           => __( 'Percentage discount', 'wp-loyalty-rules' ),
 			'free_shipping'     => __( 'Free shipping', 'wp-loyalty-rules' ),
 			'free_product'      => __( 'Free product', 'wp-loyalty-rules' ),
-			'points_conversion' => is_admin() ? __( 'Points conversion', 'wp-loyalty-rules' ) : sprintf( __( '%s conversion', 'wp-loyalty-rules' ), $earn_helper->getPointLabel( 3 ) ),
-		);
-
-		return apply_filters( 'wlr_reward_types', $action_types );
+			'points_conversion' => is_admin() ? __( 'Points conversion', 'wp-loyalty-rules' ) : sprintf( __( '%s conversion', 'wp-loyalty-rules' ), Settings::getPointLabel( 3 ) ),
+		] );
 	}
 
-	public function getUserRoles() {
-		$all_roles = $this->getUserRolesList();
+	public static function getUserRoles() {
+		global $wp_roles;
+		$all_roles = ! empty( $wp_roles->roles ) ? $wp_roles->roles : [];
 		$result    = array_map( function ( $id, $role ) {
-			return array(
-				'id'   => (string) $id,
-				'text' => $role['name'],
-			);
+			return [
+				'value' => (string) $id,
+				'label' => $role['name'],
+			];
 		}, array_keys( $all_roles ), $all_roles );
-		$result[]  = array(
-			'id'   => 'wlr_rules_guest',
-			'text' => esc_html__( 'Guest', 'wp-loyalty-rules' ),
-		);
+		$result[]  = [
+			'value' => 'wlr_rules_guest',
+			'label' => esc_html__( 'Guest', 'wp-loyalty-rules' ),
+		];
 
 		return array_values( $result );
-	}
-
-	function getUserRolesList() {
-		global $wp_roles;
-		if ( isset( $wp_roles->roles ) ) {
-			return $wp_roles->roles;
-		}
-
-		return array();
 	}
 
 	public function getPaymentMethod() {
@@ -307,94 +303,90 @@ class Woocommerce {
 			}
 		}
 
-		return array();
+		return [];
 	}
 
-	function getRewardAcceptConditions() {
-		$conditions = array(
-			'redeem_point'  => array(
-				'Common'  => array(
+	/**
+	 * Get the list of reward conditions.
+	 *
+	 * @return array
+	 */
+	public static function getRewardAcceptConditions() {
+		return apply_filters( 'wlr_reward_conditions', [
+			'redeem_point'  => [
+				'Common'  => [
 					'label'   => __( 'Common', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'language'   => __( 'language', 'wp-loyalty-rules' ),
 						'currency'   => __( 'Currency', 'wp-loyalty-rules' ),
 						'user_point' => __( 'Customer Points', 'wp-loyalty-rules' ),
-						//'user_level' => __('Customer Level','wp-loyalty-rules')
-					)
-				),
-				'Cart'    => array(
+					]
+				],
+				'Cart'    => [
 					'label'   => __( 'Cart', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'cart_subtotal' => __( 'Cart Subtotal', 'wp-loyalty-rules' ),
-						/*'cart_line_items_count' => __('Line Item Count', 'wp-loyalty-rules'),
-                        'cart_weights' => __('Cart Weight', 'wp-loyalty-rules')*/
-					)
-				),
-				'Product' => array(
+					]
+				],
+				'Product' => [
 					'label'   => __( 'Product', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'products'           => __( 'Products', 'wp-loyalty-rules' ),
 						'product_attributes' => __( 'Product Attributes', 'wp-loyalty-rules' ),
 						'product_category'   => __( 'Product Category', 'wp-loyalty-rules' ),
 						'product_sku'        => __( 'Product SKU', 'wp-loyalty-rules' ),
-						//'product_onsale' => __('On sale products', 'wp-loyalty-rules'),
 						'product_tags'       => __( 'Tags', 'wp-loyalty-rules' ),
-					)
-				),
-				'Order'   => array(
+					]
+				],
+				'Order'   => [
 					'label'   => __( 'Order', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'payment_method' => __( 'Payment Method', 'wp-loyalty-rules' ),
-						// 'order_status' => __('Order Status', 'wp-loyalty-rules'),
-					)
-				)
-			),
-			'redeem_coupon' => array(
-				'Common'  => array(
+					]
+				]
+			],
+			'redeem_coupon' => [
+				'Common'  => [
 					'label'   => __( 'Common', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'language'   => __( 'language', 'wp-loyalty-rules' ),
 						'currency'   => __( 'Currency', 'wp-loyalty-rules' ),
 						'user_point' => __( 'Customer Points', 'wp-loyalty-rules' ),
-						//'user_level' => __('Customer Level','wp-loyalty-rules')
-					)
-				),
-				'Cart'    => array(
+					]
+				],
+				'Cart'    => [
 					'label'   => __( 'Cart', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'cart_subtotal' => __( 'Cart Subtotal', 'wp-loyalty-rules' ),
-						/*'cart_line_items_count' => __('Line Item Count', 'wp-loyalty-rules'),
-                        'cart_weights' => __('Cart Weight', 'wp-loyalty-rules')*/
-					)
-				),
-				'Product' => array(
+					]
+				],
+				'Product' => [
 					'label'   => __( 'Product', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'products'           => __( 'Products', 'wp-loyalty-rules' ),
 						'product_attributes' => __( 'Product Attributes', 'wp-loyalty-rules' ),
 						'product_category'   => __( 'Product Category', 'wp-loyalty-rules' ),
 						'product_sku'        => __( 'Product SKU', 'wp-loyalty-rules' ),
-						//'product_onsale' => __('On sale products', 'wp-loyalty-rules'),
 						'product_tags'       => __( 'Tags', 'wp-loyalty-rules' ),
-					)
-				),
-				'Order'   => array(
+					]
+				],
+				'Order'   => [
 					'label'   => __( 'Order', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'payment_method' => __( 'Payment Method', 'wp-loyalty-rules' ),
-						//'order_status' => __('Order Status', 'wp-loyalty-rules'),
-						/*'purchase_history' => __('Purchase History', 'wp-loyalty-rules'),
-                        'life_time_sale_value' => __('Life Time Sale value', 'wp-loyalty-rules')*/
-					)
-				)
-			)
-		);
-
-		return apply_filters( 'wlr_reward_conditions', $conditions );
+					]
+				]
+			]
+		] );
 	}
 
-	function getCampaignConditionList() {
-		$condition_list = array(
+	/**
+	 * Get the list of campaign conditions.
+	 *
+	 * @return array The list of campaign conditions.
+	 */
+	public static function getCampaignConditionList() {
+		return apply_filters( 'wlr_all_campaign_condition_list', [
 			'user_role'             => __( 'User Role', 'wp-loyalty-rules' ),
 			'user_point'            => __( 'Customer Points', 'wp-loyalty-rules' ),
 			'customer'              => __( 'Customer', 'wp-loyalty-rules' ),
@@ -414,55 +406,53 @@ class Woocommerce {
 			'purchase_history'      => __( 'Purchase History', 'wp-loyalty-rules' ),
 			'purchase_history_qty'  => __( 'Purchase History Quantity', 'wp-loyalty-rules' ),
 			'life_time_sale_value'  => __( 'Life Time Sale value', 'wp-loyalty-rules' ),
-		);
-
-		return apply_filters( 'wlr_all_campaign_condition_list', $condition_list );
+		] );
 	}
 
-	function getActionAcceptConditions() {
-		$conditions = array(
-			'point_for_purchase' => array(
-				'Common'          => array(
+	public static function getActionAcceptConditions() {
+		return apply_filters( 'wlr_action_conditions', [
+			'point_for_purchase' => [
+				'Common'          => [
 					'label'   => __( 'Common', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'user_role'  => __( 'User Role', 'wp-loyalty-rules' ),
 						'user_point' => __( 'Customer Points', 'wp-loyalty-rules' ),
 						'customer'   => __( 'WPLoyalty Customer', 'wp-loyalty-rules' ),
 						'language'   => __( 'language', 'wp-loyalty-rules' ),
 						'currency'   => __( 'Currency', 'wp-loyalty-rules' ),
-					)
-				),
-				'Cart'            => array(
+					]
+				],
+				'Cart'            => [
 					'label'   => __( 'Cart', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'cart_subtotal'         => __( 'Cart Subtotal', 'wp-loyalty-rules' ),
 						'cart_line_items_count' => __( 'Line Item Count', 'wp-loyalty-rules' ),
 						'cart_weights'          => __( 'Cart Weight', 'wp-loyalty-rules' ),
-					)
-				),
-				'Product'         => array(
+					]
+				],
+				'Product'         => [
 					'label'   => __( 'Product', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'products'           => __( 'Products', 'wp-loyalty-rules' ),
 						'product_attributes' => __( 'Product Attributes', 'wp-loyalty-rules' ),
 						'product_category'   => __( 'Product Category', 'wp-loyalty-rules' ),
 						'product_sku'        => __( 'Product SKU', 'wp-loyalty-rules' ),
 						'product_onsale'     => __( 'On sale products', 'wp-loyalty-rules' ),
 						'product_tags'       => __( 'Tags', 'wp-loyalty-rules' ),
-					)
-				),
-				'Order'           => array(
+					]
+				],
+				'Order'           => [
 					'label'   => __( 'Order', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'payment_method' => __( 'Payment Method', 'wp-loyalty-rules' ),
 						'order_status'   => __( 'Order Status', 'wp-loyalty-rules' ),
 						/*'purchase_history' => __('Purchase History', 'wp-loyalty-rules'),
                         'life_time_sale_value' => __('Life Time Sale value', 'wp-loyalty-rules')*/
-					)
-				),
-				'PurchaseHistory' => array(
+					]
+				],
+				'PurchaseHistory' => [
 					'label'   => __( 'Purchase History', 'wp-loyalty-rules' ),
-					'options' => array(
+					'options' => [
 						'purchase_first_order'                          => __( 'First Order', 'wp-loyalty-rules' ),
 						'purchase_last_order'                           => __( 'Last Order', 'wp-loyalty-rules' ),
 						'purchase_last_order_amount'                    => __( 'Last order amount', 'wp-loyalty-rules' ),
@@ -470,12 +460,10 @@ class Woocommerce {
 						'purchase_previous_orders_for_specific_product' => __( 'Number of orders made with following products', 'wp-loyalty-rules' ),
 						'purchase_quantities_for_specific_product'      => __( 'Number of quantities made with following products', 'wp-loyalty-rules' ),
 						'purchase_spent'                                => __( 'Total spent', 'wp-loyalty-rules' )
-					)
-				)
-			),
-		);
-
-		return apply_filters( 'wlr_action_conditions', $conditions );
+					]
+				]
+			],
+		] );
 	}
 
 	function isCartEmpty( $cart = '' ) {
@@ -563,7 +551,7 @@ class Woocommerce {
 		return apply_filters( 'wlr_get_cart_subtotal', $subtotal, $cart_data );
 	}
 
-	function get_order_statuses() {
+	public static function getOrderStatuses() {
 		return self::format_order_statuses( wc_get_order_statuses() );
 	}
 
@@ -856,24 +844,6 @@ class Woocommerce {
 		return $products;
 	}
 
-	function exportFileList() {
-		$path             = WLR_PLUGIN_PATH . 'App/File';
-		$file_name        = 'customer_export_*.*';
-		$delete_file_path = trim( $path . '/' . $file_name );
-		$download_list    = array();
-		foreach ( glob( $delete_file_path ) as $file_path ) {
-			if ( file_exists( $file_path ) ) {
-				$file_detail            = new \stdClass();
-				$file_detail->file_name = basename( $file_path );
-				$file_detail->file_path = $file_path;
-				$file_detail->file_url  = rtrim( WLR_PLUGIN_URL, '/' ) . '/App/File/' . $file_detail->file_name;
-				$download_list[]        = $file_detail;
-			}
-		}
-
-		return $download_list;
-	}
-
 	public function add_to_cart( $product_id = 0, $quantity = 1, $variation_id = 0, $variation = array(), $cart_item_data = array() ) {
 		if ( function_exists( 'WC' ) ) {
 			if ( isset( WC()->cart ) && WC()->cart != null ) {
@@ -1147,6 +1117,12 @@ class Woocommerce {
 				return false;
 			}
 		}
+		$user    = get_user_by( 'email', $user_email );
+		$user_id = isset( $user->ID ) && ! empty( $user->ID ) ? $user->ID : 0;
+		if ( ! apply_filters( 'wlr_before_add_to_loyalty_customer', true,
+			$user_id, $user_email ) ) {
+			return true;
+		}
 		if ( isset( static::$banned_user[ $user_email ] ) ) {
 			return static::$banned_user[ $user_email ];
 		}
@@ -1294,7 +1270,7 @@ class Woocommerce {
 		return '"' . implode( "\"\n\"", $first_string ) . '"';
 	}
 
-	function getDirFileLists( $folder = '', $levels = 100, $exclusions = array() ) {
+	public static function getDirFileLists( $folder = '', $levels = 100, $exclusions = array() ) {
 		if ( empty( $folder ) ) {
 			return false;
 		}
@@ -1579,5 +1555,61 @@ class Woocommerce {
 		$page_id = wc_get_page_id( 'checkout' );
 
 		return ( ! empty( $page_id ) && \WC_Blocks_Utils::has_block_in_page( $page_id, 'woocommerce/checkout' ) ) || CartCheckoutUtils::is_cart_block_default();
+	}
+
+	/**
+	 * Add a schedule for a hook.
+	 *
+	 * @param string $hook The hook name to schedule.
+	 * @param string $time Optional. The time to start the schedule. Default is '+1 hours'.
+	 * @param string $recurrence Optional. The recurrence of the schedule. Default is 'hourly'.
+	 *
+	 * @return void
+	 */
+	public static function addSchedule( $hook, $time = '+1 hours', $recurrence = 'hourly' ) {
+		if ( empty( $hook ) || ! is_string( $hook ) ) {
+			return;
+		}
+		if ( false === wp_next_scheduled( $hook ) ) {
+			$scheduled_time = strtotime( $time, current_time( 'timestamp' ) );
+			wp_schedule_event( $scheduled_time, $recurrence, $hook );
+		}
+	}
+
+	/**
+	 * Adds a One-Time schedule for a hook.
+	 *
+	 * @param string $hook The hook name to schedule.
+	 * @param array $args The arguments to be passed to the schedule.
+	 * @param string $time Optional. The time ahead for the schedule. Default is 1 hour.
+	 *
+	 * @return void
+	 */
+	public static function addOneTimeSchedule( $hook, $args = [], $time = '+1 hours' ) {
+
+		if ( empty( $hook ) || ! is_string( $hook ) ) {
+			return;
+		}
+		if ( false === as_next_scheduled_action( $hook, $args ) ) {
+			as_schedule_single_action( strtotime( $time ), $hook, $args );
+		}
+	}
+
+	/**
+	 * Removes a scheduled event.
+	 *
+	 * @param string $hook The unique identifier for the scheduled event.
+	 *
+	 * @return void
+	 */
+	public static function removeSchedule( $hook ) {
+		if ( empty( $hook ) || ! is_string( $hook ) ) {
+			return;
+		}
+		$next_scheduled = wp_next_scheduled( $hook );
+		if ( $next_scheduled ) {
+			wp_unschedule_event( $next_scheduled, $hook );
+		}
+
 	}
 }

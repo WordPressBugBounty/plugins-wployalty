@@ -18,26 +18,10 @@ class Wordpress extends Notifications
 {
     function initHook()
     {
-
-        $earn_point_mail = new WlrEarnPointEmail();
-        $earn_reward_mail = new WlrEarnRewardEmail();
-        $expire_email = new WlrExpireEmail();
-        $expire_point_email = new WlrPointExpireEmail();
-        $birthday_email = new WlrBirthdayEmail();
-        $level_email = new WlrNewLevelEmail();
         add_filter('woocommerce_email_classes', array($this, 'addEmailClass'));
         add_filter('wlr_notify_email_content_data', array($this, 'addEmailSettingEmailContent'));
-        add_action('wlr_notify_after_add_earn_point', array($earn_point_mail, 'sendPointEmail'), 10, 4);
-        add_action('wlr_notify_after_add_earn_reward', array($earn_reward_mail, 'sendRewardEmail'), 10, 4);
-        add_action('wlr_notify_send_expire_email', array($expire_email, 'sendExpireEmail'));
-        add_action('wlr_notify_send_expire_point_email', array($expire_point_email, 'sendPointExpireEmail'));
         add_filter('wlr_save_email_template', array($this, 'saveEmailTemplateData'), 10, 3);
         add_filter('wlr_reset_email_template', array($this, 'resetEmailTemplateData'), 10, 3);
-
-        add_action('wlr_notify_after_add_earn_point', array($birthday_email, 'sendBirthdayPointEmail'), 10, 4);
-        add_action('wlr_notify_after_add_earn_reward', array($birthday_email, 'sendBirthdayRewardEmail'), 10, 4);
-
-        add_action('wlr_after_user_level_changed',array($level_email,'sendNewLevelEmail'),10,2);
     }
 
     /*Email Class*/

@@ -14,8 +14,27 @@ class Settings {
 	 *
 	 * @return array
 	 */
-	public static function getSettings() {
-		return get_option( 'wlr_settings', [] );
+	public static function getSettings( $option = 'wlr_settings', $default = [] ) {
+		if ( empty( $option ) || ! is_string( $option ) ) {
+			return $default;
+		}
+
+		return get_option( $option, $default );
+	}
+
+	/**
+	 * Update settings.
+	 *
+	 * @param string $option Option name.
+	 * @param mixed $value Option value.
+	 *
+	 * @return void
+	 */
+	public static function updateSettings( $option = 'wlr_settings', $value = [] ) {
+		if ( empty( $option ) || ! is_string( $option ) ) {
+			return;
+		}
+		update_option( $option, $value );
 	}
 
 	/**

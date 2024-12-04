@@ -712,18 +712,14 @@ class EarnCampaign extends Base {
 	}
 
 	function processOrderEarnPoint( $order_id ) {
-		self::$woocommerce_helper->_log( 'ORDER: reached process order:'
-		                                 . $order_id );
 		if ( empty( $order_id ) ) {
 			return false;
 		}
-		if ( self::$woocommerce_helper->getOrderMetaData( $order_id,
-			'_wlr_points_earned_status', false )
-		) {
-			self::$woocommerce_helper->_log( 'ORDER: Already earn Status: yes' );
 
+		if ( self::$woocommerce_helper->getOrderMetaData( $order_id, '_wlr_points_earned_status', false ) ) {
 			return true;
 		}
+
 		$order = self::$woocommerce_helper->getOrder( $order_id );
 		if ( empty( $order ) || ! is_object( $order ) ) {
 			return false;
@@ -733,18 +729,16 @@ class EarnCampaign extends Base {
 		if ( empty( $user_email ) ) {
 			return false;
 		}
-		$action_data = array(
+
+		$action_data = [
 			'user_email'         => $user_email,
 			'order'              => $order,
 			'order_id'           => $order_id,
 			'is_calculate_based' => 'order'
-		);
-		self::$woocommerce_helper->_log( 'ORDER: process order action data:'
-		                                 . json_encode( $action_data ) );
+		];
+
 		if ( $this->applyEarnCampaign( $action_data ) ) {
-			self::$woocommerce_helper->_log( 'ORDER: Update earned action in order meta' );
-			self::$woocommerce_helper->updateOrderMetaData( $order_id,
-				'_wlr_points_earned_status', true );
+			self::$woocommerce_helper->updateOrderMetaData( $order_id, '_wlr_points_earned_status', true );
 
 			return true;
 		}
@@ -753,53 +747,33 @@ class EarnCampaign extends Base {
 	}
 
 	function applyEarnCampaign( $action_data ) {
-		if ( ! is_array( $action_data )
-		     || empty( $action_data['user_email'] )
-		) {
+		if ( ! is_array( $action_data ) || empty( $action_data['user_email'] ) ) {
 			return false;
 		}
+
 		$status           = false;
 		$cart_action_list = $this->getCartActionList();
-		self::$woocommerce_helper->_log( 'EarnCampaign::applyEarnCampaign action list:'
-		                                 . json_encode( $cart_action_list ) );
+
 		foreach ( $cart_action_list as $action_type ) {
-			$variant_reward = $this->getTotalEarning( $action_type, array(),
-				$action_data );
-			self::$woocommerce_helper->_log( 'Action :' . $action_type
-			                                 . ', Earning:'
-			                                 . json_encode( $variant_reward ) );
+			$variant_reward = $this->getTotalEarning( $action_type, [], $action_data );
+
 			foreach ( $variant_reward as $campaign_id => $v_reward ) {
-				if ( isset( $v_reward['point'] )
-				     && ! empty( $v_reward['point'] )
-				     && $v_reward['point'] > 0
-				) {
-					$point_status = $this->addEarnCampaignPoint( $action_type,
-						$v_reward['point'], $campaign_id, $action_data );
+				if ( isset( $v_reward['point'] ) && ! empty( $v_reward['point'] ) && $v_reward['point'] > 0 ) {
+					$point_status = $this->addEarnCampaignPoint( $action_type, $v_reward['point'], $campaign_id, $action_data );
 					if ( $point_status ) {
 						$status = true;
 					}
-					self::$woocommerce_helper->_log( 'Action :' . $action_type
-					                                 . ',Campaign id:'
-					                                 . $campaign_id
-					                                 . ', Point status:'
-					                                 . $point_status );
 				}
+
 				if ( isset( $v_reward['rewards'] ) && $v_reward['rewards'] ) {
 					foreach ( $v_reward['rewards'] as $single_reward ) {
-						$reward_status
-							= $this->addEarnCampaignReward( $action_type,
-							$single_reward, $campaign_id, $action_data );
+						$reward_status = $this->addEarnCampaignReward( $action_type, $single_reward, $campaign_id, $action_data );
 						if ( $reward_status ) {
 							$status = true;
 						}
-						self::$woocommerce_helper->_log( 'Action :'
-						                                 . $action_type
-						                                 . ',Campaign id:'
-						                                 . $campaign_id
-						                                 . ', Reward status:'
-						                                 . $reward_status );
 					}
 				}
+
 			}
 		}
 		self::$woocommerce_helper->_log( 'applyEarnCampaign status:'
@@ -808,9 +782,7 @@ class EarnCampaign extends Base {
 		return $status;
 	}
 
-	function addEarnCampaignPoint(
-		$action_type, $point, $campaign_id, $action_data
-	) {
+	function addEarnCampaignPoint( $action_type, $point, $campaign_id, $action_data ) {
 		self::$woocommerce_helper->_log( 'Reached EarnCampaign::addEarnCampaignPoint' );
 		if ( ! is_array( $action_data ) || $point <= 0
 		     || empty( $action_data['user_email'] )

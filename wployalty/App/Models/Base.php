@@ -6,6 +6,9 @@
  * */
 
 namespace Wlr\App\Models;
+
+use Wlr\App\Helpers\Util;
+
 defined( 'ABSPATH' ) or die();
 
 abstract class Base {
@@ -147,7 +150,7 @@ abstract class Base {
 		$search         = isset( $data['search'] ) && ! empty( $data['search'] ) ? $data['search'] : '';
 		$campaign_where = '';
 		if ( ! empty( $search ) && preg_match_all( '/".*?("|$)|((?<=[\t ",+])|^)[^\t ",+]+/', $search, $matches ) ) {
-			$search_terms = $this->getValidSearchWords( $matches[0] );
+			$search_terms = Util::getValidSearchWords( $matches[0] );
 			$search_and   = '';
 			foreach ( $search_terms as $search_term ) {
 				$like         = '%' . self::$db->esc_like( $search_term ) . '%';
@@ -190,51 +193,7 @@ abstract class Base {
 
 		return $this->getWhere( $campaign_where, $select, $is_single );
 	}
-
-	function getValidSearchWords( $terms ) {
-		$valid_terms = array();
-		$stopwords   = $this->getSearchStopWords();
-
-		foreach ( $terms as $term ) {
-			// keep before/after spaces when term is for exact match, otherwise trim quotes and spaces.
-			if ( preg_match( '/^".+"$/', $term ) ) {
-				$term = trim( $term, "\"'" );
-			} else {
-				$term = trim( $term, "\"' " );
-			}
-			// Avoid single A-Z and single dashes.
-			if ( empty( $term ) || ( strlen( $term ) <= 0 && preg_match( '/^[a-z\-]$/i', $term ) ) ) {
-				continue;
-			}
-
-			if ( in_array( wc_strtolower( $term ), $stopwords, true ) ) {
-				continue;
-			}
-
-			$valid_terms[] = $term;
-		}
-
-		return $valid_terms;
-	}
-
-	protected function getSearchStopWords() {
-		// Translators: This is a comma-separated list of very common words that should be excluded from a search, like a, an, and the. These are usually called "stopwords". You should not simply translate these individual words into your language. Instead, look for and provide commonly accepted stopwords in your language.
-		return array_map(
-			'wc_strtolower',
-			array_map(
-				'trim',
-				explode(
-					',',
-					_x(
-						'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
-						'Comma-separated list of search stopwords in your language',
-						'woocommerce'
-					)
-				)
-			)
-		);
-	}
-
+	
 	function getWhere( $where, $select = '*', $single = true ) {
 		if ( is_array( $select ) || is_object( $select ) ) {
 			$select = implode( ',', $select );
