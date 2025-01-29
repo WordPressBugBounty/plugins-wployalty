@@ -41,6 +41,10 @@ class Setup {
 		$check = new CompatibleCheck();
 		if ( $check->init_check( true ) ) {
 			try {
+				$user = new Users();
+				if ( ! $user->checkTableExists() ) {
+					update_option( 'wll_is_launcher_plugin_activated', true );
+				}
 				self::createRequiredTable();
 			} catch ( Exception $e ) {
 				exit( esc_html( WLR_PLUGIN_NAME . __( 'Plugin required table creation failed.', 'wp-loyalty-rules' ) ) );

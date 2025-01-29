@@ -7,6 +7,7 @@
 
 namespace Wlr\App\Controllers\Admin;
 
+use Automattic\WooCommerce\Admin\PluginsHelper;
 use Wlr\App\Helpers\Input;
 use Wlr\App\Helpers\Util;
 use Wlr\App\Models\EarnCampaign;
@@ -186,6 +187,24 @@ class OnBoarding {
 			//theme_color
 			$setting_options['theme_color'] = $post_data['theme_color'];
 			update_option( 'wlr_settings', $setting_options, true );
+		}
+
+		if ( ! empty( $post_data['need_to_install_launcher'] ) && $post_data['need_to_install_launcher'] === 'true' ) {
+			try {
+				require_once ABSPATH . 'wp-admin/includes/plugin.php';
+				include_once ABSPATH . '/wp-admin/includes/admin.php';
+				include_once ABSPATH . '/wp-admin/includes/plugin-install.php';
+				include_once ABSPATH . '/wp-admin/includes/plugin.php';
+				include_once ABSPATH . '/wp-admin/includes/class-wp-upgrader.php';
+				include_once ABSPATH . '/wp-admin/includes/class-plugin-upgrader.php';
+				$upgrader = new \Plugin_Upgrader( new \Automatic_Upgrader_Skin() );
+				$status   = $upgrader->install( 'https://github.com/wployalty/wll-loyalty-launcher/releases/download/stable/wll-loyalty-launcher.zip' );
+				if ( ! is_wp_error( $status ) ) {
+					PluginsHelper::activate_plugins( [ 'wll-loyalty-launcher' ] );
+				}
+			} catch ( \Exception $e ) {
+
+			}
 		}
 		update_option( 'wlr_is_on_boarding_completed', true, true );
 		wp_send_json_success( [ 'message' => __( 'Basic setup finished', 'wp-loyalty-rules' ) ] );

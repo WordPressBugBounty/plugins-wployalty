@@ -351,6 +351,19 @@ class Dashboard {
 		if ( ! Util::isBasicSecurityValid( 'wlr_common_user_nonce' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' ) ] );
 		}
+
+		if ( ! Util::isLoyaltyAddonActivated() ) {
+			wp_send_json_success( [
+				'is_show_notify'     => true,
+				'is_launcher_notice' => true,
+				'labels'             => [
+					'title'          => __( 'Introducing WPLoyalty Launcher Plugin', 'wp-loyalty-rules' ),
+					'title_question' => __( " We've upgraded the launcher widget by turning it into its own plugin. This improves performance and gives you better control. Just install and activate the free Launcher Widget Plugin for WPLoyalty to get started.", "wp-loyalty-rules" ),
+					'download_url'   => 'https://wployalty.net/add-ons/launcher-widget/?utm_campaign=wployalty-link&utm_medium=plugin&utm_source=add-on',
+					'button_text'    => __( 'Download', 'wp-loyalty-rules' )
+				]
+			] );
+		}
 		$woocommerce_helper = Woocommerce::getInstance();
 		$status             = $woocommerce_helper->checkStatusNewRewardSection();
 		if ( $status ) {

@@ -25,7 +25,9 @@ class Labels {
 		$current_currency   = $woocommerce_helper->getCurrentCurrency();
 		$json               = [
 			'available'       => true,
-			'plugin_title'    => __( WLR_PLUGIN_NAME, 'wp-loyalty-rules' ),
+			'plugin_title'    => __( 'WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral', 'wp-loyalty-rules' ),
+			'pro_text'        => __( 'PRO', 'wp-loyalty-rules' ),
+			'lite_text'       => __( 'Lite', 'wp-loyalty-rules' ),
 			'version'         => WLR_PLUGIN_VERSION,
 			'common'          => [
 				'action_types'                       => Woocommerce::getAllActionTypes(),
@@ -49,6 +51,10 @@ class Labels {
 				'name_desc'                          => __( 'Name Desc', 'wp-loyalty-rules' ),
 				'active_asc'                         => __( 'Active Asc', 'wp-loyalty-rules' ),
 				'active_desc'                        => __( 'Active Desc', 'wp-loyalty-rules' ),
+				'recommendations_title'              => __( 'Recommendations', 'wp-loyalty-rules' ),
+				'by'                                 => __( 'by', 'wp-loyalty-rules' ),
+				'buy'                                => __( 'Buy', 'wp-loyalty-rules' ),
+				'learn_more'                         => __( 'Learn more', 'wp-loyalty-rules' ),
 				'disabled'                           => __( 'Disabled', 'wp-loyalty-rules' ),
 				'edit'                               => __( 'Edit', 'wp-loyalty-rules' ),
 				'delete'                             => __( 'Delete', 'wp-loyalty-rules' ),
@@ -62,6 +68,8 @@ class Labels {
 				'or'                                 => __( 'or', 'wp-loyalty-rules' ),
 				'match_all'                          => __( 'Match All', 'wp-loyalty-rules' ),
 				'match_any'                          => __( 'Match Any', 'wp-loyalty-rules' ),
+				'search_not_found'                   => __( 'No add-ons matching your search criteria were found.', 'wp-loyalty-rules' ),
+				'move_to_available'                  => __( 'Please explore the Available Add-ons section.', 'wp-loyalty-rules' ),
 				'add_condition'                      => __( 'Add Conditions', 'wp-loyalty-rules' ),
 				'back'                               => __( 'Back', 'wp-loyalty-rules' ),
 				'close'                              => __( 'Close', 'wp-loyalty-rules' ),
@@ -77,9 +85,9 @@ class Labels {
 				'reward_used'                        => __( 'Can\'t edit. Reward has Used.', 'wp-loyalty-rules' ),
 				'reward_expired'                     => __( 'Can\'t edit. Reward has expired.', 'wp-loyalty-rules' ),
 				'reward_unlimited'                   => __( 'Can\'t edit. This reward has unlimited validity.', 'wp-loyalty-rules' ),
-				'documentation'                      => __( 'Documentation', 'wp-loyalty-rules' ),
+				'documentation'                      => __( 'Docs', 'wp-loyalty-rules' ),
 				'documentation_url'                  => 'https://docs.wployalty.net/',
-				'video_label'                        => __( 'Video Tutorials', 'wp-loyalty-rules' ),
+				'video_label'                        => __( 'Tutorials', 'wp-loyalty-rules' ),
 				'video_link'                         => 'https://wployalty.net/video-tutorials/?utm_campaign=wployalty_in_app_tutorial_campaign&utm_source=inapp&utm_medium=video-tutorials',
 				'all_video_links'                    => [
 					'point_users' => 'https://wployalty.net/video/customers_points?utm_campaign=wployalty_in_app_tutorial_campaign&utm_source=inapp&utm_medium=point_users',
@@ -146,6 +154,7 @@ class Labels {
 				'select_media'                       => __( "Select media", 'wp-loyalty-rules' ),
 				'activate'                           => __( 'Activate', 'wp-loyalty-rules' ),
 				'deactivate'                         => __( 'Deactivate', 'wp-loyalty-rules' ),
+				'pro_feature'                        => __( 'PRO', 'wp-loyalty-rules' ),
 				'point'                              => __( 'point', 'wp-loyalty-rules' ),
 				'coupon'                             => __( 'coupon', 'wp-loyalty-rules' ),
 				'level_ascending'                    => __( 'Level ASC', 'wp-loyalty-rules' ),
@@ -276,6 +285,7 @@ class Labels {
 							'label' => __( 'Percentage discount', 'wp-loyalty-rules' )
 						],
 					],
+					'select_custom_taxonomy'    => __( 'Select custom taxonomy', 'wp-loyalty-rules' )
 				]
 			],
 			'calculate_point' => [
@@ -370,6 +380,13 @@ class Labels {
 				'product_on_sale'                    => [
 					'name'      => __( 'Product On Sale', 'wp-loyalty-rules' ),
 					'condition' => __( 'Product on sale should be ', 'wp-loyalty-rules' ),
+				],
+				'brands'                             => [
+					'name'                   => __( 'Brands', 'wp-loyalty-rules' ),
+					'condition'              => __( 'Taxonomy should be ', 'wp-loyalty-rules' ),
+					'select_custom_taxonomy' => __( 'Select Custom taxonomy', 'wp-loyalty-rules' ),
+					'value_condition'        => __( 'Taxonomy product in cart', 'wp-loyalty-rules' ),
+					'value'                  => __( 'Taxonomy quantity', 'wp-loyalty-rules' ),
 				],
 				'payment'                            => [
 					'name'      => __( 'Payments', 'wp-loyalty-rules' ),
@@ -1054,11 +1071,47 @@ class Labels {
 				],
 			],
 			'apps'            => [
-				'title'       => __( 'Add-ons', 'wp-loyalty-rules' ),
-				'name'        => __( 'Installed Add-ons', 'wp-loyalty-rules' ),
-				'search_apps' => __( 'Search add-ons', 'wp-loyalty-rules' ),
-				'open_app'    => __( 'Open', 'wp-loyalty-rules' ),
-				'add_new_app' => __( 'Add New Add-on', 'wp-loyalty-rules' ),
+				'title'            => __( 'Add-ons', 'wp-loyalty-rules' ),
+				'name'             => __( 'Installed Add-ons', 'wp-loyalty-rules' ),
+				'search_apps'      => __( 'Search add-ons', 'wp-loyalty-rules' ),
+				'open_app'         => __( 'Open', 'wp-loyalty-rules' ),
+				'add_new_app'      => __( 'Add New Add-on', 'wp-loyalty-rules' ),
+				'active_addons'    => __( 'Active Add-ons', 'wp-loyalty-rules' ),
+				'available_addons' => __( 'Available Add-ons', 'wp-loyalty-rules' ),
+
+				"add_on_tabs"               => [
+					[
+						'value' => 'active',
+						'label' => esc_html__( 'Active', 'wp-loyalty-rules' )
+					],
+					[
+						'value' => 'available',
+						'label' => esc_html__( 'Available', 'wp-loyalty-rules' )
+					],
+				],
+				'no_record_found'           => __( 'No record found', 'wp-loyalty-rules' ),
+				"add_on_tabs_limit_options" => [
+					[
+						'value' => '5',
+						'label' => esc_html__( '5', 'wp-loyalty-rules' )
+					],
+					[
+						'value' => '10',
+						'label' => esc_html__( '10', 'wp-loyalty-rules' )
+					],
+					[
+						'value' => '20',
+						'label' => esc_html__( '20', 'wp-loyalty-rules' )
+					],
+					[
+						'value' => '50',
+						'label' => esc_html__( '50', 'wp-loyalty-rules' )
+					],
+					[
+						'value' => '100',
+						'label' => esc_html__( '100', 'wp-loyalty-rules' )
+					],
+				],
 			],
 			'settings'        => [
 				'name'                     => __( 'Settings', 'wp-loyalty-rules' ),
@@ -1390,6 +1443,12 @@ class Labels {
 					'reset_alert_message' => __( 'Are you sure want to reset this email?', 'wp-loyalty-rules' ),
 				],
 			],
+			'recommendations'         => [
+				'name'         => __( 'Recommendations', 'wp-loyalty-rules' ),
+			 ],
+			 'buy_pro'         => [
+				'name'         => __( 'Buy Pro', 'wp-loyalty-rules' ),
+			 ],
 			'onboard'         => [
 				'skip'                    => __( 'Skip Onboarding', 'wp-loyalty-rules' ),
 				'support'                 => __( 'Support', 'wp-loyalty-rules' ),
@@ -1398,15 +1457,19 @@ class Labels {
 				'book_demo_call'          => __( 'Book a Demo Call', 'wp-loyalty-rules' ),
 				'referral_points'         => __( 'Points', 'wp-loyalty-rules' ),
 				'continue'                => __( 'Continue', 'wp-loyalty-rules' ),
-				'choose_program_type'     => __( 'choose_program_type', 'wp-loyalty-rules' ),
-				'create_campaign'         => __( 'create_campaign', 'wp-loyalty-rules' ),
-				'choose_referral_txt'     => __( 'choose_referral', 'wp-loyalty-rules' ),
-				'create_reward'           => __( 'create_reward', 'wp-loyalty-rules' ),
-				'choose_color'            => __( 'choose_color', 'wp-loyalty-rules' ),
+				'choose_program_type'     => __( 'Choose Program type', 'wp-loyalty-rules' ),
+				'create_campaign'         => __( 'Create campaign', 'wp-loyalty-rules' ),
+				'choose_referral_txt'     => __( 'Choose referral', 'wp-loyalty-rules' ),
+				'create_reward'           => __( 'Create reward', 'wp-loyalty-rules' ),
+				'launcher_installation'   => __( 'Launcher Installation', 'wp-loyalty-rules' ),
+				'choose_color'            => __( 'Choose color', 'wp-loyalty-rules' ),
 				'summary'                 => __( 'summary', 'wp-loyalty-rules' ),
-				'completed_onboard'       => __( 'completed_onboard', 'wp-loyalty-rules' ),
+				'completed_onboard'       => __( 'Completed onboard', 'wp-loyalty-rules' ),
 				'order_goals'             => __( 'Order Goals', 'wp-loyalty-rules' ),
+				'launcher_settings'       => __( 'Launcher settings', 'wp-loyalty-rules' ),
 				'signup'                  => __( 'Signup', 'wp-loyalty-rules' ),
+				'yes'                     => __( 'Yes', 'wp-loyalty-rules' ),
+				'no'                      => __( 'No', 'wp-loyalty-rules' ),
 				'point_conversion'        => __( 'Point Conversion', 'wp-loyalty-rules' ),
 				'required_points'         => __( 'Required points', 'wp-loyalty-rules' ),
 				'points'                  => __( 'Points: ', 'wp-loyalty-rules' ),
@@ -1453,6 +1516,13 @@ class Labels {
 					'label'       => __( "Theme color", 'wp-loyalty-rules' ),
 					'description' => __( 'You can change them anytime.', 'wp-loyalty-rules' ),
 				],
+				'launcher_settings_label' => [
+					'name'        => __( "Launcher settings", 'wp-loyalty-rules' ),
+					'label'       => __( "Do you want to install launcher add-on now ? ", 'wp-loyalty-rules' ),
+					'description' => __( 'Choose whether to install the launcher add-on now.', 'wp-loyalty-rules' ),
+					'yes'         => __( 'Yes', 'wp-loyalty-rules' ),
+					'no'          => __( 'No', 'wp-loyalty-rules' ),
+				],
 				'summary_label'           => [
 					'name'                => __( "Here is an summary of your previous steps", 'wp-loyalty-rules' ),
 					'description'         => __( 'Check your preferences and click continue.', 'wp-loyalty-rules' ),
@@ -1478,6 +1548,7 @@ class Labels {
 
 			],
 		];
+		$json               = (array) apply_filters( 'wlr_plugin_labels', $json );
 		wp_send_json( $json );
 	}
 
@@ -1566,6 +1637,8 @@ class Labels {
 			'admin_url'                => admin_url(),
 			'plugin_url'               => WLR_PLUGIN_URL,
 			'ajax_url'                 => admin_url( 'admin-ajax.php' ),
+			'loyalty_logo_url'         => 'https://static.flycart.net/wployalty/image/image/wp-loyalty-pro-logo.png',
+			'buy_pro_url'              => 'https://wployalty.net/pricing/?utm_campaign=wployalty-link&utm_medium=pro_url&utm_source=pricing',
 			'action_types'             => Woocommerce::getAllActionTypes(),
 			'point_users'              => [
 				'wlr_user_nonce'            => Woocommerce::create_nonce( 'wlr-user-nonce' ),

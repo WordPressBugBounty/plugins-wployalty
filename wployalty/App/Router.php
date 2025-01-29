@@ -8,6 +8,7 @@
 namespace Wlr\App;
 defined( 'ABSPATH' ) or die;
 
+use Wlr\App\Controllers\Admin\AddOn;
 use Wlr\App\Controllers\Admin\Apps;
 use Wlr\App\Controllers\Admin\CampaignPage;
 use Wlr\App\Controllers\Admin\Common;
@@ -90,6 +91,7 @@ class Router {
 		/*Ajax*/
 		if ( wp_doing_ajax() ) {
 			add_action( 'wp_ajax_wlr_condition_data', [ Common::class, 'getConditionData' ] );
+			add_action( 'wp_ajax_wlr_recommendation_list', [ Common::class, 'getRecommendationList' ] );
 		}
 	}
 
@@ -130,7 +132,7 @@ class Router {
 		if ( ! wp_doing_ajax() ) {
 			return;
 		}
-		add_filter( 'wp_ajax_wlr_new_my_reward_template_notification', [ Dashboard::class, 'getNotification' ] );
+		add_filter( 'wp_ajax_wlr_get_notification', [ Dashboard::class, 'getNotification' ] );
 		add_filter( 'wp_ajax_wlr_enable_new_my_rewards_section', [ Dashboard::class, 'enableMyRewardSection' ] );
 		add_action( 'wp_ajax_wlr_chart_data', [ Dashboard::class, 'getChartsData' ] );
 		add_action( 'wp_ajax_wlr_dashboard_analytic_data', [ Dashboard::class, 'getDashboardAnalyticData' ] );
@@ -146,9 +148,10 @@ class Router {
 		if ( ! wp_doing_ajax() ) {
 			return;
 		}
-		add_action( 'wp_ajax_wlr_get_apps', [ Apps::class, 'getApps' ] );
-		add_action( 'wp_ajax_wlr_activate_plugin', [ Apps::class, 'activateApp' ] );
-		add_action( 'wp_ajax_wlr_deactivate_plugin', [ Apps::class, 'deActivateApp' ] );
+		//new
+		add_action( 'wp_ajax_wlr_active_add_ons', [ AddOn::class, 'getActiveAddOns' ] );
+		add_action( 'wp_ajax_wlr_available_add_ons', [ AddOn::class, 'getAvailableAddOns' ] );
+		add_action( 'wp_ajax_wlr_perform_addon_action', [ AddOn::class, 'activateAddonToggle' ] );
 	}
 
 	/**

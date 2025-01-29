@@ -170,6 +170,6 @@
             "install-path": "../wployalty/notifications"
         }
     ],
-    "dev": true,
+    "dev": false,
     "dev-package-names": []
 }

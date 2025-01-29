@@ -837,6 +837,7 @@ class Woocommerce {
 		return array();
 	}
 
+
 	function combineProductArrays( $products, $additional_products ) {
 		$products = array_merge( $products, $additional_products );
 		$products = array_unique( $products );

@@ -5,8 +5,8 @@ Tags: points, rewards, loyalty, referrals, coupons
 Requires at least: 4.9.0
 Tested up to: 6.7
 WC requires at least: 6.5.0
-WC tested up to: 9.4
-Stable tag: 1.2.14
+WC tested up to: 9.6
+Stable tag: 1.3.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,13 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.3.0 =
+- Added: Recommendation tab.
+- Added: Buy Pro tab: Explain about loyalty feature.
+- Improved: Launcher add-on is now available as a separate add-on.
+- Improved: Add-on page design.
+- Improved: numeric field validation
+
 = 1.2.14 =
 - Improved: Optimizing Launcher Widget Display for a Slow Site
 - Improved: Template override for loyalty page

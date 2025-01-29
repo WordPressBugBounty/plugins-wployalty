@@ -1078,10 +1078,11 @@ class CustomerPage extends Base {
 		if ( isset( $user_reward_data->maximum_point ) && $user_reward_data->maximum_point > 0 && $user_reward_data->maximum_point < $input_point ) {
 			$input_point = $user_reward_data->maximum_point;
 		}
-		$conversion_price_format = sprintf( __( '=(%s) %s', 'wp-loyalty-rules' ), $woocommerce_currency, self::$woocommerce->getCurrencySymbols( $woocommerce_currency ) );
-		$max_allowed_point       = $user_reward_data->maximum_point ?? 0;
-		$min_allowed_point       = $user_reward_data->minimum_point ?? 0;
-		$is_max_changed          = false;
+		$woocommerce_currency_symbol = self::$woocommerce->getCurrencySymbols( $woocommerce_currency );
+		$conversion_price_format     = apply_filters( 'wlr_user_reward_point_conversion_price_format', sprintf( '=(%s) %s', $woocommerce_currency, $woocommerce_currency_symbol ), $woocommerce_currency, $woocommerce_currency_symbol );
+		$max_allowed_point           = $user_reward_data->maximum_point ?? 0;
+		$min_allowed_point           = $user_reward_data->minimum_point ?? 0;
+		$is_max_changed              = false;
 
 		$input_point      = floor( $input_point );
 		$reward_type_name = ( $cart_amount > 0 ) ? sprintf( __( "%s %s =%s", "wp-loyalty-rules" ), $user_reward_data->require_point, $earn_campaign_helper->getPointLabel( $user_reward_data->require_point ), self::$woocommerce->getCustomPrice( $user_reward_data->discount_value ) ) : $user_reward_data->reward_type_name;

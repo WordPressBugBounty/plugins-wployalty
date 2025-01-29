@@ -570,7 +570,7 @@ class Rewards extends EarnCampaign {
 			update_post_meta( $id, 'maximum_amount', wc_format_decimal( $coupon_data['maximum_amount'] ) );
 			update_post_meta( $id, 'customer_email', array_filter( array_map( 'sanitize_email', $coupon_data['customer_emails'] ) ) );
 			/*loyalty data*/
-			update_post_meta( $id, 'is_wployalty_couppon', 'yes' );
+			update_post_meta( $id, 'is_wployalty_coupon', 'yes' );
 			update_post_meta( $id, 'wlr_action_type', (string) isset( $data['action_type'] ) && ! empty( $data['action_type'] ) ? $data['action_type'] : '' );
 			update_post_meta( $id, 'wlr_reward_id', (int) isset( $data['reward_id'] ) && ! empty( $data['reward_id'] ) ? $data['reward_id'] : 0 );
 			update_post_meta( $id, 'wlr_user_reward_id', (int) isset( $data['user_reward_id'] ) && ! empty( $data['user_reward_id'] ) ? $data['user_reward_id'] : 0 );

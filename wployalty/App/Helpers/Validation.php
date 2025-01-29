@@ -128,6 +128,36 @@ class Validation {
 		}
 	}
 
+	static function validateAddonSearchFields( $post ) {
+		$settings_validator = new Validator( $post );
+		$settings_validator->labels( [
+			'search' => __( 'Search', 'wp-loyalty-rules' ),
+			'limit'  => __( 'Limit', 'wp-loyalty-rules' ),
+			'offset' => __( 'Offset', 'wp-loyalty-rules' ),
+		] );
+		$settings_validator->stopOnFirstFail( false );
+		Validator::addRule( 'sanitizeText', [
+			__CLASS__,
+			'validateSanitizeText'
+		], __( 'Invalid characters', 'wp-loyalty-rules' ) );
+		$settings_validator->rule( 'sanitizeText',
+			[
+				'search'
+			]
+		)->message( __( '{field} must only contain letters a-z and/or numbers 0-9 and/or under score,@,- and/or space ', 'wp-loyalty-rules' ) );
+		$settings_validator->rule( 'numeric',
+			[
+				'limit',
+				'offset',
+			]
+		)->message( __( '{field} must contain only numbers 0-9', 'wp-loyalty-rules' ) );
+		if ( $settings_validator->validate() ) {
+			return true;
+		} else {
+			return $settings_validator->errors();
+		}
+	}
+
 	static function validateSettingsTab( $post ) {
 		$settings_validator  = new Validator( $post );
 		$labels_array_fields = array(
@@ -1701,9 +1731,19 @@ class Validation {
 	}
 
 	static function validateNumber( $field, $value, $params, $fields ) {
-		$value = (int) $value;
+		if( empty( $value ) ){
+			return true;
+		}
+		if(is_array($value) && !empty($value)){
+			foreach ($value as $item){
+				if((preg_match( '/^([0-9])+$/i', $item )) !== 1){
+					return false;
+				}
+			}
+			return true;
+		}
 
-		return preg_match( '/^([0-9])+$/i', $value );
+		return preg_match( '/^([0-9])+$/i', $value ) === 1;
 	}
 
 	static function validateAlphaNumWithUnderscore( $field, $value, array $params, array $fields ) {

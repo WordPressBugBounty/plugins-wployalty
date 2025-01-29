@@ -422,6 +422,7 @@ abstract class Base {
 		return count( array_intersect( $tag_ids, $operation_values ) ) > 0;
 	}
 
+
 	function getProductValues( $products = array() ) {
 		if ( empty( $products ) || ! is_array( $products ) ) {
 			return $products;

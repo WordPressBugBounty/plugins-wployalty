@@ -169,7 +169,13 @@ class Site extends Base {
 			return true;
 		}
 		$all_condition_status = [];
-		$current_url          = site_url() . $_SERVER['REQUEST_URI'];
+		if ( ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) || ( $_SERVER['SERVER_PORT'] == 443 ) ) {
+			$protocol = "https://";
+		} else {
+			$protocol = "http://";
+		}
+
+		$current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		foreach ( $show_condition as $condition ) {
 			if ( empty( $condition['operator']['value'] ) ) {
 				$all_condition_status[] = false;
@@ -179,7 +185,8 @@ class Site extends Base {
 			$status = false;
 			switch ( $condition['operator']['value'] ) {
 				case 'home_page':
-					$status = $current_url == site_url() . "/";
+					$url    = site_url() . "/";
+					$status = ( $current_url === $url );
 					break;
 				case 'contains':
 					$status = ( strpos( $current_url, $url ) !== false );
@@ -190,8 +197,9 @@ class Site extends Base {
 			}
 			$all_condition_status[] = $status;
 		}
-		$condition_relationship = ! empty( $settings['launcher']['condition_relationship'] ) && $settings['launcher']['condition_relationship'] === 'and' ? 'and' : 'or';
-		$condition_status       = true;
+		$condition_relationship = self::$settings->opt( 'launcher.condition_relationship', 'and', 'launcher_button' );
+		//$condition_relationship = ! empty( $settings['launcher']['condition_relationship'] ) && $settings['launcher']['condition_relationship'] === 'and' ? 'and' : 'or';
+		$condition_status = true;
 		if ( $condition_relationship === 'and' && ! empty( $all_condition_status ) && in_array( false, $all_condition_status ) ) {
 			$condition_status = false;
 		} elseif ( $condition_relationship === 'or' && ! empty( $all_condition_status ) && ! in_array( true, $all_condition_status ) ) {

@@ -194,4 +194,83 @@ class Util {
 
 		return $template_path;
 	}
+
+	public static function getImageUrl( $file_name, $folder = 'add-ons' ) {
+		return 'https://static.flycart.net/wployalty/image/' . $folder . '/' . $file_name . '/' . $file_name . '.png';
+	}
+
+	/**
+	 * Check the plugin are active or not.
+	 *
+	 * @param string $plugin_path Plugin path.
+	 *
+	 * @return bool
+	 */
+	public static function isActive( string $plugin_path ): bool {
+		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
+		if ( is_multisite() ) {
+			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
+		}
+
+		return in_array( $plugin_path, $active_plugins ) || array_key_exists( $plugin_path, $active_plugins );
+	}
+
+	/**
+	 * Is object have search word.
+	 *
+	 * @param string $search Search word.
+	 * @param object $object Search object.
+	 * @param array $fields Search fields.
+	 *
+	 * @return bool
+	 */
+	public static function isSearchHaveIt( string $search, $object, array $fields = [] ): bool {
+		if ( empty( $search ) || empty( $fields ) || empty( $object ) ) {
+			return true;
+		}
+
+		preg_match_all( '/".*?("|$)|((?<=[\t ",+])|^)[^\t ",+]+/', $search, $matches );
+		$search_keys = Util::getValidSearchWords( $matches[0] );
+		if ( empty( $search_keys ) ) {
+			return false;
+		}
+
+		foreach ( $fields as $field ) {
+			if ( ! empty( $field ) && ! empty( $object->$field ) ) {
+
+				foreach ( $search_keys as $search_key ) {
+					if ( strpos( strtolower( $object->$field ), strtolower( $search_key ) ) !== false ) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines whether to show the loyalty addon message.
+	 *
+	 * This method checks if the loyalty launcher plugin is activated or if the loyalty launcher is set as active. If either condition is met, it returns true; otherwise, it returns false.
+	 *
+	 * @return bool Returns true if the loyalty addon message should be shown, false otherwise.
+	 */
+	public static function isLoyaltyAddonActivated() {
+		$is_launcher_plugin_activated = get_option( 'wll_is_launcher_plugin_activated', false );
+		if ( $is_launcher_plugin_activated ) {
+			return true;
+		}
+		$folder      = 'wll-loyalty-launcher';
+		$file        = 'wll-loyalty-launcher.php';
+		$plugin_file = $folder . '/' . $file;
+		if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
+			return true;
+		}
+		if ( in_array( get_option( 'wlr_launcher_active', 'yes' ), [ 1, 'yes' ] ) ) {
+			return false;
+		}
+
+		return true;
+	}
 }

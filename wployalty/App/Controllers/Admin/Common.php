@@ -241,8 +241,43 @@ class Common {
 			if ( $woocommerce_helper->isMethodExists( $ajax_pro_condition, $method_name ) ) {
 				wp_send_json_success( $ajax_pro_condition->$method_name() );
 			}
+			$data = apply_filters( 'wlr_condition_class_loading', [] );
+			if ( ! empty( $data ) ) {
+				wp_send_json( $data );
+			}
 			wp_send_json_error( [ 'message' => __( 'Method not found', 'wp-loyalty-rules' ) ] );
 		}
 		wp_send_json_error( [ 'message' => __( 'Invalid method', 'wp-loyalty-rules' ) ] );
+	}
+
+	/**
+	 * Get recommendation list.
+	 *
+	 * @return void
+	 */
+	public static function getRecommendationList() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_ajax_select2' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' ) ] );
+		}
+		$addons = get_transient( 'wlr_remote_recommendation_list' );
+
+		if ( empty( $addons ) ) {
+			$addons   = [];
+			$response = wp_remote_get( 'https://static.flycart.net/recommendation/product/wployalty.json' );
+			if ( ! is_wp_error( $response ) ) {
+				$response = (array) json_decode( wp_remote_retrieve_body( $response ), true );
+				if ( ! empty( $response ) ) {
+					$domain = $_SERVER['SERVER_NAME'];
+					foreach ( $response as $addon ) {
+						if ( ! empty( $addon['plugin_url'] ) ) {
+							$addon['plugin_url'] = str_replace( '{site-name}', $domain, $addon['plugin_url'] );
+						}
+						$addons[] = $addon;
+					}
+					set_transient( 'wlr_remote_recommendation_list', $addons, 24 * 60 * 60 );
+				}
+			}
+		}
+		wp_send_json_success( [ 'items' => $addons ] );
 	}
 }
