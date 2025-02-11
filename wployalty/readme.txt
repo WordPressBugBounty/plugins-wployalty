@@ -6,7 +6,7 @@ Requires at least: 4.9.0
 Tested up to: 6.7
 WC requires at least: 6.5.0
 WC tested up to: 9.6
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -63,7 +63,7 @@ Ready to take the next step? Create and launch your loyalty program with the bes
 == WPLoyalty PRO - The best Points and Rewards plugin for WooCommerce ==
 Meet WPLoyalty Pro, the ultimate [WooCommerce Points and Rewards](https://wployalty.net?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) plugin. Packed with over 50 features, WPLoyalty Pro is your go-to solution for boosting customer loyalty and encouraging repeat purchases in your WooCommerce store.
 
-[Get WPLoyalty PRO](https://wployalty.net?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [View PRO Demo](https://demo.wployalty.co/) | [Documentation](https://docs.wployalty.net/) | [Ask Questions](https://wployalty.net/support)
+[Get WPLoyalty PRO](https://wployalty.net?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [View PRO Demo](https://demo.wployalty.co/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [Documentation](https://docs.wployalty.net/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [Ask Questions](https://wployalty.net/support/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing)
 == Key Features of the PRO Version ==
 The [WPLoyalty PRO](https://wployalty.net?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) includes a range of exciting features designed to build a thriving and loyal customer base for your WooCommerce store. It offers a complete package to manage an effective loyalty program.
 == Points for Various Customer Actions ==
@@ -78,7 +78,7 @@ Reward customers for every action they take in your WooCommerce store:
 * Points for daily login
 * Points are based on conditions like User Role, total spend, number of orders, items in order, categories, products, tags, purchase history, country, language, currency, and more.
 * Bonus Points and Rewards based on goals/achievements – Example: Earn a $50 reward when total spending crosses $500 in a month
-[Get WPLoyalty PRO](https://wployalty.net?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [View PRO Demo](https://demo.wployalty.co/) | [Documentation](https://docs.wployalty.net/) | [Ask Questions](https://wployalty.net/support)
+[Get WPLoyalty PRO](https://wployalty.net?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [View PRO Demo](https://demo.wployalty.co/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [Documentation](https://docs.wployalty.net/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) | [Ask Questions](https://wployalty.net/support/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing)
 == Referrals / Refer-a-Friend / Referral Program for WooCommerce ==
 Launch a WooCommerce Referral Program and reward customers for referring their friends and family to your store. Both the referrer and the referee earn points or instant rewards once a successful referral sale is completed.
 
@@ -117,7 +117,7 @@ The WooCommerce Rewards Plugin allows you to offer instant rewards in the form o
 * Sign up for an account and get a $10 coupon code.
 * Reward customers when they refer a friend with an instant coupon. For instance, if you Refer a friend, the friend gets a $10 coupon, and you get a $10 coupon upon successful referral completion.
 == ADD-ONS: ==
-Expand your loyalty program and unlock new possibilities with [add-ons for the WooCommerce Loyalty Plugin](https://wployalty.net/wployalty-add-ons/):
+Expand your loyalty program and unlock new possibilities with [add-ons for the WooCommerce Loyalty Plugin](https://wployalty.net/add-ons/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing):
 
 1. **Reward Panel Popup Widget:** This chat-link widget helps your customers easily discover your loyalty program and participate without browsing through multiple pages.
 2. **Points Expiry:** This helps you set up an expiry for the points, e.g., points expire 30 days from the date of earning. This creates a sense of urgency and encourages customers to redeem points and engage in repeat purchases.
@@ -126,12 +126,12 @@ Expand your loyalty program and unlock new possibilities with [add-ons for the W
 5. **Discount Rules Integration:** This add-on combines the power of the WooCommerce Rewards Plugin and the Discount Rules plugin to offer instant discounts for your VIP customers based on their levels/tiers.
 6. **Judge Me Product Reviews:** You can use this add-on to incentivize customers by offering Points/Rewards for submitting reviews through the Judge.me plugin.
 == VIDEO TUTORIALS ==
-Explore our [Video Tutorials Library](https://wployalty.net/video-tutorials/) for step-by-step guides, walk-through videos, and tutorials on creating a WooCommerce Loyalty Program for your store. Learn how to effectively use WPLoyalty to enhance customer loyalty and engagement.
+Explore our [Video Tutorials Library](https://wployalty.net/video-tutorials/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing) for step-by-step guides, walk-through videos, and tutorials on creating a WooCommerce Loyalty Program for your store. Learn how to effectively use WPLoyalty to enhance customer loyalty and engagement.
 == DOCUMENTATION ==
 Check out the documentation page for easy access to important resources.
-[WPLoyalty - WooCommerce Loyalty Plugin Documentation](https://docs.wployalty.net/)
+[WPLoyalty - WooCommerce Loyalty Plugin Documentation](https://docs.wployalty.net/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing)
 == SUPPORT ==
-Do you need help creating a loyalty program in your WooCommerce store? Our friendly and knowledgeable support team is always eager to assist you with any questions or concerns. To do so, [create a ticket on our support page](https://wployalty.net/support).
+Do you need help creating a loyalty program in your WooCommerce store? Our friendly and knowledgeable support team is always eager to assist you with any questions or concerns. To do so, [create a ticket on our support page](https://wployalty.net/support/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing).
 == Frequently asked questions ==
 = How do I create a loyalty program in WooCommerce =
 The easiest way to create a loyalty program in WooCommerce is through the WPLoyalty plugin. Just install and activate the WPLoyalty plugin. Then proceed to create a campaign for earning points and rewards in the plugin.
@@ -154,7 +154,7 @@ Visit WPLoyalty -> Settings -> General settings -> Unsuccessful order status -> 
 = Is it possible to offer tiered rewards based on different levels of customer loyalty? =
 Yes, it is possible to offer tiered rewards based on different levels of customer loyalty using the WPLoyalty PRO plugin. First, ensure to create levels based on customer earned points. Second, create tiered rewards. Then, create the campaign -> Conditional Rules -> Customer levels.
 = I have more questions? =
-If you have further questions other than this, please feel free to contact our [support team](https://wployalty.net/support/).
+If you have further questions other than this, please feel free to contact our [support team](https://wployalty.net/support/?utm_campaign=wplfree&utm_source=wprepo&utm_medium=listing).
 
 == Screenshots ==
 
@@ -165,6 +165,10 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.3.1 =
+- Fix: blank page in customer, level and add-on page.
+- Fix: Free product WPML support
+
 = 1.3.0 =
 - Added: Recommendation tab.
 - Added: Buy Pro tab: Explain about loyalty feature.

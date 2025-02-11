@@ -1072,6 +1072,31 @@ class Woocommerce {
 		return apply_filters( 'wlr_current_currency', $currency );
 	}
 
+	function getCurrentLanguage( $lang = '' ) {
+		if ( empty( $lang ) ) {
+			$lang = get_locale();
+		}
+		$wpml_lang = apply_filters( 'wpml_current_language', null );
+		if ( ! empty( $wpml_lang ) ) {
+			$lang = $wpml_lang;
+		}
+
+		return apply_filters( 'wlr_current_language', $lang );
+	}
+
+	function getProductIdBasedOnCurrentLanguage( $prod_id, $lang ) {
+		$current_lang = $this->getCurrentLanguage();
+		if ( $current_lang != $lang ) {
+			return $prod_id;
+		}
+		$wpml_prod_id = apply_filters( 'translate_object_id', $prod_id, 'product', false, $current_lang );
+		if ( $prod_id != $wpml_prod_id ) {
+			$prod_id = $wpml_prod_id;
+		}
+
+		return $prod_id;
+	}
+
 	function getOrderLanguage( $order_id ) {
 		$order_language = "";
 		if ( $order_id > 0 ) {

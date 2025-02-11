@@ -1582,8 +1582,10 @@ class Main extends Base {
 	 * @return void
 	 */
 	function removeFreeProductCouponCode() {
-		$applied_coupons = WC()->cart->get_applied_coupons();
-		$reward_helper   = \Wlr\App\Helpers\Rewards::getInstance();
+		$applied_coupons    = WC()->cart->get_applied_coupons();
+		$reward_helper      = \Wlr\App\Helpers\Rewards::getInstance();
+		$woocommerce_helper = Woocommerce::getInstance();
+		$current_language   = $woocommerce_helper->getCurrentLanguage();
 		foreach ( $applied_coupons as $coupon_code ) {
 			if ( ! $reward_helper->is_loyalty_coupon( $coupon_code ) ) {
 				continue;
@@ -1600,8 +1602,10 @@ class Main extends Base {
 				= ( self::$woocommerce->isJson( $reward->free_product ) )
 				? json_decode( $reward->free_product, true ) : array();
 
-			$product_ids = array_map( function ( $item ) {
-				return $item['value'];
+			$product_ids = array_map( function ( $item ) use ( $current_language, $woocommerce_helper ) {
+
+				return $woocommerce_helper->getProductIdBasedOnCurrentLanguage( $item['value'], $current_language );
+
 			}, $free_products );
 
 			$cart             = self::$woocommerce->getCart();
