@@ -189,7 +189,7 @@ class CustomerPage extends Base {
 		$point_rewards        = $reward_helper->getPointRewards( $user_email, $extra );
 		$earned_coupon_reward = $reward_helper->getCouponRewards( $user_email, $extra );
 
-		return array_merge( $point_rewards, $earned_coupon_reward );
+		return apply_filters( 'wlr_after_get_available_rewards', array_merge( $point_rewards, $earned_coupon_reward ), $user_email );
 	}
 
 	function getRewardTabContent( $user_email, $args = [] ) {
@@ -563,7 +563,8 @@ class CustomerPage extends Base {
 				),
 			), '*', array(), false );
 			$level_model      = new Levels();
-			$total_earn_point = isset( $loyalty_user ) && isset( $loyalty_user->earn_total_point ) && ! empty( $loyalty_user->earn_total_point ) ? $loyalty_user->earn_total_point : 0;
+			$total_earn_point = isset( $loyalty_user ) && ! empty( $loyalty_user->earn_total_point ) ? $loyalty_user->earn_total_point : 0;
+			$total_earn_point = apply_filters( 'wlr_points_for_campaigns_list', $total_earn_point, $loyalty_user );
 			$current_level    = $level_model->getCurrentLevelId( $total_earn_point );
 			$user_next_level  = $earn_campaign->getNextLevel( $total_earn_point );
 			if ( ! empty( $user_next_level ) ) {
@@ -1233,10 +1234,11 @@ class CustomerPage extends Base {
 	 *
 	 * @return int The updated level ID, or 0 if level ID is less than or equal to 0
 	 */
-	public static function changeLevelId( $level_id, $point ) {
+	public static function changeLevelId( $level_id, $point, $user_fields ) {
 		$level_model      = new Levels();
+		$point            = apply_filters( 'wlr_points_to_get_level_id', $point, $user_fields );
 		$current_level_id = $level_model->getCurrentLevelId( $point );
-		$current_level_id = apply_filters( 'wlr_after_level_update', $current_level_id, $point );
+		$current_level_id = apply_filters( 'wlr_after_level_update', $current_level_id, $point, $user_fields );
 
 		return $current_level_id > 0 ? $current_level_id : 0;
 	}

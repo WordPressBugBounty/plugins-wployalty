@@ -161,6 +161,7 @@ class Message implements IntegrationInterface {
 			'{wlr_reward_label}'       => $reward_helper->getRewardLabel( count( $reward_list ) ),
 			'{wlr_reward_link}'        => '<a id="wlr-reward-link" href="javascript:void(0);">' . __( 'Click Here', 'wp-loyalty-rules' ) . '</a>'
 		];
+		$message         = apply_filters( 'wlr_point_redeem_points_message', $message );
 
 		return $reward_helper->processShortCodes( $short_code_list, $message );
 	}

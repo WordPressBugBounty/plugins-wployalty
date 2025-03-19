@@ -937,7 +937,13 @@ class EarnCampaign extends Base {
 			if ( $earn_trans_id == 0 ) {
 				return false;
 			}
-			$customer_note = $this->processLogData( 'point', $action_type, $point, '', $action_data );
+			$customer_note = apply_filters( 'wlr_earn_point_customer_note', $this->processLogData( 'point', $action_type, $point, '', $action_data ), [
+				'type'        => 'point',
+				'action_type' => $action_type,
+				'campaign_id' => $campaign_id,
+				'point'       => $point,
+				'action_data' => $action_data
+			] );
 			if ( ! empty( $customer_note ) && isset( $args['order_id'] )
 			     && $args['order_id'] > 0
 			) {

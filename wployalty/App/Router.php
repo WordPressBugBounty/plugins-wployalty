@@ -234,7 +234,7 @@ class Router {
 			add_action( 'wp_ajax_wlr_enable_email_sent', [ CustomerPage::class, 'enableEmailSend' ] );
 		}
 
-		add_filter( 'wlr_user_level_id', [ CustomerPage::class, 'changeLevelId' ], 10, 2 );
+		add_filter( 'wlr_user_level_id', [ CustomerPage::class, 'changeLevelId' ], 10, 3 );
 		/* change email, point also transfer to that email*/
 		add_filter( 'send_email_change_email', [ self::$site, 'emailUpdatePointTransfer' ], 10, 3 );
 	}

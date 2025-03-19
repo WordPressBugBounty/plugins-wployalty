@@ -5,8 +5,8 @@ Tags: points, rewards, loyalty, referrals, coupons
 Requires at least: 4.9.0
 Tested up to: 6.7
 WC requires at least: 6.5.0
-WC tested up to: 9.6
-Stable tag: 1.3.1
+WC tested up to: 9.7
+Stable tag: 1.3.2
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,9 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.3.2 =
+- Added: Point based level addon filters.
+
 = 1.3.1 =
 - Fix: blank page in customer, level and add-on page.
 - Fix: Free product WPML support

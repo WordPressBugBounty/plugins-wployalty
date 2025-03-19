@@ -54,6 +54,7 @@ class Labels {
 				'recommendations_title'              => __( 'Recommendations', 'wp-loyalty-rules' ),
 				'by'                                 => __( 'by', 'wp-loyalty-rules' ),
 				'buy'                                => __( 'Buy', 'wp-loyalty-rules' ),
+                'get_plugin'                         => __( 'Get plugin' , 'wp-loyalty-rules' ),
 				'learn_more'                         => __( 'Learn more', 'wp-loyalty-rules' ),
 				'disabled'                           => __( 'Disabled', 'wp-loyalty-rules' ),
 				'edit'                               => __( 'Edit', 'wp-loyalty-rules' ),

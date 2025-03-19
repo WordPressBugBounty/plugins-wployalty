@@ -8,6 +8,7 @@
 namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Helpers\Base;
+use Wlr\App\Helpers\Woocommerce;
 use WP_User;
 
 defined( 'ABSPATH' ) or die;
@@ -25,6 +26,10 @@ class Campaign {
 	public static function addLoyaltyUserFromWPLogin( $user_name, $user ) {
 		$user_email = ! empty( $user->user_email ) ? $user->user_email : '';
 		if ( ! empty( $user_email ) ) {
+			$woocommerce_helper = Woocommerce::getInstance();
+			if($woocommerce_helper->isBannedUser( $user_email )){
+				return;
+			}
 			$base_helper = new Base();
 			$base_helper->addCustomerToLoyalty( $user_email );
 		}

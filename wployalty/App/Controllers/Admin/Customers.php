@@ -120,7 +120,7 @@ class Customers {
 			$query_data['search'] = sanitize_text_field( $search );
 		}
 
-		return $query_data;
+		return apply_filters('wlr_customers_query_data', $query_data );
 	}
 
 	/**

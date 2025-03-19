@@ -257,8 +257,9 @@ $is_right_to_left     = is_rtl();
                         <div class="wlr-level-content">
 							<?php
 							if ( isset( $user->level_data->current_level_start ) && isset( $user->level_data->next_level_start ) && $user->level_data->next_level_start > 0 ):
-								$css_width = ( ( $user->earn_total_point - $user->level_data->current_level_start ) / ( $user->level_data->next_level_start - $user->level_data->current_level_start ) ) * 100;
-								$needed_point = $user->level_data->next_level_start - $user->earn_total_point;
+                                $points = apply_filters('wlr_points_for_my_account_reward_page', $user->earn_total_point, $user);
+								$css_width = ( ( $points - $user->level_data->current_level_start ) / ( $user->level_data->next_level_start - $user->level_data->current_level_start ) ) * 100;
+								$needed_point = $user->level_data->next_level_start - $points;
 								?>
                                 <div class="level-points wlr-border-color">
                                     <p class="wlr-progress-content wlr-text-color">

@@ -516,7 +516,7 @@ class Base {
 
 		return $total_amount_list;
 	}
-	
+
 	function getRewardById( $reward_id ) {
 		if ( empty( $reward_id ) ) {
 			return '';
@@ -1281,6 +1281,9 @@ class Base {
 	}
 
 	function addCustomerToLoyalty( $email, $action = 'signin' ) {
+		if ( empty( $email ) || self::$woocommerce_helper->isBannedUser( $email ) ) {
+			return;
+		}
 		$setting_option   = self::$woocommerce_helper->getOptions( 'wlr_settings', '' );
 		$user_action_list = ( isset( $setting_option['user_action_list'] ) && ! empty( $setting_option['user_action_list'] ) ) ? explode( ',', $setting_option['user_action_list'] ) : array( 'signin' );
 		if ( empty( $email ) || ! in_array( $action, $user_action_list ) ) {

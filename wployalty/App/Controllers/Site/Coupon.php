@@ -58,6 +58,7 @@ class Coupon {
 				wc_add_notice( $message, 'error' );
 			}
 		}
+        do_action('wlr_after_apply_cart_coupon', $discount_code);
 	}
 
 	/**
@@ -86,7 +87,7 @@ class Coupon {
 		$billing_email = isset( $_POST['billing_email'] ) ? $_POST['billing_email'] : '';
 
 		$user_email = $woocommerce->get_login_user_email();
-		if ( ! empty( $billing_email ) && ! empty( $user_email ) && $billing_email != $user_email ) {
+		if ( ! empty( $billing_email ) && ! empty( $user_email ) && strtolower( $billing_email ) != strtolower( $user_email ) ) {
 			// $this->removeFreeProduct($code);
 			return false;
 		}

@@ -82,8 +82,11 @@ class CompatibleCheck {
 
 	function woo_version() {
 		require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		$plugin_file = 'woocommerce.php';
+		if ( ! file_exists( WP_PLUGIN_DIR . '/woocommerce/' . $plugin_file ) ) {
+			return '1.0.0';
+		}
 		$plugin_folder        = get_plugins( '/woocommerce' );
-		$plugin_file          = 'woocommerce.php';
 		$wc_installed_version = '1.0.0';
 		if ( isset( $plugin_folder[ $plugin_file ]['Version'] ) ) {
 			$wc_installed_version = $plugin_folder[ $plugin_file ]['Version'];
