@@ -76,7 +76,7 @@ class WlrExpireEmail extends \WC_Email
             $reward_helper = \Wlr\App\Helpers\Rewards::getInstance();
             $this->recipient = sanitize_email($user_reward->email);
             $shop_page_url = get_permalink(wc_get_page_id('shop'));
-            $expire_date_format = 'Y-m-d';
+            $expire_date_format = get_option('date_format', 'Y-m-d');
             $expire_date_format = apply_filters('wlr_expire_mail_date_format', $expire_date_format);
             $expire_date = isset($user_reward->end_at) && !empty($user_reward->end_at) ? $user_reward->end_at: 0;
             $ref_code = isset($loyal_user->refer_code) && !empty($loyal_user->refer_code) ? $loyal_user->refer_code: '';

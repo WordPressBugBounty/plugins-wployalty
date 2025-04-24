@@ -75,6 +75,6 @@ class Template {
 	 * @since 1.0.0
 	 */
 	function display() {
-		echo $this->processTemplate();
+		echo $this->processTemplate();//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

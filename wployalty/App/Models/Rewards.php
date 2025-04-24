@@ -311,7 +311,7 @@ class Rewards extends Base {
 			'coupon_type'            => ( isset( $post_data['coupon_type'] ) && ! empty( $post_data['coupon_type'] ) ) ? $post_data['coupon_type'] : 'fixed_cart',
 		);
 		if ( empty( $reward ) ) {
-			$save_data['created_at']  = strtotime( date( "Y-m-d H:i:s" ) );
+			$save_data['created_at']  = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			$save_data['modified_at'] = 0;
 
 			if ( isset( $save_data['discount_type'] ) && in_array( $save_data['discount_type'], array(
@@ -328,14 +328,14 @@ class Rewards extends Base {
 			$id = $this->insertRow( $save_data );
 			if ( $need_to_update_ordering ) {
 				$ordering_data = [
-					'modified_at' => strtotime( date( "Y-m-d H:i:s" ) ),
+					'modified_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
 					'ordering'    => $id
 				];
 				$where         = [ 'id' => $id ];
 				$this->updateRow( $ordering_data, $where );
 			}
 		} else {
-			$save_data['modified_at'] = strtotime( date( "Y-m-d H:i:s" ) );
+			$save_data['modified_at'] = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			if ( isset( $save_data['discount_type'] ) && in_array( $save_data['discount_type'], array(
 					'free_shipping',
 					'free_product'

@@ -129,17 +129,14 @@ class Base {
 		// media library for launcher icon image
 		//wp_enqueue_media();
 		//Register the scripts
-		wp_register_script( WLPE_PLUGIN_SLUG . '-main', WLPE_PLUGIN_URL . 'Assets/Admin/Js/wlpe-admin.js', array( 'jquery' ), WLPE_PLUGIN_VERSION . '&t=' . time() );
-
-		//Enqueue the scripts
-		wp_enqueue_script( WLPE_PLUGIN_SLUG . '-main' );
+		wp_enqueue_script( WLPE_PLUGIN_SLUG . '-main', WLPE_PLUGIN_URL . 'Assets/Admin/Js/wlpe-admin.js', array( 'jquery' ), WLPE_PLUGIN_VERSION . '&t=' . time(), true );
 
 		//load css
 		wp_enqueue_style( WLPE_PLUGIN_SLUG . '-admin-style', WLPE_PLUGIN_URL . 'Assets/Admin/Css/wlpe-admin.css', array(), WLPE_PLUGIN_VERSION );
 		//load wpl icons
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-wlr-font', WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts.css', array(), WLR_PLUGIN_VERSION );
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', array(), WLR_PLUGIN_VERSION );
-		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', array(), WLR_PLUGIN_VERSION . '&t=' . time() );
+		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', array(), WLR_PLUGIN_VERSION . '&t=' . time(), true );
 		//localize scripts
 		$localize = array(
 			'home_url'                 => get_home_url(),
@@ -204,7 +201,7 @@ class Base {
 					$point_sort       = (string) self::$input->post_get( 'point_sort', 'all' );
 					$per_page         = (int) self::$input->get( 'per_page', 10 );
 					$current_page     = (int) self::$input->get( 'page_number', 1 );
-					$error_array      = Validation::validateCommonFields( $_REQUEST );
+					$error_array      = Validation::validateCommonFields( $_REQUEST ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 					$base_url         = admin_url( 'admin.php?' . http_build_query( array(
 							'page' => WLPE_PLUGIN_SLUG,
 							'view' => 'expire_points'
@@ -228,7 +225,7 @@ class Base {
 						case 'active':
 							$where = $wpdb->prepare( "status = %s AND (expire_date >= %s OR expire_date = 0) AND id > 0", array(
 								'active',
-								strtotime( date( "Y-m-d" ) )
+								strtotime( gmdate( "Y-m-d" ) )
 							) );
 							//$filter_order_dir = 'ASC';
 							break;
@@ -368,7 +365,7 @@ class Base {
 			foreach ( $need_to_remove_fields as $field ) {
 				unset( $data[ $field ] );
 			}
-			$validate_data = Validation::validateSettingsTab( $_REQUEST );
+			$validate_data = Validation::validateSettingsTab( $_REQUEST ); //phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			if ( is_array( $validate_data ) ) {
 				$response['error'] = true;
 
@@ -381,7 +378,8 @@ class Base {
 			if ( ! isset( $response['error'] ) || ! $response['error'] ) {
 				$expire_points               = new ExpirePoints();
 				$data['enable_expire_email'] = isset( $data['enable_expire_email'] ) && $data['enable_expire_email'] > 0 ? $data['enable_expire_email'] : 0;
-				$data['email_template']      = isset( $_POST['email_template'] ) && ! empty( $_POST['email_template'] && trim( $_POST['email_template'] ) !== "" ) ? $_POST['email_template'] : $expire_points->defaultEmailTemplate();
+				//phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				$data['email_template'] = isset( $_POST['email_template'] ) && ! empty( $_POST['email_template'] && trim( $_POST['email_template'] ) !== "" ) ? $_POST['email_template'] : $expire_points->defaultEmailTemplate();
 				update_option( $key, $data, true );
 				do_action( 'wlpe_after_save_settings', $data, $key );
 				$response['error']   = false;
@@ -488,7 +486,7 @@ class Base {
 			'used_total_points' => (int) $user->used_total_points
 		);
 
-		$created_at          = strtotime( date( "Y-m-d H:i:s" ) );
+		$created_at          = strtotime( gmdate( "Y-m-d H:i:s" ) );
 		$action_type         = 'expire_point';
 		$action_process_type = 'expire_point';
 		$trans_type          = 'debit';
@@ -498,7 +496,8 @@ class Base {
 			'points'              => (int) $point,
 			'action_type'         => $action_type,
 			'action_process_type' => $action_process_type,
-			'note'                => sprintf( __( '%s %s expired', 'wp-loyalty-rules' ), $point, $base_helper->getPointLabel( $point ) ),
+			/* translators: 1: Number of points, 2: Point label */
+			'note'                => sprintf( __( '%1$s %2$s expired', 'wp-loyalty-rules' ), $point, $base_helper->getPointLabel( $point ) ),
 			'created_at'          => $created_at
 		);
 		$base_helper->updatePointLedger( $ledger_data, $trans_type );
@@ -647,7 +646,7 @@ class Base {
 		$action_type       = self::$input->post_get( 'action_type', 'point' );
 		$row_id            = (int) self::$input->post_get( 'row_id', 0 );
 		if ( $row_id > 0 && ! empty( $action_type ) && in_array( $action_type, array( 'point', 'email' ) ) ) {
-			$current_date = strtotime( date( "Y-m-d H:i:s" ) );
+			$current_date = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			$update_date  = array();
 			if ( $action_type === 'point' ) {
 				$expiry_point_date = $expiry_point_date . ' 23:59:59';

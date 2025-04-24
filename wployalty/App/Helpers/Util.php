@@ -27,7 +27,7 @@ class Util {
 			$content = ob_get_clean();
 		}
 		if ( $display ) {
-			echo $content;
+			echo $content;//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		} else {
 			return $content;
 		}
@@ -175,7 +175,7 @@ class Util {
 					_x(
 						'about,an,are,as,at,be,by,com,for,from,how,in,is,it,of,on,or,that,the,this,to,was,what,when,where,who,will,with,www',
 						'Comma-separated list of search stopwords in your language',
-						'woocommerce'
+						'wp-loyalty-rules'
 					)
 				)
 			)

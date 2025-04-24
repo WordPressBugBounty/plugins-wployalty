@@ -62,14 +62,16 @@ class CustomerPage extends Base {
 			$user_transaction_price    = $earn_campaign_helper->getUserTotalTransactionAmount( $user_email );
 			$user_used_currency_reward = $user_used_currency_reward_count = $currency_lists = [];
 			if ( ! isset( $user_transaction_price[ $current_currency ] ) ) {
-				$currency_lists[ $current_currency ]                  = $current_currency;
-				$user_used_currency_reward[ $current_currency ]       = sprintf( __( '%s value: %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel(), 0 );
+				$currency_lists[ $current_currency ] = $current_currency;
+				/* translators: 1. reward label, 2. Value */
+				$user_used_currency_reward[ $current_currency ]       = sprintf( __( '%1$s value: %2$s', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel(), 0 );
 				$user_used_currency_reward_count[ $current_currency ] = 0;
 			}
 			foreach ( $user_transaction_price as $currency => $currency_data ) {
 				$currency_lists[ $currency ]                  = $currency;
 				$user_used_currency_reward_count[ $currency ] = isset( $currency_data['reward_count'] ) && $currency_data['reward_count'] ? $currency_data['reward_count'] : 0;
-				$user_used_currency_reward[ $currency ]       = sprintf( __( '%s value: %s', "wp-loyalty-rules" ), $earn_campaign_helper->getRewardLabel(), ( isset( $currency_data['display_format'] ) && $currency_data['display_format'] ? $currency_data['display_format'] : '' ) );
+				/* translators: 1. reward label, 2. Value */
+				$user_used_currency_reward[ $currency ] = sprintf( __( '%1$s value: %2$s', "wp-loyalty-rules" ), $earn_campaign_helper->getRewardLabel(), ( isset( $currency_data['display_format'] ) && $currency_data['display_format'] ? $currency_data['display_format'] : '' ) );
 			}
 
 			$page_params['current_currency']                 = $current_currency;
@@ -91,7 +93,7 @@ class CustomerPage extends Base {
 		}
 		$logs   = new Logs();
 		$offset = (int) self::$input->post_get( 'page_number', 1 );
-		$limit  = 5;
+		$limit  = apply_filters('wlr_recent_activity_transaction_limit',5);
 		$start  = ( $offset - 1 ) * $limit;
 		$items  = $logs->getUserLogTransactions( $user_email, $limit, $start );
 		if ( empty( $items ) ) {
@@ -198,7 +200,7 @@ class CustomerPage extends Base {
 		}
 		$available_rewards = self::getAvailableRewards( $user_email );
 		$offset            = (int) self::$input->post_get( 'page_number', 1 );
-		$limit             = 6;
+		$limit             = apply_filters( 'wlr_rewards_tab_card_count', 6 );
 		$start             = ( $offset - 1 ) * $limit;
 		$page_params       = [
 			'offset'        => $offset,
@@ -222,7 +224,7 @@ class CustomerPage extends Base {
 			return '';
 		}
 		$offset         = (int) self::$input->post_get( 'page_number', 1 );
-		$limit          = 5;
+		$limit          = apply_filters( 'wlr_coupons_tab_card_count', 5 );
 		$user_rewards   = new UserRewards();
 		$page_params    = [
 			'is_revert_enabled' => Settings::get( 'is_revert_enabled', 'no' ) == 'yes'
@@ -255,7 +257,7 @@ class CustomerPage extends Base {
 	protected function getEndPointUrl( $page = '' ) {
 		global $post;
 		if ( empty( $page ) || $page == 'cart' ) {
-			return $_SERVER['HTTP_REFERER'];
+			return ! empty( $_SERVER['HTTP_REFERER'] ) ? sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : '';
 		} else if ( $page == 'page' && isset( $post->ID ) && $post->ID > 0 ) {
 			return get_page_link( $post->ID );
 		} else if ( $page == 'myaccount' ) {
@@ -270,7 +272,7 @@ class CustomerPage extends Base {
 			return '';
 		}
 		$offset                        = (int) self::$input->post_get( 'page_number', 1 );
-		$limit                         = 5;
+		$limit                         = apply_filters( 'wlr_expired_coupons_tab_card_count', 5 );
 		$user_rewards                  = new UserRewards();
 		$page_params                   = [];
 		$page_params                   = wp_parse_args( $args, $page_params );
@@ -404,14 +406,16 @@ class CustomerPage extends Base {
 			$current_currency          = self::$woocommerce->getCurrentCurrency();
 			$user_transaction_price    = $reward_helper->getUserTotalTransactionAmount( $user_email );
 			if ( ! isset( $user_transaction_price[ $current_currency ] ) ) {
-				$currency_lists[ $current_currency ]                  = $current_currency;
-				$user_used_currency_reward[ $current_currency ]       = sprintf( __( "%s value: %s", "wp-loyalty-rules" ), $earn_campaign_helper->getRewardLabel(), 0 );
+				$currency_lists[ $current_currency ] = $current_currency;
+				/* translators: 1. reward label, 2. Value */
+				$user_used_currency_reward[ $current_currency ]       = sprintf( __( '%1$s value: %2$s', "wp-loyalty-rules" ), $earn_campaign_helper->getRewardLabel(), 0 );
 				$user_used_currency_reward_count[ $current_currency ] = 0;
 			}
 			foreach ( $user_transaction_price as $currency => $currency_data ) {
 				$currency_lists[ $currency ]                  = $currency;
 				$user_used_currency_reward_count[ $currency ] = isset( $currency_data['reward_count'] ) && $currency_data['reward_count'] ? $currency_data['reward_count'] : 0;
-				$user_used_currency_reward[ $currency ]       = sprintf( __( "%s value: %s", "wp-loyalty-rules" ), $earn_campaign_helper->getRewardLabel(), ( isset( $currency_data['display_format'] ) && $currency_data['display_format'] ? $currency_data['display_format'] : '' ) );
+				/* translators: 1. reward label, 2. Value */
+				$user_used_currency_reward[ $currency ] = sprintf( __( '%1$s value: %2$s', "wp-loyalty-rules" ), $earn_campaign_helper->getRewardLabel(), ( isset( $currency_data['display_format'] ) && $currency_data['display_format'] ? $currency_data['display_format'] : '' ) );
 			}
 			$page_params['current_currency']                 = $current_currency;
 			$page_params['used_reward_currency_values']      = $user_used_currency_reward;
@@ -630,7 +634,8 @@ class CustomerPage extends Base {
 					$campaign_type = isset( $active_campaigns->campaign_type ) && ! empty( $active_campaigns->campaign_type ) && $active_campaigns->campaign_type ? $active_campaigns->campaign_type : '';
 					if ( $campaign_type == "point" && isset( $campaign_point_rule->earn_point ) ) {
 						$active_campaigns->campaign_title_discount .= isset( $active_campaigns->action_type ) && ( $active_campaigns->action_type == 'point_for_purchase' ) ?
-							sprintf( __( '%d %s for each %s spent', 'wp-loyalty-rules' ), $campaign_point_rule->earn_point, $base_helper->getPointLabel( $campaign_point_rule->earn_point ), self::$woocommerce->getCustomPrice( $campaign_point_rule->wlr_point_earn_price ) ) :
+							/* translators: 1: point, 2: point label 3: custom price */
+							sprintf( __( '%1$d %2$s for each %3$s spent', 'wp-loyalty-rules' ), $campaign_point_rule->earn_point, $base_helper->getPointLabel( $campaign_point_rule->earn_point ), self::$woocommerce->getCustomPrice( $campaign_point_rule->wlr_point_earn_price ) ) :
 							sprintf( '+%d %s', $campaign_point_rule->earn_point, $base_helper->getPointLabel( $campaign_point_rule->earn_point ) );
 					} elseif ( $campaign_type == "coupon" && isset( $campaign_point_rule->earn_reward ) ) {
 						$reward                                    = ! empty( $campaign_point_rule->earn_reward ) ? $reward_table->findReward( (int) $campaign_point_rule->earn_reward ) : "";
@@ -639,8 +644,8 @@ class CustomerPage extends Base {
 						$reward_label                              = $base_helper->getRewardLabel( 1 );
 						$active_campaigns->campaign_title_discount .= ! empty( $reward )
 							? ( isset( $reward->discount_value ) && ! empty( $reward->discount_value )
-								? sprintf( __( '%s %s', 'wp-loyalty-rules' ), $point_label, $reward_label )
-								: ( ! empty( $point_label ) ? sprintf( __( '%s', 'wp-loyalty-rules' ), $point_label ) : "" ) )
+								? sprintf( '%s %s', $point_label, $reward_label )
+								: ( ! empty( $point_label ) ? $point_label : "" ) )
 							: "";
 					}
 			}
@@ -671,6 +676,7 @@ class CustomerPage extends Base {
 		foreach ( $level_batch as $level ) {
 			$level_data    = $level_modal->getByKey( (int) $level );
 			$batch_label[] = array(
+				//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				'name'  => isset( $level_data->name ) && ! empty( $level_data->name ) ? __( $level_data->name, 'wp-loyalty-rules' ) : "",
 				'badge' => isset( $level_data->badge ) && ! empty( $level_data->badge ) ? $level_data->badge : WLR_PLUGIN_URL . "Assets/Site/image/default-level.png",
 			);
@@ -709,16 +715,18 @@ class CustomerPage extends Base {
 		$discount_title = "";
 		$advocate_type  = isset( $campaign_point_rule->advocate ) && isset( $campaign_point_rule->advocate->campaign_type ) && ! empty( $campaign_point_rule->advocate->campaign_type ) ? $campaign_point_rule->advocate->campaign_type : '';
 		if ( $advocate_type == "point" ) {
-			$earn_point     = isset( $campaign_point_rule->advocate->earn_point ) && ! empty( $campaign_point_rule->advocate->earn_point ) ? $campaign_point_rule->advocate->earn_point : 0;
-			$point_label    = isset( $campaign_point_rule->advocate->earn_type ) && ( $campaign_point_rule->advocate->earn_type == 'subtotal_percentage' ) && ! empty( $earn_point ) ? round( $earn_point ) . "%" : $earn_point;
-			$discount_title = ! empty( $earn_point ) ? sprintf( __( 'You get %s : %s', 'wp-loyalty-rules' ), $base_helper->getPointLabel( $campaign_point_rule->advocate->earn_point ), $point_label ) : "";
+			$earn_point  = isset( $campaign_point_rule->advocate->earn_point ) && ! empty( $campaign_point_rule->advocate->earn_point ) ? $campaign_point_rule->advocate->earn_point : 0;
+			$point_label = isset( $campaign_point_rule->advocate->earn_type ) && ( $campaign_point_rule->advocate->earn_type == 'subtotal_percentage' ) && ! empty( $earn_point ) ? round( $earn_point ) . "%" : $earn_point;
+			/* translators: 1: point, 2: content */
+			$discount_title = ! empty( $earn_point ) ? sprintf( __( 'You get %1$s : %2$s', 'wp-loyalty-rules' ), $base_helper->getPointLabel( $campaign_point_rule->advocate->earn_point ), $point_label ) : "";
 		} elseif ( $advocate_type == "coupon" ) {
 			$advocate_reward = isset( $campaign_point_rule->advocate->earn_reward ) && ! empty( $campaign_point_rule->advocate->earn_reward ) ? $reward_table->findReward( (int) $campaign_point_rule->advocate->earn_reward ) : "";
 			$discount_type   = isset( $advocate_reward->discount_type ) && ! empty( $advocate_reward->discount_type ) ? $advocate_reward->discount_type : '';
 			$point_label     = $this->getDiscountRewardLabel( $discount_type, $advocate_reward );
 			$reward_label    = $base_helper->getRewardLabel( 1 );
 			if ( ! empty( $advocate_reward ) ) {
-				$discount_title = ! empty( $point_label ) ? sprintf( __( 'You get %s: %s discount', 'wp-loyalty-rules' ), $reward_label, $point_label ) : "";
+				/* translators: 1: reward label, 2: discount */
+				$discount_title = ! empty( $point_label ) ? sprintf( __( 'You get %1$s: %2$s discount', 'wp-loyalty-rules' ), $reward_label, $point_label ) : "";
 			}
 		}
 
@@ -760,16 +768,18 @@ class CustomerPage extends Base {
 		$discount_title = "";
 		$friend_type    = isset( $campaign_point_rule->friend ) && isset( $campaign_point_rule->friend->campaign_type ) && ! empty( $campaign_point_rule->friend->campaign_type ) ? $campaign_point_rule->friend->campaign_type : "";
 		if ( $friend_type == "point" ) {
-			$earn_point     = isset( $campaign_point_rule->friend->earn_point ) && ! empty( $campaign_point_rule->friend->earn_point ) ? $campaign_point_rule->friend->earn_point : 0;
-			$point_label    = isset( $campaign_point_rule->friend->earn_type ) && ( $campaign_point_rule->friend->earn_type == 'subtotal_percentage' ) && ! empty( $earn_point ) ? round( $earn_point ) . "%" : $earn_point;
-			$discount_title = ! empty( $earn_point ) ? sprintf( __( 'Your friend gets %s : %s', 'wp-loyalty-rules' ), $base_helper->getPointLabel( $campaign_point_rule->friend->earn_point ), $point_label ) : "";
+			$earn_point  = isset( $campaign_point_rule->friend->earn_point ) && ! empty( $campaign_point_rule->friend->earn_point ) ? $campaign_point_rule->friend->earn_point : 0;
+			$point_label = isset( $campaign_point_rule->friend->earn_type ) && ( $campaign_point_rule->friend->earn_type == 'subtotal_percentage' ) && ! empty( $earn_point ) ? round( $earn_point ) . "%" : $earn_point;
+			/* translators: 1: point, 2: content */
+			$discount_title = ! empty( $earn_point ) ? sprintf( __( 'Your friend gets %1$s : %2$s', 'wp-loyalty-rules' ), $base_helper->getPointLabel( $campaign_point_rule->friend->earn_point ), $point_label ) : "";
 		} elseif ( $friend_type == "coupon" ) {
 			$friend_reward = isset( $campaign_point_rule->friend->earn_reward ) && ! empty( $campaign_point_rule->friend->earn_reward ) ? $reward_table->findReward( (int) $campaign_point_rule->friend->earn_reward ) : "";
 			$discount_type = isset( $friend_reward->discount_type ) && ! empty( $friend_reward->discount_type ) ? $friend_reward->discount_type : '';
 			$point_label   = $this->getDiscountRewardLabel( $discount_type, $friend_reward );
 			$reward_label  = $base_helper->getRewardLabel( 1 );
 			if ( ! empty( $friend_reward ) ) {
-				$discount_title = ! empty( $point_label ) ? sprintf( __( 'Your friend gets %s: %s discount', 'wp-loyalty-rules' ), $reward_label, $point_label ) : "";
+				/* translators: 1: point, 2: discount */
+				$discount_title = ! empty( $point_label ) ? sprintf( __( 'Your friend gets %1$s: %2$s discount', 'wp-loyalty-rules' ), $reward_label, $point_label ) : "";
 			}
 		}
 
@@ -1086,7 +1096,7 @@ class CustomerPage extends Base {
 		$is_max_changed              = false;
 
 		$input_point      = floor( $input_point );
-		$reward_type_name = ( $cart_amount > 0 ) ? sprintf( __( "%s %s =%s", "wp-loyalty-rules" ), $user_reward_data->require_point, $earn_campaign_helper->getPointLabel( $user_reward_data->require_point ), self::$woocommerce->getCustomPrice( $user_reward_data->discount_value ) ) : $user_reward_data->reward_type_name;
+		$reward_type_name = ( $cart_amount > 0 ) ? sprintf( "%s %s =%s", $user_reward_data->require_point, $earn_campaign_helper->getPointLabel( $user_reward_data->require_point ), self::$woocommerce->getCustomPrice( $user_reward_data->discount_value ) ) : $user_reward_data->reward_type_name;
 		$input_value      = number_format( ( ( $input_point / $user_reward_data->require_point ) * $discount_value ), 2 );
 		$min_or_max_label = $earn_campaign_helper->getPointLabel( 1 );
 		if ( $user_reward_data->discount_type == 'points_conversion' && $user_reward_data->coupon_type == 'percent' ) {
@@ -1108,10 +1118,9 @@ class CustomerPage extends Base {
 			}
 			$conversion_price_format = '=';
 			if ( $cart_amount > 0 ) {
-				$reward_type_name = sprintf( __( "%s %s = %s", "wp-loyalty-rules" ), $user_reward_data->require_point, $earn_campaign_helper->getPointLabel( $user_reward_data->require_point ), $user_reward_data->discount_value . '%' );
+				$reward_type_name = sprintf( "%s %s = %s", $user_reward_data->require_point, $earn_campaign_helper->getPointLabel( $user_reward_data->require_point ), $user_reward_data->discount_value . '%' );
 			}
 			$input_value = ( $input_point / $user_reward_data->require_point ) * $user_reward_data->discount_value;
-			//$min_or_max_label = __("percentage", "wp-loyalty-rules");
 		}
 
 		$data = apply_filters( 'wlr_user_reward_point_conversion_redeem_data', array(
@@ -1124,24 +1133,14 @@ class CustomerPage extends Base {
 			'min_allowed_point'       => floor( $min_allowed_point ),
 			'conversion_price_format' => $conversion_price_format,
 			'is_max_changed'          => $is_max_changed,
-			'min_message'             => sprintf( __( 'Min allowed %s: %s', 'wp-loyalty-rules' ), $min_or_max_label, floor( $min_allowed_point ) ),
-			'max_message'             => sprintf( __( 'Max allowed %s: %s', 'wp-loyalty-rules' ), $min_or_max_label, floor( $max_allowed_point ) )
+			/* translators: 1: label , 2: point */
+			'min_message'             => sprintf( __( 'Min allowed %1$s: %2$s', 'wp-loyalty-rules' ), $min_or_max_label, floor( $min_allowed_point ) ),
+			/* translators: 1: label , 2: point */
+			'max_message'             => sprintf( __( 'Max allowed %1$s: %2$s', 'wp-loyalty-rules' ), $min_or_max_label, floor( $max_allowed_point ) )
 		) );
 		foreach ( $data as $key => $value ) {
 			$user_reward_data->$key = $value;
 		}
-
-		/*$user_reward_data->reward_type_name = $data['reward_type_name'];
-		$user_reward_data->input_point = $data['input_point'];
-		$user_reward_data->input_value = $data['input_value'];
-		$user_reward_data->available_point = $data['available_point'];
-		$user_reward_data->cart_amount = $data['cart_amount'];
-		$user_reward_data->conversion_price_format = $data['conversion_price_format'];
-		$user_reward_data->max_allowed_point = $data['max_allowed_point'];
-		$user_reward_data->min_allowed_point = (int)$data['min_allowed_point'];
-		$user_reward_data->min_message = sprintf(__('Min allowed point: %s', 'wp-loyalty-rules'), $user_reward_data->min_allowed_point);
-		$user_reward_data->max_message = sprintf(__('Max allowed point: %s', 'wp-loyalty-rules'), $user_reward_data->max_allowed_point);
-		$user_reward_data->is_max_changed = $is_max_changed;*/
 	}
 
 	function getPageUserDetails( $user_email, $page = '' ) {
@@ -1193,12 +1192,14 @@ class CustomerPage extends Base {
 			'redeem_point_icon'              => Settings::get( 'redeem_point_icon' ),
 			'available_point_icon'           => Settings::get( 'available_point_icon' ),
 			'used_reward_icon'               => Settings::get( 'used_reward_icon' ),
+			//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			'redeem_button_text'             => __( Settings::get( 'redeem_button_text', 'Redeem Now' ), 'wp-loyalty-rules' ),
 			'redeem_button_color'            => Settings::get( 'redeem_button_color', '#4F47EB' ),
 			'redeem_button_text_color'       => Settings::get( 'redeem_button_text_color', '#ffffff' ),
 			'apply_coupon_border_color'      => Settings::get( 'apply_coupon_border_color', '#FF8E3D' ),
 			'apply_coupon_button_text_color' => Settings::get( 'apply_coupon_button_text_color', '#ffffff' ),
 			'apply_coupon_button_color'      => Settings::get( 'apply_coupon_button_color', '#4F47EB' ),
+			//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			'apply_coupon_button_text'       => __( Settings::get( 'apply_coupon_button_text', 'Apply Coupon' ), 'wp-loyalty-rules' ),
 			'apply_coupon_background'        => Settings::get( 'apply_coupon_background', '#FFF8F3' )
 		] );

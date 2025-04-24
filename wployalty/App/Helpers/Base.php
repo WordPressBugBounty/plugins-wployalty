@@ -35,12 +35,12 @@ class Base {
 	}
 
 	public static function readMoreLessContent( $message, $read_key, $length, $read_more_text, $read_less_text, $id_prefix = 'read-more-less', $class = '' ) {
-		$message_description = (string) ( isset( $message ) && ! empty( $message ) ) ? __( $message, 'wp-loyalty-rules' ) : '';
+		$message_description = (string) ( isset( $message ) && ! empty( $message ) ) ? __( $message, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		if ( ! apply_filters( 'wlr_apply_show_more_show_less_option', true, $message_description ) ) {
 			return $message_description;
 		}
-		$read_more_text      = (string) ( isset( $read_more_text ) && ! empty( $read_more_text ) ) ? __( $read_more_text, 'wp-loyalty-rules' ) : __( 'Show more', 'wp-loyalty-rules' );
-		$read_less_text      = (string) ( isset( $read_less_text ) && ! empty( $read_less_text ) ) ? __( $read_less_text, 'wp-loyalty-rules' ) : __( 'Show less', 'wp-loyalty-rules' );
+		$read_more_text      = (string) ( isset( $read_more_text ) && ! empty( $read_more_text ) ) ? __( $read_more_text, 'wp-loyalty-rules' ) : __( 'Show more', 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$read_less_text      = (string) ( isset( $read_less_text ) && ! empty( $read_less_text ) ) ? __( $read_less_text, 'wp-loyalty-rules' ) : __( 'Show less', 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		$length              = (int) ( ! empty( $length ) && $length > 0 ) ? $length : 40;
 		$string_length       = 0;
 		$message_description = trim( $message_description );
@@ -374,11 +374,11 @@ class Base {
 		$setting_option = get_option( 'wlr_settings', '' );
 		$singular       = ( isset( $setting_option['wlr_point_singular_label'] ) && ! empty( $setting_option['wlr_point_singular_label'] ) ) ? $setting_option['wlr_point_singular_label'] : 'point';
 		if ( $label_translate ) {
-			$singular = __( $singular, 'wp-loyalty-rules' );
+			$singular = __( $singular, 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		}
 		$plural = ( isset( $setting_option['wlr_point_label'] ) && ! empty( $setting_option['wlr_point_label'] ) ) ? $setting_option['wlr_point_label'] : 'points';
 		if ( $label_translate ) {
-			$plural = __( $plural, 'wp-loyalty-rules' );
+			$plural = __( $plural, 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		}
 		$point_label = ( $point == 0 || $point > 1 ) ? $plural : $singular;
 
@@ -387,8 +387,8 @@ class Base {
 
 	public function getRewardLabel( $reward_count = 0 ) {
 		$setting_option = get_option( 'wlr_settings', '' );
-		$singular       = ( isset( $setting_option['reward_singular_label'] ) && ! empty( $setting_option['reward_singular_label'] ) ) ? __( $setting_option['reward_singular_label'], 'wp-loyalty-rules' ) : __( 'reward', 'wp-loyalty-rules' );
-		$plural         = ( isset( $setting_option['reward_plural_label'] ) && ! empty( $setting_option['reward_plural_label'] ) ) ? __( $setting_option['reward_plural_label'], 'wp-loyalty-rules' ) : __( 'rewards', 'wp-loyalty-rules' );
+		$singular       = ( isset( $setting_option['reward_singular_label'] ) && ! empty( $setting_option['reward_singular_label'] ) ) ? __( $setting_option['reward_singular_label'], 'wp-loyalty-rules' ) : __( 'reward', 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$plural         = ( isset( $setting_option['reward_plural_label'] ) && ! empty( $setting_option['reward_plural_label'] ) ) ? __( $setting_option['reward_plural_label'], 'wp-loyalty-rules' ) : __( 'rewards', 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		$reward_label   = ( $reward_count == 0 || $reward_count > 1 ) ? $plural : $singular;
 
 		return apply_filters( 'wlr_get_reward_label', $reward_label, $reward_count );
@@ -633,7 +633,7 @@ class Base {
 			$icon_class = "wlr-$icon wlr-social-icon wlr-theme-color-apply";
 		}
 		if ( isset( $img ) && ! in_array( $img, array( '', null, 'null' ) ) && ! empty( $img ) && $img !== 'social' ) {
-			$html .= '<img src="' . esc_url( $img ) . '" alt="' . esc_attr( $img_alt ) . '" height="' . esc_attr( $img_height ) . '" width="' . esc_attr( $img_width ) . '" class="' . esc_attr( $img_class ) . '" style="' . esc_attr( $img_style ) . '">';
+			$html .= '<img src="' . esc_url( $img ) . '" alt="' . esc_attr( $img_alt ) . '" height="' . esc_attr( $img_height ) . '" width="' . esc_attr( $img_width ) . '" class="' . esc_attr( $img_class ) . '" style="' . esc_attr( $img_style ) . '">';//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 		} else {
 			$html .= '<i class="' . esc_attr( $icon_class ) . '" style = "' . esc_attr( $icon_style ) . '" ></i >';
 		}
@@ -767,12 +767,14 @@ class Base {
 	function getExtraActionList() {
 		$action_list = array(
 			'admin_change'             => __( 'Admin updated', 'wp-loyalty-rules' ),
+			/* translators: %s: point label */
 			'redeem_point'             => sprintf( __( 'Convert %s to coupon', 'wp-loyalty-rules' ), $this->getPointLabel( 3 ) ),
 			'new_user_add'             => __( 'New Customer', 'wp-loyalty-rules' ),
 			'import'                   => __( 'Import Customer', 'wp-loyalty-rules' ),
 			'revoke_coupon'            => __( 'Revoke coupon', 'wp-loyalty-rules' ),
 			'expire_date_change'       => __( 'Expiry date has been changed manually', 'wp-loyalty-rules' ),
 			'expire_email_date_change' => __( 'Expiry email date has been changed manually', 'wp-loyalty-rules' ),
+			/* translators: %s: point label */
 			'expire_point'             => sprintf( __( '%s Expired', 'wp-loyalty-rules' ), $this->getPointLabel( 3 ) ),
 			'new_level'                => __( 'New Level', 'wp-loyalty-rules' ),
 			'rest_api'                 => __( 'REST API', 'wp-loyalty-rules' ),
@@ -818,7 +820,7 @@ class Base {
 				return strtotime( $expiry_date );
 			}
 
-			return date( 'Y-m-d', strtotime( $expiry_date ) );
+			return gmdate( 'Y-m-d', strtotime( $expiry_date ) );
 		}
 
 		return '';
@@ -838,7 +840,7 @@ class Base {
 				)
 			);
 			$user       = self::$user_model->getQueryData( $conditions, '*', array(), false, true );
-			$created_at = strtotime( date( "Y-m-d H:i:s" ) );
+			$created_at = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			if ( empty( $user ) ) {
 				$uniqueReferCode = $this->get_unique_refer_code( '', false, $action_data['user_email'] );
 				$_data           = array(
@@ -926,7 +928,8 @@ class Base {
 			if ( $user_reward_id <= 0 ) {
 				return false;
 			}
-			$customer_note = sprintf( __( '%s %s earned via %s', 'wp-loyalty-rules' ), $reward->display_name, $this->getRewardLabel( 1 ), $this->getActionName( $action_type ) );
+			/* translators: 1: reward display name 2: reward label 3: action name */
+			$customer_note = sprintf( __( '%1$s %2$s earned via %3$s', 'wp-loyalty-rules' ), $reward->display_name, $this->getRewardLabel( 1 ), $this->getActionName( $action_type ) );
 			$log_data      = array(
 				'user_email'          => sanitize_email( $action_data['user_email'] ),
 				'action_type'         => $action_type,
@@ -958,13 +961,13 @@ class Base {
 						$user_reward_table->start_at = $update_data['start_at'];
 						if ( $user_reward_table->expire_after > 0 ) {
 							$expire_period             = isset( $user_reward_table->expire_period ) && ! empty( $user_reward_table->expire_period ) ? $user_reward_table->expire_period : 'day';
-							$update_data['end_at']     = strtotime( date( "Y-m-d H:i:s", strtotime( "+" . $user_reward_table->expire_after . " " . $expire_period ) ) );
+							$update_data['end_at']     = strtotime( gmdate( "Y-m-d H:i:s", strtotime( "+" . $user_reward_table->expire_after . " " . $expire_period ) ) );
 							$user_reward_table->end_at = $update_data['end_at'];
 
 							if ( isset( $user_reward_table->expire_email ) && $user_reward_table->expire_email > 0
 							     && isset( $user_reward_table->enable_expiry_email ) && $user_reward_table->enable_expiry_email > 0 ) {
 								$expire_email_period              = isset( $user_reward_table->expire_email_period ) && ! empty( $user_reward_table->expire_email_period ) ? $user_reward_table->expire_email_period : 'day';
-								$update_data['expire_email_date'] = $user_reward_table->expire_email_date = strtotime( date( "Y-m-d H:i:s", strtotime( "+" . $user_reward_table->expire_email . " " . $expire_email_period ) ) );
+								$update_data['expire_email_date'] = $user_reward_table->expire_email_date = strtotime( gmdate( "Y-m-d H:i:s", strtotime( "+" . $user_reward_table->expire_email . " " . $expire_email_period ) ) );
 							}
 						}
 						$update_where = array( 'id' => $user_reward_table->id );
@@ -1070,7 +1073,7 @@ class Base {
 			),
 		);
 		$user        = self::$user_model->getQueryData( $conditions, '*', array(), false );
-		$created_at  = strtotime( date( 'Y-m-d H:i:s' ) );
+		$created_at  = strtotime( gmdate( 'Y-m-d H:i:s' ) );
 		$id          = 0;
 		if ( ! empty( $user ) && $user->id > 0 ) {
 			$id = $user->id;
@@ -1257,9 +1260,7 @@ class Base {
 				'debit_points'        => 0,
 				'action_process_type' => 'starting_point',
 				'note'                => __( 'Starting point of customer', 'wp-loyalty-rules' ),
-				'created_at'          => strtotime(
-					date( 'Y-m-d H:i:s' )
-				),
+				'created_at'          => strtotime( gmdate( 'Y-m-d H:i:s' ) ),
 			);
 			$point_ledger->insertRow( $point_data );
 			$point_ledger_is_starting = true;
@@ -1272,7 +1273,7 @@ class Base {
 				'debit_points'        => $point_action == 'debit' ? $data['points'] : 0,
 				'action_process_type' => isset( $data['action_process_type'] ) && ! empty( $data['action_process_type'] ) ? $data['action_process_type'] : $data['action_type'],
 				'note'                => isset( $data['note'] ) && ! empty( $data['note'] ) ? $data['note'] : '',
-				'created_at'          => strtotime( date( 'Y-m-d H:i:s' ) ),
+				'created_at'          => strtotime( gmdate( 'Y-m-d H:i:s' ) ),
 			);
 			$point_ledger->insertRow( $point_data );
 		}
@@ -1311,7 +1312,7 @@ class Base {
 				'earn_total_point'  => $point,
 				'birth_date'        => null,
 				'level_id'          => 0,
-				'created_date'      => strtotime( date( 'Y-m-d H:i:s' ) ),
+				'created_date'      => strtotime( gmdate( 'Y-m-d H:i:s' ) ),
 			);
 			self::$user_model->insertOrUpdate( $_data );
 		}

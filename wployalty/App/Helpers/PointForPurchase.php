@@ -11,11 +11,11 @@ defined( 'ABSPATH' ) or die();
 class PointForPurchase extends Order {
 	public static $instance = null;
 
-	public function __construct( $config = array() ) {
+	public function __construct( $config = [] ) {
 		parent::__construct( $config );
 	}
 
-	public static function getInstance( array $config = array() ) {
+	public static function getInstance( array $config = [] ) {
 		if ( ! self::$instance ) {
 			self::$instance = new self( $config );
 		}
@@ -38,7 +38,7 @@ class PointForPurchase extends Order {
 	protected function checkPointForPurchaseData( $rule, $data, $point_rule ) {
 		$can_earn_point = $this->getPointForPurchaseEligiblePoint( $rule, $data, $point_rule );
 		if ( isset( $data['is_message'] ) && $data['is_message'] ) {
-            return apply_filters( 'wlr_check_point_for_purchase_data', $can_earn_point, $rule, $data ,$point_rule );
+			return apply_filters( 'wlr_check_point_for_purchase_data', $can_earn_point, $rule, $data, $point_rule );
 		}
 		$min_status = false;
 		if ( isset( $point_rule->minimum_point ) && ( $point_rule->minimum_point <= $can_earn_point || $point_rule->minimum_point == 0 ) ) {
@@ -52,7 +52,7 @@ class PointForPurchase extends Order {
 			$can_earn_point = 0;
 		}
 
-        return apply_filters( 'wlr_check_point_for_purchase_data', $can_earn_point, $rule, $data ,$point_rule );
+		return apply_filters( 'wlr_check_point_for_purchase_data', $can_earn_point, $rule, $data, $point_rule );
 	}
 
 	protected function getPointForPurchaseEligiblePoint( $rule, $data, $point_rule ) {
@@ -69,7 +69,7 @@ class PointForPurchase extends Order {
 	}
 
 	function getTotalEarnReward( $reward, $rule, $data ) {
-		return array();
+		return [];
 	}
 
 	function processMessage( $point_rule, $earning ) {
@@ -87,7 +87,7 @@ class PointForPurchase extends Order {
 		$is_rounded_edge      = isset( $point_rule->is_rounded_edge ) && $point_rule->is_rounded_edge == 'yes';
 
 		$point   = isset( $earning['point'] ) && ! empty( $earning['point'] ) ? (int) $earning['point'] : 0;
-		$rewards = isset( $earning['rewards'] ) && ! empty( $earning['rewards'] ) ? (array) $earning['rewards'] : array();
+		$rewards = isset( $earning['rewards'] ) && ! empty( $earning['rewards'] ) ? (array) $earning['rewards'] : [];
 		if ( empty( $point ) && empty( $rewards ) ) {
 			return $messages;
 		}
@@ -104,12 +104,12 @@ class PointForPurchase extends Order {
 		if ( ! empty( $msg_border_color ) ) {
 			$msg_style .= 'border:1px solid;border-color:' . $msg_border_color . ';';
 		}
-		$single_product_message   = isset( $point_rule->single_product_message ) && ! empty( $point_rule->single_product_message ) ? __( $point_rule->single_product_message, 'wp-loyalty-rules' ) : '';
-		$variable_product_message = isset( $point_rule->variable_product_message ) && ! empty( $point_rule->variable_product_message ) ? __( $point_rule->variable_product_message, 'wp-loyalty-rules' ) : '';
-		if ( ( in_array( $display_page, array(
+		$single_product_message   = isset( $point_rule->single_product_message ) && ! empty( $point_rule->single_product_message ) ? __( $point_rule->single_product_message, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$variable_product_message = isset( $point_rule->variable_product_message ) && ! empty( $point_rule->variable_product_message ) ? __( $point_rule->variable_product_message, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		if ( ( in_array( $display_page, [
 					'all',
 					'single'
-				) ) && $product_page ) || ( in_array( $display_page, array( 'all', 'list' ) ) && $category_page ) ) {
+				] ) && $product_page ) || ( in_array( $display_page, array( 'all', 'list' ) ) && $category_page ) ) {
 			if ( ! empty( $single_product_message ) ) {
 				$single_product_message = Woocommerce::getCleanHtml( $single_product_message );
 				$messages['single']     = '<span class="wlr-product-message" style="' . esc_attr( $msg_style ) . '">' . $single_product_message . '</span>';
@@ -122,7 +122,7 @@ class PointForPurchase extends Order {
 		$available_rewards = '';
 		foreach ( $rewards as $single_reward ) {
 			if ( is_object( $single_reward ) && isset( $single_reward->display_name ) ) {
-				$available_rewards .= __( $single_reward->display_name, 'wp-loyalty-rules' ) . ',';
+				$available_rewards .= __( $single_reward->display_name, 'wp-loyalty-rules' ) . ',';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			}
 		}
 		$available_rewards = trim( $available_rewards, ',' );

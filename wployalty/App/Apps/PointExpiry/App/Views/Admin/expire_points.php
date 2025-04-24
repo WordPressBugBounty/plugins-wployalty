@@ -25,7 +25,7 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                     <div class="wlpe-back-to-apps">
                         <a class="button" target="_self"
                            href="<?php echo esc_url( $app_url ); ?>">
-                            <img src="<?php echo esc_url( $back ); ?>"
+                            <img src="<?php echo esc_url( $back ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage?>"
                                  alt="<?php esc_attr_e( "Back", "wp-loyalty-rules" ); ?>">
 							<?php esc_html_e( 'Back to WPLoyalty', 'wp-loyalty-rules' ); ?></a>
                     </div>
@@ -35,7 +35,8 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                                value="<?php echo esc_attr( $search ); ?>"/>
                         <a onclick="wlpe_jquery('#manage_customer_expire_point_form').submit();"
                            class="wlpe-email-search">
-                            <img src="<?php echo esc_url( $search_email ); ?>" alt="search">
+                            <img src="<?php echo esc_url( $search_email ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage?>"
+                                 alt="search">
                         </a>
                     </div>
                     <div class="wlpe-filter" id="wlpe-filter-status-block"
@@ -46,7 +47,8 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                                     <button
                                             type="button" <?php echo $key === $point_sort ? 'class="active-filter"' : '' ?>
                                             onclick="wlpe.filterPoints('#wlpe-main #manage_customer_expire_point_form','<?php echo esc_js( $key ); ?>')"
-                                            value="<?php echo esc_attr( $key ); ?>"><?php esc_html_e( $status, 'wp-loyalty-rules' ) ?></button>
+                                            value="<?php echo esc_attr( $key ); ?>"><?php esc_html_e( $status, 'wp-loyalty-rules' ) //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
+                                    </button>
                                 </div>
 							<?php endforeach; ?>
 						<?php endif; ?>
@@ -67,7 +69,8 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
 			?>
             <div class="wlpe-no-points">
                 <div>
-                    <img src="<?php echo esc_url( $no_points_yet ); ?>" alt="">
+                    <img src="<?php echo esc_url( $no_points_yet ); //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage 
+					?>" alt="">
                 </div>
                 <div class="no-points-label">
 					<?php esc_html_e( 'No transactions yet. You will see points and their expiry here after you have enabled this feature.', 'wp-loyalty-rules' ) ?>
@@ -91,6 +94,7 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                             <div class="wlpe-data-row">
                                 <div class="customer">
                                     <p><?php echo isset( $item->user_email ) && ! empty( $item->user_email ) ? esc_html( $item->user_email ) : '' ?></p>
+									<?php /* translators:%s for the created at time */ ?>
                                     <small><?php echo isset( $item->created_at ) && ! empty( $item->created_at ) ? esc_html( sprintf( __( "Created at: %s", "wp-loyalty-rules" ), $item->created_at ) ) : '-' ?></small>
                                 </div>
                                 <div class="available-points">
@@ -118,14 +122,14 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                                          style="display: none">
 										<?php
 										$original_date = ( $wp_date_format != 'm/d/Y' ) ? str_replace( '/', '-', $expire_date ) : $expire_date;
-										$new_date      = date( "Y-m-d", strtotime( $original_date ) );
+										$new_date      = gmdate( "Y-m-d", strtotime( $original_date ) );
 										?>
                                         <span class="spinner"></span>
                                         <input type="date"
                                                id="<?php echo esc_attr( 'wlpe-point-expiry-date-picker-' . $item->id ); ?>"
                                                class="<?php echo esc_attr( 'wlpe-update-point-expiery-date-' . $item->id ); ?>"
                                                value="<?php echo esc_attr( $new_date ); ?>"
-                                               min="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"
+                                               min="<?php echo esc_attr( gmdate( 'Y-m-d' ) ); ?>"
                                         >
                                         <i class="wlr wlrf-tick" id="wlpe-point-expire-save-date"
                                            onclick="wlpe.updatePointExpieryDate(<?php echo esc_js( $item->id ) ?>,'point-expiry-date')"></i>
@@ -150,15 +154,15 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
                                          style="display: none">
 										<?php
 										$original_email_expiry_date = ( $wp_date_format != 'm/d/Y' ) ? str_replace( '/', '-', $expire_email_date ) : $expire_email_date;
-										$new_email_expiry_date      = date( "Y-m-d", strtotime( $original_email_expiry_date ) );
+										$new_email_expiry_date      = gmdate( "Y-m-d", strtotime( $original_email_expiry_date ) );
 										?>
                                         <span class="spinner"></span>
                                         <input type="date"
                                                id="<?php echo esc_attr( 'wlpe-email-expiry-date-picker-' . $item->id ); ?>"
                                                class="<?php echo esc_attr( 'wlpe-update-email-expiery-date-' . $item->id ); ?>"
                                                value="<?php echo esc_attr( $new_email_expiry_date ) ?>"
-                                               min="<?php echo esc_attr( date( 'Y-m-d' ) ) ?>"
-                                               max="<?php echo ( $new_date <= date( 'Y-m-d' ) ) ? '' : esc_attr( $new_date ) ?>">
+                                               min="<?php echo esc_attr( gmdate( 'Y-m-d' ) ) ?>"
+                                               max="<?php echo ( $new_date <= gmdate( 'Y-m-d' ) ) ? '' : esc_attr( $new_date ) ?>">
                                         <i class="wlr wlrf-tick" id="wlpe-email-expire-save-date"
                                            onclick="wlpe.updateEmailExpiryDate(<?php echo esc_attr( $item->id ) ?>,'email-expiry-date')"></i>
                                         <i class="wlr wlrf-close" id="wlpe-email-expire-close-date"
@@ -175,7 +179,7 @@ $wp_date_format = isset( $wp_date_format ) && ! empty( $wp_date_format ) ? $wp_d
             </div>
 			<?php if ( isset( $pagination ) ): ?>
                 <div class="wlpe-pagination">
-					<?php echo $pagination->createLinks(); ?>
+					<?php echo wp_kses_post( $pagination->createLinks() ); ?>
                 </div>
 			<?php endif; ?>
 		<?php endif; ?>

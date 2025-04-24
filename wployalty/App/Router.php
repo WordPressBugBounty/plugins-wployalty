@@ -36,6 +36,11 @@ class Router {
 		do_action( 'wlr_before_init' );
 		self::$site       = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
 		self::$my_account = empty( self::$my_account ) ? new MyAccount() : self::$my_account;
+		add_filter( 'safe_style_css', function ( $styles ) {
+			$styles[] = 'display';
+
+			return $styles;
+		} );
 		if ( is_admin() ) {
 			self::initCommon();
 			self::initLabels();

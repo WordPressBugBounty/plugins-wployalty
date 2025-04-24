@@ -121,11 +121,13 @@ class Message implements IntegrationInterface {
 		if ( $is_checkout ) {
 			$checkout_redeem_point_display = ( ! empty( $setting_option['wlr_is_checkout_redeem_message_enable'] ) ? $setting_option['wlr_is_checkout_redeem_message_enable'] : 'yes' ) == 'yes';
 			if ( $checkout_redeem_point_display ) {
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$message = ( ! empty( $setting_option['wlr_checkout_redeem_points_message'] ) ) ? __( $setting_option['wlr_checkout_redeem_points_message'], 'wp-loyalty-rules' ) : __( 'You have {wlr_redeem_cart_points} {wlr_points_label} earned choose your rewards {wlr_reward_link}', 'wp-loyalty-rules' );
 			}
 		} else {
 			$cart_redeem_point_display = ( ! empty( $setting_option['wlr_is_cart_redeem_message_enable'] ) ? $setting_option['wlr_is_cart_redeem_message_enable'] : 'yes' ) == 'yes';
 			if ( $cart_redeem_point_display ) {
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$message = ( ! empty( $setting_option['wlr_cart_redeem_points_message'] ) ) ? __( $setting_option['wlr_cart_redeem_points_message'], 'wp-loyalty-rules' ) : __( 'You have {wlr_redeem_cart_points} {wlr_points_label} earned choose your rewards {wlr_reward_link}', 'wp-loyalty-rules' );
 			}
 		}
@@ -242,11 +244,13 @@ class Message implements IntegrationInterface {
 		if ( $is_checkout ) {
 			$checkout_earn_point_display = ( ! empty( $setting_option['wlr_is_checkout_earn_message_enable'] ) ? $setting_option['wlr_is_checkout_earn_message_enable'] : 'yes' ) == 'yes';
 			if ( $checkout_earn_point_display ) {
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$message = ( ! empty( $setting_option['wlr_checkout_earn_points_message'] ) ) ? __( $setting_option['wlr_checkout_earn_points_message'], 'wp-loyalty-rules' ) : __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase', 'wp-loyalty-rules' );
 			}
 		} else {
 			$cart_earn_point_display = ( ! empty( $setting_option['wlr_is_cart_earn_message_enable'] ) ? $setting_option['wlr_is_cart_earn_message_enable'] : 'yes' ) == 'yes';
 			if ( $cart_earn_point_display ) {
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$message = ( ! empty( $setting_option['wlr_cart_earn_points_message'] ) ) ? __( $setting_option['wlr_cart_earn_points_message'], 'wp-loyalty-rules' ) : __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase', 'wp-loyalty-rules' );
 			}
 		}

@@ -19,12 +19,12 @@ class Base {
 	 */
 	public static $settings, $woocommerce, $input, $validation, $template;
 	public static $current_user_details;
-	public static $get_campaign_list = array();
-	public static $redeem_rewards = array();
-	public static $redeem_coupons = array();
-	public static $user_rewards = array();
-	public static $reward_opportunities = array();
-	public static $social_share_list = array();
+	public static $get_campaign_list = [];
+	public static $redeem_rewards = [];
+	public static $redeem_coupons = [];
+	public static $user_rewards = [];
+	public static $reward_opportunities = [];
+	public static $social_share_list = [];
 
 	/**
 	 * construct initiates the objects for required classes
@@ -143,7 +143,7 @@ class Base {
 		);
 		array_walk_recursive( $text_data, function ( &$value, $key ) use ( $is_admin_side ) {
 			/*$is_admin_side = isset($is_admin_side) && is_bool($is_admin_side) && $is_admin_side;*/
-			$value = ( ! $is_admin_side ) ? __( $value, 'wp-loyalty-rules' ) : $value;
+			$value = ( ! $is_admin_side ) ? __( $value, 'wp-loyalty-rules' ) : $value;//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		} );
 		$data = array(
 			'launcher' => array(
@@ -207,9 +207,9 @@ class Base {
 		$is_show_campaign_list = array();
 		$user                  = $this->getUserDetails();
 		foreach ( $campaign_list as &$active_campaigns ) {
-			$active_campaigns->name                    = isset( $active_campaigns->name ) && ! empty( $active_campaigns->name ) ? __( $active_campaigns->name, 'wp-loyalty-rules' ) : '';
-			$active_campaigns->description             = isset( $active_campaigns->description ) && ! empty( $active_campaigns->description ) ? __( $active_campaigns->description, 'wp-loyalty-rules' ) : '';
-			$active_campaigns->campaign_title_discount = isset( $active_campaigns->campaign_title_discount ) && ! empty( $active_campaigns->campaign_title_discount ) ? __( $active_campaigns->campaign_title_discount, 'wp-loyalty-rules' ) : '';
+			$active_campaigns->name                    = isset( $active_campaigns->name ) && ! empty( $active_campaigns->name ) ? __( $active_campaigns->name, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+			$active_campaigns->description             = isset( $active_campaigns->description ) && ! empty( $active_campaigns->description ) ? __( $active_campaigns->description, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+			$active_campaigns->campaign_title_discount = isset( $active_campaigns->campaign_title_discount ) && ! empty( $active_campaigns->campaign_title_discount ) ? __( $active_campaigns->campaign_title_discount, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			if ( isset( $active_campaigns->action_type ) && ! empty( $active_campaigns->action_type ) ) {
 				$this->getCampaignActions( $active_campaigns, $user, $woocommerce_helper );
 			}
@@ -488,8 +488,8 @@ class Base {
 			return array();
 		}
 		foreach ( $user_rewards as $user_reward ) {
-			$user_reward->name        = isset( $user_reward->name ) && ! empty( $user_reward->name ) ? __( $user_reward->name, 'wp-loyalty-rules' ) : '';
-			$user_reward->description = isset( $user_reward->description ) && ! empty( $user_reward->description ) ? __( $user_reward->description, 'wp-loyalty-rules' ) : '';
+			$user_reward->name        = isset( $user_reward->name ) && ! empty( $user_reward->name ) ? __( $user_reward->name, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+			$user_reward->description = isset( $user_reward->description ) && ! empty( $user_reward->description ) ? __( $user_reward->description, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			$user_reward->button_text = __( 'Redeem', 'wp-loyalty-rules' );
 			$user_reward->action_text = $this->getUserRewardText( $user_reward );
 			if ( isset( $user_reward->discount_code ) && ! empty( $user_reward->discount_code ) ) {
@@ -505,6 +505,7 @@ class Base {
 			}
 			$user_reward->expiry_date_text = "";
 			if ( isset( $user_reward->expiry_date ) && ! empty( $user_reward->expiry_date ) && isset( $user_reward->discount_code ) && ! empty( $user_reward->discount_code ) ) {
+				/* translators: %s: expired date */
 				$user_reward->expiry_date_text = sprintf( __( "Expires on %s", "wp-loyalty-rules" ), $user_reward->expiry_date );
 			}
 		}
@@ -524,23 +525,28 @@ class Base {
 			case 'fixed_cart':
 			case 'points_conversion':
 				if ( $user_reward->coupon_type == 'percent' ) {
-					$text = ( $user_reward->reward_type == "redeem_coupon" ) ? sprintf( __( '%s Off', 'wp-loyalty-rules' ), $user_reward->discount_value . '%' ) : sprintf( __( '%d %s = %s Off', 'wp-loyalty-rules' ), $user_reward->require_point, $base_helper->getPointLabel( $user_reward->require_point ), $user_reward->discount_value . '%' );
+					$text = ( $user_reward->reward_type == "redeem_coupon" ) ? /* translators: %s: discount value */
+						sprintf( __( '%s Off', 'wp-loyalty-rules' ), $user_reward->discount_value . '%' ) : /* translators: 1: required point 2: point label 3: discount value */
+						sprintf( __( '%1$d %2$s = %3$s Off', 'wp-loyalty-rules' ), $user_reward->require_point, $base_helper->getPointLabel( $user_reward->require_point ), $user_reward->discount_value . '%' );
 				} else {
 					$discount_value = self::$woocommerce->getCustomPrice( $user_reward->discount_value );
-					$text           = ( $user_reward->reward_type == "redeem_coupon" ) ? sprintf( __( '%s Off', 'wp-loyalty-rules' ), $discount_value )
-						: sprintf( __( '%d %s = %s Off', 'wp-loyalty-rules' ), $user_reward->require_point, $base_helper->getPointLabel( $user_reward->require_point ), $discount_value );
+					$text           = ( $user_reward->reward_type == "redeem_coupon" ) ? /* translators: %s: discount value */
+						sprintf( __( '%s Off', 'wp-loyalty-rules' ), $discount_value )
+						: /* translators: 1: required point 2: point label 3: discount value */
+						sprintf( __( '%1$d %2$s = %3$s Off', 'wp-loyalty-rules' ), $user_reward->require_point, $base_helper->getPointLabel( $user_reward->require_point ), $discount_value );
 				}
 
 				break;
 			case 'percent':
-				$text = ( $user_reward->reward_type == "redeem_coupon" ) ? sprintf( __( '%d%s Off', 'wp-loyalty-rules' ), $user_reward->discount_value, '%' )
-					: sprintf( __( '%d %s = %d%s Off', 'wp-loyalty-rules' ), $user_reward->require_point, $base_helper->getPointLabel( $user_reward->require_point ), $user_reward->discount_value, '%' );
+				$text = ( $user_reward->reward_type == "redeem_coupon" ) ? /* translators: %s: discount value */
+					sprintf( __( '%s Off', 'wp-loyalty-rules' ), $user_reward->discount_value . '%' ) : /* translators: 1: required point 2: point label 3: discount value */
+					sprintf( __( '%1$d %2$s = %3$s Off', 'wp-loyalty-rules' ), $user_reward->require_point, $base_helper->getPointLabel( $user_reward->require_point ), $user_reward->discount_value . '%' );
 				break;
 			case 'free_product':
-				$text = ( $user_reward->reward_type == "redeem_coupon" ) ? __( 'Free product', 'wp-loyalty-rules' ) : __( $user_reward->require_point . ' ' . $base_helper->getPointLabel( $user_reward->require_point ), 'wp-loyalty-rules' );
+				$text = ( $user_reward->reward_type == "redeem_coupon" ) ? __( 'Free product', 'wp-loyalty-rules' ) : $user_reward->require_point . ' ' . $base_helper->getPointLabel( $user_reward->require_point );
 				break;
 			case 'free_shipping':
-				$text = ( $user_reward->reward_type == "redeem_coupon" ) ? __( 'Free shipping', 'wp-loyalty-rules' ) : __( $user_reward->require_point . ' ' . $base_helper->getPointLabel( $user_reward->require_point ), 'wp-loyalty-rules' );
+				$text = ( $user_reward->reward_type == "redeem_coupon" ) ? __( 'Free shipping', 'wp-loyalty-rules' ) : $user_reward->require_point . ' ' . $base_helper->getPointLabel( $user_reward->require_point );
 				break;
 		}
 
@@ -588,15 +594,17 @@ class Base {
 		if ( empty( $rewards ) || ! is_array( $rewards ) ) {
 			return array(
 				'reward_opportunity' => array(),
+				/* translators: %s: reward label */
 				'message'            => sprintf( __( 'No %s found!', 'wp-loyalty-rules' ), $earn_campaign->getRewardLabel( 3 ) )
 			);
 		}
 		foreach ( $rewards as $reward ) {
-			$reward->name        = isset( $reward->name ) && ! empty( $reward->name ) ? __( $reward->name, 'wp-loyalty-rules' ) : '';
-			$reward->description = isset( $reward->description ) && ! empty( $reward->description ) ? __( $reward->description, 'wp-loyalty-rules' ) : '';
+			$reward->name        = isset( $reward->name ) && ! empty( $reward->name ) ? __( $reward->name, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+			$reward->description = isset( $reward->description ) && ! empty( $reward->description ) ? __( $reward->description, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		}
 		$message = "";
 		if ( count( $rewards ) == 0 ) {
+			/* translators: %s: reward label */
 			$message = sprintf( __( 'No %s found!', 'wp-loyalty-rules' ), $earn_campaign->getRewardLabel( 3 ) );
 		}
 

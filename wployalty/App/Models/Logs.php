@@ -138,6 +138,7 @@ class Logs extends Base {
 				$this->handleActionProcessType( $log_list );
 			}
 			if ( isset( $log_list->action_process_type ) && isset( $log_list->action_type ) && ! empty( $log_list->action_process_type ) && ! empty( $log_list->action_type ) && ( $campaign_helper->is_valid_action( $log_list->action_type ) || $campaign_helper->isValidExtraAction( $log_list->action_type ) ) ) {
+				$reward_display_name = __( $log_list->reward_display_name, 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				if ( $campaign_helper->is_valid_action( $log_list->action_type ) && in_array( $log_list->action_process_type, array(
 						'earn_point',
 						'earn_reward',
@@ -147,22 +148,28 @@ class Logs extends Base {
 					) ) ) {
 					switch ( $log_list->action_process_type ) {
 						case 'earn_point':
-							$log_list->processed_custom_note = $log_list->action_type != 'achievement' ? sprintf( __( '%s %s earned', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) ) : $log_list->customer_note;
+							/* translators: 1: pont  2: point label*/
+							$log_list->processed_custom_note = $log_list->action_type != 'achievement' ? sprintf( __( '%1$s %2$s earned', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) ) : $log_list->customer_note;
 							break;
 						case 'earn_reward':
-							$log_list->processed_custom_note = $log_list->action_type != 'achievement' ? sprintf( __( '%s earned', 'wp-loyalty-rules' ), __( $log_list->reward_display_name, 'wp-loyalty-rules' ) ) : $log_list->customer_note;
+							/* translators: %s used to display reward name */
+							$log_list->processed_custom_note = $log_list->action_type != 'achievement' ? sprintf( __( '%s earned', 'wp-loyalty-rules' ), $reward_display_name ) : $log_list->customer_note;
 							break;
 						case 'coupon_generated':
-							$log_list->processed_custom_note = sprintf( __( '%s generated from %s via %s', 'wp-loyalty-rules' ), $log_list->discount_code, __( $log_list->reward_display_name, 'wp-loyalty-rules' ), $campaign_helper->getActionName( $log_list->action_type ) );
+							/* translators: 1: discount code  2: reward display name 3: action name */
+							$log_list->processed_custom_note = sprintf( __( '%1$s generated from %2$s via %3$s', 'wp-loyalty-rules' ), $log_list->discount_code, $reward_display_name, $campaign_helper->getActionName( $log_list->action_type ) );
 							if ( isset( $log_list->required_points ) && $log_list->required_points > 0 ) {
-								$log_list->processed_custom_note = sprintf( __( '%s generated from %s via %s (%s used %s)', 'wp-loyalty-rules' ), $log_list->discount_code, __( $log_list->reward_display_name, 'wp-loyalty-rules' ), $campaign_helper->getActionName( $log_list->action_type ), $campaign_helper->getPointLabel( $log_list->required_points ), $log_list->required_points );
+								/* translators: 1: discount code 2: reward display name 3: action name 4: point label 5: required points */
+								$log_list->processed_custom_note = sprintf( __( '%1$s generated from %2$s via %3$s (%4$s used %5$s)', 'wp-loyalty-rules' ), $log_list->discount_code, $reward_display_name, $campaign_helper->getActionName( $log_list->action_type ), $campaign_helper->getPointLabel( $log_list->required_points ), $log_list->required_points );
 							}
 							break;
 						case 'reduce_point':
-							$log_list->processed_custom_note = sprintf( __( '%s %s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+							/* translators: 1: point 2: point label */
+							$log_list->processed_custom_note = sprintf( __( '%1$s %2$s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 							break;
 						case 'return_reward':
-							$log_list->processed_custom_note = sprintf( __( '%s reward returned/expired', 'wp-loyalty-rules' ), __( $log_list->reward_display_name, 'wp-loyalty-rules' ) );
+							/* translators: %s used to display reward name */
+							$log_list->processed_custom_note = sprintf( __( '%s reward returned/expired', 'wp-loyalty-rules' ), $reward_display_name );
 							break;
 						case 'email_notification':
 							$log_list->processed_custom_note = $log_list->customer_note;
@@ -175,14 +182,17 @@ class Logs extends Base {
 								$log_list->processed_custom_note = $log_list->customer_note;
 								break;
 							case 'earn_point':
-								$log_list->processed_custom_note = sprintf( __( '%s %s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							case 'reduce_point':
-								$log_list->processed_custom_note = sprintf( __( '%s %s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							case 'birth_date_update':
-								$user                            = $campaign_helper->getPointUserByEmail( $log_list->user_email );
-								$birth_date                      = isset( $user->birthday_date ) && ! empty( $user->birthday_date ) && $user->birthday_date != '0000-00-00' ? $woocommerce_helper->beforeDisplayDate( strtotime( $user->birthday_date ) ) : ( isset( $user->birth_date ) && ! empty( $user->birth_date ) ? $woocommerce_helper->beforeDisplayDate( $user->birth_date ) : '' );
+								$user       = $campaign_helper->getPointUserByEmail( $log_list->user_email );
+								$birth_date = isset( $user->birthday_date ) && ! empty( $user->birthday_date ) && $user->birthday_date != '0000-00-00' ? $woocommerce_helper->beforeDisplayDate( strtotime( $user->birthday_date ) ) : ( isset( $user->birth_date ) && ! empty( $user->birth_date ) ? $woocommerce_helper->beforeDisplayDate( $user->birth_date ) : '' );
+								/* translators: %s used to display birth date */
 								$log_list->processed_custom_note = sprintf( __( 'Birthdate change to %s', 'wp-loyalty-rules' ), $birth_date );
 								break;
 						}
@@ -193,7 +203,8 @@ class Logs extends Base {
 								break;
 							case 'expire_email_and_date_change':
 							case 'expiry_date':
-								$log_list->processed_custom_note = sprintf( __( 'Updated expiry date %s for %s', 'wp-loyalty-rules' ), $woocommerce_helper->beforeDisplayDate( $log_list->expire_date, 'Y-m-d' ), __( $log_list->reward_display_name, 'wp-loyalty-rules' ) );
+								/* translators: 1: expiry date 2: reward display name */
+								$log_list->processed_custom_note = sprintf( __( 'Updated expiry date %1$s for %2$s', 'wp-loyalty-rules' ), $woocommerce_helper->beforeDisplayDate( $log_list->expire_date, 'Y-m-d' ), $reward_display_name );
 								break;
 						}
 					} elseif ( $log_list->action_type == 'expire_email_date_change' ) {
@@ -202,21 +213,26 @@ class Logs extends Base {
 								$log_list->processed_custom_note = $log_list->customer_note;
 								break;
 							case 'expiry_email':
-								$log_list->processed_custom_note = sprintf( __( 'Updated expiry email date %s for %s', 'wp-loyalty-rules' ), $woocommerce_helper->beforeDisplayDate( $log_list->expire_email_date, 'Y-m-d' ), __( $log_list->reward_display_name, 'wp-loyalty-rules' ) );
+								/* translators: 1: expiry email date 2: reward display name */
+								$log_list->processed_custom_note = sprintf( __( 'Updated expiry email date %1$s for %2$s', 'wp-loyalty-rules' ), $woocommerce_helper->beforeDisplayDate( $log_list->expire_email_date, 'Y-m-d' ), $reward_display_name );
 								break;
 						}
 					} elseif ( $log_list->action_type == 'redeem_point' ) {
 						switch ( $log_list->action_process_type ) {
 							case 'coupon_generated':
-								$log_list->processed_custom_note = sprintf( __( '%s coupon generated from %s', 'wp-loyalty-rules' ), $log_list->discount_code, __( $log_list->reward_display_name, 'wp-loyalty-rules' ) );
+								/* translators: 1: discount code 2: reward display name */
+								$log_list->processed_custom_note = sprintf( __( '%1$s coupon generated from %2$s', 'wp-loyalty-rules' ), $log_list->discount_code, $reward_display_name );
 								if ( isset( $log_list->required_points ) && $log_list->required_points > 0 ) {
-									$log_list->processed_custom_note = sprintf( __( '%s coupon generated from %s using %s %s', 'wp-loyalty-rules' ), $log_list->discount_code, __( $log_list->reward_display_name, 'wp-loyalty-rules' ), $log_list->required_points, $campaign_helper->getPointLabel( $log_list->required_points ) );
+									/* translators: 1: discount code 2: reward display name 3: required points 4: point label*/
+									$log_list->processed_custom_note = sprintf( __( '%1$s coupon generated from %2$s using %3$s %4$s', 'wp-loyalty-rules' ), $log_list->discount_code, $reward_display_name, $log_list->required_points, $campaign_helper->getPointLabel( $log_list->required_points ) );
 								}
 								break;
 							case 'earn_reward':
-								$log_list->processed_custom_note = sprintf( __( '%s earned from %s', 'wp-loyalty-rules' ), __( $log_list->reward_display_name, 'wp-loyalty-rules' ), $campaign_helper->getPointLabel( 3 ) );
+								/* translators: 1: reward display name 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s earned from %2$s', 'wp-loyalty-rules' ), $reward_display_name, $campaign_helper->getPointLabel( 3 ) );
 								if ( isset( $log_list->required_points ) && $log_list->required_points > 0 ) {
-									$log_list->processed_custom_note = sprintf( __( '%s earned from %s %s', 'wp-loyalty-rules' ), __( $log_list->reward_display_name, 'wp-loyalty-rules' ), $log_list->required_points, $campaign_helper->getPointLabel( $log_list->required_points ) );
+									/* translators: 1: reward display name 2: required points 3: point label */
+									$log_list->processed_custom_note = sprintf( __( '%1$s earned from %2$s %3$s', 'wp-loyalty-rules' ), $reward_display_name, $log_list->required_points, $campaign_helper->getPointLabel( $log_list->required_points ) );
 								}
 								break;
 						}
@@ -227,10 +243,12 @@ class Logs extends Base {
 								$log_list->processed_custom_note = $log_list->customer_note;
 								break;
 							case 'earn_point':
-								$log_list->processed_custom_note = sprintf( __( '%s %s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							case 'reduce_point':
-								$log_list->processed_custom_note = sprintf( __( '%s %s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 						}
 					} elseif ( $log_list->action_type == 'import' ) {
@@ -240,26 +258,31 @@ class Logs extends Base {
 								break;
 							case 'earn_point':
 							case 'new_user':
-								$log_list->processed_custom_note = sprintf( __( '%s %s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							case 'reduce_point':
-								$log_list->processed_custom_note = sprintf( __( '%s %s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 						}
 					} elseif ( $log_list->action_type == 'rest_api' ) {
 						switch ( $log_list->action_process_type ) {
 							case 'earn_point':
 							case 'new_user':
-								$log_list->processed_custom_note = sprintf( __( '%s %s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							case 'reduce_point':
-								$log_list->processed_custom_note = sprintf( __( '%s %s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s reduced', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 						}
 					} elseif ( $log_list->action_type == 'revoke_coupon' ) {
 						switch ( $log_list->action_process_type ) {
 							case 'revoke_coupon':
-								$log_list->processed_custom_note = sprintf( __( '%s %s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s added', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							default:
 								$log_list->processed_custom_note = $log_list->customer_note;
@@ -268,7 +291,8 @@ class Logs extends Base {
 					} elseif ( $log_list->action_type == 'expire_point' ) {
 						switch ( $log_list->action_process_type ) {
 							case 'expire_point':
-								$log_list->processed_custom_note = sprintf( __( '%s %s expired', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
+								/* translators: 1: point 2: point label */
+								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s expired', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							default:
 								$log_list->processed_custom_note = $log_list->customer_note;
@@ -278,8 +302,9 @@ class Logs extends Base {
 						switch ( $log_list->action_process_type ) {
 							case 'admin_change':
 							case 'customer_change':
-								$user                            = $campaign_helper->getPointUserByEmail( $log_list->user_email );
-								$birth_date                      = isset( $user->birthday_date ) && ! empty( $user->birthday_date ) && $user->birthday_date != '0000-00-00' ? $woocommerce_helper->convertDateFormat( $user->birthday_date ) : ( isset( $user->birth_date ) && ! empty( $user->birth_date ) ? $woocommerce_helper->beforeDisplayDate( $user->birth_date ) : '' );
+								$user       = $campaign_helper->getPointUserByEmail( $log_list->user_email );
+								$birth_date = isset( $user->birthday_date ) && ! empty( $user->birthday_date ) && $user->birthday_date != '0000-00-00' ? $woocommerce_helper->convertDateFormat( $user->birthday_date ) : ( isset( $user->birth_date ) && ! empty( $user->birth_date ) ? $woocommerce_helper->beforeDisplayDate( $user->birth_date ) : '' );
+								/* translators: %s used to display birth date */
 								$log_list->processed_custom_note = sprintf( __( 'Birthdate updated to %s', 'wp-loyalty-rules' ), $birth_date );
 								break;
 							default:
@@ -466,7 +491,7 @@ class Logs extends Base {
 			'order_id'       => (int) isset( $data['order_id'] ) && ! empty( $data['order_id'] ) ? $data['order_id'] : 0,
 			'product_id'     => (int) isset( $data['product_id'] ) && ! empty( $data['product_id'] ) ? $data['product_id'] : 0,
 			'admin_id'       => (int) isset( $data['admin_id'] ) && ! empty( $data['admin_id'] ) ? $data['admin_id'] : 0,
-			'created_at'     => strtotime( date( 'Y-m-d H:i:s' ) ),
+			'created_at'     => strtotime( gmdate( 'Y-m-d H:i:s' ) ),
 			'modified_at'    => 0,
 
 			'points'              => (int) isset( $data['points'] ) && ! empty( $data['points'] ) ? $data['points'] : 0,

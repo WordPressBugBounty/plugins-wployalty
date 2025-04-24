@@ -122,7 +122,7 @@ class Schedules {
 						'points'      => $user->points,
 						'action_type' => 'starting_point',
 						'note'        => __( 'Starting point of customer', 'wp-loyalty-rules' ),
-						'created_at'  => strtotime( date( "Y-m-d H:i:s" ) )
+						'created_at'  => strtotime( gmdate( "Y-m-d H:i:s" ) )
 					];
 					$base_helper->updatePointLedger( $data, 'credit', false );
 				}

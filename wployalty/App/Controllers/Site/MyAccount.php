@@ -20,23 +20,22 @@ class MyAccount extends Base {
 		if ( self::$woocommerce->isBannedUser() || ! apply_filters( 'wlr_before_adding_menu', true ) ) {
 			return;
 		}
-		add_action( 'woocommerce_account_menu_items', array( $this, 'addMenuItems' ) );
+		add_action( 'woocommerce_account_menu_items', [ $this, 'addMenuItems' ] );
 		$options                = self::$woocommerce->getOptions( 'wlr_settings' );
 		$my_account_icon_enable = ( isset( $options['my_account_icon_enable'] ) && ! empty( $options['my_account_icon_enable'] ) ? $options['my_account_icon_enable'] : 'no' );
 		if ( $my_account_icon_enable == 'yes' ) {
-			add_filter( 'woocommerce_account_menu_item_classes', array( $this, 'addMyAccountPointClass' ), 10, 2 );
+			add_filter( 'woocommerce_account_menu_item_classes', [ $this, 'addMyAccountPointClass' ], 10, 2 );
 		}
-		add_action( 'woocommerce_account_loyalty_reward_endpoint', array( $this, 'myAccountRewardPage' ) );
+		add_action( 'woocommerce_account_loyalty_reward_endpoint', [ $this, 'myAccountRewardPage' ] );
 	}
 
 	public function addMenuItems( $menu_items ) {
 		if ( isset( $menu_items['customer-logout'] ) ) {
 			$logout = $menu_items['customer-logout'];
 			unset( $menu_items['customer-logout'] );
-			$base_helper                   = new \Wlr\App\Helpers\Base();
-			$menu_items['loyalty_reward']  = sprintf( __( '%s & %s',
-				'wp-loyalty-rules' ), ucfirst( $base_helper->getPointLabel( 3 ) ),
-				ucfirst( $base_helper->getRewardLabel( 3 ) ) );
+			$base_helper = new \Wlr\App\Helpers\Base();
+			/* translators: 1: point label 2: Reward label  */
+			$menu_items['loyalty_reward']  = sprintf( __( '%1$s & %2$s', 'wp-loyalty-rules' ), ucfirst( $base_helper->getPointLabel( 3 ) ), ucfirst( $base_helper->getRewardLabel( 3 ) ) );
 			$menu_items['customer-logout'] = $logout;
 		}
 
@@ -53,7 +52,7 @@ class MyAccount extends Base {
 	}
 
 	function myAccountRewardPage( $current_page ) {
-		echo $this->rewardPage( 'myaccount' );
+		echo $this->rewardPage( 'myaccount' );//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	function rewardPage( $page_type = '' ) {

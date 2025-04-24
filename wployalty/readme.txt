@@ -3,10 +3,10 @@ Contributors: flycart
 Donate link: https://wployalty.net
 Tags: points, rewards, loyalty, referrals, coupons
 Requires at least: 4.9.0
-Tested up to: 6.7
+Tested up to: 6.8
 WC requires at least: 6.5.0
-WC tested up to: 9.7
-Stable tag: 1.3.2
+WC tested up to: 9.8
+Stable tag: 1.3.3
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,9 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.3.3 =
+- Fix: plugin check
+
 = 1.3.2 =
 - Added: Point based level addon filters.
 

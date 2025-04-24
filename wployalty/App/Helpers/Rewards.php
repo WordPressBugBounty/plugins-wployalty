@@ -18,15 +18,15 @@ defined( 'ABSPATH' ) or die;
 class Rewards extends EarnCampaign {
 	public static $instance = null;
 	public static $user_rewards;
-	public $available_conditions = array();
-	static $remaining_discount_amount = array();
-	static $processed_discount_keys = array();
+	public $available_conditions = [];
+	static $remaining_discount_amount = [];
+	static $processed_discount_keys = [];
 
-	public function __construct( $config = array() ) {
+	public function __construct( $config = [] ) {
 		parent::__construct( $config );
 	}
 
-	public static function getInstance( array $config = array() ) {
+	public static function getInstance( array $config = [] ) {
 		if ( ! self::$instance ) {
 			self::$instance = new self( $config );
 		}
@@ -73,8 +73,8 @@ class Rewards extends EarnCampaign {
 		self::$remaining_discount_amount[ $code ] = $cart_items_data;
 	}
 
-	function getUserRewards( $user_email, $data = array(), $is_product_level = false, $pagination_params = array() ) {
-		$rewards = array();
+	function getUserRewards( $user_email, $data = [], $is_product_level = false, $pagination_params = [] ) {
+		$rewards = [];
 		if ( empty( $user_email ) ) {
 			return $rewards;
 		}
@@ -110,8 +110,8 @@ class Rewards extends EarnCampaign {
 		return self::$user_rewards[ $user_email ]['user_reward'] = $rewards;
 	}
 
-	function getCouponRewards( $user_email, $data = array(), $is_product_level = false, $pagination_params = array() ) {
-		$rewards = array();
+	function getCouponRewards( $user_email, $data = [], $is_product_level = false, $pagination_params = [] ) {
+		$rewards = [];
 		if ( empty( $user_email ) ) {
 			return $rewards;
 		}
@@ -134,7 +134,7 @@ class Rewards extends EarnCampaign {
 		return $rewards;
 	}
 
-	function processRewardConditions( $user_reward, $data = array(), $is_product_level = false ) {
+	function processRewardConditions( $user_reward, $data = [], $is_product_level = false ) {
 		if ( ! $this->isPro() ) {
 			return true;
 		}
@@ -143,7 +143,7 @@ class Rewards extends EarnCampaign {
 			return false;
 		}
 		$status     = false;
-		$conditions = ( isset( $user_reward->conditions ) && ! empty( $user_reward->conditions ) && self::$woocommerce_helper->isJson( $user_reward->conditions ) ) ? json_decode( $user_reward->conditions ) : array();
+		$conditions = ( isset( $user_reward->conditions ) && ! empty( $user_reward->conditions ) && self::$woocommerce_helper->isJson( $user_reward->conditions ) ) ? json_decode( $user_reward->conditions ) : [];
 		if ( empty( $conditions ) ) {
 			return true;
 		}
@@ -193,8 +193,8 @@ class Rewards extends EarnCampaign {
 		return $status;
 	}
 
-	function getPointRewards( $user_email, $data = array(), $is_product_level = false ) {
-		$rewards = array();
+	function getPointRewards( $user_email, $data = [], $is_product_level = false ) {
+		$rewards = [];
 		if ( empty( $user_email ) ) {
 			return $rewards;
 		}
@@ -263,7 +263,7 @@ class Rewards extends EarnCampaign {
 			return self::getCouponResponse( $user_reward->discount_code, $user_reward, $is_checkout_block );
 			//WC()->cart->apply_coupon($user_reward->discount_code);
 		} else {
-			$conditions      = ( isset( $user_reward->conditions ) && ! empty( $user_reward->conditions ) && self::$woocommerce_helper->isJson( $user_reward->conditions ) ) ? json_decode( $user_reward->conditions ) : array();
+			$conditions      = ( isset( $user_reward->conditions ) && ! empty( $user_reward->conditions ) && self::$woocommerce_helper->isJson( $user_reward->conditions ) ) ? json_decode( $user_reward->conditions ) : [];
 			$condition_type  = ( isset( $user_reward->condition_relationship ) && ! empty( $user_reward->condition_relationship ) ) ? $user_reward->condition_relationship : 'and';
 			$condition_data  = $this->convertCouponData( $conditions, $condition_type );
 			$discount_amount = $user_reward->discount_value;
@@ -278,18 +278,18 @@ class Rewards extends EarnCampaign {
 				'type'                         => $user_reward->discount_type,
 				'amount'                       => $discount_amount,
 				'individual_use'               => is_array( $options ) && isset( $options['individual_use_coupon'] ) && $options['individual_use_coupon'] == 'yes',
-				'product_ids'                  => isset( $condition_data['product_ids'] ) && ! empty( $condition_data['product_ids'] ) ? $condition_data['product_ids'] : array(),
-				'exclude_product_ids'          => isset( $condition_data['exclude_product_ids'] ) && ! empty( $condition_data['exclude_product_ids'] ) ? $condition_data['exclude_product_ids'] : array(),
+				'product_ids'                  => isset( $condition_data['product_ids'] ) && ! empty( $condition_data['product_ids'] ) ? $condition_data['product_ids'] : [],
+				'exclude_product_ids'          => isset( $condition_data['exclude_product_ids'] ) && ! empty( $condition_data['exclude_product_ids'] ) ? $condition_data['exclude_product_ids'] : [],
 				'usage_limit'                  => 1,
 				//isset( $user_reward->usage_limits ) && ! empty( $user_reward->usage_limits ) ? (int) $user_reward->usage_limits : 1,
 				'usage_limit_per_user'         => 1,
 				//isset( $user_reward->usage_limits ) && ! empty( $user_reward->usage_limits ) ? (int) $user_reward->usage_limits : 1,
 				'limit_usage_to_x_items'       => '',
 				'usage_count'                  => '',
-				'expiry_date'                  => isset( $user_reward->end_at ) && ! empty( $user_reward->end_at ) ? date( 'Y-m-d H:i:s', $user_reward->end_at ) : '',
+				'expiry_date'                  => isset( $user_reward->end_at ) && ! empty( $user_reward->end_at ) ? gmdate( 'Y-m-d H:i:s', $user_reward->end_at ) : '',
 				'enable_free_shipping'         => false,
-				'product_category_ids'         => isset( $condition_data['product_category_ids'] ) && ! empty( $condition_data['product_category_ids'] ) ? $condition_data['product_category_ids'] : array(),
-				'exclude_product_category_ids' => isset( $condition_data['exclude_product_category_ids'] ) && ! empty( $condition_data['exclude_product_category_ids'] ) ? $condition_data['exclude_product_category_ids'] : array(),
+				'product_category_ids'         => isset( $condition_data['product_category_ids'] ) && ! empty( $condition_data['product_category_ids'] ) ? $condition_data['product_category_ids'] : [],
+				'exclude_product_category_ids' => isset( $condition_data['exclude_product_category_ids'] ) && ! empty( $condition_data['exclude_product_category_ids'] ) ? $condition_data['exclude_product_category_ids'] : [],
 				'exclude_sale_items'           => isset( $condition_data['exclude_sale_items'] ) && $condition_data['exclude_sale_items'] ? $condition_data['exclude_sale_items'] : false,
 				'minimum_amount'               => isset( $condition_data['minimum_amount'] ) && ! empty( $condition_data['minimum_amount'] ) ? $condition_data['minimum_amount'] : '',
 				'maximum_amount'               => isset( $condition_data['maximum_amount'] ) && ! empty( $condition_data['maximum_amount'] ) ? $condition_data['maximum_amount'] : '',
@@ -332,8 +332,9 @@ class Rewards extends EarnCampaign {
 					if ( $status >= 0 ) {
 						$user_reward->discount_code = $coupon_code;
 						$earn_campaign              = new EarnCampaign();
-						$customer_note              = sprintf( __( '%s coupon created for %s from %s reward', 'wp-loyalty-rules' ), $coupon_code, $user_reward->email, $user_reward->display_name );
-						$log_data                   = array(
+						/* translators: 1:coupon code 2: email 3: reward display name */
+						$customer_note = sprintf( __( '%1$s coupon created for %2$s from %3$s reward', 'wp-loyalty-rules' ), $coupon_code, $user_reward->email, $user_reward->display_name );
+						$log_data      = array(
 							'user_email'          => sanitize_email( $user_email ),
 							'action_type'         => $user_reward->action_type,
 							'reward_id'           => $user_reward->reward_id,
@@ -341,7 +342,7 @@ class Rewards extends EarnCampaign {
 							'campaign_id'         => $user_reward->campaign_id,
 							'note'                => $customer_note,
 							'customer_note'       => $customer_note,
-							'created_at'          => strtotime( date( 'Y-m-d H:i:s' ) ),
+							'created_at'          => strtotime( gmdate( 'Y-m-d H:i:s' ) ),
 							'modified_at'         => 0,
 							'discount_code'       => isset( $updateData['discount_code'] ) && ! empty( $updateData['discount_code'] ) ? $updateData['discount_code'] : null,
 							'action_process_type' => 'coupon_generated',
@@ -404,24 +405,24 @@ class Rewards extends EarnCampaign {
 		$data = array(
 			'minimum_amount'               => '',
 			'maximum_amount'               => '',
-			'product_ids'                  => array(),
-			'exclude_product_ids'          => array(),
-			'product_category_ids'         => array(),
-			'exclude_product_category_ids' => array(),
+			'product_ids'                  => [],
+			'exclude_product_ids'          => [],
+			'product_category_ids'         => [],
+			'exclude_product_category_ids' => [],
 			'exclude_sale_items'           => false
 		);
 		if ( empty( $conditions ) ) {
 			return $data;
 		}
 		$available_conditions                    = ( ! empty( $this->available_conditions ) ) ? $this->available_conditions : $this->getAvailableConditions();
-		$min_condition_list                      = array();
-		$max_condition_list                      = array();
-		$product_ids_conditions                  = array();
-		$exclude_product_ids_conditions          = array();
-		$product_category_ids_conditions         = array();
-		$exclude_product_category_ids_conditions = array();
-		$exclude_sale_items_conditions           = array();
-		$currency_conditions                     = array();
+		$min_condition_list                      = [];
+		$max_condition_list                      = [];
+		$product_ids_conditions                  = [];
+		$exclude_product_ids_conditions          = [];
+		$product_category_ids_conditions         = [];
+		$exclude_product_category_ids_conditions = [];
+		$exclude_sale_items_conditions           = [];
+		$currency_conditions                     = [];
 		if ( $condition_relationship == 'and' ) {
 			$min_condition_list                      = apply_filters( 'wlr_minimum_amount_conditions', array( 'cart_subtotal' ), $available_conditions );
 			$max_condition_list                      = apply_filters( 'wlr_maximum_amount_conditions', array( 'cart_subtotal' ), $available_conditions );
@@ -506,7 +507,7 @@ class Rewards extends EarnCampaign {
 			$data = apply_filters( 'wlr_create_coupon_data', $data, $this );
 			// Check if coupon code is specified
 			if ( ! isset( $data['code'] ) ) {
-				throw new Exception( sprintf( __( 'Missing parameter %s', 'wp-loyalty-rules' ), 'code' ), 400 );
+				throw new Exception( __( 'Missing parameter "code"', 'wp-loyalty-rules' ), 400 );
 			}
 			$coupon_code  = wc_format_coupon_code( $data['code'] );
 			$id_from_code = wc_get_coupon_id_by_code( $coupon_code );
@@ -517,25 +518,26 @@ class Rewards extends EarnCampaign {
 				'type'                         => 'fixed_cart',
 				'amount'                       => 0,
 				'individual_use'               => false,
-				'product_ids'                  => array(),
-				'exclude_product_ids'          => array(),
+				'product_ids'                  => [],
+				'exclude_product_ids'          => [],
 				'usage_limit'                  => '',
 				'usage_limit_per_user'         => '',
 				'limit_usage_to_x_items'       => '',
 				'usage_count'                  => '',
 				'expiry_date'                  => '',
 				'enable_free_shipping'         => false,
-				'product_category_ids'         => array(),
-				'exclude_product_category_ids' => array(),
+				'product_category_ids'         => [],
+				'exclude_product_category_ids' => [],
 				'exclude_sale_items'           => false,
 				'minimum_amount'               => '',
 				'maximum_amount'               => '',
-				'customer_emails'              => array(),
+				'customer_emails'              => [],
 				'description'                  => '',
 			);
 			$coupon_data = wp_parse_args( $data, $defaults );
 			// Validate coupon types
 			if ( ! in_array( wc_clean( $coupon_data['type'] ), array_keys( wc_get_coupon_types() ) ) ) {
+				/* translators: %s: coupon types */
 				throw new Exception( sprintf( __( 'Invalid coupon type - the coupon type must be any of these: %s', 'wp-loyalty-rules' ), implode( ', ', array_keys( wc_get_coupon_types() ) ) ), 400 );
 			}
 			$new_coupon = array(

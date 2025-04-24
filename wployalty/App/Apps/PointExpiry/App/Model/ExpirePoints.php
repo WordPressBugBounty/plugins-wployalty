@@ -116,7 +116,7 @@ class ExpirePoints extends Base {
 			'expire_date'             => 0,
 			'expire_email_date'       => 0,
 			'is_expire_email_send'    => 0,
-			'created_at'              => strtotime( date( "Y-m-d H:i:s" ) ),
+			'created_at'              => strtotime( gmdate( "Y-m-d H:i:s" ) ),
 			'modified_at'             => 0,
 		);
 		$settings            = get_option( 'wlpe_settings', array() );
@@ -129,7 +129,7 @@ class ExpirePoints extends Base {
 			$expire_after = is_array( $settings ) && isset( $settings['expire_after'] ) && $settings['expire_after'] > 0 ? $settings['expire_after'] : 45;
 			if ( $expire_after > 0 ) {
 				$expire_period                = is_array( $settings ) && isset( $settings['expire_period'] ) && ! empty( $settings['expire_period'] ) ? $settings['expire_period'] : 'day';
-				$credit_fields['expire_date'] = strtotime( date( "Y-m-d H:i:s", strtotime( "+" . $expire_after . " " . $expire_period ) ) );
+				$credit_fields['expire_date'] = strtotime( gmdate( "Y-m-d H:i:s", strtotime( "+" . $expire_after . " " . $expire_period ) ) );
 				$credit_fields['status']      = 'active';
 			}
 			$enable_expire_email = false;
@@ -141,7 +141,7 @@ class ExpirePoints extends Base {
 				if ( $expire_email_after > 0 && $expire_after > 0 ) {
 					$expire_email_days                  = $expire_after - $expire_email_after;
 					$expire_email_period                = is_array( $settings ) && isset( $settings['expire_email_period'] ) && ! empty( $settings['expire_email_period'] ) ? $settings['expire_email_period'] : 'day';
-					$credit_fields['expire_email_date'] = strtotime( date( "Y-m-d H:i:s", strtotime( "+" . $expire_email_days . " " . $expire_email_period ) ) );
+					$credit_fields['expire_email_date'] = strtotime( gmdate( "Y-m-d H:i:s", strtotime( "+" . $expire_email_days . " " . $expire_email_period ) ) );
 				}
 			}
 		}
@@ -201,7 +201,7 @@ class ExpirePoints extends Base {
 			'admin_user_id'           => 0,
 			'log_data'                => '{}',
 			'expire_date'             => 0,
-			'created_at'              => strtotime( date( "Y-m-d H:i:s" ) ),
+			'created_at'              => strtotime( gmdate( "Y-m-d H:i:s" ) ),
 			'modified_at'             => 0,
 			'expire_email_date'       => 0,
 			'is_expire_email_send'    => 0
@@ -216,7 +216,7 @@ class ExpirePoints extends Base {
 			$expire_after = is_array( $settings ) && isset( $settings['expire_after'] ) && $settings['expire_after'] > 0 ? $settings['expire_after'] : 45;
 			if ( $expire_after > 0 ) {
 				$expire_period                = is_array( $settings ) && isset( $settings['expire_period'] ) && ! empty( $settings['expire_period'] ) ? $settings['expire_period'] : 'day';
-				$credit_fields['expire_date'] = strtotime( date( "Y-m-d H:i:s", strtotime( "+" . $expire_after . " " . $expire_period ) ) );
+				$credit_fields['expire_date'] = strtotime( gmdate( "Y-m-d H:i:s", strtotime( "+" . $expire_after . " " . $expire_period ) ) );
 				$credit_fields['status']      = 'active';
 			}
 			$enable_expire_email = false;
@@ -228,7 +228,7 @@ class ExpirePoints extends Base {
 				if ( $expire_email_after > 0 && $expire_after > 0 ) {
 					$expire_email_days                  = $expire_after - $expire_email_after;
 					$expire_email_period                = is_array( $settings ) && isset( $settings['expire_email_period'] ) && ! empty( $settings['expire_email_period'] ) ? $settings['expire_email_period'] : 'day';
-					$credit_fields['expire_email_date'] = strtotime( date( "Y-m-d H:i:s", strtotime( "+" . $expire_email_days . " " . $expire_email_period ) ) );
+					$credit_fields['expire_email_date'] = strtotime( gmdate( "Y-m-d H:i:s", strtotime( "+" . $expire_email_days . " " . $expire_email_period ) ) );
 				}
 			}
 		}
@@ -266,7 +266,7 @@ class ExpirePoints extends Base {
 				'available_points'        => $available_point,
 				'status'                  => $available_point <= 0 ? 'used' : $expire_point_table->status,
 				'debit_trans_campaign_id' => ! empty( $debit_trans_campaign_id ) ? implode( ',', $debit_trans_campaign_id ) : '',
-				'modified_at'             => strtotime( date( "Y-m-d H:i:s" ) )
+				'modified_at'             => strtotime( gmdate( "Y-m-d H:i:s" ) )
 			);
 			$this->updateRow( $update_data, array( 'id' => $expire_point_table->id ) );
 		}
@@ -279,7 +279,7 @@ class ExpirePoints extends Base {
 	}
 
 	function getExpirePointEmailList() {
-		$current_date         = date( 'Y-m-d H:i:s' );
+		$current_date         = gmdate( 'Y-m-d H:i:s' );
 		$where                = self::$db->prepare( 'expire_email_date <= %s AND expire_email_date != %s AND is_expire_email_send = 0 AND status = %s', array(
 			strtotime( $current_date ),
 			0,
@@ -309,7 +309,7 @@ class ExpirePoints extends Base {
 	}
 
 	function getExpirePointStatusNeedToChangeList() {
-		$current_date = strtotime( date( "Y-m-d H:i:s" ) );
+		$current_date = strtotime( gmdate( "Y-m-d H:i:s" ) );
 		$where        = self::$db->prepare( 'expire_date <= %s AND expire_date != %d AND status = %s', array(
 			$current_date,
 			0,
@@ -323,11 +323,11 @@ class ExpirePoints extends Base {
 		if ( empty( $user_email ) || ! is_email( $user_email ) || empty( $expire_range_type ) || $expire_points < 0 ) {
 			return array();
 		}
-		$upcoming_date = strtotime( date( 'Y-m-d H:i:s', strtotime( '+' . $expire_points . ' ' . $expire_range_type ) ) );
+		$upcoming_date = strtotime( gmdate( 'Y-m-d H:i:s', strtotime( '+' . $expire_points . ' ' . $expire_range_type ) ) );
 		if ( isset( self::$upcoming_expire_point[ $upcoming_date ] ) && ! empty( self::$upcoming_expire_point[ $upcoming_date ] ) ) {
 			return self::$upcoming_expire_point[ $upcoming_date ];
 		}
-		$current_date = strtotime( date( "Y-m-d H:i:s" ) );
+		$current_date = strtotime( gmdate( "Y-m-d H:i:s" ) );
 		$where        = self::$db->prepare( 'user_email = %s AND expire_date >= %s AND expire_date != %d AND expire_date <= %s AND status = %s', array(
 			$user_email,
 			$current_date,
@@ -351,8 +351,8 @@ class ExpirePoints extends Base {
 			return self::$customer_point_expire_list;
 		}
 		$expire_date_range                                       = isset( $options['expire_date_range'] ) && $options['expire_date_range'] ? $options['expire_date_range'] : 30;
-		$current_date                                            = strtotime( date( "Y-m-d H:i:s" ) );
-		$end_date                                                = strtotime( date( 'Y-m-d', strtotime( '+' . $expire_date_range . ' days' ) ) );
+		$current_date                                            = strtotime( gmdate( "Y-m-d H:i:s" ) );
+		$end_date                                                = strtotime( gmdate( 'Y-m-d', strtotime( '+' . $expire_date_range . ' days' ) ) );
 		$where                                                   = self::$db->prepare( 'user_email = %s AND expire_date >= %s AND expire_date != %d AND expire_date <= %s AND status = %s ORDER BY expire_date ASC ',
 			array( $user_email, $current_date, 0, $end_date, 'active' ) );
 		$total_expire_points                                     = $this->getWhere( $where, "COUNT(DISTINCT id) as total_count", true );
@@ -369,8 +369,8 @@ class ExpirePoints extends Base {
 		if ( empty( $user_email ) ) {
 			return 0;
 		}
-		$current_date       = strtotime( date( "Y-m-d 00:00:00" ) );
-		$end_date           = strtotime( date( "Y-m-d 23:59:59" ) );
+		$current_date       = strtotime( gmdate( "Y-m-d 00:00:00" ) );
+		$end_date           = strtotime( gmdate( "Y-m-d 23:59:59" ) );
 		$where              = self::$db->prepare( 'user_email = %s AND expire_date >= %s AND expire_date != %d AND expire_date <= %s AND status = %s ORDER BY expire_date ASC ',
 			array( $user_email, $current_date, 0, $end_date, 'active' ) );
 		$today_expire_point = $this->getWhere( $where, "SUM(available_points) as points", true );

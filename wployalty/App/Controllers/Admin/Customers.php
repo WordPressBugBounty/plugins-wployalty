@@ -120,7 +120,7 @@ class Customers {
 			$query_data['search'] = sanitize_text_field( $search );
 		}
 
-		return apply_filters('wlr_customers_query_data', $query_data );
+		return apply_filters( 'wlr_customers_query_data', $query_data );
 	}
 
 	/**
@@ -189,7 +189,7 @@ class Customers {
 			'action_type'         => 'user_removed',
 			'action_process_type' => 'user_removed',
 			'note'                => __( 'User full available point debited', 'wp-loyalty-rules' ),
-			'created_at'          => strtotime( date( "Y-m-d H:i:s" ) ),
+			'created_at'          => strtotime( gmdate( "Y-m-d H:i:s" ) ),
 			'points'              => (int) $user->points
 		];
 		$base_helper->updatePointLedger( $ledger_data, 'debit' );
@@ -379,8 +379,10 @@ class Customers {
 			'birthday_date'       => ! empty( $birth_date ) ? $woocommerce_helper->convertDateFormat( $birth_date, 'Y-m-d' ) : null,
 			'action_type'         => 'birthday_change',
 			'action_process_type' => 'admin_change',
+			/* translators: %s: birthday date */
 			'customer_note'       => sprintf( __( 'Birthday has been changed by the site administrator. The new value is %s', 'wp-loyalty-rules' ), $birth_date ),
-			'note'                => sprintf( __( '%s customer birthday changed from %s to %s by store admin(%s)', 'wp-loyalty-rules' ), $user->user_email, $old_birth_date, $birth_date, $woocommerce_helper->get_email_by_id( get_current_user_id() ) ),
+			/* translators: 1: customer email, 2: old birthday date, 3: new birthday date, 4: admin email */
+			'note'                => sprintf( __( '%1$s customer birthday changed from %2$s to %3$s by store admin(%4$s)', 'wp-loyalty-rules' ), $user->user_email, $old_birth_date, $birth_date, $woocommerce_helper->get_email_by_id( get_current_user_id() ) ),
 		];
 		$base               = new \Wlr\App\Helpers\Base();
 		$base->addExtraPointAction( 'admin_change', 0, $action_data, 'credit', false );
@@ -431,15 +433,19 @@ class Customers {
 		$action_data = [
 			'user_email'    => $user->user_email,
 			'action_type'   => $action_type,
-			'customer_note' => sprintf( __( '%s value changed to %d by store administrator(s)', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points ),
-			'note'          => sprintf( __( '%s customer %s value changed from %d to %d by store administrator(%s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) )
+			// translators: 1: point label 2: points
+			'customer_note' => sprintf( __( '%1$s value changed to %2$d by store administrator(s)', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points ),
+			// translators: 1: customer email, 2: point label, 3: old points, 4: new points, 5: admin email
+			'note'          => sprintf( __( '%1$s customer %2$s value changed from %3$d to %4$d by store administrator(%5$s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) )
 		];
 		$trans_type  = 'credit';
 		if ( $point_type == 'add' ) {
 			$action_data['points']              = $points;
 			$action_data['action_process_type'] = 'earn_point';
-			$action_data['customer_note']       = sprintf( __( '%s %s added by store administrator', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
-			$action_data['note']                = sprintf( __( '%s %s added by store administrator', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
+			/* translators: 1: point label, 2: points */
+			$action_data['customer_note'] = sprintf( __( '%1$s %2$s added by store administrator', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
+			/* translators: 1: point label, 2: points */
+			$action_data['note'] = sprintf( __( '%1$s %2$s added by store administrator', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
 		} elseif ( $point_type == 'reduce' ) {
 			if ( $points > $user->points ) {
 				$points = $user->points;
@@ -447,6 +453,7 @@ class Customers {
 			if ( $points <= 0 ) {
 				$data['success'] = false;
 				$data['data']    = [
+					/* translators: %s: point label */
 					'message' => sprintf( __( 'Current user %s must be greater then zero', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ) )
 				];
 				wp_send_json( $data );
@@ -454,8 +461,10 @@ class Customers {
 			$trans_type                         = 'debit';
 			$action_data['points']              = $points;
 			$action_data['action_process_type'] = 'reduce_point';
-			$action_data['customer_note']       = sprintf( __( '%s %s subtract by store administrator(s)', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
-			$action_data['note']                = sprintf( __( '%s %s subtract by store administrator(s)', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
+			/* translators: 1: point label, 2: points */
+			$action_data['customer_note'] = sprintf( __( '%1$s %2$s subtract by store administrator(s)', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
+			/* translators: 1: point label, 2: points */
+			$action_data['note'] = sprintf( __( '%1$s %2$s subtract by store administrator(s)', 'wp-loyalty-rules' ), Settings::getPointLabel( $points ), $points );
 		} elseif ( $point_type == 'overwrite' ) {
 			if ( $points >= $user->points ) {
 				$added_point                        = (int) ( $points - $user->points );
@@ -467,8 +476,10 @@ class Customers {
 				$trans_type                         = 'debit';
 				$action_data['action_process_type'] = 'reduce_point';
 			}
-			$action_data['customer_note'] = sprintf( __( '%s customer %s value changed from %d to %d by store administrator(%s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) );
-			$action_data['note']          = sprintf( __( '%s customer %s value changed from %d to %d by store administrator(%s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) );
+			/* translators: 1: customer email 2: point label 3: old point 4: new point 5: admin email*/
+			$action_data['customer_note'] = sprintf( __( '%1$s customer %2$s value changed from %3$d to %4$d by store administrator(%5$s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) );
+			/* translators: 1: customer email 2: point label 3: old point 4: new point 5: admin email*/
+			$action_data['note'] = sprintf( __( '%1$s customer %2$s value changed from %3$d to %4$d by store administrator(%5$s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) );
 		}
 		$data['success'] = false;
 		$message         = __( 'Customer point updated failed', 'wp-loyalty-rules' );
@@ -710,13 +721,14 @@ class Customers {
 			$log_data = [
 				'user_email'          => $single_user_reward->email,
 				'action_type'         => $action_type,
-				'note'                => sprintf( __( '%s %s updated by admin(%s)', 'wp-loyalty-rules' ), $single_user_reward->email, $expire_date_name, $woocommerce_helper->get_email_by_id( get_current_user_id() ) ),
+				// translators: 1: customer email, 2: expire date name, 3: admin email
+				'note'                => sprintf( __( '%1$s %2$s updated by admin(%3$s)', 'wp-loyalty-rules' ), $single_user_reward->email, $expire_date_name, $woocommerce_helper->get_email_by_id( get_current_user_id() ) ),
 				'customer_note'       => __( 'Added to reward program by site admin', 'wp-loyalty-rules' ),
 				'user_reward_id'      => $single_user_reward->id,
 				'reward_id'           => $single_user_reward->reward_id,
 				'campaign_id'         => $single_user_reward->campaign_id,
 				'admin_id'            => get_current_user_id(),
-				'created_at'          => strtotime( date( 'Y-m-d H:i:s' ) ),
+				'created_at'          => strtotime( gmdate( 'Y-m-d H:i:s' ) ),
 				'expire_email_date'   => $expire_email_date_field,
 				'expire_date'         => $end_at_field,
 				'reward_display_name' => $single_user_reward->display_name,
@@ -729,11 +741,12 @@ class Customers {
 			if ( ! empty( $single_user_reward->discount_code ) ) {
 				$id = wc_get_coupon_id_by_code( $single_user_reward->discount_code );
 				if ( $id > 0 ) {
-					update_post_meta( $id, 'expiry_date', date( 'Y-m-d', $end_at_field ) );
+					update_post_meta( $id, 'expiry_date', gmdate( 'Y-m-d', $end_at_field ) );
 					update_post_meta( $id, 'date_expires', $end_at_field );
 				}
 			}
 		}
+		// translators: %s: expire date name
 		wp_send_json_success( [ 'message' => sprintf( __( 'The %s has been updated successfully', 'wp-loyalty-rules' ), $expire_date_name ) ] );
 	}
 

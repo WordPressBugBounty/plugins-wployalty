@@ -142,7 +142,7 @@ class EarnCampaignTransactions extends Base {
 			'product_id'       => null,
 			'admin_user_id'    => 0,
 			'log_data'         => '{}',
-			'created_at'       => strtotime( date( "Y-m-d H:i:s" ) ),
+			'created_at'       => strtotime( gmdate( "Y-m-d H:i:s" ) ),
 			'modified_at'      => 0,
 		);
 		$args      = array_merge( $args, $params );
@@ -164,7 +164,7 @@ class EarnCampaignTransactions extends Base {
 		$transactions = $this->getWhere( $query, 'display_name', false );
 		if ( ! empty( $transactions ) ) {
 			foreach ( $transactions as $transaction ) {
-				$rewards[] = __( $transaction->display_name, 'wp-loyalty-rules' );
+				$rewards[] = __( $transaction->display_name, 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			}
 		}
 

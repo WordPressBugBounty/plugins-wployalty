@@ -48,7 +48,7 @@ class Guest extends Base {
 			),
 		);
 		array_walk_recursive( $short_code_data, function ( &$value, $key ) use ( $is_admin_side ) {
-			$value = ( ! $is_admin_side ) ? __( $value, 'wp-loyalty-rules' ) : $value;
+			$value = ( ! $is_admin_side ) ? __( $value, 'wp-loyalty-rules' ) : $value; //phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			$value = ( ! $is_admin_side ) ? self::$settings->processShortCodes( $value ) : $value;
 		} );
 
@@ -117,11 +117,12 @@ class Guest extends Base {
 			$earn_campaign = \Wlr\App\Helpers\EarnCampaign::getInstance();
 			if ( ! empty( $rewards ) && is_array( $rewards ) ) {
 				foreach ( $rewards as $reward ) {
-					$reward->name        = isset( $reward->name ) && ! empty( $reward->name ) ? __( $reward->name, 'wp-loyalty-rules' ) : '';
-					$reward->description = isset( $reward->description ) && ! empty( $reward->description ) ? __( $reward->description, 'wp-loyalty-rules' ) : '';
+					$reward->name        = isset( $reward->name ) && ! empty( $reward->name ) ? __( $reward->name, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+					$reward->description = isset( $reward->description ) && ! empty( $reward->description ) ? __( $reward->description, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 					$reward->action_text = $this->getUserRewardText( $reward );
 				}
 			}
+			/* translators: %s reward label */
 			$message          = empty( $rewards ) ? sprintf( __( "No %s found!", "wp-loyalty-rules" ), $earn_campaign->getRewardLabel( 3 ) ) : "";
 			$reward_list      = apply_filters( 'wll_before_launcher_rewards_data', $rewards, $user_email );
 			$response["data"] = array( "redeem_data" => $reward_list, "message" => $message );

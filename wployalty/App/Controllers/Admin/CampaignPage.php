@@ -42,7 +42,7 @@ class CampaignPage {
 			$item->created_at      = ! empty( $item->created_at ) ? $woocommerce_helper->beforeDisplayDate( $item->created_at ) : '';
 			if ( $item->end_at > 0 ) {
 				$item->end_date_format = $woocommerce_helper->beforeDisplayDate( $item->end_at );
-				if ( $item->end_at < strtotime( date( "Y-m-d H:i:s" ) ) ) {
+				if ( $item->end_at < strtotime( gmdate( "Y-m-d H:i:s" ) ) ) {
 					$item->end_date_format = __( 'Expired', 'wp-loyalty-rules' );
 				}
 			}
@@ -288,13 +288,15 @@ class CampaignPage {
 		if ( ! Util::isBasicSecurityValid( 'wlr-campaign-nonce' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
-		$input                   = new Input();
-		$post_data               = $input->post();
-		$post_data['name']        = ! empty( $_REQUEST['name'] ) ? wp_unslash( apply_filters( 'title_save_pre', ( $_REQUEST['name'] ) ) ) : '';
-		$post_data['description'] = ! empty( $_REQUEST['description'] ) ? wp_unslash( apply_filters( 'title_save_pre', ( $_REQUEST['description'] ) ) ) : '';
-		$post_data['conditions'] = ! empty( $post_data['conditions'] ) ? json_decode( stripslashes( $post_data['conditions'] ), true ) : [];
-		$post_data['point_rule'] = ! empty( $post_data['point_rule'] ) ? json_decode( stripslashes( $post_data['point_rule'] ), true ) : [];
-		$validate_data           = Validation::validateRuleTab( $post_data );
+		$input     = new Input();
+		$post_data = $input->post();
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_data['name'] = ! empty( $_REQUEST['name'] ) ? apply_filters( 'title_save_pre', sanitize_text_field( wp_unslash( $_REQUEST['name'] ) ) ) : '';
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_data['description'] = ! empty( $_REQUEST['description'] ) ? apply_filters( 'title_save_pre', sanitize_textarea_field( wp_unslash( $_REQUEST['description'] ) ) ) : '';
+		$post_data['conditions']  = ! empty( $post_data['conditions'] ) ? json_decode( stripslashes( $post_data['conditions'] ), true ) : [];
+		$post_data['point_rule']  = ! empty( $post_data['point_rule'] ) ? json_decode( stripslashes( $post_data['point_rule'] ), true ) : [];
+		$validate_data            = Validation::validateRuleTab( $post_data );
 		if ( is_array( $validate_data ) ) {
 			foreach ( $validate_data as $key => $validate ) {
 				$validate_data[ $key ] = [ current( $validate ) ];

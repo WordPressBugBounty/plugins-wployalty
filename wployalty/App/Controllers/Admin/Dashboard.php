@@ -66,14 +66,15 @@ class Dashboard {
 				'redeem_point'
 			] );
 			$allowed_action_types = apply_filters( 'wlr_dashboard_point_reward_action_type', [ 'redeem_point' ] );
-			$user_reward_where    .= $wpdb->prepare( ' AND action_type IN (' . trim( str_repeat( '%s,', count( $allowed_action_types ) ), ',' ) . ')', $allowed_action_types );
-			$user_redeem_reward   = $user_reward_model->getWhere( $user_reward_where, 'COUNT(DISTINCT id) as total_point_reward' );
-			$total_reward         += ( ! empty( $user_redeem_reward ) && ! empty( $user_redeem_reward->total_point_reward ) ) ? $user_redeem_reward->total_point_reward : 0;
-			$reward_where         = $wpdb->prepare( 'reward_currency = %s AND discount_code != %s', [
+			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			$user_reward_where  .= $wpdb->prepare( ' AND action_type IN (' . trim( str_repeat( '%s,', count( $allowed_action_types ) ), ',' ) . ')', $allowed_action_types );
+			$user_redeem_reward = $user_reward_model->getWhere( $user_reward_where, 'COUNT(DISTINCT id) as total_point_reward' );
+			$total_reward       += ( ! empty( $user_redeem_reward ) && ! empty( $user_redeem_reward->total_point_reward ) ) ? $user_redeem_reward->total_point_reward : 0;
+			$reward_where       = $wpdb->prepare( 'reward_currency = %s AND discount_code != %s', [
 				sanitize_text_field( $currency ),
 				''
 			] );
-			$reward_where         .= $wpdb->prepare( ' AND (created_at >= %s OR created_at = 0) AND (created_at <= %s OR created_at = 0) AND order_id > 0', [
+			$reward_where       .= $wpdb->prepare( ' AND (created_at >= %s OR created_at = 0) AND (created_at <= %s OR created_at = 0) AND order_id > 0', [
 				$start,
 				$end
 			] );
@@ -200,13 +201,14 @@ class Dashboard {
 		$where                .= 'ORDER BY created_at';
 		$reward_redeem_data   = $campaign_transaction->getWhere( $where, '*', false );
 
-		$user_reward_model      = new UserRewards();
-		$user_reward_where      = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND reward_type= %s', [
+		$user_reward_model    = new UserRewards();
+		$user_reward_where    = $wpdb->prepare( '((created_at) >= %s OR created_at = 0) AND ((created_at) <= %s OR created_at = 0) AND reward_type= %s', [
 			$start,
 			$end,
 			'redeem_point'
 		] );
-		$allowed_action_types   = apply_filters( 'wlr_dashboard_point_reward_action_type', [ 'redeem_point' ] );
+		$allowed_action_types = apply_filters( 'wlr_dashboard_point_reward_action_type', [ 'redeem_point' ] );
+		//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$user_reward_where      .= $wpdb->prepare( ' AND action_type IN (' . trim( str_repeat( '%s,', count( $allowed_action_types ) ), ',' ) . ')', $allowed_action_types );
 		$user_reward_where      .= 'ORDER BY created_at';
 		$user_redeem_rewards    = $user_reward_model->getWhere( $user_reward_where, '*', false );
@@ -467,11 +469,11 @@ class Dashboard {
 			} elseif ( $filter_type == 'custom' ) {
 				$from_date = $input->post( 'from_date', $null_date );
 				$to_date   = $input->post( 'to_date', $null_date );
-				if ( $to_date != $null_date ) {
+				if ( ! empty( $to_date ) && $to_date != $null_date ) {
 					$current_time = new DateTime( $to_date );
 					$end          = $current_time->format( 'Y-m-d 23:59:59' );
 				}
-				if ( $from_date != $null_date ) {
+				if ( ! empty( $from_date ) && $from_date != $null_date ) {
 					$current_time = new DateTime( $from_date );
 					$start        = $current_time->format( 'Y-m-d 00:00:00' );
 				}

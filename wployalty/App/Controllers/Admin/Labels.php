@@ -54,7 +54,7 @@ class Labels {
 				'recommendations_title'              => __( 'Recommendations', 'wp-loyalty-rules' ),
 				'by'                                 => __( 'by', 'wp-loyalty-rules' ),
 				'buy'                                => __( 'Buy', 'wp-loyalty-rules' ),
-                'get_plugin'                         => __( 'Get plugin' , 'wp-loyalty-rules' ),
+				'get_plugin'                         => __( 'Get plugin', 'wp-loyalty-rules' ),
 				'learn_more'                         => __( 'Learn more', 'wp-loyalty-rules' ),
 				'disabled'                           => __( 'Disabled', 'wp-loyalty-rules' ),
 				'edit'                               => __( 'Edit', 'wp-loyalty-rules' ),
@@ -270,8 +270,11 @@ class Labels {
 					'select_product_action'     => __( 'Select product action', 'wp-loyalty-rules' ),
 					'all_time'                  => __( 'All Time', 'wp-loyalty-rules' ),
 					'two_years'                 => __( '2 Years', 'wp-loyalty-rules' ),
+					/* translators: %s used to display point label */
 					'add'                       => sprintf( __( 'Add %s', 'wp-loyalty-rules' ), \Wlr\App\Helpers\Settings::getPointLabel( 3 ) ),
+					/* translators: %s used to display point label */
 					'sub'                       => sprintf( __( 'Subtract %s', 'wp-loyalty-rules' ), \Wlr\App\Helpers\Settings::getPointLabel( 3 ) ),
+					/* translators: %s used to display point label */
 					'equal'                     => sprintf( __( 'Overwrite %s', 'wp-loyalty-rules' ), \Wlr\App\Helpers\Settings::getPointLabel( 3 ) ),
 					'inherit'                   => __( 'Inherit from WooCommerce', 'wp-loyalty-rules' ),
 					'including'                 => __( 'Including Tax', 'wp-loyalty-rules' ),
@@ -517,7 +520,7 @@ class Labels {
 				'reset_text'                 => __( 'Reset', 'wp-loyalty-rules' ),
 				'statistics'                 => __( 'Statistics', 'wp-loyalty-rules' ),
 				'no_customers_description'   => __( 'The search did not yield any results', 'wp-loyalty-rules' ),
-				'empty_revenue_value'        => sprintf( __( '%s', 'wp-loyalty-rules' ), wc_price( 0, [ 'currency' => $current_currency ] ) ),
+				'empty_revenue_value'        => wc_price( 0, [ 'currency' => $current_currency ] ),
 				'empty'                      => [
 					'name'        => __( 'Do you want to add new customers?', 'wp-loyalty-rules' ),
 					'description' => __( 'View all customer related data like their names, points balance, rewards, levels, birthday', 'wp-loyalty-rules' ),
@@ -1444,12 +1447,12 @@ class Labels {
 					'reset_alert_message' => __( 'Are you sure want to reset this email?', 'wp-loyalty-rules' ),
 				],
 			],
-			'recommendations'         => [
-				'name'         => __( 'Recommendations', 'wp-loyalty-rules' ),
-			 ],
-			 'buy_pro'         => [
-				'name'         => __( 'Buy Pro', 'wp-loyalty-rules' ),
-			 ],
+			'recommendations' => [
+				'name' => __( 'Recommendations', 'wp-loyalty-rules' ),
+			],
+			'buy_pro'         => [
+				'name' => __( 'Buy Pro', 'wp-loyalty-rules' ),
+			],
 			'onboard'         => [
 				'skip'                    => __( 'Skip Onboarding', 'wp-loyalty-rules' ),
 				'support'                 => __( 'Support', 'wp-loyalty-rules' ),

@@ -122,206 +122,6 @@ class Input {
 	protected $uni;
 
 	/**
-	 * Input constructor.
-	 */
-	function __construct() {
-		// Sanitize global arrays
-		$this->_sanitize_globals();
-	}
-
-	/**
-	 * Sanitize Globals
-	 */
-	protected function _sanitize_globals() {
-		// Is $_GET data allowed? If not we'll set the $_GET to an empty array
-		if ( $this->_allow_get_array === false ) {
-			$_GET = array();
-		} elseif ( is_array( $_GET ) ) {
-			foreach ( $_GET as $key => $val ) {
-				$_GET[ $this->_clean_input_keys( $key ) ] = $this->_clean_input_data( $val );
-			}
-		}
-		// Clean $_POST Data
-		if ( is_array( $_POST ) ) {
-			foreach ( $_POST as $key => $val ) {
-				$_POST[ $this->_clean_input_keys( $key ) ] = $this->_clean_input_data( $val );
-			}
-		}
-		// Clean $_COOKIE Data
-		if ( is_array( $_COOKIE ) ) {
-			// Also get rid of specially treated cookies that might be set by a server
-			// or silly application, that are of no use to a CI application anyway
-			// but that when present will trip our 'Disallowed Key Characters' alarm
-			// http://www.ietf.org/rfc/rfc2109.txt
-			// note that the key names below are single quoted strings, and are not PHP variables
-			unset(
-				$_COOKIE['$Version'],
-				$_COOKIE['$Path'],
-				$_COOKIE['$Domain']
-			);
-			foreach ( $_COOKIE as $key => $val ) {
-				if ( ( $cookie_key = $this->_clean_input_keys( $key ) ) !== false ) {
-					$_COOKIE[ $cookie_key ] = $this->_clean_input_data( $val );
-				} else {
-					unset( $_COOKIE[ $key ] );
-				}
-			}
-		}
-		// Sanitize PHP_SELF
-		$_SERVER['PHP_SELF'] = strip_tags( $_SERVER['PHP_SELF'] );
-	}
-
-	/**
-	 * Clean Keys
-	 *
-	 * @param $str
-	 * @param bool $fatal
-	 *
-	 * @return bool
-	 */
-	protected function _clean_input_keys( $str, $fatal = true ) {
-		/*if (!preg_match('/^[a-z0-9:_\/|-]+$/i', $str)) {
-			if ($fatal === TRUE) {
-				return FALSE;
-			} else {
-				$this->set_status_header(503);
-				echo 'Disallowed Key Characters.';
-				exit(7); // EXIT_USER_INPUT
-			}
-		}*/
-		return $str;
-	}
-
-	/**
-	 * Clean Input Data
-	 *
-	 * @param $str
-	 *
-	 * @return array|string|string[]|null
-	 */
-	protected function _clean_input_data( $str ) {
-		if ( is_array( $str ) ) {
-			$new_array = array();
-			foreach ( array_keys( $str ) as $key ) {
-				$new_array[ $this->_clean_input_keys( $key ) ] = $this->_clean_input_data( $str[ $key ] );
-			}
-
-			return $new_array;
-		}
-		if ( is_object( $str ) ) {
-			return $str;
-		}
-		/* We strip slashes if magic quotes is on to keep things consistent
-
-		   NOTE: In PHP 5.4 get_magic_quotes_gpc() will always return 0 and
-				 it will probably not exist in future versions at all.
-		*/
-		// Remove control characters
-		$str = $this->remove_invisible_characters( $str, false );
-		// Standardize newlines if needed
-		if ( $this->_standardize_newlines === true ) {
-			return preg_replace( '/(?:\r\n|[\r\n])/', PHP_EOL, $str );
-		}
-
-		return $str;
-	}
-
-	/**
-	 * Remove Invisible Characters
-	 *
-	 * @param $str
-	 * @param bool $url_encoded
-	 *
-	 * @return string|string[]|null
-	 */
-	function remove_invisible_characters( $str, $url_encoded = true ) {
-		$non_displayables = array();
-		// every control character except newline (dec 10),
-		// carriage return (dec 13) and horizontal tab (dec 09)
-		if ( $url_encoded ) {
-			$non_displayables[] = '/%0[0-8bcef]/i';    // url encoded 00-08, 11, 12, 14, 15
-			$non_displayables[] = '/%1[0-9a-f]/i';    // url encoded 16-31
-			$non_displayables[] = '/%7f/i';    // url encoded 127
-		}
-		$non_displayables[] = '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S';    // 00-08, 11, 12, 14-31, 127
-		do {
-			$str = preg_replace( $non_displayables, '', $str, - 1, $count );
-		} while ( $count );
-
-		return $str;
-	}
-
-	/**
-	 * Set HTTP Status Header
-	 *
-	 * @param int $code
-	 * @param string $text
-	 */
-	function set_status_header( $code = 200, $text = '' ) {
-		if ( empty( $text ) ) {
-			is_int( $code ) or $code = (int) $code;
-			$stati = array(
-				100 => 'Continue',
-				101 => 'Switching Protocols',
-				200 => 'OK',
-				201 => 'Created',
-				202 => 'Accepted',
-				203 => 'Non-Authoritative Information',
-				204 => 'No Content',
-				205 => 'Reset Content',
-				206 => 'Partial Content',
-				300 => 'Multiple Choices',
-				301 => 'Moved Permanently',
-				302 => 'Found',
-				303 => 'See Other',
-				304 => 'Not Modified',
-				305 => 'Use Proxy',
-				307 => 'Temporary Redirect',
-				400 => 'Bad Request',
-				401 => 'Unauthorized',
-				402 => 'Payment Required',
-				403 => 'Forbidden',
-				404 => 'Not Found',
-				405 => 'Method Not Allowed',
-				406 => 'Not Acceptable',
-				407 => 'Proxy Authentication Required',
-				408 => 'Request Timeout',
-				409 => 'Conflict',
-				410 => 'Gone',
-				411 => 'Length Required',
-				412 => 'Precondition Failed',
-				413 => 'Request Entity Too Large',
-				414 => 'Request-URI Too Long',
-				415 => 'Unsupported Media Type',
-				416 => 'Requested Range Not Satisfiable',
-				417 => 'Expectation Failed',
-				422 => 'Unprocessable Entity',
-				426 => 'Upgrade Required',
-				428 => 'Precondition Required',
-				429 => 'Too Many Requests',
-				431 => 'Request Header Fields Too Large',
-				500 => 'Internal Server Error',
-				501 => 'Not Implemented',
-				502 => 'Bad Gateway',
-				503 => 'Service Unavailable',
-				504 => 'Gateway Timeout',
-				505 => 'HTTP Version Not Supported',
-				511 => 'Network Authentication Required',
-			);
-			if ( isset( $stati[ $code ] ) ) {
-				$text = $stati[ $code ];
-			}
-		}
-		$server_protocol = ( isset( $_SERVER['SERVER_PROTOCOL'] ) && in_array( $_SERVER['SERVER_PROTOCOL'], array(
-				'HTTP/1.0',
-				'HTTP/1.1',
-				'HTTP/2'
-			), true ) )
-			? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
-		header( $server_protocol . ' ' . $code . ' ' . $text, true, $code );
-	}
-
-	/**
 	 * Fetch an item from POST data with fallback to GET
 	 *
 	 * @param $index
@@ -331,9 +131,8 @@ class Input {
 	 * @return mixed
 	 */
 	function post_get( $index, $default = null, $xss_clean = null ) {
-		return isset( $_POST[ $index ] )
-			? $this->post( $index, $default, $xss_clean )
-			: $this->get( $index, $default, $xss_clean );
+		//phpcs:ignore WordPress.Security.NonceVerification.Missing
+		return isset( $_POST[ $index ] ) ? $this->post( $index, $default, $xss_clean ) : $this->get( $index, $default, $xss_clean );
 	}
 
 	/**
@@ -346,6 +145,7 @@ class Input {
 	 * @return mixed
 	 */
 	function post( $index = null, $default = null, $xss_clean = null ) {
+		//phpcs:ignore WordPress.Security.NonceVerification.Missing
 		return $this->_fetch_from_array( $_POST, $index, $default, $xss_clean );
 	}
 
@@ -408,6 +208,7 @@ class Input {
 	 * @return mixed
 	 */
 	function get( $index = null, $default = null, $xss_clean = null ) {
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		return $this->_fetch_from_array( $_GET, $index, $default, $xss_clean );
 	}
 
@@ -421,6 +222,7 @@ class Input {
 	 * @return mixed
 	 */
 	function get_post( $index, $default = null, $xss_clean = null ) {
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		return isset( $_GET[ $index ] )
 			? $this->get( $index, $default, $xss_clean )
 			: $this->post( $index, $default, $xss_clean );
@@ -473,62 +275,6 @@ class Input {
 	}
 
 	/**
-	 * Get Request Header
-	 *
-	 * @param $index
-	 * @param bool $xss_clean
-	 *
-	 * @return string|null
-	 */
-	function get_request_header( $index, $xss_clean = false ) {
-		static $headers;
-		if ( ! isset( $headers ) ) {
-			empty( $this->headers ) && $this->request_headers();
-			foreach ( $this->headers as $key => $value ) {
-				$headers[ strtolower( $key ) ] = $value;
-			}
-		}
-		$index = strtolower( $index );
-		if ( ! isset( $headers[ $index ] ) ) {
-			return null;
-		}
-
-		return ( $xss_clean === true )
-			? $this->xss_clean( $headers[ $index ] )
-			: $headers[ $index ];
-	}
-
-	/**
-	 * Request Headers
-	 *
-	 * @param bool $xss_clean
-	 *
-	 * @return mixed
-	 */
-	function request_headers( $xss_clean = false ) {
-		// If header is already defined, return it immediately
-		if ( ! empty( $this->headers ) ) {
-			return $this->_fetch_from_array( $this->headers, null, null, $xss_clean );
-		}
-		// In Apache, you can simply call apache_request_headers()
-		if ( function_exists( 'apache_request_headers' ) ) {
-			$this->headers = apache_request_headers();
-		} else {
-			isset( $_SERVER['CONTENT_TYPE'] ) && $this->headers['Content-Type'] = $_SERVER['CONTENT_TYPE'];
-			foreach ( $_SERVER as $key => $val ) {
-				if ( sscanf( $key, 'HTTP_%s', $header ) === 1 ) {
-					// take SOME_HEADER and turn it into Some-Header
-					$header                   = str_replace( '_', ' ', strtolower( $header ) );
-					$header                   = str_replace( ' ', '-', ucwords( $header ) );
-					$this->headers[ $header ] = $_SERVER[ $key ];
-				}
-			}
-		}
-
-		return $this->_fetch_from_array( $this->headers, null, null, $xss_clean );
-	}
-
-	/**
 	 * XSS Clean
 	 *
 	 * @param $str
@@ -549,7 +295,6 @@ class Input {
 			return $str;
 		}
 		// Remove Invisible Characters
-		$str = $this->remove_invisible_characters( $str );
 		if ( stripos( $str, '%' ) !== false ) {
 			do {
 				$oldstr = $str;
@@ -564,7 +309,6 @@ class Input {
 		), $str );
 		$str = preg_replace_callback( '/<\w+.*/si', array( $this, '_decode_entity' ), $str );
 		// Remove Invisible Characters Again!
-		$str = $this->remove_invisible_characters( $str );
 		$str = str_replace( "\t", ' ', $str );
 		// Capture converted string for later comparison
 		$converted_string = $str;
@@ -673,13 +417,6 @@ class Input {
 		return $str;
 	}
 
-	/**
-	 * Is AJAX request?
-	 * @return bool
-	 */
-	function is_ajax_request() {
-		return ( ! empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) === 'xmlhttprequest' );
-	}
 
 	/**
 	 * Get Request Method
@@ -770,7 +507,7 @@ class Input {
 		if ( $this->_xss_hash === null ) {
 			$rand            = $this->get_random_bytes( 16 );
 			$this->_xss_hash = ( $rand === false )
-				? md5( uniqid( mt_rand(), true ) )
+				? md5( uniqid( wp_rand(), true ) )
 				: bin2hex( $rand );
 		}
 
@@ -786,6 +523,12 @@ class Input {
 	 * @throws Exception
 	 */
 	function get_random_bytes( $length ) {
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . '/wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
 		if ( empty( $length ) or ! ctype_digit( (string) $length ) ) {
 			return false;
 		}
@@ -793,22 +536,14 @@ class Input {
 			try {
 				// The cast is required to avoid TypeError
 				return random_bytes( (int) $length );
-			} catch ( Exception $e ) {
+			} catch ( \Exception $e ) {
 				// If random_bytes() can't do the job, we can't either ...
 				// There's no point in using fallbacks.
-				//log_message('error', $e->getMessage());
 				return false;
 			}
 		}
-		// Unfortunately, none of the following PRNGs is guaranteed to exist ...
-		if ( defined( 'MCRYPT_DEV_URANDOM' ) && ( $output = mcrypt_create_iv( $length, MCRYPT_DEV_URANDOM ) ) !== false ) {
-			return $output;
-		}
-		if ( is_readable( '/dev/urandom' ) && ( $fp = fopen( '/dev/urandom', 'rb' ) ) !== false ) {
-			// Try not to waste entropy ...
-			$this->is_php( '5.4' ) && stream_set_chunk_size( $fp, $length );
-			$output = fread( $fp, $length );
-			fclose( $fp );
+		if ( $wp_filesystem->exists( '/dev/urandom' ) ) {
+			$output = $wp_filesystem->get_contents( '/dev/urandom', false, $length );
 			if ( $output !== false ) {
 				return $output;
 			}

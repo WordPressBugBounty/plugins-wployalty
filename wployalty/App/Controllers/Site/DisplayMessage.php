@@ -18,36 +18,27 @@ defined( 'ABSPATH' ) or die;
 class DisplayMessage extends Base {
 
 	function init() {
-		if ( self::$woocommerce->isBannedUser()
-		     || ! apply_filters( 'wlr_before_display_messages', true )
-		) {
+		if ( self::$woocommerce->isBannedUser() || ! apply_filters( 'wlr_before_display_messages', true ) ) {
 			return;
 		}
 		$this->triggerProductDisplayMessage();
 		/* Cart earn point message*/
-		add_shortcode( 'wlr_cart_earn_message',
-			array( $this, 'processCartEarnMessageShortCode' ) );
+		add_shortcode( 'wlr_cart_earn_message', [ $this, 'processCartEarnMessageShortCode' ] );
 		if ( $this->isCartEarnMessageEnabled() ) {
 			$this->triggerCartEarnMessage();
 		}
 		if ( $this->isCheckoutEarnMessageEnabled() ) {
 			$this->triggerCheckoutEarnMessage();
 		}
-		$wlr_settings = self::$woocommerce->getOptions( 'wlr_settings', [] );
-		$redeem_point_display_position
-		              = ! empty( $wlr_settings['wlr_cart_redeem_point_display'] )
-			? $wlr_settings['wlr_cart_redeem_point_display'] : 'before';
-		if ( in_array( $redeem_point_display_position, [
-				'before',
-				'after'
-			] )
+		$wlr_settings                  = self::$woocommerce->getOptions( 'wlr_settings', [] );
+		$redeem_point_display_position = ! empty( $wlr_settings['wlr_cart_redeem_point_display'] ) ? $wlr_settings['wlr_cart_redeem_point_display'] : 'before';
+		if ( in_array( $redeem_point_display_position, [ 'before', 'after' ] )
 		     && apply_filters( 'wlr_is_cart_message_fragment_needed', true )
 		) {
 			$this->triggerCartFragmentDisplayMessage();
 		}
 		/* Cart redeem message */
-		add_shortcode( 'wlr_cart_redeem_message',
-			array( $this, 'processCartRedeemMessageShortCode' ) );
+		add_shortcode( 'wlr_cart_redeem_message', [ $this, 'processCartRedeemMessageShortCode' ] );
 		if ( $this->isCartRedeemMessageEnabled() ) {
 			$this->triggerCartRedeemMessage();
 		}
@@ -67,69 +58,52 @@ class DisplayMessage extends Base {
 		switch ( $position ) {
 			case 'before_price':
 			case 'after_price':
-				add_filter( 'woocommerce_get_price_html',
-					array( $this, 'renderProductMessage' ), PHP_INT_MAX, 2 );
+				add_filter( 'woocommerce_get_price_html', [ $this, 'renderProductMessage' ], PHP_INT_MAX, 2 );
 				break;
 			case 'before_add_to_cart':
-				add_action( 'woocommerce_before_add_to_cart_form', array(
-					$this,
-					'renderProductMessageCart'
-				), PHP_INT_MAX );
-				add_filter( 'woocommerce_loop_add_to_cart_link', array(
+				add_action( 'woocommerce_before_add_to_cart_form', [ $this, 'renderProductMessageCart' ], PHP_INT_MAX );
+				add_filter( 'woocommerce_loop_add_to_cart_link', [
 					$this,
 					'renderProductMessageCartLink'
-				), PHP_INT_MAX, 2 );
+				], PHP_INT_MAX, 2 );
 				break;
 			case 'after_add_to_cart':
-				add_action( 'woocommerce_after_add_to_cart_button', array(
+				add_action( 'woocommerce_after_add_to_cart_button', [
 					$this,
 					'renderProductMessageCart'
-				), PHP_INT_MAX );
-				add_filter( 'woocommerce_loop_add_to_cart_link', array(
+				], PHP_INT_MAX );
+				add_filter( 'woocommerce_loop_add_to_cart_link', [
 					$this,
 					'renderProductMessageCartLink'
-				), PHP_INT_MAX, 2 );
+				], PHP_INT_MAX, 2 );
 				break;
 			case 'before_title':
-				add_action( 'woocommerce_before_shop_loop_item_title', array(
+				add_action( 'woocommerce_before_shop_loop_item_title', [
 					$this,
 					'renderProductMessageCart'
-				), PHP_INT_MAX );
-				add_action( 'woocommerce_single_product_summary',
-					array( $this, 'renderProductMessageCart' ), 4 );
+				], PHP_INT_MAX );
+				add_action( 'woocommerce_single_product_summary', [ $this, 'renderProductMessageCart' ], 4 );
 				break;
 			case 'after_title':
-				add_action( 'woocommerce_after_shop_loop_item_title',
-					array( $this, 'renderProductMessageCart' ), 9 );
-				add_action( 'woocommerce_single_product_summary',
-					array( $this, 'renderProductMessageCart' ), 6 );
+				add_action( 'woocommerce_after_shop_loop_item_title', [ $this, 'renderProductMessageCart' ], 9 );
+				add_action( 'woocommerce_single_product_summary', [ $this, 'renderProductMessageCart' ], 6 );
 				break;
 		}
 
 	}
 
 	public function getProductDisplayMessageOption() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$display_product_display_position
-		         = ( isset( $options['product_message_display_position'] )
-		             && ! empty( $options['product_message_display_position'] )
-			? $options['product_message_display_position']
-			: 'before_add_to_cart' );
+		$options                          = self::$woocommerce->getOptions( 'wlr_settings' );
+		$display_product_display_position = ( isset( $options['product_message_display_position'] ) && ! empty( $options['product_message_display_position'] ) ? $options['product_message_display_position'] : 'before_add_to_cart' );
 
-		return apply_filters( 'wlr_get_product_display_message_position',
-			$display_product_display_position );
+		return apply_filters( 'wlr_get_product_display_message_position', $display_product_display_position );
 	}
 
 	protected function isCartEarnMessageEnabled() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$cart_earn_point_display
-		         = ( isset( $options['wlr_is_cart_earn_message_enable'] )
-		             && ! empty( $options['wlr_is_cart_earn_message_enable'] )
-				? $options['wlr_is_cart_earn_message_enable'] : 'yes' )
-		           == 'yes';
+		$options                 = self::$woocommerce->getOptions( 'wlr_settings' );
+		$cart_earn_point_display = ( isset( $options['wlr_is_cart_earn_message_enable'] ) && ! empty( $options['wlr_is_cart_earn_message_enable'] ) ? $options['wlr_is_cart_earn_message_enable'] : 'yes' ) == 'yes';
 
-		return apply_filters( 'wlr_is_cart_earn_message_enabled',
-			$cart_earn_point_display );
+		return apply_filters( 'wlr_is_cart_earn_message_enabled', $cart_earn_point_display );
 	}
 
 	function triggerCartEarnMessage() {
@@ -138,20 +112,11 @@ class DisplayMessage extends Base {
 
 		switch ( $position ) {
 			case 'before':
-				add_action( 'woocommerce_before_cart',
-					array( $this, 'displayEarnPointsMessage' ), 13 );
+				add_action( 'woocommerce_before_cart', [ $this, 'displayEarnPointsMessage' ], 13 );
 				break;
 			case 'after':
-				add_action( 'woocommerce_after_cart_table',
-					array( $this, 'displayEarnPointsMessage' ), 13 );
+				add_action( 'woocommerce_after_cart_table', [ $this, 'displayEarnPointsMessage' ], 13 );
 				break;
-			/*case 'content':
-				add_action('woocommerce_cart_contents', array($this, 'displayEarnPointsMessage'), 555);
-				break;
-			case 'summary':
-				add_action('woocommerce_cart_totals_before_order_total', array($this, 'checkoutEarnPoints'), 555);
-				add_action('woocommerce_review_order_before_order_total', array($this, 'checkoutEarnPoints'));
-				break;*/
 			case 'hide':
 			default:
 				break;
@@ -160,52 +125,38 @@ class DisplayMessage extends Base {
 	}
 
 	protected function getCartEarnMessageOption() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$cart_earn_point_display
-		         = ( isset( $options['wlr_cart_earn_point_display'] )
-		             && ! empty( $options['wlr_cart_earn_point_display'] )
+		$options                 = self::$woocommerce->getOptions( 'wlr_settings' );
+		$cart_earn_point_display = ( isset( $options['wlr_cart_earn_point_display'] ) && ! empty( $options['wlr_cart_earn_point_display'] )
 			? $options['wlr_cart_earn_point_display'] : 'before' );
 
-		return apply_filters( 'wlr_get_cart_earn_message_position',
-			$cart_earn_point_display );
+		return apply_filters( 'wlr_get_cart_earn_message_position', $cart_earn_point_display );
 	}
 
 	protected function isCheckoutEarnMessageEnabled() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$cart_earn_point_display
-		         = ( isset( $options['wlr_is_checkout_earn_message_enable'] )
-		             && ! empty( $options['wlr_is_checkout_earn_message_enable'] )
-				? $options['wlr_is_checkout_earn_message_enable'] : 'yes' )
-		           == 'yes';
+		$options                 = self::$woocommerce->getOptions( 'wlr_settings' );
+		$cart_earn_point_display = ( isset( $options['wlr_is_checkout_earn_message_enable'] ) && ! empty( $options['wlr_is_checkout_earn_message_enable'] )
+				? $options['wlr_is_checkout_earn_message_enable'] : 'yes' ) == 'yes';
 
-		return apply_filters( 'wlr_is_checkout_earn_message_enabled',
-			$cart_earn_point_display );
+		return apply_filters( 'wlr_is_checkout_earn_message_enabled', $cart_earn_point_display );
 	}
 
 	function triggerCheckoutEarnMessage() {
 		do_action( 'wlr_before_trigger_checkout_earn_message' );
-		add_action( 'woocommerce_before_checkout_form',
-			array( $this, 'displayEarnPointsMessage' ), 5 );
+		add_action( 'woocommerce_before_checkout_form', [ $this, 'displayEarnPointsMessage' ], 5 );
 		do_action( 'wlr_after_trigger_checkout_earn_message' );
 	}
 
 	function triggerCartFragmentDisplayMessage() {
-		add_filter( 'woocommerce_add_to_cart_fragments',
-			array( $this, 'displayCartMessageFragment' ) );
-		add_filter( 'woocommerce_update_order_review_fragments',
-			array( $this, 'displayCheckoutMessageFragment' ) );
+		add_filter( 'woocommerce_add_to_cart_fragments', [ $this, 'displayCartMessageFragment' ] );
+		add_filter( 'woocommerce_update_order_review_fragments', [ $this, 'displayCheckoutMessageFragment' ] );
 	}
 
 	protected function isCartRedeemMessageEnabled() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$cart_redeem_point_display
-		         = ( isset( $options['wlr_is_cart_redeem_message_enable'] )
-		             && ! empty( $options['wlr_is_cart_redeem_message_enable'] )
-				? $options['wlr_is_cart_redeem_message_enable'] : 'yes' )
-		           == 'yes';
+		$options                   = self::$woocommerce->getOptions( 'wlr_settings' );
+		$cart_redeem_point_display = ( isset( $options['wlr_is_cart_redeem_message_enable'] ) && ! empty( $options['wlr_is_cart_redeem_message_enable'] )
+				? $options['wlr_is_cart_redeem_message_enable'] : 'yes' ) == 'yes';
 
-		return apply_filters( 'wlr_is_cart_redeem_message_enabled',
-			$cart_redeem_point_display );
+		return apply_filters( 'wlr_is_cart_redeem_message_enabled', $cart_redeem_point_display );
 	}
 
 	function triggerCartRedeemMessage() {
@@ -214,59 +165,42 @@ class DisplayMessage extends Base {
 		$position = $this->getCartRedeemMessageOption();
 		switch ( $position ) {
 			case 'before':
-				add_action( 'woocommerce_before_cart',
-					array( $this, 'displayRedeemPointsMessage' ), 14 );
+				add_action( 'woocommerce_before_cart', [ $this, 'displayRedeemPointsMessage' ], 14 );
 				break;
 			case 'after':
-				add_action( 'woocommerce_after_cart_table',
-					array( $this, 'displayRedeemPointsMessage' ), 14 );
+				add_action( 'woocommerce_after_cart_table', [ $this, 'displayRedeemPointsMessage' ], 14 );
 				break;
-			/* case 'content':
-				 add_action('woocommerce_cart_contents', array($this, 'displayRedeemPointsMessage'), 14);
-				 break;*/
 		}
 	}
 
 	protected function getCartRedeemMessageOption() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$cart_redeem_point_display
-		         = ( isset( $options['wlr_cart_redeem_point_display'] )
-		             && ! empty( $options['wlr_cart_redeem_point_display'] )
+		$options                   = self::$woocommerce->getOptions( 'wlr_settings' );
+		$cart_redeem_point_display = ( isset( $options['wlr_cart_redeem_point_display'] ) && ! empty( $options['wlr_cart_redeem_point_display'] )
 			? $options['wlr_cart_redeem_point_display'] : 'before' );
 
-		return apply_filters( 'wlr_get_cart_redeem_message_position',
-			$cart_redeem_point_display );
+		return apply_filters( 'wlr_get_cart_redeem_message_position', $cart_redeem_point_display );
 	}
 
 	protected function isCheckoutRedeemMessageEnabled() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$cart_redeem_point_display
-		         = ( isset( $options['wlr_is_checkout_redeem_message_enable'] )
-		             && ! empty( $options['wlr_is_checkout_redeem_message_enable'] )
-				? $options['wlr_is_checkout_redeem_message_enable'] : 'yes' )
-		           == 'yes';
+		$options                   = self::$woocommerce->getOptions( 'wlr_settings' );
+		$cart_redeem_point_display = ( isset( $options['wlr_is_checkout_redeem_message_enable'] ) && ! empty( $options['wlr_is_checkout_redeem_message_enable'] )
+				? $options['wlr_is_checkout_redeem_message_enable'] : 'yes' ) == 'yes';
 
-		return apply_filters( 'wlr_is_checkout_redeem_message_enabled',
-			$cart_redeem_point_display );
+		return apply_filters( 'wlr_is_checkout_redeem_message_enabled', $cart_redeem_point_display );
 	}
 
 	function triggerCheckoutRedeemMessage() {
 		do_action( 'wlr_before_trigger_checkout_redeem_message' );
-		add_action( 'woocommerce_before_checkout_form',
-			array( $this, 'displayRedeemPointsMessage' ), 6 );
+		add_action( 'woocommerce_before_checkout_form', [ $this, 'displayRedeemPointsMessage' ], 6 );
 		do_action( 'wlr_after_trigger_checkout_redeem_message' );
 	}
 
 	protected function isThankYouMessageEnabled() {
-		$options = self::$woocommerce->getOptions( 'wlr_settings' );
-		$cart_redeem_point_display
-		         = ( isset( $options['wlr_is_thank_you_message_enable'] )
-		             && ! empty( $options['wlr_is_thank_you_message_enable'] )
-				? $options['wlr_is_thank_you_message_enable'] : 'yes' )
-		           == 'yes';
+		$options                   = self::$woocommerce->getOptions( 'wlr_settings' );
+		$cart_redeem_point_display = ( isset( $options['wlr_is_thank_you_message_enable'] ) && ! empty( $options['wlr_is_thank_you_message_enable'] )
+				? $options['wlr_is_thank_you_message_enable'] : 'yes' ) == 'yes';
 
-		return apply_filters( 'wlr_thank_you_message_enabled',
-			$cart_redeem_point_display );
+		return apply_filters( 'wlr_thank_you_message_enabled', $cart_redeem_point_display );
 	}
 
 	function triggerThankYouMessage() {
@@ -274,24 +208,20 @@ class DisplayMessage extends Base {
 		$position = $this->getThankYouMessageOption();
 		switch ( $position ) {
 			case 'before':
-				add_action( 'woocommerce_before_thankyou',
-					array( $this, 'renderThankYouMessage' ) );
+				add_action( 'woocommerce_before_thankyou', [ $this, 'renderThankYouMessage' ] );
 				break;
 			case 'after':
-				add_action( 'woocommerce_thankyou',
-					array( $this, 'renderThankYouMessage' ) );
+				add_action( 'woocommerce_thankyou', [ $this, 'renderThankYouMessage' ] );
 				break;
 		}
 	}
 
 	protected function getThankYouMessageOption() {
 		$options                = self::$woocommerce->getOptions( 'wlr_settings' );
-		$thank_you_msg_position = ( isset( $options['wlr_thank_you_position'] )
-		                            && ! empty( $options['wlr_thank_you_position'] )
+		$thank_you_msg_position = ( isset( $options['wlr_thank_you_position'] ) && ! empty( $options['wlr_thank_you_position'] )
 			? $options['wlr_thank_you_position'] : 'before' );
 
-		return apply_filters( 'wlr_get_thank_you_message_position',
-			$thank_you_msg_position );
+		return apply_filters( 'wlr_get_thank_you_message_position', $thank_you_msg_position );
 	}
 
 	function renderProductMessage( $price, $product ) {
@@ -302,14 +232,11 @@ class DisplayMessage extends Base {
 		if ( is_admin() || ( $low_stock == true ) ) {
 			return $price;
 		}
-		$point_setting = self::$woocommerce->getOptions( 'wlr_settings' );
+		$point_setting                    = self::$woocommerce->getOptions( 'wlr_settings' );
 		$message
-		               = $this->commonProductMessage( $product );
-		$display_product_display_position
-		               = ( isset( $point_setting['product_message_display_position'] )
-		                   && ! empty( $point_setting['product_message_display_position'] )
-			? $point_setting['product_message_display_position']
-			: 'before_add_to_cart' );
+		                                  = $this->commonProductMessage( $product );
+		$display_product_display_position = ( isset( $point_setting['product_message_display_position'] ) && ! empty( $point_setting['product_message_display_position'] )
+			? $point_setting['product_message_display_position'] : 'before_add_to_cart' );
 		if ( $display_product_display_position == 'before_price' ) {
 			$message = $message . $price;
 		} elseif ( $display_product_display_position == 'after_price' ) {
@@ -322,11 +249,9 @@ class DisplayMessage extends Base {
 	}
 
 	protected function commonProductMessageCheck() {
-		if ( ( isset( $_REQUEST['app_name'] ) && isset( $_REQUEST['scope'] )
-		       && isset( $_REQUEST['oauth_consumer_key'] ) )
-		     || ( isset( $_REQUEST['consumer_key'] )
-		          && isset( $_REQUEST['consumer_secret'] ) )
-		) {
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ( isset( $_REQUEST['app_name'] ) && isset( $_REQUEST['scope'] ) && isset( $_REQUEST['oauth_consumer_key'] ) )
+		     || ( isset( $_REQUEST['consumer_key'] ) && isset( $_REQUEST['consumer_secret'] ) ) ) {//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return true;
 		}
 
@@ -334,9 +259,7 @@ class DisplayMessage extends Base {
 	}
 
 	function commonProductMessage( $product ) {
-		if ( $this->canStopCommonProductMessage() || ! is_object( $product )
-		     || self::$woocommerce->isBannedUser()
-		) {
+		if ( $this->canStopCommonProductMessage() || ! is_object( $product ) || self::$woocommerce->isBannedUser() ) {
 			return '';
 		}
 
@@ -344,9 +267,7 @@ class DisplayMessage extends Base {
 		$earn_campaign    = new EarnCampaign();
 		$cart_action_list = $earn_campaign->getProductActionList();
 		$display          = 'single';
-		if ( self::$woocommerce->isMethodExists( $product,
-			'get_variation_prices' )
-		) {
+		if ( self::$woocommerce->isMethodExists( $product, 'get_variation_prices' ) ) {
 			$prices     = $product->get_variation_prices( true );
 			$highest    = array();
 			$high_point = 0;
@@ -368,9 +289,7 @@ class DisplayMessage extends Base {
 						$extra );
 					foreach ( $variant_rewards as $variant_reward ) {
 						foreach ( $variant_reward as $variant_point_data ) {
-							if ( isset( $variant_point_data['point'] )
-							     && $variant_point_data['point'] > $high_point
-							) {
+							if ( isset( $variant_point_data['point'] ) && $variant_point_data['point'] > $high_point ) {
 								$highest    = $variant_rewards;
 								$high_point = $variant_point_data['point'];
 							}
@@ -381,21 +300,18 @@ class DisplayMessage extends Base {
 			$reward_list = $highest;
 			$display     = 'variable';
 		} else {
-			$extra       = array(
+			$extra       = [
 				'product'            => $product,
 				'is_calculate_based' => 'product',
 				'user_email'         => $email,
 				'is_message'         => true
-			);
-			$reward_list = $earn_campaign->getActionEarning( $cart_action_list,
-				$extra );
+			];
+			$reward_list = $earn_campaign->getActionEarning( $cart_action_list, $extra );
 		}
 		$message = '';
 		foreach ( $reward_list as $rewards ) {
 			foreach ( $rewards as $reward ) {
-				if ( isset( $reward['messages'] )
-				     && ! empty( $reward['messages'] )
-				) {
+				if ( isset( $reward['messages'] ) && ! empty( $reward['messages'] ) ) {
 					foreach ( $reward['messages'] as $key => $single_message ) {
 						if ( $key == $display ) {
 							$message .= $single_message;
@@ -417,11 +333,9 @@ class DisplayMessage extends Base {
 	}
 
 	function shouldStopProcessing() {
-		$status = ( ( isset( $_REQUEST['app_name'] )
-		              && isset( $_REQUEST['scope'] )
-		              && isset( $_REQUEST['oauth_consumer_key'] ) )
-		            || ( isset( $_REQUEST['consumer_key'] )
-		                 && isset( $_REQUEST['consumer_secret'] ) ) );
+		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$status = ( ( isset( $_REQUEST['app_name'] ) && isset( $_REQUEST['scope'] ) && isset( $_REQUEST['oauth_consumer_key'] ) )
+		            || ( isset( $_REQUEST['consumer_key'] ) && isset( $_REQUEST['consumer_secret'] ) ) );//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		return apply_filters( 'wlr_should_stop_processing_messages', $status );
 
@@ -439,7 +353,7 @@ class DisplayMessage extends Base {
 	function renderProductMessageCart() {
 		global $product;
 		$message = $this->commonProductMessage( $product );
-		echo apply_filters( 'wlr_single_product_message', $message, $this );
+		echo wp_kses_post( apply_filters( 'wlr_single_product_message', $message, $this ) );
 	}
 
 	function renderProductMessageCartLink( $cart_link, $product ) {
@@ -447,14 +361,10 @@ class DisplayMessage extends Base {
 			return $cart_link;
 		}
 
-		$point_setting = get_option( 'wlr_settings', '' );
-		$message
-		               = $this->commonProductMessage( $product );
-		$display_product_display_position
-		               = ( isset( $point_setting['product_message_display_position'] )
-		                   && ! empty( $point_setting['product_message_display_position'] )
-			? $point_setting['product_message_display_position']
-			: 'before_add_to_cart' );
+		$point_setting                    = get_option( 'wlr_settings', '' );
+		$message                          = $this->commonProductMessage( $product );
+		$display_product_display_position = ( isset( $point_setting['product_message_display_position'] ) && ! empty( $point_setting['product_message_display_position'] )
+			? $point_setting['product_message_display_position'] : 'before_add_to_cart' );
 		if ( $display_product_display_position == 'before_add_to_cart' ) {
 			$message = $message . $cart_link;
 		} elseif ( $display_product_display_position == 'after_add_to_cart' ) {
@@ -499,23 +409,15 @@ class DisplayMessage extends Base {
 		$point          = $earn_campaign->roundPoints( $point );
 		$setting_option = get_option( 'wlr_settings', '' );
 		if ( is_checkout() || ! $is_cart ) {
-			$message
-				= ( isset( $setting_option['wlr_checkout_earn_points_message'] )
-				    && ! empty( $setting_option['wlr_checkout_earn_points_message'] ) )
-				? __( $setting_option['wlr_checkout_earn_points_message'],
-					'wp-loyalty-rules' )
-				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase',
-					'wp-loyalty-rules' );
+			$message = ( isset( $setting_option['wlr_checkout_earn_points_message'] ) && ! empty( $setting_option['wlr_checkout_earn_points_message'] ) )
+				? __( $setting_option['wlr_checkout_earn_points_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase', 'wp-loyalty-rules' );
 		} else {
-			$message
-				= ( isset( $setting_option['wlr_cart_earn_points_message'] )
-				    && ! empty( $setting_option['wlr_cart_earn_points_message'] ) )
-				? __( $setting_option['wlr_cart_earn_points_message'],
-					'wp-loyalty-rules' )
-				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase',
-					'wp-loyalty-rules' );
+			$message = ( isset( $setting_option['wlr_cart_earn_points_message'] ) && ! empty( $setting_option['wlr_cart_earn_points_message'] ) )
+				? __( $setting_option['wlr_cart_earn_points_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase', 'wp-loyalty-rules' );
 		}
-		$short_code_list = array(
+		$short_code_list = [
 			'{wlr_points}'               => $point > 0
 				? self::$woocommerce->numberFormatI18n( $point ) : '',
 			'{wlr_cart_point_or_reward}' => $earn_campaign->getPointOrRewardText( $point,
@@ -526,18 +428,13 @@ class DisplayMessage extends Base {
 			'{wlr_reward_label}'         => $earn_campaign->getRewardLabel( $reward_count ),
 			'{wlr_rewards}'              => $available_rewards,
 			'{wlr_cart_rewards}'         => $available_rewards
-		);
-		$message         = $earn_campaign->processShortCodes( $short_code_list,
-			$message );
-		$message
-		                 = apply_filters( 'wlr_points_rewards_earn_points_message',
-			$message, $short_code_list );
+		];
+		$message         = $earn_campaign->processShortCodes( $short_code_list, $message );
+		$message         = apply_filters( 'wlr_points_rewards_earn_points_message', $message, $short_code_list );
 		$message         = Woocommerce::getCleanHtml( $message );
-		$message
-		                 = $earn_campaign->getCartEarnMessageDesign( $message );//$message = '<div class="wlr-message-info wlr_points_rewards_earn_points">' . $message . '</div>';
+		$message         = $earn_campaign->getCartEarnMessageDesign( $message );//$message = '<div class="wlr-message-info wlr_points_rewards_earn_points">' . $message . '</div>';
 		if ( empty( $point ) && empty( $available_rewards ) ) {
-			$message
-				= '<div class="wlr-message-info wlr_points_rewards_earn_points" style="display: none;"></div>';
+			$message = '<div class="wlr-message-info wlr_points_rewards_earn_points" style="display: none;"></div>';
 		}
 
 		return $message;
@@ -568,54 +465,35 @@ class DisplayMessage extends Base {
 		$point          = $earn_campaign->roundPoints( $point );
 		$setting_option = get_option( 'wlr_settings', '' );
 		if ( is_checkout() ) {
-			$message
-				= ( isset( $setting_option['wlr_checkout_earn_points_message'] )
-				    && ! empty( $setting_option['wlr_checkout_earn_points_message'] ) )
-				? __( $setting_option['wlr_checkout_earn_points_message'],
-					'wp-loyalty-rules' )
-				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase',
-					'wp-loyalty-rules' );
+			$message = ( isset( $setting_option['wlr_checkout_earn_points_message'] ) && ! empty( $setting_option['wlr_checkout_earn_points_message'] ) )
+				? __( $setting_option['wlr_checkout_earn_points_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase', 'wp-loyalty-rules' );
 		} else {
-			$message
-				= ( isset( $setting_option['wlr_cart_earn_points_message'] )
-				    && ! empty( $setting_option['wlr_cart_earn_points_message'] ) )
-				? __( $setting_option['wlr_cart_earn_points_message'],
-					'wp-loyalty-rules' )
-				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase',
-					'wp-loyalty-rules' );
+			$message = ( isset( $setting_option['wlr_cart_earn_points_message'] ) && ! empty( $setting_option['wlr_cart_earn_points_message'] ) )
+				? __( $setting_option['wlr_cart_earn_points_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				: __( 'Complete your order and earn {wlr_cart_points} {wlr_points_label} for a discount on a future purchase', 'wp-loyalty-rules' );
 		}
 
-		$cart_earn_point_display
-			             = ( isset( $setting_option['wlr_cart_earn_point_display'] )
-			                 && ! empty( $setting_option['wlr_cart_earn_point_display'] )
+		$cart_earn_point_display = ( isset( $setting_option['wlr_cart_earn_point_display'] ) && ! empty( $setting_option['wlr_cart_earn_point_display'] )
 			? $setting_option['wlr_cart_earn_point_display'] : 'before' );
-		$short_code_list = array(
-			'{wlr_points}'               => $point > 0
-				? self::$woocommerce->numberFormatI18n( $point ) : '',
-			'{wlr_cart_point_or_reward}' => $earn_campaign->getPointOrRewardText( $point,
-				$available_rewards ),
-			'{wlr_cart_points}'          => $point > 0
-				? self::$woocommerce->numberFormatI18n( $point ) : '',
+		$short_code_list         = array(
+			'{wlr_points}'               => $point > 0 ? self::$woocommerce->numberFormatI18n( $point ) : '',
+			'{wlr_cart_point_or_reward}' => $earn_campaign->getPointOrRewardText( $point, $available_rewards ),
+			'{wlr_cart_points}'          => $point > 0 ? self::$woocommerce->numberFormatI18n( $point ) : '',
 			'{wlr_points_label}'         => $earn_campaign->getPointLabel( $point ),
 			'{wlr_reward_label}'         => $earn_campaign->getRewardLabel( $reward_count ),
 			'{wlr_rewards}'              => $available_rewards,
 			'{wlr_cart_rewards}'         => $available_rewards,
 		);
-		$message         = $earn_campaign->processShortCodes( $short_code_list,
-			$message );
-		$message
-			             = apply_filters( 'wlr_points_rewards_earn_points_message',
-			$message, $short_code_list );
-		$message         = Woocommerce::getCleanHtml( $message );
+		$message                 = $earn_campaign->processShortCodes( $short_code_list, $message );
+		$message                 = apply_filters( 'wlr_points_rewards_earn_points_message', $message, $short_code_list );
+		$message                 = Woocommerce::getCleanHtml( $message );
 
 		if ( ! wp_doing_ajax() ) {
 			if ( $cart_earn_point_display == 'content' && ! is_checkout() ) {
-				$message
-					= '<tr><td colspan="6" class="wlr-message-info wlr_points_rewards_earn_points" >'
-					  . $message . '</td></tr>';
+				$message = '<tr><td colspan="6" class="wlr-message-info wlr_points_rewards_earn_points" >' . $message . '</td></tr>';
 			} else {
-				$message
-					= $earn_campaign->getCartEarnMessageDesign( $message );//'<div class="wlr-message-info wlr_points_rewards_earn_points">' . $message . '</div>';
+				$message = $earn_campaign->getCartEarnMessageDesign( $message );
 			}
 		}
 		if ( wp_doing_ajax() ) {
@@ -627,59 +505,24 @@ class DisplayMessage extends Base {
 
 			if ( empty( $point ) && empty( $available_rewards ) ) {
 				if ( $cart_earn_point_display == 'content' ) {
-					$message
-						= '<tr><td colspan="6" class="wlr-message-info wlr_points_rewards_earn_points">'
-						  . $message . '</td></tr>';
+					$message = '<tr><td colspan="6" class="wlr-message-info wlr_points_rewards_earn_points">' . $message . '</td></tr>';
 				} else {
-					$message
-						= '<div class="wlr-message-info wlr_points_rewards_earn_points" style="display: none;"></div>';
+					$message = '<div class="wlr-message-info wlr_points_rewards_earn_points" style="display: none;"></div>';
 				}
 			}
-			echo $message;
+			echo wp_kses_post( $message );
 		}
 	}
-
-	/*function checkoutEarnPoints()
-	{
-		$user_email = self::$woocommerce->get_login_user_email();
-		$extra = array(
-			'user_email' => $user_email, 'cart' => WC()->cart, 'is_calculate_based' => 'cart'
-		);
-		$earn_campaign = EarnCampaign::getInstance();
-		$cart_action_list = $earn_campaign->getCartActionList();
-		$reward_list = $earn_campaign->getActionEarning($cart_action_list, $extra);
-		$point = $earn_campaign->addPointValue($reward_list);
-		$available_rewards = $earn_campaign->concateRewards($reward_list);
-		$point = $earn_campaign->roundPoints($point);
-		$point_label = $earn_campaign->getPointLabel($point);
-		$setting_option = get_option('wlr_settings', '');
-		$earn_point_summary_text = (isset($setting_option['wlr_earn_point_order_summary_text']) && !empty($setting_option['wlr_earn_point_order_summary_text']) ? $setting_option['wlr_earn_point_order_summary_text'] : 'Earn Points');
-		if ($point > 0 || !empty($available_rewards)) {
-			$text = '';
-			if ($point > 0) {
-				$text = $point . $point_label;
-			}
-			if (!empty($available_rewards)) {
-				$text .= ' ' . __('And', 'wp-loyalty-rules') . ' ' . $available_rewards;
-			}
-			echo "<tr class=\"wlr-checkout-point\">
-					<th>" . __($earn_point_summary_text, 'wp-loyalty-rules') . "</th>
-					<td>" . $text . "</td>
-				</tr>";
-		}
-	}*/
 
 	function displayCheckoutMessageFragment( $fragment ) {
 		if ( self::$woocommerce->isCartEmpty() ) {
 			return $fragment;
 		}
 		if ( $this->isCheckoutEarnMessageEnabled() ) {
-			$fragment['div.wlr-message-info.wlr_points_rewards_earn_points']
-				= $this->getCartMessage( false );
+			$fragment['div.wlr-message-info.wlr_points_rewards_earn_points'] = $this->getCartMessage( false );
 		}
 		if ( $this->isCheckoutRedeemMessageEnabled() ) {
-			$fragment['div.wlr-message-info.wlr_point_redeem_message']
-				= $this->getCartRedeemMessage( false );
+			$fragment['div.wlr-message-info.wlr_point_redeem_message'] = $this->getCartRedeemMessage( false );
 		}
 
 		return $fragment;
@@ -715,60 +558,34 @@ class DisplayMessage extends Base {
 					'language'
 				)
 			);
-			$user_reward   = $reward_helper->getUserRewards( $user_email,
-				$extra );
-			$point_rewards = $reward_helper->getPointRewards( $user_email,
-				$extra );
+			$user_reward   = $reward_helper->getUserRewards( $user_email, $extra );
+			$point_rewards = $reward_helper->getPointRewards( $user_email, $extra );
 			$reward_list   = array_merge( $user_reward, $point_rewards );
 			if ( count( $reward_list ) > 0 || $points > 0 ) {
 				if ( is_checkout() || ! $is_cart ) {
-					$message
-						= ( isset( $setting_option['wlr_checkout_redeem_points_message'] )
-						    && ! empty( $setting_option['wlr_checkout_redeem_points_message'] ) )
-						? __( $setting_option['wlr_checkout_redeem_points_message'],
-							'wp-loyalty-rules' )
-						: __( 'You have {wlr_redeem_cart_points} {wlr_points_label} earned choose your rewards {wlr_reward_link}',
-							'wp-loyalty-rules' );
+					$message = ( isset( $setting_option['wlr_checkout_redeem_points_message'] ) && ! empty( $setting_option['wlr_checkout_redeem_points_message'] ) )
+						? __( $setting_option['wlr_checkout_redeem_points_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+						: __( 'You have {wlr_redeem_cart_points} {wlr_points_label} earned choose your rewards {wlr_reward_link}', 'wp-loyalty-rules' );
 				} else {
-					$message
-						= ( isset( $setting_option['wlr_cart_redeem_points_message'] )
-						    && ! empty( $setting_option['wlr_cart_redeem_points_message'] ) )
-						? __( $setting_option['wlr_cart_redeem_points_message'],
-							'wp-loyalty-rules' )
-						: __( 'You have {wlr_redeem_cart_points} {wlr_points_label} earned choose your rewards {wlr_reward_link}',
-							'wp-loyalty-rules' );
+					$message = ( isset( $setting_option['wlr_cart_redeem_points_message'] ) && ! empty( $setting_option['wlr_cart_redeem_points_message'] ) )
+						? __( $setting_option['wlr_cart_redeem_points_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+						: __( 'You have {wlr_redeem_cart_points} {wlr_points_label} earned choose your rewards {wlr_reward_link}', 'wp-loyalty-rules' );
 				}
-				$short_code_list = array(
-					'{wlr_points}'             => $points > 0
-						? self::$woocommerce->numberFormatI18n( $points ) : '',
-					'{wlr_redeem_cart_points}' => $points > 0
-						? self::$woocommerce->numberFormatI18n( $points ) : '',
+				$short_code_list           = array(
+					'{wlr_points}'             => $points > 0 ? self::$woocommerce->numberFormatI18n( $points ) : '',
+					'{wlr_redeem_cart_points}' => $points > 0 ? self::$woocommerce->numberFormatI18n( $points ) : '',
 					'{wlr_points_label}'       => $order_helper->getPointLabel( $points ),
 					'{wlr_reward_label}'       => $order_helper->getRewardLabel( count( $reward_list ) ),
-					'{wlr_reward_link}'        => '<a id="wlr-reward-link" href="javascript:void(0);">'
-					                              . __( 'Click Here',
-							'wp-loyalty-rules' ) . '</a>'
+					'{wlr_reward_link}'        => '<a id="wlr-reward-link" href="javascript:void(0);">' . __( 'Click Here', 'wp-loyalty-rules' ) . '</a>'
 				);
-				$message
-				                 = $order_helper->processShortCodes( $short_code_list,
-					$message );
-				$message
-				                 = apply_filters( 'wlr_point_redeem_points_message',
-					$message );
-				$cart_redeem_point_display
-				                 = ( isset( $setting_option['wlr_cart_redeem_point_display'] )
-				                     && ! empty( $setting_option['wlr_cart_redeem_point_display'] )
-					? $setting_option['wlr_cart_redeem_point_display']
-					: 'before' );
-				if ( $cart_redeem_point_display == 'content'
-				     && ! is_checkout()
-				) {
-					$message
-						= '<tr><td colspan="6" class="wlr-message-info wlr_point_redeem_message">'
-						  . $message . '</td></tr>';
+				$message                   = $order_helper->processShortCodes( $short_code_list, $message );
+				$message                   = apply_filters( 'wlr_point_redeem_points_message', $message );
+				$cart_redeem_point_display = ( isset( $setting_option['wlr_cart_redeem_point_display'] ) && ! empty( $setting_option['wlr_cart_redeem_point_display'] )
+					? $setting_option['wlr_cart_redeem_point_display'] : 'before' );
+				if ( $cart_redeem_point_display == 'content' && ! is_checkout() ) {
+					$message = '<tr><td colspan="6" class="wlr-message-info wlr_point_redeem_message">' . $message . '</td></tr>';
 				} else {
-					$message
-						= $order_helper->getCartRedeemMessageDesign( $message );//'<div class="wlr-message-info wlr_point_redeem_message">' . $message . '</div>';
+					$message = $order_helper->getCartRedeemMessageDesign( $message );
 				}
 			}
 		}
@@ -781,25 +598,19 @@ class DisplayMessage extends Base {
 			return $fragment;
 		}
 		$cart_earn_point_display = $this->getCartEarnMessageOption();
-		if ( ! in_array( $cart_earn_point_display,
-			array( 'summary', 'content', 'hide' ) )
-		) {
-			$fragment['div.wlr-message-info.wlr_points_rewards_earn_points']
-				= $this->getCartMessage();
+		if ( ! in_array( $cart_earn_point_display, [ 'summary', 'content', 'hide' ] ) ) {
+			$fragment['div.wlr-message-info.wlr_points_rewards_earn_points'] = $this->getCartMessage();
 		}
 		$cart_redeem_point_display = $this->getCartRedeemMessageOption();
-		if ( ! in_array( $cart_redeem_point_display,
-			array( 'content', 'hide' ) )
-		) {
-			$fragment['div.wlr-message-info.wlr_point_redeem_message']
-				= $this->getCartRedeemMessage();
+		if ( ! in_array( $cart_redeem_point_display, [ 'content', 'hide' ] ) ) {
+			$fragment['div.wlr-message-info.wlr_point_redeem_message'] = $this->getCartRedeemMessage();
 		}
 
 		return $fragment;
 	}
 
 	function displayRedeemPointsMessage() {
-		echo $this->getCartRedeemMessage();
+		echo $this->getCartRedeemMessage();//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	function processCartRedeemMessageShortCode() {
@@ -811,50 +622,30 @@ class DisplayMessage extends Base {
 		$order_email = self::$woocommerce->getOrderEmail( $order );
 		if ( ! empty( $order_email ) && ! empty( $order ) ) {
 			$earn_campaign       = EarnCampaign::getInstance();
-			$point
-			                     = $earn_campaign->getPointEarnedFromOrder( $order_id,
-				$order_email );
+			$point               = $earn_campaign->getPointEarnedFromOrder( $order_id, $order_email );
 			$earn_campaign_trans = new EarnCampaignTransactions();
-			$rewards
-			                     = $earn_campaign_trans->getRewardEarnedFromOrder( $order_id,
-				$order_email );
+			$rewards             = $earn_campaign_trans->getRewardEarnedFromOrder( $order_id, $order_email );
 			$setting_option      = get_option( 'wlr_settings', '' );
 			$user_point          = $earn_campaign->getUserPoint( $order_email );
-			$message
-			                     = ( isset( $setting_option['wlr_thank_you_message'] )
-			                         && ! empty( $setting_option['wlr_thank_you_message'] ) )
-				? __( $setting_option['wlr_thank_you_message'],
-					'wp-loyalty-rules' )
-				: __( 'You have earned {wlr_earned_points} {wlr_points_label} for this order. You have a total of {wlr_total_points}.',
-					'wp-loyalty-rules' );
-			if ( ! empty( $message )
-			     && ( ! empty( $point )
-			          || ! empty( $rewards ) )
-			) {
-				$message
-					             = \Wlr\App\Helpers\Woocommerce::getCleanHtml( $message );
-				$short_code_list = array(
-					'{wlr_points}'               => $point > 0
-						? self::$woocommerce->numberFormatI18n( $point ) : '',
-					'{wlr_earned_points}'        => $point > 0
-						? self::$woocommerce->numberFormatI18n( $point ) : '',
+			$message             = ( isset( $setting_option['wlr_thank_you_message'] ) && ! empty( $setting_option['wlr_thank_you_message'] ) )
+				? __( $setting_option['wlr_thank_you_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				: __( 'You have earned {wlr_earned_points} {wlr_points_label} for this order. You have a total of {wlr_total_points}.', 'wp-loyalty-rules' );
+
+			if ( ! empty( $message ) && ( ! empty( $point ) || ! empty( $rewards ) ) ) {
+				$message         = \Wlr\App\Helpers\Woocommerce::getCleanHtml( $message );
+				$short_code_list = [
+					'{wlr_points}'               => $point > 0 ? self::$woocommerce->numberFormatI18n( $point ) : '',
+					'{wlr_earned_points}'        => $point > 0 ? self::$woocommerce->numberFormatI18n( $point ) : '',
 					'{wlr_points_label}'         => $earn_campaign->getPointLabel( $point ),
 					'{wlr_reward_label}'         => $earn_campaign->getRewardLabel( count( $rewards ) ),
 					'{wlr_rewards}'              => implode( ',', $rewards ),
 					'{wlr_earned_rewards}'       => implode( ',', $rewards ),
-					'{wlr_total_points}'         => $user_point > 0
-						? self::$woocommerce->numberFormatI18n( $user_point )
-						: '',
-					'{wlr_cart_point_or_reward}' => $earn_campaign->getPointOrRewardText( $point,
-						implode( ',', $rewards ) ),
-				);
-				$message
-					             = $earn_campaign->processShortCodes( $short_code_list,
-					$message );
-				$message
-					             = $earn_campaign->getThankfulPageDesign( $message );
-				echo apply_filters( 'wlr_thank_you_message', $message, $point,
-					$user_point, $rewards );
+					'{wlr_total_points}'         => $user_point > 0 ? self::$woocommerce->numberFormatI18n( $user_point ) : '',
+					'{wlr_cart_point_or_reward}' => $earn_campaign->getPointOrRewardText( $point, implode( ',', $rewards ) ),
+				];
+				$message         = $earn_campaign->processShortCodes( $short_code_list, $message );
+				$message         = $earn_campaign->getThankfulPageDesign( $message );
+				echo wp_kses_post( apply_filters( 'wlr_thank_you_message', $message, $point, $user_point, $rewards ) );
 			}
 		}
 	}
@@ -866,9 +657,7 @@ class DisplayMessage extends Base {
 	 */
 	function shortCodeForThankYouPageMessage() {
 		$order_id = absint( get_query_var( 'order-received' ) );
-		if ( $order_id > 0
-		     && class_exists( 'Wlr\App\Controllers\Site\DisplayMessage' )
-		) {
+		if ( $order_id > 0 && class_exists( 'Wlr\App\Controllers\Site\DisplayMessage' ) ) {
 			$display_message = new \Wlr\App\Controllers\Site\DisplayMessage();
 			$display_message->renderThankYouMessage( $order_id );
 		}

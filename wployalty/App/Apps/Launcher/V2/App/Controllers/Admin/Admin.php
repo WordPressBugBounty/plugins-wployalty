@@ -60,7 +60,7 @@ class Admin extends Base {
 		wp_register_style( WLL_PLUGIN_SLUG . '-wlr-font', WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts' . $suffix . '.css', array(), WLR_PLUGIN_VERSION . '&t=' . time() );
 		wp_enqueue_style( WLL_PLUGIN_SLUG . '-wlr-font' );
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify.css', array(), WLR_PLUGIN_VERSION );
-		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify.js', array(), WLR_PLUGIN_VERSION . '&t=' . time() );
+		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify.js', array(), WLR_PLUGIN_VERSION . '&t=' . time() );//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 		$common_path   = WLL_PLUGIN_DIR . '/V2/Assets/Admin/Js/dist';
 		$js_files      = Woocommerce::getDirFileLists( $common_path );
 		$localize_name = "";
@@ -71,6 +71,7 @@ class Admin extends Base {
 			$js_file_url  = WLR_PLUGIN_URL . $path;
 			if ( $js_file_name == 'main.bundle.js' ) {
 				$localize_name = $js_name;
+				//phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 				wp_register_script( $js_name, $js_file_url, array( 'jquery' ), WLR_PLUGIN_VERSION . '&t=' . time() );
 				wp_enqueue_script( $js_name );
 			}

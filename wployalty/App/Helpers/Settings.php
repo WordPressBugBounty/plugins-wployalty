@@ -54,11 +54,11 @@ class Settings {
 	public static function getPointLabel( $point, $label_translate = true ) {
 		$singular = Settings::get( 'wlr_point_singular_label', 'point' );
 		if ( $label_translate ) {
-			$singular = __( $singular, 'wp-loyalty-rules' );
+			$singular = __( $singular, 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		}
 		$plural = Settings::get( 'wlr_point_label', 'points' );
 		if ( $label_translate ) {
-			$plural = __( $plural, 'wp-loyalty-rules' );
+			$plural = __( $plural, 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		}
 		$point_label = ( $point == 0 || $point > 1 ) ? $plural : $singular;
 

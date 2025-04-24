@@ -202,6 +202,11 @@ wlr = window.wlr || {};
                         }
                     }
                     //(is_redirect_to_url && url !== '' && window.location.href !== url && json.data.is_coupon_exist) ? window.location.href = url : window.location.reload();
+                    wlr_jquery(document).trigger('wlr_apply_reward_action_trigger', [json.data, wlr_localize_data]);
+                    if (json.data.redirect_status) {
+                        window.location.href = json.data.redirect;
+                        return;
+                    }
                     (is_redirect_to_url && url !== '' && window.location.href !== url) ? window.location.href = url : window.location.reload();
                 }
             });
@@ -270,6 +275,11 @@ wlr = window.wlr || {};
                     } else if (json?.data?.message) {
                         localStorage.setItem('wlr_success_message', json?.data?.message);
                     }
+                }
+                wlr_jquery(document).trigger('wlr_apply_reward_action_trigger', [json.data, wlr_localize_data]);
+                if (json.data.redirect_status) {
+                    window.location.href = json.data.redirect;
+                    return;
                 }
                 (is_redirect_to_url && url !== '' && window.location.href !== url) ? window.location.href = url : window.location.reload();
             }
@@ -614,28 +624,32 @@ wlr = window.wlr || {};
             cancel: wlr_localize_data.popup_cancel
         });
     });
-    if (wlr_localize_data.is_pro && wlr_localize_data.is_allow_update_referral === '1') {
-        let wlr_ref = localStorage.getItem('wployalty_referral_code');
-        if (wlr_ref) {
-            let data = {
-                action: "wlr_update_referral_code",
-                wlr_nonce: wlr_localize_data.wlr_reward_nonce,
-                referral_code: localStorage.getItem('wployalty_referral_code')
-            };
-            wlr_jquery.ajax({
-                type: "POST",
-                url: wlr_localize_data.ajax_url,
-                data: data,
-                dataType: "json",
-                before: function () {
+    (function waitForReferralCode() {
+        if (wlr_localize_data.is_pro && wlr_localize_data.is_allow_update_referral === '1') {
+            let wlr_ref = localStorage.getItem('wployalty_referral_code');
+            if (wlr_ref) {
+                let data = {
+                    action: "wlr_update_referral_code",
+                    wlr_nonce: wlr_localize_data.wlr_reward_nonce,
+                    referral_code: localStorage.getItem('wployalty_referral_code')
+                };
+                wlr_jquery.ajax({
+                    type: "POST",
+                    url: wlr_localize_data.ajax_url,
+                    data: data,
+                    dataType: "json",
+                    before: function () {
 
-                },
-                success: function (json) {
+                    },
+                    success: function (json) {
 
-                }
-            });
+                    },
+                });
+            } else {
+                setTimeout(waitForReferralCode, 500); // Polling every 500 ms to set the referral code
+            }
         }
-    }
+    })();
     wlr_jquery(document).on('ready', function () {
         let wlr_error_message = localStorage.getItem('wlr_error_message');
         if (wlr_error_message) {

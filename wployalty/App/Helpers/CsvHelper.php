@@ -130,10 +130,17 @@ class CsvHelper extends Base {
 	 * @return bool
 	 */
 	function file_delete( $filepath ) {
-		@chmod( $filepath, 0777 );
+		global $wp_filesystem;
+
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		WP_Filesystem(); // Initialize
+		$wp_filesystem->chmod( $filepath, 0777 );
 		$status = false;
 		// as long as the owner is either the webserver or the ftp
-		if ( @unlink( $filepath ) ) {
+		if ( @unlink( $filepath ) ) {//phpcs:ignore WordPress.WP.AlternativeFunctions.unlink_unlink
 			$status = true;
 		}
 
@@ -149,9 +156,16 @@ class CsvHelper extends Base {
 	 * @return bool
 	 */
 	function file_upload( $src, $dest ) {
+		global $wp_filesystem;
+
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		WP_Filesystem(); // Initialize
 		// Create the destination directory if it does not exist
 		$baseDir = \dirname( $dest );
-		if ( is_writable( $baseDir ) && move_uploaded_file( $src, $dest ) ) {
+		if ( $wp_filesystem->is_writable( $baseDir ) && $wp_filesystem->move( $src, $dest ) ) {
 			// Short circuit to prevent file permission errors
 			if ( self::setPermissions( $dest ) ) {
 				$ret = true;
@@ -175,6 +189,13 @@ class CsvHelper extends Base {
 	 * @return bool
 	 */
 	public static function setPermissions( $path, $filemode = '0644', $foldermode = '0755' ) {
+		global $wp_filesystem;
+
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		WP_Filesystem(); // Initialize
 		// Initialise return value
 		$ret = true;
 
@@ -191,7 +212,7 @@ class CsvHelper extends Base {
 						}
 					} else {
 						if ( isset( $filemode ) ) {
-							if ( ! @ chmod( $fullpath, octdec( $filemode ) ) ) {
+							if ( ! $wp_filesystem->chmod( $fullpath, octdec( $filemode ) ) ) {
 								$ret = false;
 							}
 						}
@@ -202,13 +223,13 @@ class CsvHelper extends Base {
 			closedir( $dh );
 
 			if ( isset( $foldermode ) ) {
-				if ( ! @ chmod( $path, octdec( $foldermode ) ) ) {
+				if ( ! $wp_filesystem->chmod( $path, octdec( $foldermode ) ) ) {
 					$ret = false;
 				}
 			}
 		} else {
 			if ( isset( $filemode ) ) {
-				$ret = @ chmod( $path, octdec( $filemode ) );
+				$ret = $wp_filesystem->chmod( $path, octdec( $filemode ) );
 			}
 		}
 
@@ -249,8 +270,10 @@ class CsvHelper extends Base {
 						$action_data['referral_code']       = isset( $user_data['referral_code'] ) && ! empty( $user_data['referral_code'] ) ? $user_data['referral_code'] : '';
 						$action_data['points']              = $file_points;
 						$action_data['action_process_type'] = 'new_user';
-						$action_data['customer_note']       = sprintf( __( 'Added %d %s by site admin', 'wp-loyalty-rules' ), $file_points, $this->getPointLabel( $file_points ) );
-						$action_data['note']                = sprintf( __( '%s customer imported with %d %s by admin(%s)', 'wp-loyalty-rules' ), $email, $file_points, $this->getPointLabel( $file_points ), self::$woocommerce_helper->get_email_by_id( get_current_user_id() ) );
+						/* translators: 1: point 2: point label */
+						$action_data['customer_note'] = sprintf( __( 'Added %1$d %2$s by site admin', 'wp-loyalty-rules' ), $file_points, $this->getPointLabel( $file_points ) );
+						/* translators: 1: email 2: point 3: point label 4: admin email */
+						$action_data['note'] = sprintf( __( '%1$s customer imported with %2$d %3$s by admin(%4$s)', 'wp-loyalty-rules' ), $email, $file_points, $this->getPointLabel( $file_points ), self::$woocommerce_helper->get_email_by_id( get_current_user_id() ) );
 						$this->addExtraPointAction( 'import', $file_points, $action_data );
 					} elseif ( isset( $user_points->points ) ) {
 						if ( $need_update == 'yes' ) {
@@ -285,8 +308,10 @@ class CsvHelper extends Base {
 									$user_points->points -= (int) $file_points;
 								}
 							}
-							$action_data['note']          = sprintf( __( '%s customer %s changed from %d to %d by admin(%s) via import', 'wp-loyalty-rules' ), $email, $this->getPointLabel( 3 ), $old_point, $user_points->points, self::$woocommerce_helper->get_email_by_id( get_current_user_id() ) );
-							$action_data['customer_note'] = sprintf( __( '%s value changed to %d by store administrator(s)', 'wp-loyalty-rules' ), $this->getPointLabel( $user_points->points ), $user_points->points );
+							/* translators: 1: email 2: point label 3: old point 4: current point 5: admin email */
+							$action_data['note'] = sprintf( __( '%1$s customer %2$s changed from %3$d to %4$d by admin(%5$s) via import', 'wp-loyalty-rules' ), $email, $this->getPointLabel( 3 ), $old_point, $user_points->points, self::$woocommerce_helper->get_email_by_id( get_current_user_id() ) );
+							/* translators: 1: point label 2: current point */
+							$action_data['customer_note'] = sprintf( __( '%1$s value changed to %2$d by store administrator(s)', 'wp-loyalty-rules' ), $this->getPointLabel( $user_points->points ), $user_points->points );
 							$this->addExtraPointAction( 'import', $action_data['points'], $action_data, $trans_type, false, true );
 						}
 					}

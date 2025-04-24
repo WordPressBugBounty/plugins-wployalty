@@ -58,7 +58,7 @@ class Coupon {
 				wc_add_notice( $message, 'error' );
 			}
 		}
-        do_action('wlr_after_apply_cart_coupon', $discount_code);
+		do_action( 'wlr_after_apply_cart_coupon', $discount_code );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Coupon {
 		}
 
 		// 2. validate user
-		$billing_email = isset( $_POST['billing_email'] ) ? $_POST['billing_email'] : '';
+		$billing_email = isset( $_POST['billing_email'] ) ? sanitize_email( wp_unslash( $_POST['billing_email'] ) ) : '';//phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		$user_email = $woocommerce->get_login_user_email();
 		if ( ! empty( $billing_email ) && ! empty( $user_email ) && strtolower( $billing_email ) != strtolower( $user_email ) ) {
@@ -244,6 +244,7 @@ class Coupon {
 
 			$reward = $reward_helper->getUserRewardByCoupon( $code );
 			if ( ! empty( $reward ) ) {
+				//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$label                                        = __( $reward->display_name, 'wp-loyalty-rules' ) . '(' . strtoupper( $code ) . ')';
 				self::$user_reward_cart_coupon_label[ $code ] = $label;
 			}

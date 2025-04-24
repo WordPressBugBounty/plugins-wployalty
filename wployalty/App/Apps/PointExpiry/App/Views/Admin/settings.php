@@ -19,13 +19,13 @@ defined( 'ABSPATH' ) or die;
                     <div class="wlpe-back-to-apps">
                         <a class="button" target="_self"
                            href="<?php echo isset( $app_url ) ? esc_url( $app_url ) : '#'; ?>">
-                            <img src="<?php echo ( isset( $back ) && ! empty( $back ) ) ? esc_url( $back ) : ''; ?>"
+                            <img src="<?php echo ( isset( $back ) && ! empty( $back ) ) ? esc_url( $back ) : ''; //phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>"
                                  alt="<?php esc_html_e( "Back", "wp-loyalty-rules" ); ?>">
 							<?php esc_html_e( 'Back to WPLoyalty', 'wp-loyalty-rules' ); ?></a>
                     </div>
                     <div class="wlpe-save-changes">
                         <button type="button" id="wlpe-setting-submit-button" onclick="wlpe.saveSettings();">
-                            <img src="<?php echo ( isset( $save ) && ! empty( $save ) ) ? esc_url( $save ) : ''; ?>">
+                            <img src="<?php echo ( isset( $save ) && ! empty( $save ) ) ? esc_url( $save ) : '';//phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>">
                             <span><?php esc_html_e( 'Save Changes', 'wp-loyalty-rules' ) ?></span>
                         </button>
                     </div>
@@ -111,7 +111,7 @@ defined( 'ABSPATH' ) or die;
                                     for="wlpe-expire-email-template-label"><?php esc_html_e( 'Points Expiry Email Template Content', 'wp-loyalty-rules' ); ?></label>
                         </div>
                         <div class="wlpe-email-template" id="wlpe-email-template-editor">
-                            <a href="<?php echo isset( $manage_email_url ) ? $manage_email_url : '#'; ?>"
+                            <a href="<?php echo isset( $manage_email_url ) ? esc_url( $manage_email_url ) : '#'; ?>"
                                target="_blank" class="redirect-to-loyalty">
 								<?php esc_html_e( "Manage email template", "wp-loyalty-rules" ); ?>
                             </a>
@@ -147,7 +147,7 @@ defined( 'ABSPATH' ) or die;
                                 <div class="wlpe-expire-time-1">
                                     <div class="wlpe-input-field">
                                         <input type="number" min="0" name="expire_date_range" class="wlpe-expire-after"
-                                               value="<?php echo isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_date_range'] ) && ! empty( $options['expire_date_range'] ) ? $options['expire_date_range'] : 30 ?>"/>
+                                               value="<?php echo isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_date_range'] ) && ! empty( $options['expire_date_range'] ) ? (int) $options['expire_date_range'] : 30 ?>"/>
                                     </div>
                                     <div class="wlpe-days">
                                         <p><?php esc_html_e( 'days', 'wp-loyalty-rules' ); ?></p>

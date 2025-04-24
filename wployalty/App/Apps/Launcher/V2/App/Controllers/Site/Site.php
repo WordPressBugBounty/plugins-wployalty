@@ -45,7 +45,7 @@ class Site extends Base {
 			$js_file_url  = WLR_PLUGIN_URL . $path;
 			if ( $js_file_name == 'bundle.js' ) {
 				$localize_name = $js_name;
-				wp_register_script( $js_name, $js_file_url, array( 'jquery' ), WLR_PLUGIN_VERSION . $add_cache_fix );
+				wp_register_script( $js_name, $js_file_url, array( 'jquery' ), WLR_PLUGIN_VERSION . $add_cache_fix );// phpcs:ignore WordPress.WP.EnqueuedResourceParameters.NotInFooter
 				wp_enqueue_script( $js_name );
 			}
 		}
@@ -67,7 +67,7 @@ class Site extends Base {
 		];
 		$args = apply_filters( "wll_before_launcher_site_page", $args );
 		$path = WLL_PLUGIN_DIR . '/V2/App/Views/Site/main_site.php';
-		echo apply_filters( 'wll_launcher_widget', Util::renderTemplate( $path, $args, false ), $args );
+		echo wp_kses_post( apply_filters( 'wll_launcher_widget', Util::renderTemplate( $path, $args, false ), $args ) );
 	}
 
 	public function launcherWidgetData() {
@@ -104,11 +104,13 @@ class Site extends Base {
 				'launcher_power_by_url' => 'https://wployalty.net/?utm_campaign=wployalty-link&utm_medium=launcher&utm_source=powered_by',
 				"title"                 => __( "WPLoyalty", "wp-loyalty-rules" ),
 			],
-			'reward_text'             => sprintf( __( "%s", 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getRewardLabel( 3 ) ) ),
+			'reward_text'             => ucfirst( $earn_campaign_helper->getRewardLabel( 3 ) ),
 			'coupon_text'             => __( "Coupons", 'wp-loyalty-rules' ),
 			'loading_text'            => __( "Loading...", 'wp-loyalty-rules' ),
 			'loading_timer_text'      => __( "If loading takes a while, please refresh the screen...!", 'wp-loyalty-rules' ),
+			/* translators: %s: reward label */
 			'reward_opportunity_text' => sprintf( __( '%s Opportunities', 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getRewardLabel() ) ),
+			/* translators: %s: reward label */
 			'my_rewards_text'         => sprintf( __( 'My %s', 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getRewardLabel( 3 ) ) ),
 			'apply_button_text'       => __( 'Apply', 'wp-loyalty-rules' ),
 			'read_more_text'          => __( 'Read more', 'wp-loyalty-rules' ),
@@ -169,13 +171,14 @@ class Site extends Base {
 			return true;
 		}
 		$all_condition_status = [];
-		if ( ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) || ( $_SERVER['SERVER_PORT'] == 443 ) ) {
+		if ( ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ) || ( ! empty( $_SERVER['SERVER_PORT'] ) && $_SERVER['SERVER_PORT'] == 443 ) ) {
 			$protocol = "https://";
 		} else {
 			$protocol = "http://";
 		}
-
-		$current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+		$host        = ! empty( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : '';
+		$request_uri = ! empty( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$current_url = $protocol . $host . $request_uri;
 		foreach ( $show_condition as $condition ) {
 			if ( empty( $condition['operator']['value'] ) ) {
 				$all_condition_status[] = false;

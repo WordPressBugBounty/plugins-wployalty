@@ -189,8 +189,8 @@ class Woocommerce {
 		if ( (int) $date != $date ) {
 			return $date;
 		}
-		//return $this->convert_utc_to_wp_time(date('Y-m-d H:i:s', $date), $format);
-		$converted_time = $this->convert_utc_to_wp_time( date( 'Y-m-d H:i:s', $date ), $format );
+
+		$converted_time = $this->convert_utc_to_wp_time( gmdate( 'Y-m-d H:i:s', $date ), $format );
 		if ( apply_filters( 'wlr_translate_display_date', false ) ) {
 			$time           = strtotime( $converted_time );
 			$converted_time = date_i18n( $format, $time );
@@ -219,7 +219,8 @@ class Woocommerce {
 	function getActionTypes() {
 		$earn_helper  = \Wlr\App\Helpers\EarnCampaign::getInstance();
 		$action_types = array(
-			'point_for_purchase' => is_admin() ? __( 'Points For Purchase', 'wp-loyalty-rules' ) : sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), $earn_helper->getPointLabel( 3 ) ),
+			'point_for_purchase' => is_admin() ? __( 'Points For Purchase', 'wp-loyalty-rules' ) : /* translators: %s: point label */
+				sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), $earn_helper->getPointLabel( 3 ) ),
 		);
 
 		return apply_filters( 'wlr_action_types', $action_types );
@@ -235,7 +236,7 @@ class Woocommerce {
 
 	public static function getAllActionTypes() {
 		return apply_filters( 'wlr_all_action_types', [
-			'point_for_purchase' => is_admin() ? __( 'Points For Purchase', 'wp-loyalty-rules' ) : sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), Settings::getPointLabel( 3 ) ),
+			'point_for_purchase' => is_admin() ? __( 'Points For Purchase', 'wp-loyalty-rules' ) : /* translators: %s: point label */ sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), Settings::getPointLabel( 3 ) ),
 			'subtotal'           => __( 'Reward based on spending', 'wp-loyalty-rules' ),
 			'purchase_histories' => __( 'Order Goals', 'wp-loyalty-rules' ),//TODO: remove this action
 			'referral'           => __( 'Referral', 'wp-loyalty-rules' ),
@@ -262,7 +263,7 @@ class Woocommerce {
 			'percent'           => __( 'Percentage discount', 'wp-loyalty-rules' ),
 			'free_shipping'     => __( 'Free shipping', 'wp-loyalty-rules' ),
 			'free_product'      => __( 'Free product', 'wp-loyalty-rules' ),
-			'points_conversion' => is_admin() ? __( 'Points conversion', 'wp-loyalty-rules' ) : sprintf( __( '%s conversion', 'wp-loyalty-rules' ), Settings::getPointLabel( 3 ) ),
+			'points_conversion' => is_admin() ? __( 'Points conversion', 'wp-loyalty-rules' ) : /* translators: %s: point label */ sprintf( __( '%s conversion', 'wp-loyalty-rules' ), Settings::getPointLabel( 3 ) ),
 		] );
 	}
 
@@ -1493,10 +1494,11 @@ class Woocommerce {
 	}
 
 	function checkStatusNewRewardSection() {
-		$setting = $this->getOptions( 'wlr_new_rewards_section_enabled', '' );
-		$check   = ( file_exists( TEMPLATEPATH . '/my_account_reward.php' ) || ( file_exists( TEMPLATEPATH . '/cart_page_rewards.php' ) )
-		             || ( file_exists( TEMPLATEPATH . '/customer_page.php' ) ) || ( file_exists( TEMPLATEPATH . '/cart_page.php' ) ) );
-		$status  = false;
+		$setting      = $this->getOptions( 'wlr_new_rewards_section_enabled', '' );
+		$template_dir = get_template_directory();
+		$check        = ( file_exists( $template_dir . '/my_account_reward.php' ) || ( file_exists( $template_dir . '/cart_page_rewards.php' ) )
+		                  || ( file_exists( $template_dir . '/customer_page.php' ) ) || ( file_exists( $template_dir . '/cart_page.php' ) ) );
+		$status       = false;
 		if ( empty( $setting ) && ! $check ) {
 			$compare = version_compare( WLR_PLUGIN_VERSION, '1.2.4', '>=' );
 			if ( $compare ) {
@@ -1519,27 +1521,33 @@ class Woocommerce {
 			return array();
 		}
 		$renamed_files = $failed_rename = array();
+		global $wp_filesystem;
+
+		if ( ! function_exists( 'WP_Filesystem' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+		}
+
+		WP_Filesystem(); // Initialize
 		foreach ( $templates as $template ) {
 			$overwritten_template_path = get_stylesheet_directory() . '/' . $template;
 			if ( file_exists( $overwritten_template_path ) ) {
 				$new_name = str_replace( '.php', '.old.php', basename( $overwritten_template_path ) );
 				$new_path = dirname( $overwritten_template_path ) . '/' . $new_name;
-
-				if ( rename( $overwritten_template_path, $new_path ) ) {
+				if ( $wp_filesystem->move( $overwritten_template_path, $new_path ) ) {
 					$renamed_files[] = array(
 						'file_name' => $template,
 						'new_name'  => $new_name,
 					);
 				} else {
 					$current_permissions = fileperms( $overwritten_template_path );
-					if ( chmod( $overwritten_template_path, 0777 ) ) {
-						if ( rename( $overwritten_template_path, $new_path ) ) {
+					if ( $wp_filesystem->chmod( $overwritten_template_path, 0777 ) ) {
+						if ( $wp_filesystem->move( $overwritten_template_path, $new_path ) ) {
 							$renamed_files[] = array(
 								'file_name' => $template,
 								'new_name'  => $new_name,
 							);
 						} else {
-							chmod( $overwritten_template_path, $current_permissions );
+							$wp_filesystem->chmod( $overwritten_template_path, $current_permissions );
 							$failed_rename[] = array(
 								'file_name' => $template
 							);

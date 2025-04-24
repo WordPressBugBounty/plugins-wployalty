@@ -22,7 +22,7 @@ $earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
                 </tr>
                 </thead>
                 <tbody class="wlr-transaction-container">
-				<?php echo $recent_activity_content; ?>
+				<?php echo $recent_activity_content;//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
                 </tbody>
             </table>
         </div>

@@ -57,21 +57,11 @@ class Common {
 		if ( is_checkout() ) {
 			$main_js[] = 'wc-checkout';
 		}
-		/*		if ( Woocommerce::isCheckoutBlock() ) {
-					$block_js = [
-						'wp-element',
-						'wp-i18n',
-						'wp-hooks',
-						'wp-data',
-						'wp-api-fetch',
-						'wc-blocks-checkout'
-					];
-					$main_js  = array_merge( $main_js, $block_js );
-				}*/
+		
 		$main_js = apply_filters( 'wlr_load_site_main_js_depends', $main_js );
 
 		wp_register_script( WLR_PLUGIN_SLUG . '-main', WLR_PLUGIN_URL . 'Assets/Site/Js/wlr-main' . $suffix . '.js', $main_js, WLR_PLUGIN_VERSION . $add_cache_fix, false );
-		wp_register_script( WLR_PLUGIN_SLUG . '-alertify-front', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION );
+		wp_register_script( WLR_PLUGIN_SLUG . '-alertify-front', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION, true );
 		$js_handlers = apply_filters( 'wlr_front_js_handler', [
 			'wc-cart-fragments',
 			WLR_PLUGIN_SLUG . '-main',
@@ -84,9 +74,11 @@ class Common {
 		$base_helper          = new Base();
 		$earn_campaign_helper = EarnCampaign::getInstance();
 		$localize             = apply_filters( 'wlr_before_load_localize', [
+			/* translators: %s: point label */
 			'point_popup_message'        => sprintf( __( 'How much %s you would like to use', 'wp-loyalty-rules' ), $base_helper->getPointLabel( 3 ) ),
 			'popup_ok'                   => __( 'Ok', 'wp-loyalty-rules' ),
 			'popup_cancel'               => __( 'Cancel', 'wp-loyalty-rules' ),
+			/* translators: %s: reward label */
 			'revoke_coupon_message'      => sprintf( __( 'Are you sure you want to return the %s ?', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel() ),
 			'wlr_redeem_nonce'           => wp_create_nonce( 'wlr_redeem_nonce' ),
 			'wlr_reward_nonce'           => wp_create_nonce( 'wlr_reward_nonce' ),

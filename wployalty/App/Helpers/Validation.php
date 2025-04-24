@@ -746,6 +746,7 @@ class Validation {
 				if ( $max_value <= 0 ) {
 					$error_message = sprintf( __( 'The date range is wrong', 'wp-loyalty-rules' ), $max_value );
 				} elseif ( $max_value < $post['expire_email'] ) {
+					/* translators: %d: max value */
 					$error_message = sprintf( __( 'The value should be less than %d', 'wp-loyalty-rules' ), $max_value );
 				}
 			}
@@ -1028,6 +1029,10 @@ class Validation {
 				'conditions.purchase_spent.time',
 				'conditions.purchase_previous_orders_with_amount.status',
 				'conditions.purchase_previous_orders_with_amount.value',
+				'conditions.purchase_previous_orders_with_amount.time',
+				'conditions.purchase_previous_orders_with_amount.operator',
+				'conditions.purchase_previous_orders_with_amount.min_amount',
+				'conditions.purchase_previous_orders_with_amount.max_amount',
 			);
 			foreach ( $condition_label_fields as $label ) {
 				$condition_label_text[ $label ] = $this_field;
@@ -1731,15 +1736,16 @@ class Validation {
 	}
 
 	static function validateNumber( $field, $value, $params, $fields ) {
-		if( empty( $value ) ){
+		if ( empty( $value ) ) {
 			return true;
 		}
-		if(is_array($value) && !empty($value)){
-			foreach ($value as $item){
-				if((preg_match( '/^([0-9])+$/i', $item )) !== 1){
+		if ( is_array( $value ) && ! empty( $value ) ) {
+			foreach ( $value as $item ) {
+				if ( ( preg_match( '/^([0-9])+$/i', $item ) ) !== 1 ) {
 					return false;
 				}
 			}
+
 			return true;
 		}
 
@@ -1933,7 +1939,7 @@ class Validation {
 	}
 
 	static function validateImage( $field, $value, array $params, array $fields ) {
-		$path         = parse_url( $value, PHP_URL_PATH );
+		$path         = wp_parse_url( $value, PHP_URL_PATH );
 		$encoded_path = array_map( 'urlencode', explode( '/', $path ) );
 		$parse_url    = str_replace( $path, implode( '/', $encoded_path ), $value );
 		if ( ! filter_var( $parse_url, FILTER_VALIDATE_URL ) ) {

@@ -44,6 +44,7 @@ class Settings extends Base {
 				array( 'value' => '{wlr_user_name}', 'label' => __( 'Displays customer’s name', 'wp-loyalty-rules' ) ),
 				array(
 					'value' => '{wlr_user_points}',
+					/* translators: %s: point label */
 					'label' => sprintf( __( 'Displays customer’s %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) )
 				),
 				array(
@@ -54,10 +55,12 @@ class Settings extends Base {
 			'referral' => array(
 				array(
 					'value' => '{wlr_referral_advocate_point}',
+					/* translators: %s: point label */
 					'label' => sprintf( __( 'Displays %s reward for existing customers / advocates as configured in the referral campaign', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) )
 				),
 				array(
 					'value' => '{wlr_referral_advocate_point_percentage}',
+					/* translators: %s: point label */
 					'label' => sprintf( __( 'Displays %s percentage for existing customers / advocates as configured in the referral campaign', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) )
 				),
 				array(
@@ -66,10 +69,12 @@ class Settings extends Base {
 				),
 				array(
 					'value' => '{wlr_referral_friend_point}',
+					/* translators: %s: point label */
 					'label' => sprintf( __( 'Displays %s reward for friends as configured in the referral campaign', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) )
 				),
 				array(
 					'value' => '{wlr_referral_friend_point_percentage}',
+					/* translators: %s: point label */
 					'label' => sprintf( __( 'Displays %s percentage for friends as configured in the referral campaign', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) )
 				),
 				array(

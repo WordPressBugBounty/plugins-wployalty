@@ -68,7 +68,7 @@ class Member extends Base {
 			),
 		);
 		array_walk_recursive( $short_code_data, function ( &$value, $key ) use ( $is_admin_side ) {
-			$value = ( ! $is_admin_side ) ? __( $value, 'wp-loyalty-rules' ) : $value;
+			$value = ( ! $is_admin_side ) ? __( $value, 'wp-loyalty-rules' ) : $value;//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			$value = ( ! $is_admin_side ) ? self::$settings->processShortCodes( $value ) : $value;
 		} );
 		$data = array(
@@ -132,13 +132,15 @@ class Member extends Base {
 		);
 		if ( $is_user_available && isset( $user->level_id ) && $user->level_id > 0 && $level_check ) {
 			$level_data['current_level_image'] = isset( $user->level_data->current_level_image ) && ! empty( $user->level_data->current_level_image ) ? $user->level_data->current_level_image : '';
-			$level_data['current_level_name']  = ! empty( $user->level_data ) && ! empty( $user->level_data->current_level_name ) ? __( $user->level_data->current_level_name, 'wp-loyalty-rules' ) : '';
+			$level_data['current_level_name']  = ! empty( $user->level_data ) && ! empty( $user->level_data->current_level_name ) ? __( $user->level_data->current_level_name, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			if ( isset( $user->level_data->current_level_start ) && isset( $user->level_data->next_level_start ) && $user->level_data->next_level_start > 0 ) {
-				$earn_campaign_helper                 = \Wlr\App\Helpers\EarnCampaign::getInstance();
-				$level_data['level_range']            = round( ( ( $user->earn_total_point - $user->level_data->current_level_start ) / ( $user->level_data->next_level_start - $user->level_data->current_level_start ) ) * 100 );
-				$needed_point                         = $user->level_data->next_level_start - $user->earn_total_point;
-				$level_data['progress_content']       = sprintf( __( '%d %s more needed to unlock next level', 'wp-loyalty-rules' ), (int) $needed_point, $earn_campaign_helper->getPointLabel( $needed_point ) );
-				$level_data['is_reached_final_level'] = false;
+                $points = apply_filters('wll_points_to_get_level', $user->earn_total_point, $user);
+                $earn_campaign_helper                 = \Wlr\App\Helpers\EarnCampaign::getInstance();
+                $level_data['level_range']            = round( ( ( $points - $user->level_data->current_level_start ) / ( $user->level_data->next_level_start - $user->level_data->current_level_start ) ) * 100 );
+                $needed_point                         = $user->level_data->next_level_start - $points;
+				/* translators: 1: needed point 2: point label */
+				$level_data['progress_content']       = sprintf( __( '%1$d %2$s more needed to unlock next level', 'wp-loyalty-rules' ), (int) $needed_point, $earn_campaign_helper->getPointLabel( $needed_point ) );
+                $level_data['is_reached_final_level'] = false;
 			} else {
 				$level_data['is_reached_final_level'] = true;
 				$level_data['progress_content']       = __( 'Congratulations! You have reached the final level', 'wp-loyalty-rules' );
@@ -211,12 +213,13 @@ class Member extends Base {
 			if ( empty( $available_rewards ) ) {
 				wp_send_json_success( [
 					'redeem_data' => [],
+					/* translators: %s: reward label */
 					'message'     => sprintf( __( 'No %s found!', 'wp-loyalty-rules' ), $reward_helper->getRewardLabel( 3 ) )
 				] );
 			}
 			foreach ( $available_rewards as $user_reward ) {
-				$user_reward->name        = ! empty( $user_reward->name ) ? __( $user_reward->name, 'wp-loyalty-rules' ) : '';
-				$user_reward->description = ! empty( $user_reward->description ) ? __( $user_reward->description, 'wp-loyalty-rules' ) : '';
+				$user_reward->name        = ! empty( $user_reward->name ) ? __( $user_reward->name, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+				$user_reward->description = ! empty( $user_reward->description ) ? __( $user_reward->description, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$user_reward->button_text = __( 'Redeem', 'wp-loyalty-rules' );
 				$user_reward->action_text = $this->getUserRewardText( $user_reward );
 				if ( ! empty( $user_reward->discount_code ) ) {
@@ -231,6 +234,7 @@ class Member extends Base {
 				}
 				$user_reward->expiry_date_text = "";
 				if ( ! empty( $user_reward->expiry_date ) && ! empty( $user_reward->discount_code ) ) {
+					/* translators: %s: expired date */
 					$user_reward->expiry_date_text = sprintf( __( "Expires on %s", "wp-loyalty-rules" ), $user_reward->expiry_date );
 				}
 				if ( empty( $user_reward->discount_code ) ) {
@@ -298,10 +302,11 @@ class Member extends Base {
 		$user_rewards  = $this->getUserRewards();
 		$earn_campaign = \Wlr\App\Helpers\EarnCampaign::getInstance();
 		if ( empty( $user_rewards ) || ! is_array( $user_rewards ) ) {
-			return array(
-				'redeem_data' => array(),
+			return [
+				'redeem_data' => [],
+				/* translators: %s: reward label */
 				'message'     => sprintf( __( 'No %s found!', 'wp-loyalty-rules' ), $earn_campaign->getRewardLabel( 3 ) )
-			);
+			];
 		}
 		$redeem_rewards = array();
 		$message        = "";
@@ -312,6 +317,7 @@ class Member extends Base {
 			}
 		}
 		if ( count( $redeem_rewards ) == 0 ) {
+			/* translators: %s: reward label */
 			$message = sprintf( __( 'No %s found!', 'wp-loyalty-rules' ), $earn_campaign->getRewardLabel( 3 ) );
 		}
 

@@ -103,7 +103,8 @@ class Blocks {
 					if ( ! $reward_helper->processRewardConditions( $user_reward, $extra ) ) {
 						throw new RouteException(
 							'woocommerce_rest_cart_coupon_errors',
-							sprintf( __( 'Sorry.. %s coupon code invalid for %s payment.', 'wp-loyalty-rules' ), $coupon_code, $payment_method ),
+							/* translators: 1: coupon code, 2: payment method */
+							sprintf( esc_html__( 'Sorry.. %1$s coupon code invalid for %2$s payment.', 'wp-loyalty-rules' ), esc_html( $coupon_code ), esc_html( $payment_method ) ),
 							409
 						);
 					}

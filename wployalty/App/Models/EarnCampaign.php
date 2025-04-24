@@ -105,7 +105,7 @@ class EarnCampaign extends Base {
 
 	function getCurrentCampaignList( $current_date = '' ) {
 		if ( empty( $current_date ) ) {
-			$current_date = date( 'Y-m-d H:i:s' );
+			$current_date = gmdate( 'Y-m-d H:i:s' );
 		}
 		if ( ! isset( self::$current_campaign_list[ $current_date ] ) ) {
 			$campaign_reward                              = new \Wlr\App\Models\EarnCampaign();
@@ -159,19 +159,19 @@ class EarnCampaign extends Base {
 			'priority'               => ( isset( $post_data['priority'] ) && ! empty( $post_data['priority'] ) ) ? $post_data['priority'] : 0,
 		);
 		if ( empty( $campaign ) ) {
-			$save_data['created_at']  = strtotime( date( "Y-m-d H:i:s" ) );
+			$save_data['created_at']  = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			$save_data['modified_at'] = 0;
 			$id                       = $this->insertRow( $save_data );
 			if ( $need_to_update_ordering ) {
 				$ordering_data = [
-					'modified_at' => strtotime( date( "Y-m-d H:i:s" ) ),
+					'modified_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
 					'ordering'    => $id
 				];
 				$where         = [ 'id' => $id ];
 				$this->updateRow( $ordering_data, $where );
 			}
 		} else {
-			$save_data['modified_at'] = strtotime( date( "Y-m-d H:i:s" ) );
+			$save_data['modified_at'] = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			$where                    = array( 'id' => $post_data['id'] );
 			$this->updateRow( $save_data, $where );
 			$id = $post_data['id'];
@@ -191,7 +191,7 @@ class EarnCampaign extends Base {
 		if ( isset( self::$campaign_actions[ $action_type ] ) ) {
 			return self::$campaign_actions[ $action_type ];
 		}
-		$current_date   = date( 'Y-m-d H:i:s' );
+		$current_date   = gmdate( 'Y-m-d H:i:s' );
 		$campaign_where = self::$db->prepare( '(start_at <= %s OR start_at=0) AND  (end_at >= %s OR end_at=0) AND action_type = %s AND active = %d ORDER BY %s', array(
 			strtotime( $current_date ),
 			strtotime( $current_date ),

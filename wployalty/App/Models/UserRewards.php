@@ -176,7 +176,7 @@ class UserRewards extends Base {
 	}
 
 	function getExpireEmailList() {
-		$current_date = date( 'Y-m-d H:i:s' );
+		$current_date = gmdate( 'Y-m-d H:i:s' );
 		$where        = self::$db->prepare( 'expire_email_date < %s AND expire_email_date != %s AND is_expire_email_send = %d AND status NOT IN("%s","%s")', array(
 			strtotime( $current_date ),
 			0,
@@ -189,7 +189,7 @@ class UserRewards extends Base {
 	}
 
 	function getExpireStatusNeedToChangeList() {
-		$current_date = date( "Y-m-d H:i:s" );
+		$current_date = gmdate( "Y-m-d H:i:s" );
 		$where        = self::$db->prepare( 'end_at < %s AND end_at != %d AND status NOT IN("%s","%s")', array(
 			strtotime( $current_date ),
 			0,
@@ -204,7 +204,7 @@ class UserRewards extends Base {
 		if ( empty( $user_email ) ) {
 			return array();
 		}
-		$current                       = date( 'Y-m-d H:i:s' );
+		$current                       = gmdate( 'Y-m-d H:i:s' );
 		$is_show_new_my_reward_section = ( new Woocommerce() )->getOptions( 'wlr_new_rewards_section_enabled' );
 		if ( ! isset( self::$user_reward_by_email[ $user_email ] ) || ! isset( self::$user_reward_by_email[ $user_email ][ $current ] ) ) {
 			if ( ! isset( self::$user_reward_by_email[ $user_email ] ) ) {
@@ -225,7 +225,7 @@ class UserRewards extends Base {
 		if ( empty( $user_email ) ) {
 			return array();
 		}
-		$current          = date( 'Y-m-d H:i:s' );
+		$current          = gmdate( 'Y-m-d H:i:s' );
 		$where            = self::$db->prepare( 'email = %s AND status NOT IN("%s","%s") AND (end_at >= %s OR end_at = 0) AND discount_id = %d',
 			array( sanitize_email( $user_email ), 'used', 'expired', strtotime( $current ), 0 ) );
 		$filter_order     = 'discount_code';
@@ -247,7 +247,7 @@ class UserRewards extends Base {
 		if ( empty( $user_email ) ) {
 			return 0;
 		}
-		$current = date( 'Y-m-d H:i:s' );
+		$current = gmdate( 'Y-m-d H:i:s' );
 		$query   = "SELECT COUNT(*) as total FROM {$this->table}";
 		$query   .= " " . $this->getCouponQuery( $user_email, $current );
 
@@ -365,7 +365,7 @@ class UserRewards extends Base {
 			'count_query' => false
 		];
 		$args         = wp_parse_args( $args, $default_args );
-		$current      = date( 'Y-m-d H:i:s' );
+		$current      = gmdate( 'Y-m-d H:i:s' );
 		$where        = self::$db->prepare( 'u_reward.email = %s AND u_reward.status NOT IN("%s","%s") AND (u_reward.end_at >= %s OR u_reward.end_at = 0) AND u_reward.discount_id > %d AND p.ID > 0 AND p.post_status = "publish"',
 			array( sanitize_email( $user_email ), 'used', 'expired', strtotime( $current ), 0 ) );
 

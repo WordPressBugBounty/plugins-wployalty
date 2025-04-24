@@ -99,11 +99,11 @@ class Levels extends Base {
 		);
 		$level_table = $this->getByKey( $current_id );
 		if ( empty( $level_table ) ) {
-			$save_data['created_at']  = strtotime( date( "Y-m-d H:i:s" ) );
+			$save_data['created_at']  = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			$save_data['modified_at'] = 0;
 			$id                       = $this->insertRow( $save_data );
 		} else {
-			$save_data['modified_at'] = strtotime( date( "Y-m-d H:i:s" ) );
+			$save_data['modified_at'] = strtotime( gmdate( "Y-m-d H:i:s" ) );
 			$where                    = array( 'id' => $post_data['id'] );
 			$id                       = $post_data['id'];
 			$this->updateRow( $save_data, $where );

@@ -89,7 +89,7 @@ $is_right_to_left     = is_rtl();
     }
 
     .wlr-myaccount-page .wlr-user-reward-titles {
-        border-bottom: 0.5px solid<?php echo $border_color;?>;
+        border-bottom: 0.5px solid<?php echo esc_attr($border_color);?>;
     }
 
     .wlr-myaccount-page .wlr-out-of-stock {
@@ -110,7 +110,8 @@ $is_right_to_left     = is_rtl();
 	<?php if ( $is_user_available || get_current_user_id() ): ?>
         <div class="wlr-user-details">
             <div class="wlr-heading-container">
-                <h3 class="wlr-heading"><?php echo esc_html( sprintf( __( 'My %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) ) ); ?></h3>
+                <h3 class="wlr-heading"><?php /* translators: $s: point label */
+					echo esc_html( sprintf( __( 'My %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) ) ); ?></h3>
             </div>
             <div class="wlr-points-container">
 				<?php do_action( 'wlr_before_customer_reward_page_my_points_content' ); ?>
@@ -118,48 +119,52 @@ $is_right_to_left     = is_rtl();
                     <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-available-points' ); ?>"
                          class="wlr-border-color">
                         <div>
-							<?php echo \Wlr\App\Helpers\Base::setImageIcon( Settings::get( 'available_point_icon' ), "available-points", array(
-								"alt"    => __( "Available point", "wp-loyalty-rules" ),
+							<?php echo wp_kses_post( \Wlr\App\Helpers\Base::setImageIcon( Settings::get( 'available_point_icon' ), "available-points", [
+								"alt"    => esc_html__( "Available point", "wp-loyalty-rules" ),
 								"height" => 64,
 								"width"  => 64
-							) ); ?>
+							] ) ); ?>
                         </div>
                         <div>
 							<?php $user_points = (int) ( ! empty( $user ) && ! empty( $user->points ) ? $user->points : 0 ); ?>
                             <span id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-available-points-heading' ); ?>"
                                   class="wlr-text-color">
-        <?php echo esc_html( sprintf( __( 'Available %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user_points ) ) ) ?></span>
+        <?php /* translators: $s: point label */
+        echo esc_html( sprintf( __( 'Available %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user_points ) ) ) ?></span>
                             <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-available-point-value' ) ?>"
                                  class="wlr-text-color">
-								<?php echo $user_points; ?>
+								<?php echo esc_html( $user_points ); ?>
                             </div>
 							<?php if ( ! empty( $user->earn_total_point ) ): ?>
                                 <div class="wlr-text-color">
-                                    <p> <?php echo sprintf( __( 'Total %s earned: %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user->earn_total_point ), $user->earn_total_point ); ?></p>
+                                    <p> <?php /* translators: 1: point label 2: total point */
+										echo esc_html( sprintf( __( 'Total %1$s earned: %2$s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user->earn_total_point ), $user->earn_total_point ) ); ?></p>
                                 </div>
 							<?php endif; ?>
                         </div>
                     </div>
                     <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-redeemed-points' ) ?>" class="wlr-border-color">
                         <div>
-							<?php echo \Wlr\App\Helpers\Base::setImageIcon( Settings::get( 'redeem_point_icon' ), "redeem-points", array(
-								"alt"    => __( "Redeem point", "wp-loyalty-rules" ),
+							<?php echo wp_kses_post( \Wlr\App\Helpers\Base::setImageIcon( Settings::get( 'redeem_point_icon' ), "redeem-points", [
+								"alt"    => esc_html__( "Redeem point", "wp-loyalty-rules" ),
 								"height" => 64,
 								"width"  => 64
-							) ); ?>
+							] ) ); ?>
                         </div>
                         <div>
 							<?php $user_total_points = (int) ( ! empty( $user ) && ! empty( $user->used_total_points ) ? $user->used_total_points : 0 ); ?>
                             <span id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-redeemed-points-heading' ) ?>"
                                   class="wlr-text-color">
-        <?php echo esc_html( sprintf( __( 'Redeemed %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user_total_points ) ) ) ?></span>
+        <?php /* translators: $s: point label */
+        echo esc_html( sprintf( __( 'Redeemed %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user_total_points ) ) ) ?></span>
                             <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-redeemed-point-value' ) ?>"
                                  class="wlr-text-color">
-								<?php echo $user_total_points; ?>
+								<?php echo esc_html( $user_total_points ); ?>
                             </div>
 							<?php if ( ! empty( $user ) && ! empty( $user->total_coupon_count ) ): ?>
                                 <div class="wlr-text-color">
-                                    <p> <?php echo sprintf( __( '%s to Coupons : %s ', 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getPointLabel( 3 ) ), $user->total_coupon_count ); ?></p>
+                                    <p> <?php /* translators: 1: point label 2: total point */
+										echo esc_html( sprintf( __( '%1$s to Coupons : %2$s ', 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getPointLabel( 3 ) ), $user->total_coupon_count ) ); ?></p>
                                 </div>
 							<?php endif; ?>
                         </div>
@@ -167,11 +172,11 @@ $is_right_to_left     = is_rtl();
                     <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-used-rewards' ); ?>" class="wlr-border-color">
                         <div style="display: flex;justify-content: space-between;align-items:center;">
                             <div>
-								<?php echo \Wlr\App\Helpers\Base::setImageIcon( Settings::get( 'used_reward_icon' ), "used-rewards", array(
-									"alt"    => __( "User used rewards", "wp-loyalty-rules" ),
+								<?php echo wp_kses_post( \Wlr\App\Helpers\Base::setImageIcon( Settings::get( 'used_reward_icon' ), "used-rewards", [
+									"alt"    => esc_html__( "User used rewards", "wp-loyalty-rules" ),
 									"height" => 64,
 									"width"  => 64
-								) ); ?>
+								] ) ); ?>
                             </div>
                             <div>
 								<?php if ( ! empty( $used_reward_currency_values ) && isset( $current_currency_list ) && isset( $used_reward_currency_value_count ) ) : ?>
@@ -180,8 +185,8 @@ $is_right_to_left     = is_rtl();
                                             data-user-used-reward-count='<?php echo json_encode( $used_reward_currency_value_count ); ?>'
                                             onchange="wlr_jquery( 'body' ).trigger( 'wlr_get_used_reward')">
 										<?php foreach ( $current_currency_list as $currency_key => $currency_label ): ?>
-                                            <option value="<?php echo $currency_key; ?>"
-												<?php echo ( ! empty( $current_currency ) && ( $currency_key === $current_currency ) ) ? "selected" : ""; ?>><?php echo $currency_key; ?></option>
+                                            <option value="<?php echo esc_attr( $currency_key ); ?>"
+												<?php echo ( ! empty( $current_currency ) && ( $currency_key === $current_currency ) ) ? "selected" : ""; ?>><?php echo esc_html( $currency_key ); ?></option>
 										<?php endforeach; ?>
                                     </select>
 								<?php endif; ?>
@@ -190,15 +195,16 @@ $is_right_to_left     = is_rtl();
                         <div>
                             <span id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-used-rewards-heading' ); ?>"
                                   class="wlr-text-color">
-        <?php echo esc_html( sprintf( __( 'Used %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel() ) ) ?></span>
+        <?php echo /* translators: $s: reward label */
+        esc_html( sprintf( __( 'Used %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel() ) ) ?></span>
                             <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-used-reward-value-count' ) ?>"
                                  class="wlr-text-color">
-								<?php echo ! empty( $used_reward_currency_value_count ) && ! empty( $current_currency ) ? $used_reward_currency_value_count[ $current_currency ] : 0 ?>
+								<?php echo esc_html( ! empty( $used_reward_currency_value_count ) && ! empty( $current_currency ) ? $used_reward_currency_value_count[ $current_currency ] : 0 ) ?>
                             </div>
 							<?php if ( ! empty( $user ) && ! empty( $used_reward_currency_values ) && isset( $current_currency ) ): ?>
                                 <div class="wlr-text-color">
                                     <p id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-used-reward-value' ) ?>">
-										<?php echo $used_reward_currency_values[ $current_currency ]; ?>
+										<?php echo wp_kses_post( $used_reward_currency_values[ $current_currency ] ); ?>
                                     </p>
                                 </div>
 							<?php endif; ?>
@@ -210,7 +216,7 @@ $is_right_to_left     = is_rtl();
 	<?php endif; ?>
 	<?php do_action( 'wlr_before_customer_reward_cart_page_user_rewards_content' ); ?>
     <!--    customer rewards start here -->
-	<?php echo $my_reward_section; ?>
+	<?php echo $my_reward_section;//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
     <!--    customer rewards end here -->
 	<?php do_action( 'wlr_after_customer_reward_cart_page_content' ); ?>
 </div>

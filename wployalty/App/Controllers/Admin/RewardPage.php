@@ -173,11 +173,13 @@ class RewardPage {
 							$status = $reward_model->deleteById( $id );
 						}
 						if ( ! $status ) {
-							$message[] = sprintf( __( '%s %s failed', 'wp-loyalty-rules' ), $reward->name, $action_mode );
+							/* translators: 1: reward name, 2: action mode */
+							$message[] = sprintf( __( '%1$s %2$s failed', 'wp-loyalty-rules' ), $reward->name, $action_mode );
 						} else {
 							$success_status = true;
 						}
 					} else {
+						// translators: %s: reward name
 						$message[] = sprintf( __( 'Please remove "%s" reward in campaign', 'wp-loyalty-rules' ), $reward->name );
 					}
 				} else {
@@ -187,6 +189,7 @@ class RewardPage {
 						$status = $reward_model->deleteById( $id );
 					}
 					if ( ! $status ) {
+						/* translators: %s: reward name */
 						$message[] = sprintf( __( '%s delete failed', 'wp-loyalty-rules' ), $reward->name );
 					} else {
 						$success_status = true;
@@ -230,6 +233,7 @@ class RewardPage {
 		$reward       = $reward_model->getByKey( $id );
 
 		if ( ! empty( $reward ) && $reward->reward_type == 'redeem_coupon' && $reward_model->checkCampaignHaveReward( $id ) ) {
+			// translators: %s: reward name
 			wp_send_json_error( [ 'message' => sprintf( __( 'Please remove "%s" reward in campaign', 'wp-loyalty-rules' ), $reward->name ) ] );
 		}
 
@@ -265,6 +269,7 @@ class RewardPage {
 
 			if ( isset( $reward->reward_type ) && $reward->reward_type == 'redeem_coupon' && $active == 0 ) {
 				if ( $reward_model->checkCampaignHaveReward( $id ) ) {
+					// translators: %s: reward name
 					wp_send_json_error( [ 'message' => sprintf( __( 'Please remove "%s" reward in campaign', 'wp-loyalty-rules' ), $reward->name ) ] );
 				}
 			}
@@ -359,8 +364,8 @@ class RewardPage {
 		}
 		$input                     = new Input();
 		$post_data                 = $input->post();
-		$post_data['name']         = ! empty( $_REQUEST['name'] ) ? wp_unslash( apply_filters( 'title_save_pre', ( $_REQUEST['name'] ) ) ) : '';
-		$post_data['description']  = ! empty( $_REQUEST['description'] ) ? wp_unslash( apply_filters( 'title_save_pre', ( $_REQUEST['description'] ) ) ) : '';
+		$post_data['name']         = ! empty( $_REQUEST['name'] ) ? apply_filters( 'title_save_pre', sanitize_text_field( wp_unslash( ( $_REQUEST['name'] ) ) ) ) : '';//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$post_data['description']  = ! empty( $_REQUEST['description'] ) ? apply_filters( 'title_save_pre', wp_kses_post( wp_unslash( ( $_REQUEST['description'] ) ) ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$post_data['conditions']   = ! empty( $post_data['conditions'] ) ? json_decode( stripslashes( $post_data['conditions'] ), true ) : [];
 		$post_data['free_product'] = ! empty( $post_data['free_product'] ) ? json_decode( stripslashes( $post_data['free_product'] ), true ) : [];
 		if ( $post_data['discount_type'] != "points_conversion" && empty( $post_data['coupon_type'] ) ) {

@@ -85,7 +85,7 @@ trait Common {
 		$status     = false;
 		$updateData = array(
 			'active'      => (int) $active,
-			'modified_at' => strtotime( date( "Y-m-d H:i:s" ) ),
+			'modified_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
 		);
 		$where      = array( 'id' => $id );
 		if ( $this->updateRow( $updateData, $where ) ) {

@@ -163,7 +163,7 @@ class Common {
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-wlr-font', WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts' . $suffix . '.css', [], WLR_PLUGIN_VERSION . '&t=' . time() );
 		wp_enqueue_style( WLR_PLUGIN_SLUG . '-wlr-admin', WLR_PLUGIN_URL . 'Assets/Admin/Css/wlr-admin' . $suffix . '.css', [], WLR_PLUGIN_VERSION . '&t=' . time() );
 		//Register the scripts
-		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . '&t=' . time() );
+		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . '&t=' . time(), true );
 		/* Admin React */
 		$common_path = WLR_PLUGIN_PATH . 'Assets/Admin/Js/dist';
 		$js_files    = Woocommerce::getDirFileLists( $common_path );
@@ -176,7 +176,7 @@ class Common {
 				wp_enqueue_script( $js_name, $js_file_url, [
 					'jquery',
 					WLR_PLUGIN_SLUG . '-alertify'
-				], WLR_PLUGIN_VERSION . '&t=' . time() );
+				], WLR_PLUGIN_VERSION . '&t=' . time(), true );
 			}
 		}
 		/*End Admin React */
@@ -267,7 +267,7 @@ class Common {
 			if ( ! is_wp_error( $response ) ) {
 				$response = (array) json_decode( wp_remote_retrieve_body( $response ), true );
 				if ( ! empty( $response ) ) {
-					$domain = $_SERVER['SERVER_NAME'];
+					$domain = ! empty( $_SERVER['SERVER_NAME'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) ) : '';
 					foreach ( $response as $addon ) {
 						if ( ! empty( $addon['plugin_url'] ) ) {
 							$addon['plugin_url'] = str_replace( '{site-name}', $domain, $addon['plugin_url'] );

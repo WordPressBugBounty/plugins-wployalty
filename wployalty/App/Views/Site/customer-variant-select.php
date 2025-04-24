@@ -19,8 +19,8 @@ if ( isset( $available_products ) && ! empty( $available_products ) ): ?>
                     <span class="wlr_change_product" data-pid="<?php echo esc_attr( $available_product ); ?>"
                           data-rule_id="<?php echo isset( $loyalty_user_reward_id ) && $loyalty_user_reward_id ? esc_attr( $loyalty_user_reward_id ) : 0; ?>"
                           data-parent_id="<?php echo isset( $parent_product_id ) && ! empty( $parent_product_id ) ? esc_attr( $parent_product_id ) : 0; ?>">
-                        <span class="wlr_variation_image"><?php echo $variation_image; ?></span>
-                        <span class="wlr-product-name"><?php echo get_the_title( $available_product ); ?></span>
+                        <span class="wlr_variation_image"><?php echo wp_kses_post( $variation_image ); ?></span>
+                        <span class="wlr-product-name"><?php echo wp_kses_post( get_the_title( $available_product ) ); ?></span>
                     </span>
                 </div>
 				<?php
