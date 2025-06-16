@@ -8,7 +8,7 @@ $earn_campaign_helper = EarnCampaign::getInstance();
 <?php if ( ! empty( $is_display_my_reward ) ) : ?>
     <div class="wlr-your-reward" id="wlr-your-reward">
         <div class="wlr-heading-container"><h3
-                    class="wlr-heading"><?php /* translators: %s: point label */
+                    class="wlr-heading"><?php /* translators: %s: label */
 				echo esc_html( sprintf( __( 'My %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel( 3 ) ) ); ?></h3>
         </div>
         <div class="wlr-my-rewards-sections" id="wlr-my-rewards-sections">

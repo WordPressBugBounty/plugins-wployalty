@@ -32,7 +32,8 @@ class DisplayMessage extends Base {
 		}
 		$wlr_settings                  = self::$woocommerce->getOptions( 'wlr_settings', [] );
 		$redeem_point_display_position = ! empty( $wlr_settings['wlr_cart_redeem_point_display'] ) ? $wlr_settings['wlr_cart_redeem_point_display'] : 'before';
-		if ( in_array( $redeem_point_display_position, [ 'before', 'after' ] )
+		$allowed_redeem_point_display_position = apply_filters('wlr_allowed_redeem_point_display_position', ['before', 'after']);
+		if ( in_array( $redeem_point_display_position, $allowed_redeem_point_display_position )
 		     && apply_filters( 'wlr_is_cart_message_fragment_needed', true )
 		) {
 			$this->triggerCartFragmentDisplayMessage();
@@ -229,7 +230,7 @@ class DisplayMessage extends Base {
 			return $price;
 		}
 		$low_stock = (bool) self::$input->post_get( 'low_in_stock' );
-		if ( is_admin() || ( $low_stock == true ) ) {
+		if ( $low_stock == true ) {
 			return $price;
 		}
 		$point_setting                    = self::$woocommerce->getOptions( 'wlr_settings' );
@@ -343,7 +344,7 @@ class DisplayMessage extends Base {
 
 	function isProductLowInStock() {
 		$low_stock = (bool) self::$input->post_get( 'low_in_stock' );
-		if ( is_admin() || ( $low_stock == true ) ) {
+		if  ( $low_stock == true ) {
 			return true;
 		}
 

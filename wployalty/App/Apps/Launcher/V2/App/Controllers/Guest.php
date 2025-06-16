@@ -122,7 +122,7 @@ class Guest extends Base {
 					$reward->action_text = $this->getUserRewardText( $reward );
 				}
 			}
-			/* translators: %s reward label */
+			/* translators: %s: reward label */
 			$message          = empty( $rewards ) ? sprintf( __( "No %s found!", "wp-loyalty-rules" ), $earn_campaign->getRewardLabel( 3 ) ) : "";
 			$reward_list      = apply_filters( 'wll_before_launcher_rewards_data', $rewards, $user_email );
 			$response["data"] = array( "redeem_data" => $reward_list, "message" => $message );

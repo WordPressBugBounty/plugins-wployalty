@@ -26,7 +26,7 @@ if ( isset( $user_rewards ) && ! empty( $user_rewards ) ):
 		$coupons_count = 0;
 		if ( isset( $user_rewards ) && ! empty( $user_rewards ) ):
 			foreach ( $user_rewards as $u_reward ):
-				/* translators: %s point label */
+				/* translators: %s: point label */
 				$revert_button = sprintf( __( 'Revert to %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) );
 				if ( isset( $u_reward->discount_code ) && ! empty( $u_reward->discount_code ) && isset( $u_reward->status ) && ! empty( $u_reward->status ) && ! in_array( $u_reward->status, array(
 						'used',

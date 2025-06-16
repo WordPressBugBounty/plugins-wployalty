@@ -191,7 +191,7 @@ class Woocommerce {
 		}
 
 		$converted_time = $this->convert_utc_to_wp_time( gmdate( 'Y-m-d H:i:s', $date ), $format );
-		if ( apply_filters( 'wlr_translate_display_date', false ) ) {
+		if ( apply_filters( 'wlr_translate_display_date', true ) ) {
 			$time           = strtotime( $converted_time );
 			$converted_time = date_i18n( $format, $time );
 		}
@@ -1175,6 +1175,9 @@ class Woocommerce {
 						}
 					}
 				}
+			}
+			if ( empty( $language ) ) {
+				$order_language = $this->getOrderMetaData( $order_id, 'trp_language' );
 			}
 		}
 		if ( empty( $order_language ) ) {

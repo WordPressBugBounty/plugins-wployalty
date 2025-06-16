@@ -97,7 +97,7 @@ $is_right_to_left     = is_rtl();
 	<?php if ( ( isset( $user ) && is_object( $user ) && isset( $user->id ) && $user->id > 0 ) || get_current_user_id() ): ?>
         <div class="wlr-user-details">
             <div class="wlr-heading-container">
-                <h3 class="wlr-heading"><?php /* translators: %s: point label */
+                <h3 class="wlr-heading"><?php /* translators: %s: label */
 					echo esc_html( sprintf( __( 'My %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) ) ); ?></h3>
             </div>
 
@@ -118,7 +118,7 @@ $is_right_to_left     = is_rtl();
 							<?php $user_points = (int) ( isset( $user ) && ! empty( $user ) && isset( $user->points ) && ! empty( $user->points ) ? $user->points : 0 ); ?>
                             <span id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-available-points-heading' ); ?>"
                                   class="wlr-text-color">
-        <?php /* translators: %s: user point */
+        <?php /* translators: %s: label */
         echo esc_html( sprintf( __( 'Available %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user_points ) ) ) ?></span>
                             <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-available-point-value' ) ?>"
                                  class="wlr-text-color">
@@ -126,7 +126,7 @@ $is_right_to_left     = is_rtl();
                             </div>
 							<?php if ( isset( $user->earn_total_point ) && ! empty( $user->earn_total_point ) ): ?>
                                 <div class="wlr-text-color">
-                                    <p> <?php /* translators: 1: point label 2: earned point*/
+                                    <p> <?php /* translators: 1: point label 2: total points */
 										echo esc_html( sprintf( __( 'Total %1$s earned: %2$s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user->earn_total_point ), $user->earn_total_point ) ); ?></p>
                                 </div>
 							<?php endif; ?>
@@ -153,7 +153,7 @@ $is_right_to_left     = is_rtl();
                             </div>
 							<?php if ( isset( $user ) && ! empty( $user ) && isset( $user->total_coupon_count ) && ! empty( $user->total_coupon_count ) ): ?>
                                 <div class="wlr-text-color">
-                                    <p> <?php /* translators: 1: point label 2: coupon count */
+                                    <p> <?php /* translators: 1: point label 2: total count */
 										echo esc_html( sprintf( __( '%1$s to Coupons : %2$s ', 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getPointLabel( 3 ) ), $user->total_coupon_count ) ); ?></p>
                                 </div>
 							<?php endif; ?>
@@ -188,7 +188,7 @@ $is_right_to_left     = is_rtl();
                         <div>
                             <span id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-used-rewards-heading' ); ?>"
                                   class="wlr-text-color">
-        <?php /* translators: %s: reward label*/
+        <?php /* translators: %s: reward label */
         echo esc_html( sprintf( __( 'Used %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel() ) ) ?></span>
 
 
@@ -216,7 +216,7 @@ $is_right_to_left     = is_rtl();
 	if ( isset( $user_rewards ) && ! empty( $user_rewards ) ): ?>
         <div class="wlr-your-reward" id="wlr-your-reward">
             <div class="wlr-heading-container"><h3
-                        class="wlr-heading"><?php /* translators: %s: reward label*/
+                        class="wlr-heading"><?php /* translators: %s: label */
 					echo esc_html( sprintf( __( 'My %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel( 3 ) ) ); ?></h3>
             </div>
 			<?php if ( isset( $is_show_new_my_reward_section ) && $is_show_new_my_reward_section == 'yes' ):

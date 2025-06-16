@@ -666,11 +666,6 @@ class EarnCampaign extends Base {
 
 		self::$woocommerce_helper->_log( 'Action :' . $action_type . ',Campaign id:' . $campaign_id . ', Ledger data:' . json_encode( $ledger_data ) . ',User data:' . json_encode( $_data ) );
 
-		if ( ! self::$user_model->insertOrUpdate( $_data, $id ) ) {
-			return false;
-		}
-		$this->updatePointLedger( $ledger_data );
-
 		if ( $action_type == 'referral' ) {
 			self::$woocommerce_helper->set_referral_code( '' );
 		}
@@ -720,7 +715,12 @@ class EarnCampaign extends Base {
 
 		try {
 			$earn_trans_id = self::$earn_campaign_transaction_model->insertRow( $args );
+			if ( ! self::$user_model->insertOrUpdate( $_data, $id ) ) {
+				self::$earn_campaign_transaction_model->deleteRow( [ 'id' => $earn_trans_id ] );
 
+				return false;
+			}
+			$this->updatePointLedger( $ledger_data );
 			self::$woocommerce_helper->_log( 'Action :' . $action_type . ',Campaign id:' . $campaign_id . ', Earn Trans id:' . $earn_trans_id );
 
 			$earn_trans_id = apply_filters( 'wlr_after_add_earn_point_transaction', $earn_trans_id, $args );
@@ -1025,7 +1025,7 @@ class EarnCampaign extends Base {
 				return sprintf( __( '%1$s %2$s earned via %3$s from referrer %4$s', 'wp-loyalty-rules' ), $reward_name, $label, $this->getActionName( $action_type ), $mail );
 			}
 		} elseif ( $log_type == 'reward' ) {
-			/* translators: 1: reward name 2: label 3: action name */
+			/* translators: 1: reward name 2: reward label 3: action name */
 			return sprintf( __( '%1$s %2$s earned via %3$s', 'wp-loyalty-rules' ), $reward_name, $label, $this->getActionName( $action_type ) );
 		} elseif ( $log_type == 'point' && $action_type == 'achievement' ) {
 			/* translators: 1: point 2: label 3: action name 4: Achievement name */
@@ -1169,7 +1169,7 @@ class EarnCampaign extends Base {
 				$point_label                               = isset( $campaign_point_rule->advocate->earn_type ) && ( $campaign_point_rule->advocate->earn_type == 'fixed_point' )
 				                                             && isset( $campaign_point_rule->advocate->earn_point ) && ! empty( $campaign_point_rule->advocate->earn_point ) ? $campaign_point_rule->advocate->earn_point : $point_label;
 				$active_campaigns->campaign_title_discount .= isset( $campaign_point_rule->advocate->earn_point ) && ! empty( $campaign_point_rule->advocate->earn_point ) && ! empty( $point_label )
-					? /* translators: 1: point label 2: label  */
+					? /* translators: 1: point label 2: content */
 					sprintf( __( 'You get %1$s : %2$s', 'wp-loyalty-rules' ), $base_helper->getPointLabel( $campaign_point_rule->advocate->earn_point ), $point_label ) : "";
 			} else if ( isset( $campaign_point_rule->advocate ) && isset( $campaign_point_rule->advocate->campaign_type )
 			            && ! empty( $campaign_point_rule->advocate->campaign_type )

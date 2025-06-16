@@ -88,7 +88,7 @@ class Base {
 
 	function getTotalEarning( $action_type = '', $ignore_condition = array(), $extra = array(), $is_product_level = false ) {
 		$earning = array();
-		if ( ! $this->is_valid_action( $action_type ) || ! $this->isEligibleForEarn( $action_type, $extra ) || self::$woocommerce_helper->isBannedUser() ) {
+		if ( ! $this->is_valid_action( $action_type ) || ! $this->isEligibleForEarn( $action_type, $extra ) || self::$woocommerce_helper->isBannedUser( $extra['user_email'] ) ) {
 			return $earning;
 		}
 		$campaign_helper     = EarnCampaign::getInstance();
@@ -553,7 +553,12 @@ class Base {
 			return false;
 		}
 		$user_email = sanitize_email( $data['user_email'] );
-		$status     = false;
+
+		if ( self::$woocommerce_helper->isBannedUser( $user_email ) ) {
+			return false;
+		}
+
+		$status = false;
 		if ( isset( $data['earn_type'] ) &&
 		     in_array(
 			     $data['earn_type'],
@@ -928,7 +933,7 @@ class Base {
 			if ( $user_reward_id <= 0 ) {
 				return false;
 			}
-			/* translators: 1: reward display name 2: reward label 3: action name */
+			/* translators: 1: reward name 2: reward label 3: action name */
 			$customer_note = sprintf( __( '%1$s %2$s earned via %3$s', 'wp-loyalty-rules' ), $reward->display_name, $this->getRewardLabel( 1 ), $this->getActionName( $action_type ) );
 			$log_data      = array(
 				'user_email'          => sanitize_email( $action_data['user_email'] ),
@@ -1329,5 +1334,13 @@ class Base {
 		}
 
 		return $is_including_tax;
+	}
+
+	public static function isNewLoyaltyEmail() {
+		return get_option( 'wlr_is_new_loyalty_email', 'no' ) === 'yes';
+	}
+
+	public static function moveToNewLoyaltyEmail() {
+		update_option( 'wlr_is_new_loyalty_email', 'yes' );
 	}
 }

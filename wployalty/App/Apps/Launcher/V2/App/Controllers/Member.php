@@ -134,13 +134,13 @@ class Member extends Base {
 			$level_data['current_level_image'] = isset( $user->level_data->current_level_image ) && ! empty( $user->level_data->current_level_image ) ? $user->level_data->current_level_image : '';
 			$level_data['current_level_name']  = ! empty( $user->level_data ) && ! empty( $user->level_data->current_level_name ) ? __( $user->level_data->current_level_name, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			if ( isset( $user->level_data->current_level_start ) && isset( $user->level_data->next_level_start ) && $user->level_data->next_level_start > 0 ) {
-                $points = apply_filters('wll_points_to_get_level', $user->earn_total_point, $user);
-                $earn_campaign_helper                 = \Wlr\App\Helpers\EarnCampaign::getInstance();
-                $level_data['level_range']            = round( ( ( $points - $user->level_data->current_level_start ) / ( $user->level_data->next_level_start - $user->level_data->current_level_start ) ) * 100 );
-                $needed_point                         = $user->level_data->next_level_start - $points;
-				/* translators: 1: needed point 2: point label */
+				$points                    = apply_filters( 'wll_points_to_get_level', $user->earn_total_point, $user );
+				$earn_campaign_helper      = \Wlr\App\Helpers\EarnCampaign::getInstance();
+				$level_data['level_range'] = round( ( ( $points - $user->level_data->current_level_start ) / ( $user->level_data->next_level_start - $user->level_data->current_level_start ) ) * 100 );
+				$needed_point              = $user->level_data->next_level_start - $points;
+				/* translators: 1: point 2: point label */
 				$level_data['progress_content']       = sprintf( __( '%1$d %2$s more needed to unlock next level', 'wp-loyalty-rules' ), (int) $needed_point, $earn_campaign_helper->getPointLabel( $needed_point ) );
-                $level_data['is_reached_final_level'] = false;
+				$level_data['is_reached_final_level'] = false;
 			} else {
 				$level_data['is_reached_final_level'] = true;
 				$level_data['progress_content']       = __( 'Congratulations! You have reached the final level', 'wp-loyalty-rules' );

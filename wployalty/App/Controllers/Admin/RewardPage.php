@@ -173,7 +173,7 @@ class RewardPage {
 							$status = $reward_model->deleteById( $id );
 						}
 						if ( ! $status ) {
-							/* translators: 1: reward name, 2: action mode */
+							/* translators: 1: name, 2: action mode */
 							$message[] = sprintf( __( '%1$s %2$s failed', 'wp-loyalty-rules' ), $reward->name, $action_mode );
 						} else {
 							$success_status = true;

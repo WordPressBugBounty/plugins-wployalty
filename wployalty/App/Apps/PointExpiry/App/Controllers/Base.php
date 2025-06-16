@@ -496,7 +496,7 @@ class Base {
 			'points'              => (int) $point,
 			'action_type'         => $action_type,
 			'action_process_type' => $action_process_type,
-			/* translators: 1: Number of points, 2: Point label */
+			/* translators: 1: points, 2: point label */
 			'note'                => sprintf( __( '%1$s %2$s expired', 'wp-loyalty-rules' ), $point, $base_helper->getPointLabel( $point ) ),
 			'created_at'          => $created_at
 		);

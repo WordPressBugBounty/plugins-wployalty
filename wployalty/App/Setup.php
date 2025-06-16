@@ -44,6 +44,7 @@ class Setup {
 				$user = new Users();
 				if ( ! $user->checkTableExists() ) {
 					update_option( 'wll_is_launcher_plugin_activated', true );
+					update_option( 'wlr_is_new_loyalty_email', 'yes' );
 				}
 				self::createRequiredTable();
 			} catch ( Exception $e ) {

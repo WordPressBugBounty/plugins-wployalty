@@ -93,7 +93,7 @@ class CustomerPage extends Base {
 		}
 		$logs   = new Logs();
 		$offset = (int) self::$input->post_get( 'page_number', 1 );
-		$limit  = apply_filters('wlr_recent_activity_transaction_limit',5);
+		$limit  = apply_filters( 'wlr_recent_activity_transaction_limit', 5 );
 		$start  = ( $offset - 1 ) * $limit;
 		$items  = $logs->getUserLogTransactions( $user_email, $limit, $start );
 		if ( empty( $items ) ) {
@@ -717,7 +717,7 @@ class CustomerPage extends Base {
 		if ( $advocate_type == "point" ) {
 			$earn_point  = isset( $campaign_point_rule->advocate->earn_point ) && ! empty( $campaign_point_rule->advocate->earn_point ) ? $campaign_point_rule->advocate->earn_point : 0;
 			$point_label = isset( $campaign_point_rule->advocate->earn_type ) && ( $campaign_point_rule->advocate->earn_type == 'subtotal_percentage' ) && ! empty( $earn_point ) ? round( $earn_point ) . "%" : $earn_point;
-			/* translators: 1: point, 2: content */
+			/* translators: 1: point label 2: content */
 			$discount_title = ! empty( $earn_point ) ? sprintf( __( 'You get %1$s : %2$s', 'wp-loyalty-rules' ), $base_helper->getPointLabel( $campaign_point_rule->advocate->earn_point ), $point_label ) : "";
 		} elseif ( $advocate_type == "coupon" ) {
 			$advocate_reward = isset( $campaign_point_rule->advocate->earn_reward ) && ! empty( $campaign_point_rule->advocate->earn_reward ) ? $reward_table->findReward( (int) $campaign_point_rule->advocate->earn_reward ) : "";
@@ -1211,7 +1211,9 @@ class CustomerPage extends Base {
 	 * @return void
 	 */
 	public static function enableEmailSend() {
-		if ( ! Util::isBasicSecurityValid( 'wlr_enable_sent_email_nonce' ) ) {
+		$input     = new Input();
+		$wlr_nonce = (string) $input->post_get( 'wlr_nonce', '' );
+		if ( ! Woocommerce::verify_nonce( $wlr_nonce, 'wlr_enable_sent_email_nonce' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
 		$woocommerce       = Woocommerce::getInstance();

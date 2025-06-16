@@ -9,7 +9,6 @@ namespace Wlr\App;
 defined( 'ABSPATH' ) or die;
 
 use Wlr\App\Controllers\Admin\AddOn;
-use Wlr\App\Controllers\Admin\Apps;
 use Wlr\App\Controllers\Admin\CampaignPage;
 use Wlr\App\Controllers\Admin\Common;
 use Wlr\App\Controllers\Admin\Customers;
@@ -64,7 +63,6 @@ class Router {
 		self::initCouponAction();
 		self::initCampaignAction();
 		self::initBlocks();
-
 		self::$loyalty_mail = empty( self::$loyalty_mail ) ? new LoyaltyMail() : self::$loyalty_mail;
 		add_action( 'woocommerce_loaded', array( self::$loyalty_mail, 'initNotification' ) );
 		do_action( 'wlr_after_init' );
@@ -174,6 +172,7 @@ class Router {
 		add_action( 'wp_ajax_wlr_save_email_template', [ Settings::class, 'updateEmailTemplate' ] );
 		add_action( 'wp_ajax_wlr_reset_email_template', [ Settings::class, 'resetEmailTemplate' ] );
 		add_action( 'wp_ajax_wlr_is_any_notifications', [ Settings::class, 'isAnyNotifications' ] );
+		add_action( 'wp_ajax_wlr_allow_new_templates', [ Settings::class, 'setNewEmailTemplateWorkflow' ] );
 	}
 
 	public static function initCampaignPage() {
@@ -267,7 +266,7 @@ class Router {
 	 * @return void
 	 */
 	public static function initDisplayMessage() {
-		if ( is_admin() ) {
+		if ( ! wp_doing_ajax() && is_admin() ) {
 			return;
 		}
 		self::$display_message = empty( self::$display_message ) ? new DisplayMessage() : self::$display_message;

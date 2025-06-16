@@ -310,7 +310,7 @@ class CsvHelper extends Base {
 							}
 							/* translators: 1: email 2: point label 3: old point 4: current point 5: admin email */
 							$action_data['note'] = sprintf( __( '%1$s customer %2$s changed from %3$d to %4$d by admin(%5$s) via import', 'wp-loyalty-rules' ), $email, $this->getPointLabel( 3 ), $old_point, $user_points->points, self::$woocommerce_helper->get_email_by_id( get_current_user_id() ) );
-							/* translators: 1: point label 2: current point */
+							// translators: 1: point label 2: points
 							$action_data['customer_note'] = sprintf( __( '%1$s value changed to %2$d by store administrator(s)', 'wp-loyalty-rules' ), $this->getPointLabel( $user_points->points ), $user_points->points );
 							$this->addExtraPointAction( 'import', $action_data['points'], $action_data, $trans_type, false, true );
 						}

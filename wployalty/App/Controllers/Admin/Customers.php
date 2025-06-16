@@ -476,9 +476,9 @@ class Customers {
 				$trans_type                         = 'debit';
 				$action_data['action_process_type'] = 'reduce_point';
 			}
-			/* translators: 1: customer email 2: point label 3: old point 4: new point 5: admin email*/
+			// translators: 1: customer email, 2: point label, 3: old points, 4: new points, 5: admin email
 			$action_data['customer_note'] = sprintf( __( '%1$s customer %2$s value changed from %3$d to %4$d by store administrator(%5$s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) );
-			/* translators: 1: customer email 2: point label 3: old point 4: new point 5: admin email*/
+			// translators: 1: customer email, 2: point label, 3: old points, 4: new points, 5: admin email
 			$action_data['note'] = sprintf( __( '%1$s customer %2$s value changed from %3$d to %4$d by store administrator(%5$s)', 'wp-loyalty-rules' ), $user->user_email, Settings::getPointLabel( $points ), $user->points, $points, $woocommerce_helper->get_email_by_id( get_current_user_id() ) );
 		}
 		$data['success'] = false;
@@ -786,7 +786,7 @@ class Customers {
 	 * @return void
 	 */
 	public static function toggleEMailSend() {
-		if ( ! Woocommerce::hasAdminPrivilege() || ! Util::isBasicSecurityValid( 'wlr_common_user_nonce' ) ) {
+		if ( ! Util::isBasicSecurityValid( 'wlr_common_user_nonce' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
 		$input             = new Input();

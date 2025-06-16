@@ -8,6 +8,7 @@
 namespace Wlr\App\Controllers\Admin;
 defined( 'ABSPATH' ) or die;
 
+use Wlr\App\Helpers\Base;
 use Wlr\App\Helpers\CompatibleCheck;
 use Wlr\App\Helpers\Input;
 use Wlr\App\Helpers\Util;
@@ -28,11 +29,12 @@ class Settings {
 		if ( ! is_array( $setting_data ) ) {
 			$setting_data = [];
 		}
-		$data                          = [
+		$setting_data['allow_new_templates'] = ! Base::isNewLoyaltyEmail();
+		$data                                = [
 			'success' => true,
 			'data'    => apply_filters( 'wlr_get_setting_data', $setting_data ),
 		];
-		$data['data']['email_content'] = [];
+		$data['data']['email_content']       = [];
 		\WC_Emails::instance();
 		$data = apply_filters( 'wlr_notify_email_content_data', $data );
 		wp_send_json( $data );
@@ -214,6 +216,9 @@ class Settings {
 	 * @return void
 	 */
 	public static function isAnyNotifications() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_common_user_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
+		}
 		$data            = [];
 		$data['success'] = true;
 		$data['data']    = [];
@@ -225,5 +230,17 @@ class Settings {
 		}
 		$data = apply_filters( 'wlr_is_any_dynamic_notification', $data );
 		wp_send_json( $data );
+	}
+
+	public static function setNewEmailTemplateWorkflow() {
+		if ( ! Util::isBasicSecurityValid( 'wlr_setting_nonce' ) ) {
+			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
+		}
+		$input                 = new Input();
+		$is_allow_new_template = (string) $input->post( 'allow_new_templates', 'yes' );
+		if ( ! empty( $is_allow_new_template ) ) {
+			Base::moveToNewLoyaltyEmail();
+		}
+		wp_send_json_success();
 	}
 }

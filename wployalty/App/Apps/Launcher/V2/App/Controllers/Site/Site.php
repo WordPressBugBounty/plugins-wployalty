@@ -110,7 +110,7 @@ class Site extends Base {
 			'loading_timer_text'      => __( "If loading takes a while, please refresh the screen...!", 'wp-loyalty-rules' ),
 			/* translators: %s: reward label */
 			'reward_opportunity_text' => sprintf( __( '%s Opportunities', 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getRewardLabel() ) ),
-			/* translators: %s: reward label */
+			/* translators: %s: label */
 			'my_rewards_text'         => sprintf( __( 'My %s', 'wp-loyalty-rules' ), ucfirst( $earn_campaign_helper->getRewardLabel( 3 ) ) ),
 			'apply_button_text'       => __( 'Apply', 'wp-loyalty-rules' ),
 			'read_more_text'          => __( 'Read more', 'wp-loyalty-rules' ),

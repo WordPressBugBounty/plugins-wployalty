@@ -291,7 +291,7 @@ class Logs extends Base {
 					} elseif ( $log_list->action_type == 'expire_point' ) {
 						switch ( $log_list->action_process_type ) {
 							case 'expire_point':
-								/* translators: 1: point 2: point label */
+								/* translators: 1: points, 2: point label */
 								$log_list->processed_custom_note = sprintf( __( '%1$s %2$s expired', 'wp-loyalty-rules' ), $log_list->points, $campaign_helper->getPointLabel( $log_list->points ) );
 								break;
 							default:
