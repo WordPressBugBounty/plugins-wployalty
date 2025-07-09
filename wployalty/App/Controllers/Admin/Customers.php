@@ -159,7 +159,7 @@ class Customers {
 	 *
 	 * @return bool True if the customer and associated data were successfully deleted, false otherwise.
 	 */
-	protected static function deleteCustomers( $user ) {
+	public static function deleteCustomers( $user ) {
 		if ( empty( $user ) || ! is_object( $user ) ) {
 			return false;
 		}

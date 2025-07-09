@@ -58,17 +58,18 @@ class FreeProduct extends Base {
 		$free_product_ids = json_decode( $user_reward->free_product );
 		foreach ( $free_product_ids as $free_pro ) {
 			if ( isset( $free_pro->value ) && ! empty( $free_pro->value ) ) {
+				$qty = apply_filters( 'wlr_change_free_product_quantity', 1, $free_pro, $user_reward );
 				if ( ! isset( self::$free_product_list[ $free_pro->value ] ) || empty( self::$free_product_list[ $free_pro->value ] ) ) {
 					$product_variant                             = self::$woocommerce_helper->get_variant_ids( $free_pro->value );
 					self::$free_product_list[ $free_pro->value ] = array(
 						'product_id'             => $free_pro->value,
 						'product_variants'       => $product_variant,
-						'qty'                    => 1,
+						'qty'                    => $qty,
 						'user_reward_id'         => $user_reward->id,
 						'customer_chose_variant' => $this->getCustomerChoseVariant( $free_pro->value, $product_variant, $user_reward->id )
 					);
 				} elseif ( isset( self::$free_product_list[ $free_pro->value ] ) && ! empty( self::$free_product_list[ $free_pro->value ] ) ) {
-					self::$free_product_list[ $free_pro->value ]['qty'] += 1;
+					self::$free_product_list[ $free_pro->value ]['qty'] += $qty;
 				}
 			}
 		}

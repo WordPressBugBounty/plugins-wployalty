@@ -433,6 +433,9 @@ class Validation {
 			$number_non_zero_field[] = 'discount_value';
 			if ( $post['discount_type'] == 'percent' ) {
 				$max_fields[] = 'discount_value';
+				if( isset($post['discount_value']) ){
+					$rule_validator->rule( 'max', [ 'discount_value' ], 100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
+				}
 			}
 		} elseif ( isset( $post['discount_type'] ) && $post['discount_type'] == 'free_product' ) {
 			$rule_validator->rule( 'isEmpty', array( 'free_product' ) )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
@@ -922,6 +925,9 @@ class Validation {
 				$required_fields[] = 'point_rule.advocate.earn_point';
 				//$number_non_zero_field[] = 'point_rule.advocate.earn_point';
 			}
+			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['advocate'] ) && isset( $post['point_rule']['advocate']['earn_type'] ) && $post['point_rule']['advocate']['earn_type'] == 'subtotal_percentage' ) {
+				$rule_validator->rule( 'max', [ 'point_rule.advocate.earn_point' ], 100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
+			}
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['advocate'] ) && isset( $post['point_rule']['advocate']['campaign_type'] ) && $post['point_rule']['advocate']['campaign_type'] == 'coupon' ) {
 				$required_fields[]              = 'point_rule.advocate.earn_reward';
 				$number_non_zero_reward_field[] = 'point_rule.advocate.earn_reward';
@@ -930,6 +936,9 @@ class Validation {
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['friend'] ) && isset( $post['point_rule']['friend']['campaign_type'] ) && $post['point_rule']['friend']['campaign_type'] == 'point' ) {
 				$required_fields[] = 'point_rule.friend.earn_point';
 				//$number_non_zero_field[] = 'point_rule.friend.earn_point';
+			}
+			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['friend'] ) && isset( $post['point_rule']['friend']['earn_type'] ) && $post['point_rule']['friend']['earn_type'] == 'subtotal_percentage' ) {
+				$rule_validator->rule( 'max', [ 'point_rule.friend.earn_point' ], 100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
 			}
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['friend'] ) && isset( $post['point_rule']['friend']['campaign_type'] ) && $post['point_rule']['friend']['campaign_type'] == 'coupon' ) {
 				$required_fields[]              = 'point_rule.friend.earn_reward';

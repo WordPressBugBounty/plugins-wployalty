@@ -187,7 +187,7 @@ class Base {
 						'wlpe_setting_nonce' => Woocommerce::create_nonce( 'wlpe-setting-nonce' ),
 						'save'               => WLPE_PLUGIN_URL . 'Assets/svg/save.svg',
 						'back'               => WLPE_PLUGIN_URL . 'Assets/svg/back.svg',
-						'manage_email_url'   => admin_url( 'admin.php?' . http_build_query( array( 'page' => WLR_PLUGIN_SLUG ) ) ) . '#/settings/Emails/expire_point_email',
+						'manage_email_url'   => admin_url( 'admin.php?' . http_build_query( [ 'page' => 'wc-settings', 'tab' => 'email', 'section' => 'wlrpointexpireemail' ] ) ),
 					);
 					$main_page_params['tab_content'] = Util::renderTemplate( WLPE_PLUGIN_PATH . 'App/Views/Admin/settings.php', $page_details, false );
 					break;

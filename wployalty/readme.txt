@@ -1,12 +1,12 @@
-=== Points and Rewards for WooCommerce by WPLoyalty - Create WooCommerce Loyalty Programs, Referral Programs and Customer Rewards System ===
+=== Loyalty Points Rewards and Referral for WooCommerce - WPLoyalty ===
 Contributors: flycart
 Donate link: https://wployalty.net
 Tags: points, rewards, loyalty, referrals, coupons
-Requires at least: 4.9.0
+Requires at least: 6.0
 Tested up to: 6.8
-WC requires at least: 6.5.0
+WC requires at least: 6.5
 WC tested up to: 9.9
-Stable tag: 1.3.4
+Stable tag: 1.4.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,14 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.4.0 =
+- Improved: Core launcher code removed. Launcher add-on available as a separate add-on.
+- Improved: Old Loyalty email template code removed. We extend the support for new WooCommerce email preview and template edit.
+- Improved: The campaign save message.
+- Fix: Customer export.
+- Fix: Percentage validation in referral campaign and percentage discount reward.
+- Fix: Loyalty coupon deleted by admin in woocommerce coupon.
+
 = 1.3.4 =
 - Improved: Loyalty email support new woocommerce email preview and template edit.
 - Fix: Earning e-mail send in order language.

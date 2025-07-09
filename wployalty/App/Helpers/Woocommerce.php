@@ -192,10 +192,14 @@ class Woocommerce {
 
 		$converted_time = $this->convert_utc_to_wp_time( gmdate( 'Y-m-d H:i:s', $date ), $format );
 		if ( apply_filters( 'wlr_translate_display_date', true ) ) {
-			$time           = strtotime( $converted_time );
+			$datetime = DateTime::createFromFormat( $format, $converted_time );
+			if ( $datetime !== false ) {
+				$time = $datetime->getTimestamp();
+			} else {
+				$time = strtotime( $converted_time );
+			}
 			$converted_time = date_i18n( $format, $time );
 		}
-
 		return $converted_time;
 	}
 

@@ -29,7 +29,7 @@ use Wlr\App\Controllers\Site\Schedules;
 
 
 class Router {
-	private static $site, $display_message, $my_account, $loyalty_mail;
+	private static $site, $display_message, $my_account, $coupon;
 
 	function init() {
 		do_action( 'wlr_before_init' );
@@ -63,8 +63,7 @@ class Router {
 		self::initCouponAction();
 		self::initCampaignAction();
 		self::initBlocks();
-		self::$loyalty_mail = empty( self::$loyalty_mail ) ? new LoyaltyMail() : self::$loyalty_mail;
-		add_action( 'woocommerce_loaded', array( self::$loyalty_mail, 'initNotification' ) );
+		add_action( 'woocommerce_loaded', [ LoyaltyMail::class, 'initNotification' ] );
 		do_action( 'wlr_after_init' );
 		if ( class_exists( 'Wlr\App\Integrations\MultiCurrency\MultiCurrency' ) ) {
 			$multi = new \Wlr\App\Integrations\MultiCurrency\MultiCurrency();
@@ -172,7 +171,6 @@ class Router {
 		add_action( 'wp_ajax_wlr_save_email_template', [ Settings::class, 'updateEmailTemplate' ] );
 		add_action( 'wp_ajax_wlr_reset_email_template', [ Settings::class, 'resetEmailTemplate' ] );
 		add_action( 'wp_ajax_wlr_is_any_notifications', [ Settings::class, 'isAnyNotifications' ] );
-		add_action( 'wp_ajax_wlr_allow_new_templates', [ Settings::class, 'setNewEmailTemplateWorkflow' ] );
 	}
 
 	public static function initCampaignPage() {
@@ -357,6 +355,7 @@ class Router {
 	 */
 	public static function initCouponAction() {
 		self::$site = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
+		self::$coupon = empty( self::$coupon ) ? new Coupon() : self::$coupon;
 		add_filter( 'woocommerce_coupon_get_discount_amount', [
 			self::$site,
 			'getPointConversionDiscountAmount'
@@ -370,6 +369,8 @@ class Router {
 		add_action( 'woocommerce_new_order', [ self::$site, 'canChangeCouponStatus' ] );
 		add_action( 'woocommerce_update_order', [ self::$site, 'canChangeCouponStatus' ] );
 		add_action( 'woocommerce_order_status_changed', [ self::$site, 'updateCouponStatus' ], 1000, 4 );
+		add_action( 'before_delete_post', [ self::$coupon, 'expireCouponOnDelete'], 10, 1 );
+		add_action( 'wp_trash_post', [ self::$coupon, 'expireCouponOnDelete'], 10, 1 );
 	}
 
 	/**

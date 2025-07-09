@@ -128,46 +128,6 @@
                 }
             ],
             "install-path": "../vlucas/valitron"
-        },
-        {
-            "name": "wployalty/notifications",
-            "version": "dev-master",
-            "version_normalized": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:wployalty/notifications.git",
-                "reference": "5d74ca700a65619e1a9df0fede4c8e026db9a5df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wployalty/notifications/zipball/5d74ca700a65619e1a9df0fede4c8e026db9a5df",
-                "reference": "5d74ca700a65619e1a9df0fede4c8e026db9a5df",
-                "shasum": ""
-            },
-            "time": "2025-04-22T12:02:34+00:00",
-            "default-branch": true,
-            "type": "project",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "WPLoyalty\\": "src/"
-                }
-            },
-            "license": [
-                "GPL3 or Later"
-            ],
-            "authors": [
-                {
-                    "name": "Alagesan S",
-                    "email": "alagesan@cartrabbit.in"
-                }
-            ],
-            "description": "Loyalty Notification",
-            "support": {
-                "source": "https://github.com/wployalty/notifications/tree/master",
-                "issues": "https://github.com/wployalty/notifications/issues"
-            },
-            "install-path": "../wployalty/notifications"
         }
     ],
     "dev": false,

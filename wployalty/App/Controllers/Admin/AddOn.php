@@ -64,9 +64,6 @@ class AddOn {
 				$addon['is_installed'] = ! empty( $addon['plugin_file'] ) && in_array( $addon['plugin_file'], $available_plugins );
 			} else {
 				switch ( $slug ) {
-					case 'wp-loyalty-launcher':
-						$is_active = in_array( get_option( 'wlr_launcher_active', 'yes' ), [ 1, 'yes' ] );
-						break;
 					case 'wp-loyalty-point-expire':
 						$is_active = in_array( get_option( 'wlr_expire_point_active', 'no' ), [ 1, 'yes' ] );
 						break;
@@ -120,45 +117,18 @@ class AddOn {
 	 * @return array
 	 */
 	private static function getInternalAddonsList(): array {
-		$is_launcher_plugin_activated = get_option( 'wll_is_launcher_plugin_activated', false );
-		if ( ! $is_launcher_plugin_activated ) {
-			$is_launcher_plugin_activated = PluginsHelper::is_plugin_installed( 'wll-loyalty-launcher' );
-		}
-		if ( ! $is_launcher_plugin_activated && ! in_array( get_option( 'wlr_launcher_active', 'yes' ), [
-				1,
-				'yes'
-			] ) ) {
-			update_option( 'wll_is_launcher_plugin_activated', true );
-			$is_launcher_plugin_activated = true;
-		}
-		$add_ons = [];
-		if ( ! $is_launcher_plugin_activated ) {
-			$add_ons['wp-loyalty-launcher'] = [
-				'name'         => esc_html__( 'WPLoyalty - Launcher', 'wp-loyalty-rules' ),
-				'description'  => __( 'Launcher widget for WPLoyalty. Let your customers easily discover your loyalty rewards.', 'wp-loyalty-rules' ),
-				'icon_url'     => Util::getImageUrl( 'wll-loyalty-launcher' ),
-				'page_url'     => '{addon_page}',
-				'download_url' => '',
-				'document_url' => '',
-				'is_external'  => false,
-				'is_pro'       => false,
-				'dependencies' => [],
-				'plugin_file'  => ''
-			];
-		} else {
-			$add_ons['wll-loyalty-launcher'] = [
-				'name'         => esc_html__( 'WPLoyalty - Launcher', 'wp-loyalty-rules' ),
-				'description'  => __( 'Launcher widget for WPLoyalty. Let your customers easily discover your loyalty rewards.', 'wp-loyalty-rules' ),
-				'icon_url'     => \Wlr\App\Helpers\Util::getImageUrl( 'wll-loyalty-launcher' ),
-				'page_url'     => '{addon_page}',
-				'document_url' => '',
-				'download_url' => 'https://wployalty.net/add-ons/launcher-widget/?utm_campaign=add-on-page&utm_medium=plugin-add-on&utm_source=wployalty-plugin',
-				'is_external'  => true,
-				'is_pro'       => false,
-				'dependencies' => [],
-				'plugin_file'  => 'wll-loyalty-launcher/wll-loyalty-launcher.php',
-			];
-		}
+		$add_ons['wll-loyalty-launcher']    = [
+			'name'         => esc_html__( 'WPLoyalty - Launcher', 'wp-loyalty-rules' ),
+			'description'  => __( 'Launcher widget for WPLoyalty. Let your customers easily discover your loyalty rewards.', 'wp-loyalty-rules' ),
+			'icon_url'     => \Wlr\App\Helpers\Util::getImageUrl( 'wll-loyalty-launcher' ),
+			'page_url'     => '{addon_page}',
+			'document_url' => '',
+			'download_url' => 'https://wployalty.net/add-ons/launcher-widget/?utm_campaign=add-on-page&utm_medium=plugin-add-on&utm_source=wployalty-plugin',
+			'is_external'  => true,
+			'is_pro'       => false,
+			'dependencies' => [],
+			'plugin_file'  => 'wll-loyalty-launcher/wll-loyalty-launcher.php',
+		];
 		$add_ons['wp-loyalty-point-expire'] = [
 			'name'         => esc_html__( 'WPLoyalty - Points Expiry', 'wp-loyalty-rules' ),
 			'description'  => __( 'The add-on helps you set up an expiry for the points earned by customers and manage it.', 'wp-loyalty-rules' ),
@@ -338,14 +308,6 @@ class AddOn {
 				}
 			}
 			switch ( $slug ) {
-				case 'wp-loyalty-launcher':
-					if ( $action == 'deactivate' ) {
-						update_option( 'wlr_launcher_active', 'no' );
-					} else {
-						update_option( 'wlr_launcher_active', 'yes' );
-					}
-
-					break;
 				case 'wp-loyalty-point-expire':
 					if ( $action == 'deactivate' ) {
 						update_option( 'wlr_expire_point_active', 'no' );

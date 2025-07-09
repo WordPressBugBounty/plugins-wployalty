@@ -248,29 +248,4 @@ class Util {
 
 		return false;
 	}
-
-	/**
-	 * Determines whether to show the loyalty addon message.
-	 *
-	 * This method checks if the loyalty launcher plugin is activated or if the loyalty launcher is set as active. If either condition is met, it returns true; otherwise, it returns false.
-	 *
-	 * @return bool Returns true if the loyalty addon message should be shown, false otherwise.
-	 */
-	public static function isLoyaltyAddonActivated() {
-		$is_launcher_plugin_activated = get_option( 'wll_is_launcher_plugin_activated', false );
-		if ( $is_launcher_plugin_activated ) {
-			return true;
-		}
-		$folder      = 'wll-loyalty-launcher';
-		$file        = 'wll-loyalty-launcher.php';
-		$plugin_file = $folder . '/' . $file;
-		if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
-			return true;
-		}
-		if ( in_array( get_option( 'wlr_launcher_active', 'yes' ), [ 1, 'yes' ] ) ) {
-			return false;
-		}
-
-		return true;
-	}
 }

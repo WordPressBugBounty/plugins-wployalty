@@ -18,20 +18,11 @@ use Wlr\App\Emails\WlrPointExpireEmail;
 defined( 'ABSPATH' ) or die;
 
 class LoyaltyMail extends Base {
-	function initNotification() {
-		if ( apply_filters( 'wlr_enable_new_email_workflow', \Wlr\App\Helpers\Base::isNewLoyaltyEmail() ) ) {
-			add_filter( 'woocommerce_email_classes', [ $this, 'addEmailClass' ] );
-		} else {
-			if ( class_exists( '\WPLoyalty\Wordpress' ) ) {
-				$wordpress = new \WPLoyalty\Wordpress();
-				if ( self::$woocommerce->isMethodExists( $wordpress, 'initHook' ) ) {
-					$wordpress->initHook();
-				}
-			}
-		}
+	public static function initNotification() {
+		add_filter( 'woocommerce_email_classes', [ self::class, 'addEmailClass' ] );
 	}
 
-	function addEmailClass( $emails ) {
+	public static function addEmailClass( $emails ) {
 		require_once plugin_dir_path( WC_PLUGIN_FILE ) . 'includes/emails/class-wc-email.php';
 		if ( class_exists( 'Wlr\App\Emails\WlrEarnPointEmail' ) ) {
 			$emails['WlrEarnPointEmail'] = new WlrEarnPointEmail();

@@ -9,7 +9,6 @@ return array(
     'Wlr\\' => array($baseDir . '/'),
     'Wlpe\\' => array($baseDir . '/App/Apps/PointExpiry'),
     'Wll\\' => array($baseDir . '/App/Apps/Launcher'),
-    'WPLoyalty\\' => array($vendorDir . '/wployalty/notifications/src'),
     'Valitron\\' => array($vendorDir . '/vlucas/valitron/src/Valitron'),
     'ParseCsv\\' => array($vendorDir . '/parsecsv/php-parsecsv/src'),
 );

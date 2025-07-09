@@ -238,7 +238,7 @@ class CampaignPage {
 				if ( $earn_campaign->activateOrDeactivate( $id, $active ) ) {
 					$message = __( 'Campaign disabled successfully', 'wp-loyalty-rules' );
 					if ( $active ) {
-						$message = __( 'Campaign activation is successful', 'wp-loyalty-rules' );
+						$message = __( 'Campaign enabled successfully', 'wp-loyalty-rules' );
 					}
 					wp_send_json_success( [
 						'redirect' => admin_url( 'admin.php?' . http_build_query( [

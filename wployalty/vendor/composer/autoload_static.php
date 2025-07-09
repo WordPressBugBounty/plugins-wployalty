@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf9182564a3735ec4caa0346de582caea
+class ComposerStaticInit7f9a52d00ed88e26728aeb2663fab673
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -12,7 +12,6 @@ class ComposerStaticInitf9182564a3735ec4caa0346de582caea
             'Wlr\\' => 4,
             'Wlpe\\' => 5,
             'Wll\\' => 4,
-            'WPLoyalty\\' => 10,
         ),
         'V' => 
         array (
@@ -37,10 +36,6 @@ class ComposerStaticInitf9182564a3735ec4caa0346de582caea
         array (
             0 => __DIR__ . '/../..' . '/App/Apps/Launcher',
         ),
-        'WPLoyalty\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/wployalty/notifications/src',
-        ),
         'Valitron\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/valitron/src/Valitron',
@@ -58,9 +53,9 @@ class ComposerStaticInitf9182564a3735ec4caa0346de582caea
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf9182564a3735ec4caa0346de582caea::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf9182564a3735ec4caa0346de582caea::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitf9182564a3735ec4caa0346de582caea::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7f9a52d00ed88e26728aeb2663fab673::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7f9a52d00ed88e26728aeb2663fab673::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit7f9a52d00ed88e26728aeb2663fab673::$classMap;
 
         }, null, ClassLoader::class);
     }

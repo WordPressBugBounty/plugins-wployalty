@@ -1335,12 +1335,4 @@ class Base {
 
 		return $is_including_tax;
 	}
-
-	public static function isNewLoyaltyEmail() {
-		return get_option( 'wlr_is_new_loyalty_email', 'no' ) === 'yes';
-	}
-
-	public static function moveToNewLoyaltyEmail() {
-		update_option( 'wlr_is_new_loyalty_email', 'yes' );
-	}
 }

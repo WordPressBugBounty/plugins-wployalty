@@ -3,13 +3,13 @@
  * Plugin Name: WPLoyalty
  * Plugin URI: https://wployalty.net
  * Description: Loyalty Rules and Referrals for WooCommerce. Turn your hard-earned sales into repeat purchases by rewarding your customers and building loyalty.
- * Version: 1.3.4
+ * Version: 1.4.0
  * Author: wployalty
  * Slug: wp-loyalty-rules-lite
  * Text Domain: wp-loyalty-rules
  * Domain Path: /i18n/languages/
  * Requires Plugins: woocommerce
- * Requires at least: 4.9.0
+ * Requires at least: 6.0
  * WC requires at least: 6.5
  * WC tested up to: 9.9
  * Contributors: wployalty
@@ -50,7 +50,7 @@ if ( isWlrProActive() ) {
 	return;
 }
 //Define the plugin version
-defined( 'WLR_PLUGIN_VERSION' ) or define( 'WLR_PLUGIN_VERSION', '1.3.4' );
+defined( 'WLR_PLUGIN_VERSION' ) or define( 'WLR_PLUGIN_VERSION', '1.4.0' );
 // Define the plugin text domain
 defined( 'WLR_TEXT_DOMAIN' ) or define( 'WLR_TEXT_DOMAIN', 'wp-loyalty-rules' );
 // Define the slug
@@ -68,7 +68,7 @@ defined( 'WLR_PLUGIN_LANGUAGE' ) or define( 'WLR_PLUGIN_LANGUAGE', get_locale() 
 //defined plugin name
 defined( 'WLR_PLUGIN_NAME' ) or define( 'WLR_PLUGIN_NAME', 'WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral' );
 defined( 'WLR_MINIMUM_PHP_VERSION' ) or define( 'WLR_MINIMUM_PHP_VERSION', '7.0.0' );
-defined( 'WLR_MINIMUM_WP_VERSION' ) or define( 'WLR_MINIMUM_WP_VERSION', '4.9' );
+defined( 'WLR_MINIMUM_WP_VERSION' ) or define( 'WLR_MINIMUM_WP_VERSION', '6.0' );
 defined( 'WLR_MINIMUM_WC_VERSION' ) or define( 'WLR_MINIMUM_WC_VERSION', '6.5' );
 // Autoload the vendor
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
@@ -109,7 +109,6 @@ $router->init();
 
 // In-build plugin load
 $wlr_apps_class = [
-	'Launcher'    => WLR_PLUGIN_PATH . 'App/Apps/Launcher/wp-loyalty-launcher.php',
 	'PointExpiry' => WLR_PLUGIN_PATH . 'App/Apps/PointExpiry/wp-loyalty-point-expire.php'
 ];
 $wlr_apps_class = apply_filters( 'wlr_app_init_class', $wlr_apps_class );

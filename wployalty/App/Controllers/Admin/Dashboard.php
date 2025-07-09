@@ -353,19 +353,7 @@ class Dashboard {
 		if ( ! Util::isBasicSecurityValid( 'wlr_common_user_nonce' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Basic security validation failed', 'wp-loyalty-rules' ) ] );
 		}
-
-		if ( ! Util::isLoyaltyAddonActivated() ) {
-			wp_send_json_success( [
-				'is_show_notify'     => true,
-				'is_launcher_notice' => true,
-				'labels'             => [
-					'title'          => __( 'Important Notice:', 'wp-loyalty-rules' ),
-					'title_question' => __( "In version 1.3.5, we will remove the in-build launcher code. The launcher widget has been upgraded and is now available as a separate plugin.", "wp-loyalty-rules" ),
-					'download_url'   => 'https://wployalty.net/add-ons/launcher-widget/?utm_campaign=wployalty-link&utm_medium=plugin&utm_source=add-on',
-					'button_text'    => __( 'Download', 'wp-loyalty-rules' )
-				]
-			] );
-		}
+		
 		$woocommerce_helper = Woocommerce::getInstance();
 		$status             = $woocommerce_helper->checkStatusNewRewardSection();
 		if ( $status ) {
