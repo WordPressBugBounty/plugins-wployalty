@@ -115,7 +115,9 @@ class WlrBirthdayEmail extends \WC_Email {
 			if ( $type == 'point' && $point_or_reward > 0 ) {
 				$point_label = $reward_helper->getPointLabel( $point_or_reward );
 			} elseif ( $type == 'coupon' && ! empty( $point_or_reward ) ) {
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$reward_title = ! empty( $point_or_reward->name ) ? __( $point_or_reward->name, 'wp-loyalty-rules' ) : '';
+				// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 				$display_name = ! empty( $point_or_reward->display_name ) ? __( $point_or_reward->display_name, 'wp-loyalty-rules' ) : '';
 				if ( ! empty( $data['user_reward_id'] ) ) {
 					$user_reward_model  = new UserRewards();
@@ -123,17 +125,19 @@ class WlrBirthdayEmail extends \WC_Email {
 					$earn_reward_coupon = ! empty( $user_reward_table->discount_code ) ? $user_reward_table->discount_code : '';
 				}
 			}
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 			$campaign_name                                   = empty( $campaign->name ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
 			$reward_label                                    = $reward_helper->getRewardLabel( 1 );
 			$this->placeholders['{wlr_reward_title}']        = $reward_title;
 			$this->placeholders['{wlr_points_label}']        = $point_label;
 			$this->placeholders['{wlr_reward_label}']        = $reward_helper->getRewardLabel( 1 );
 			$this->placeholders['{wlr_reward_display_name}'] = $display_name;
-			$this->placeholders['{wlr_campaign_name}']       = ! empty( $campaign->name ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
-			$this->placeholders['{wlr_action_name}']         = $reward_helper->getActionName( $action_type );
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+			$this->placeholders['{wlr_campaign_name}'] = ! empty( $campaign->name ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
+			$this->placeholders['{wlr_action_name}']   = $reward_helper->getActionName( $action_type );
 
 			$this->placeholders['{wlr_earn_point}']           = ( $type == 'point' && $point_or_reward > 0 ) ? $point_or_reward : 0;
-			$this->placeholders['wlr_earn_reward']            = ! empty( $earn_reward_coupon ) ? $earn_reward_coupon : $display_name;
+			$this->placeholders['{wlr_earn_reward}']            = ! empty( $earn_reward_coupon ) ? $earn_reward_coupon : $display_name;
 			$this->placeholders['{wlr_earn_point_or_reward}'] = $type == 'point' ? $point_or_reward . ' ' . $point_label : $display_name . ' ' . $reward_label;
 
 			$this->placeholders['{wlr_shop_url}'] = get_permalink( wc_get_page_id( 'shop' ) );
@@ -235,7 +239,7 @@ class WlrBirthdayEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 
 	public function get_content_plain() {
@@ -247,6 +251,6 @@ class WlrBirthdayEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 }

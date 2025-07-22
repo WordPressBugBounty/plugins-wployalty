@@ -40,6 +40,13 @@ class Router {
 
 			return $styles;
 		} );
+		add_filter( 'wp_kses_allowed_html', function ( $tags, $context ) {
+			if ( 'post' === $context ) {
+				$tags['style'] = [];
+			}
+
+			return $tags;
+		}, 10, 2 );
 		if ( is_admin() ) {
 			self::initCommon();
 			self::initLabels();
@@ -354,7 +361,7 @@ class Router {
 	 * @return void
 	 */
 	public static function initCouponAction() {
-		self::$site = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
+		self::$site   = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
 		self::$coupon = empty( self::$coupon ) ? new Coupon() : self::$coupon;
 		add_filter( 'woocommerce_coupon_get_discount_amount', [
 			self::$site,
@@ -369,8 +376,8 @@ class Router {
 		add_action( 'woocommerce_new_order', [ self::$site, 'canChangeCouponStatus' ] );
 		add_action( 'woocommerce_update_order', [ self::$site, 'canChangeCouponStatus' ] );
 		add_action( 'woocommerce_order_status_changed', [ self::$site, 'updateCouponStatus' ], 1000, 4 );
-		add_action( 'before_delete_post', [ self::$coupon, 'expireCouponOnDelete'], 10, 1 );
-		add_action( 'wp_trash_post', [ self::$coupon, 'expireCouponOnDelete'], 10, 1 );
+		add_action( 'before_delete_post', [ self::$coupon, 'expireCouponOnDelete' ], 10, 1 );
+		add_action( 'wp_trash_post', [ self::$coupon, 'expireCouponOnDelete' ], 10, 1 );
 	}
 
 	/**

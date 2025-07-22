@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.0\n"
+"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-loyalty-rules-lite\n"
 "Last-Translator: flycart <support@wployalty.net>\n"
 "Language-Team: flycart <support@wployalty.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-09T07:31:03+00:00\n"
+"POT-Creation-Date: 2025-07-22T08:54:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-loyalty-rules\n"
@@ -76,6 +76,8 @@ msgstr ""
 #: App/Apps/PointExpiry/App/Controllers/Base.php:289
 #: App/Controllers/Admin/Labels.php:48
 #: App/Controllers/Admin/Labels.php:1090
+#: App/Controllers/Admin/Labels.php:1146
+#: App/Premium/Helpers/License.php:165
 msgid "Active"
 msgstr ""
 
@@ -86,6 +88,7 @@ msgstr ""
 
 #: App/Apps/PointExpiry/App/Controllers/Base.php:291
 #: App/Controllers/Admin/CampaignPage.php:46
+#: App/Premium/Helpers/License.php:169
 msgid "Expired"
 msgstr ""
 
@@ -219,7 +222,7 @@ msgid "Redeem your hard earned {wlr_points_label} before they expire on {wlr_exp
 msgstr ""
 
 #: App/Apps/PointExpiry/App/Model/ExpirePoints.php:418
-#: App/Emails/WlrExpireEmail.php:157
+#: App/Emails/WlrExpireEmail.php:158
 #: App/Emails/WlrPointExpireEmail.php:174
 #: templates/emails/wlr-expire-email.php:17
 #: templates/emails/wlr-point-expire-email.php:18
@@ -494,7 +497,7 @@ msgstr ""
 #: App/Controllers/Admin/Settings.php:219
 #: App/Controllers/Site/CustomerPage.php:1217
 #: App/Controllers/Site/Main.php:1100
-#: App/Controllers/Site/MyAccount.php:144
+#: App/Controllers/Site/MyAccount.php:143
 msgid "Basic validation failed"
 msgstr ""
 
@@ -991,7 +994,7 @@ msgid "Active Desc"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:56
-#: App/Controllers/Admin/Labels.php:1452
+#: App/Controllers/Admin/Labels.php:1458
 msgid "Recommendations"
 msgstr ""
 
@@ -1209,11 +1212,13 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:143
 #: App/Controllers/Admin/Labels.php:227
-#: App/Controllers/Admin/Labels.php:1463
+#: App/Controllers/Admin/Labels.php:1469
 msgid "Points"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:145
+#: App/Controllers/Admin/Labels.php:1147
+#: App/Premium/Helpers/License.php:167
 msgid "Inactive"
 msgstr ""
 
@@ -1262,10 +1267,12 @@ msgid "Select media"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:157
+#: App/Controllers/Admin/Labels.php:1143
 msgid "Activate"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:158
+#: App/Controllers/Admin/Labels.php:1144
 msgid "Deactivate"
 msgstr ""
 
@@ -1590,14 +1597,14 @@ msgid "Single Product Pages only"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:237
-#: App/Controllers/Admin/Labels.php:1476
-#: App/Controllers/Admin/Labels.php:1528
+#: App/Controllers/Admin/Labels.php:1482
+#: App/Controllers/Admin/Labels.php:1534
 msgid "Yes"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:238
-#: App/Controllers/Admin/Labels.php:1477
-#: App/Controllers/Admin/Labels.php:1529
+#: App/Controllers/Admin/Labels.php:1483
+#: App/Controllers/Admin/Labels.php:1535
 msgid "No"
 msgstr ""
 
@@ -1744,7 +1751,7 @@ msgid "All Time"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:273
-#: App/Controllers/Admin/Labels.php:1857
+#: App/Controllers/Admin/Labels.php:1865
 msgid "2 Years"
 msgstr ""
 
@@ -1965,7 +1972,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:351
 #: App/Controllers/Admin/Labels.php:1125
-#: App/Controllers/Admin/Labels.php:1633
+#: App/Controllers/Admin/Labels.php:1639
 #: App/Helpers/Woocommerce.php:339
 #: App/Helpers/Woocommerce.php:371
 #: App/Helpers/Woocommerce.php:403
@@ -2019,7 +2026,7 @@ msgid "Product attribute(s) quantity"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:365
-#: App/Controllers/Admin/Labels.php:1634
+#: App/Controllers/Admin/Labels.php:1640
 #: App/Helpers/Woocommerce.php:341
 #: App/Helpers/Woocommerce.php:373
 #: App/Helpers/Woocommerce.php:405
@@ -2046,7 +2053,7 @@ msgid "Product category(s) quantity"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:372
-#: App/Controllers/Admin/Labels.php:1635
+#: App/Controllers/Admin/Labels.php:1641
 #: App/Helpers/Woocommerce.php:342
 #: App/Helpers/Woocommerce.php:374
 #: App/Helpers/Woocommerce.php:406
@@ -2712,6 +2719,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:589
 #: App/Controllers/Admin/Labels.php:1036
+#: App/Controllers/Admin/Labels.php:1145
 msgid "Status"
 msgstr ""
 
@@ -2964,7 +2972,7 @@ msgid "Let customers earn points or rewards for their spending. Example: Spend $
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:678
-#: App/Controllers/Admin/Labels.php:1473
+#: App/Controllers/Admin/Labels.php:1479
 #: App/Helpers/Woocommerce.php:245
 #: App/Premium/Controllers/Site/Main.php:28
 msgid "Order Goals"
@@ -3819,7 +3827,7 @@ msgid "100"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:1131
-#: App/Controllers/Admin/Labels.php:1227
+#: App/Controllers/Admin/Labels.php:1233
 msgid "Checkout"
 msgstr ""
 
@@ -3839,763 +3847,767 @@ msgstr ""
 msgid "Verify Key"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1143
-msgid "You can get your license key from your"
-msgstr ""
-
-#: App/Controllers/Admin/Labels.php:1144
-msgid "account at WPLoyalty website"
-msgstr ""
-
-#: App/Controllers/Admin/Labels.php:1146
-msgid "License Key"
-msgstr ""
-
-#: App/Controllers/Admin/Labels.php:1147
-msgid "Enter your license key here"
+#: App/Controllers/Admin/Labels.php:1148
+msgid "Refresh Status"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:1149
-msgid "Error in validating license"
+msgid "You can get your license key from your"
+msgstr ""
+
+#: App/Controllers/Admin/Labels.php:1150
+msgid "account at WPLoyalty website"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:1152
-msgid "General Settings"
+msgid "License Key"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:1153
-msgid "General settings related to points and rewards"
+msgid "Enter your license key here"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:1155
-msgid "Rounding Mode for points earned"
+msgid "Error in validating license"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1156
-msgid "Ex: If a user has spent 5.50 on a product, round up or to the nearest integer would make 6 points whereas round down will earn him 5 points."
+#: App/Controllers/Admin/Labels.php:1158
+msgid "General Settings"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:1159
+msgid "General settings related to points and rewards"
+msgstr ""
+
+#: App/Controllers/Admin/Labels.php:1161
+msgid "Rounding Mode for points earned"
+msgstr ""
+
+#: App/Controllers/Admin/Labels.php:1162
+msgid "Ex: If a user has spent 5.50 on a product, round up or to the nearest integer would make 6 points whereas round down will earn him 5 points."
+msgstr ""
+
+#: App/Controllers/Admin/Labels.php:1165
 msgid "Success order status"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1160
+#: App/Controllers/Admin/Labels.php:1166
 msgid "Customer will be rewarded when the order is successful. Choose the order status that are considered as order success."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1163
+#: App/Controllers/Admin/Labels.php:1169
 msgid "Unsuccessful order status"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1164
+#: App/Controllers/Admin/Labels.php:1170
 msgid "The points and rewards will be canceled / removed if the order status turns to these unsuccessful status. Example: After placing a successful order, the customer cancels the order. In this case, any points / rewards earned will be removed."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1167
+#: App/Controllers/Admin/Labels.php:1173
 msgid "Label for the \"points\" - plural"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1168
+#: App/Controllers/Admin/Labels.php:1174
 msgid "Enter the plural form of label for points. If you want to call the points as beans, you can enter \"beans\" here. So customer will see points messages like:  Earn 20 beans for purchasing this product"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1171
+#: App/Controllers/Admin/Labels.php:1177
 msgid "Label for the \"point\" - singular"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1172
+#: App/Controllers/Admin/Labels.php:1178
 msgid "Enter the singular form of label for point. If you want to call the point as bean, you can enter \"bean\" here. So customer will see point messages like:  Earn 1 bean for purchasing this product"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1175
+#: App/Controllers/Admin/Labels.php:1181
 msgid "Label for the \"rewards\" - plural"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1176
+#: App/Controllers/Admin/Labels.php:1182
 msgid "Enter the plural form of label for rewards. If you want to call the rewards as beans, you can enter \"beans\" here. So customer will see rewards messages like:  Earn 20 beans for purchasing this product"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1179
+#: App/Controllers/Admin/Labels.php:1185
 msgid "Label for the \"reward\" - singular"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1180
+#: App/Controllers/Admin/Labels.php:1186
 msgid "Enter the singular form of label for reward. If you want to call the reward as bean, you can enter \"bean\" here. So customer will see reward messages like:  Earn 1 bean for purchasing this product"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1183
+#: App/Controllers/Admin/Labels.php:1189
 msgid "My Account Label Icon Display Position"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1184
+#: App/Controllers/Admin/Labels.php:1190
 msgid "In My Account Page, Point label icon display position."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1187
+#: App/Controllers/Admin/Labels.php:1193
 msgid "Prefix to use for reward coupons"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1188
+#: App/Controllers/Admin/Labels.php:1194
 msgid "This will be used as a prefix when generating a reward coupon"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1191
+#: App/Controllers/Admin/Labels.php:1197
 msgid "Prefix for referral code"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1192
+#: App/Controllers/Admin/Labels.php:1198
 msgid "The text here will be used as a prefix when generating a unique referral code for the customer"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1195
+#: App/Controllers/Admin/Labels.php:1201
 msgid "Create a customer record in WPLoyalty automatically for following actions"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1196
+#: App/Controllers/Admin/Labels.php:1202
 msgid "Useful to automatically add the customer to WPLoyalty instead of importing your existing customers. Example: When you selected \"Sign in\", then your existing customers will be automatically be added to WPLoyalty customer section."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1199
+#: App/Controllers/Admin/Labels.php:1205
 msgid "Create a coupon instantly when customers get an instant reward ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1200
+#: App/Controllers/Admin/Labels.php:1206
 msgid "Useful if you want to issue the coupon immediately after a customer earns a coupon reward. Default: Yes.  Set this to NO, if you want to issue the coupon at the time of the customer redeeming the reward."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1203
+#: App/Controllers/Admin/Labels.php:1209
 msgid "Force \"individual use only\" for coupons when creating the rewards for the customers ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1204
+#: App/Controllers/Admin/Labels.php:1210
 msgid "Useful if you would like to prevent customers from using other coupons in conjunction with the WPLoyalty reward coupons."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1207
+#: App/Controllers/Admin/Labels.php:1213
 msgid "Pagination Limit (default limit)"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1208
+#: App/Controllers/Admin/Labels.php:1214
 msgid "If you want to change default pagination limit choose any limit value here."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1211
+#: App/Controllers/Admin/Labels.php:1217
 msgid "Show an option to return points after converting to a coupon ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1212
+#: App/Controllers/Admin/Labels.php:1218
 msgid "Sometimes customers may accidentally redeem the points or make a mistake on the number of points to redeem. At that time, this option will be useful for the customer to return the coupon and get their points back."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1215
+#: App/Controllers/Admin/Labels.php:1221
 msgid "Debug mode"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1216
+#: App/Controllers/Admin/Labels.php:1222
 msgid "Turn on this option only if the support team requests for it. Default is NO."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1219
+#: App/Controllers/Admin/Labels.php:1225
 msgid "Calculate earn points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1220
+#: App/Controllers/Admin/Labels.php:1226
 msgid "By default, earn points will be calculated based on the amount - before the discount . You can change this to \"After discount\" to let WPLoyalty calculate the points for the amount after reducing the discount. NOTE: This option supports discounts that are based on the Coupon object. If a discount is applied in any other forms like a \"minus fee\" using the fee object, it will not be supported."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1223
+#: App/Controllers/Admin/Labels.php:1229
 msgid "Capture customer's birthday"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1224
+#: App/Controllers/Admin/Labels.php:1230
 msgid "Choose the pages where you can capture the birthday of the customer (in addition to the Customer's Reward page). Example: You can capture at the checkout page."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1231
+#: App/Controllers/Admin/Labels.php:1237
 msgid "Registration (WooCommerce)"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1235
+#: App/Controllers/Admin/Labels.php:1241
 msgid "Account details"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1241
+#: App/Controllers/Admin/Labels.php:1247
 msgid "Show the earning opportunities based on conditions"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1242
+#: App/Controllers/Admin/Labels.php:1248
 msgid "Filter the earning opportunities based on the selected conditions. Example: You can show Earning Opportunities based on the current user role or the level."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1245
+#: App/Controllers/Admin/Labels.php:1251
 msgid "Customer Role"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1249
+#: App/Controllers/Admin/Labels.php:1255
 msgid "Current Level"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1253
+#: App/Controllers/Admin/Labels.php:1259
 msgid "Current and next user level "
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1259
+#: App/Controllers/Admin/Labels.php:1265
 msgid "Allow customers to edit their birthday after entering it ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1260
+#: App/Controllers/Admin/Labels.php:1266
 msgid "Default is NO. When set to yes, customers will be able to change their birthday on their own. Even if they do, they wont be able to earn points / rewards multiple times. It will be given once per year - when the \"on their birthday\" option is chosen."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1263
+#: App/Controllers/Admin/Labels.php:1269
 msgid "Display the \"Level\" icon for rewards assigned to selected levels (in conditions)"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1264
+#: App/Controllers/Admin/Labels.php:1270
 msgid "Useful for customers to understand what Level they need to unlock before they can earn a particular reward."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1267
+#: App/Controllers/Admin/Labels.php:1273
 msgid "Tax calculation should be based on"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1268
+#: App/Controllers/Admin/Labels.php:1274
 msgid "Choose how the tax calculation should work. By default, WPLoyalty inherits the settings from WooCommerce."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1271
+#: App/Controllers/Admin/Labels.php:1277
 msgid "Allow earning points when points are redeemed"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1272
+#: App/Controllers/Admin/Labels.php:1278
 msgid "Default is yes. When set to no, customers cannot earn points/rewards while points are being redeemed in the same cart and checkout."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1276
+#: App/Controllers/Admin/Labels.php:1282
 msgid "Customer Reward Page"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1277
+#: App/Controllers/Admin/Labels.php:1283
 msgid "Customer Reward Page options and settings"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1279
+#: App/Controllers/Admin/Labels.php:1285
 msgid "Create Customer Reward Page"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1280
+#: App/Controllers/Admin/Labels.php:1286
 msgid "Create customer reward page for displaying customer points and rewards"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1281
-#: App/Controllers/Admin/Labels.php:1496
+#: App/Controllers/Admin/Labels.php:1287
+#: App/Controllers/Admin/Labels.php:1502
 msgid "Create"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1284
+#: App/Controllers/Admin/Labels.php:1290
 msgid "Show Ways to Earn section"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1287
+#: App/Controllers/Admin/Labels.php:1293
 msgid "Show Reward Opportunities section"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1290
+#: App/Controllers/Admin/Labels.php:1296
 msgid "Show email opt-in section"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1293
+#: App/Controllers/Admin/Labels.php:1299
 msgid "Show recent activities section"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1296
+#: App/Controllers/Admin/Labels.php:1302
 msgid "Display potential points to be earned"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1300
+#: App/Controllers/Admin/Labels.php:1306
 msgid "Display Messages"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1301
+#: App/Controllers/Admin/Labels.php:1307
 msgid "Includes product / cart and checkout pages"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1302
+#: App/Controllers/Admin/Labels.php:1308
 msgid "Display Message Styles"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1304
+#: App/Controllers/Admin/Labels.php:1310
 msgid "Display position of earn points product page message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1305
+#: App/Controllers/Admin/Labels.php:1311
 msgid "Choose where to show the earned points message on the product page"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1308
+#: App/Controllers/Admin/Labels.php:1314
 msgid "Enable cart page earn message ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1311
+#: App/Controllers/Admin/Labels.php:1317
 msgid "Cart page message for earn points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1312
+#: App/Controllers/Admin/Labels.php:1318
 msgid "This text will be displayed in Cart when points are earned. Shortcodes: {wlr_cart_points}, {wlr_points_label}, {wlr_cart_rewards}, {wlr_reward_label}, {wlr_cart_point_or_reward}"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1315
+#: App/Controllers/Admin/Labels.php:1321
 msgid "Enable cart page redeem message ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1318
+#: App/Controllers/Admin/Labels.php:1324
 msgid "Enable checkout page redeem message ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1321
+#: App/Controllers/Admin/Labels.php:1327
 msgid "Enable checkout page earn message ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1324
+#: App/Controllers/Admin/Labels.php:1330
 msgid "Checkout page message for earn points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1325
+#: App/Controllers/Admin/Labels.php:1331
 msgid "This text will be displayed in Checkout when points are earned. Shortcodes: {wlr_cart_points}, {wlr_points_label}, {wlr_cart_rewards}, {wlr_reward_label}, {wlr_cart_point_or_reward}"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1328
+#: App/Controllers/Admin/Labels.php:1334
 msgid "Display position of earn points cart page message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1329
+#: App/Controllers/Admin/Labels.php:1335
 msgid "Choose where to show the earned points message on the cart page - before or after cart items"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1332
+#: App/Controllers/Admin/Labels.php:1338
 msgid "Display position of earn points checkout page message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1333
+#: App/Controllers/Admin/Labels.php:1339
 msgid "Choose where to show the earned points message on the checkout page - before or after checkout items"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1336
+#: App/Controllers/Admin/Labels.php:1342
 msgid "Cart page message for Redeem points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1337
+#: App/Controllers/Admin/Labels.php:1343
 msgid "This text will be displayed on the Cart page when points are available for Redemption. Shortcodes: {wlr_redeem_cart_points}, {wlr_points_label}, {wlr_reward_link}"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1340
+#: App/Controllers/Admin/Labels.php:1346
 msgid "Checkout page message for Redeem points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1341
+#: App/Controllers/Admin/Labels.php:1347
 msgid "This text will be displayed on the Checkout page when points are available for Redemption. Shortcodes: {wlr_redeem_cart_points}, {wlr_points_label}, {wlr_reward_link}"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1344
+#: App/Controllers/Admin/Labels.php:1350
 msgid "Display Position Of Redeem Points Cart Page Message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1345
+#: App/Controllers/Admin/Labels.php:1351
 msgid "Choose where to show the redeem points message on the cart page - before/after cart items"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1348
+#: App/Controllers/Admin/Labels.php:1354
 msgid "Display Position Of Redeem Points Checkout Page Message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1349
+#: App/Controllers/Admin/Labels.php:1355
 msgid "Choose where to show the redeem points message on the Checkout page - before/after Checkout items"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1352
+#: App/Controllers/Admin/Labels.php:1358
 msgid "Message on Thank you page "
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1353
+#: App/Controllers/Admin/Labels.php:1359
 msgid "This text will be displayed on the thank you / order received page when points were earned. Shortcodes: {wlr_earned_points}, {wlr_total_points}, {wlr_points_label}, {wlr_earned_rewards}, {wlr_reward_label}, {wlr_cart_point_or_reward}."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1356
+#: App/Controllers/Admin/Labels.php:1362
 msgid "Thank you message display position"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1357
+#: App/Controllers/Admin/Labels.php:1363
 msgid "Choose where to show the message on thank you page"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1360
+#: App/Controllers/Admin/Labels.php:1366
 msgid "Order Review Earn Point Text"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1363
+#: App/Controllers/Admin/Labels.php:1369
 msgid "Border color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1367
-#: App/Controllers/Admin/Labels.php:1425
+#: App/Controllers/Admin/Labels.php:1373
+#: App/Controllers/Admin/Labels.php:1431
 msgid "Text color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1371
+#: App/Controllers/Admin/Labels.php:1377
 msgid "Background color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1375
+#: App/Controllers/Admin/Labels.php:1381
 msgid "Icon for Redeemed Points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1376
+#: App/Controllers/Admin/Labels.php:1382
 msgid "Choose an icon / image for the redeemed points section"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1379
+#: App/Controllers/Admin/Labels.php:1385
 msgid "Icon for Available Points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1380
+#: App/Controllers/Admin/Labels.php:1386
 msgid "Choose an icon / image for the available points section"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1383
+#: App/Controllers/Admin/Labels.php:1389
 msgid "Icon for Used rewards"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1384
+#: App/Controllers/Admin/Labels.php:1390
 msgid "Choose an icon / image for the used rewards section"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1387
+#: App/Controllers/Admin/Labels.php:1393
 msgid "Icon / image for the Earn Point message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1388
-#: App/Controllers/Admin/Labels.php:1392
+#: App/Controllers/Admin/Labels.php:1394
+#: App/Controllers/Admin/Labels.php:1398
 msgid "Choose an icon or image"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1391
+#: App/Controllers/Admin/Labels.php:1397
 msgid "Icon / image for the Redeem Point message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1395
+#: App/Controllers/Admin/Labels.php:1401
 msgid "Redeem button text"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1396
+#: App/Controllers/Admin/Labels.php:1402
 msgid "Redeem Now button text"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1400
-#: App/Controllers/Admin/Labels.php:1401
+#: App/Controllers/Admin/Labels.php:1406
+#: App/Controllers/Admin/Labels.php:1407
 msgid "Apply coupon button text"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1404
+#: App/Controllers/Admin/Labels.php:1410
 msgid "Redeem button color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1407
+#: App/Controllers/Admin/Labels.php:1413
 msgid "Redeem button text color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1410
+#: App/Controllers/Admin/Labels.php:1416
 msgid "Coupon code / border color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1413
+#: App/Controllers/Admin/Labels.php:1419
 msgid "Apply coupon button text color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1416
+#: App/Controllers/Admin/Labels.php:1422
 msgid "Apply coupon button color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1419
+#: App/Controllers/Admin/Labels.php:1425
 msgid "Coupon code background color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1422
+#: App/Controllers/Admin/Labels.php:1428
 msgid "Base theme color for customer reward page"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1428
+#: App/Controllers/Admin/Labels.php:1434
 msgid "Button text color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1430
+#: App/Controllers/Admin/Labels.php:1436
 msgid "Earn Message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1431
+#: App/Controllers/Admin/Labels.php:1437
 msgid "Redeem Message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1433
+#: App/Controllers/Admin/Labels.php:1439
 msgid "Enable Thank you page message ?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1436
+#: App/Controllers/Admin/Labels.php:1442
 msgid "Allowed Campaign conditions"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1437
+#: App/Controllers/Admin/Labels.php:1443
 msgid "You can choose conditions for allowed campaigns."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1441
+#: App/Controllers/Admin/Labels.php:1447
 msgid "Emails"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1442
+#: App/Controllers/Admin/Labels.php:1448
 msgid "Customize the emails by using the default WooCommerce email editor (based on theme override) or you can also use the  <a href=\"https://sparkeditor.com/?utm_campaign=recommendation&utm_source=wployalty-setting&utm_medium=in-app\" style=\"color: blue;\" target=\"_blank\">\"Spark Email Editor\"</a> with drag and drop editor to customize the emails."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1443
+#: App/Controllers/Admin/Labels.php:1449
 msgid "Subject:"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1444
+#: App/Controllers/Admin/Labels.php:1450
 msgid "Manage"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1445
+#: App/Controllers/Admin/Labels.php:1451
 msgid "Yes, Reset the email"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1446
+#: App/Controllers/Admin/Labels.php:1452
 msgid "No, Do not reset the email"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1447
+#: App/Controllers/Admin/Labels.php:1453
 msgid "Reset the email?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1448
+#: App/Controllers/Admin/Labels.php:1454
 msgid "Are you sure want to reset this email?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1455
+#: App/Controllers/Admin/Labels.php:1461
 msgid "Buy Pro"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1458
+#: App/Controllers/Admin/Labels.php:1464
 msgid "Skip Onboarding"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1459
-#: App/Controllers/Admin/Labels.php:1545
+#: App/Controllers/Admin/Labels.php:1465
+#: App/Controllers/Admin/Labels.php:1551
 msgid "Support"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1460
+#: App/Controllers/Admin/Labels.php:1466
 msgid "Help Docs"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1461
+#: App/Controllers/Admin/Labels.php:1467
 msgid "Previous Step"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1462
+#: App/Controllers/Admin/Labels.php:1468
 msgid "Book a Demo Call"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1464
+#: App/Controllers/Admin/Labels.php:1470
 msgid "Continue"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1465
+#: App/Controllers/Admin/Labels.php:1471
 msgid "Choose Program type"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1466
+#: App/Controllers/Admin/Labels.php:1472
 msgid "Create campaign"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1467
+#: App/Controllers/Admin/Labels.php:1473
 msgid "Choose referral"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1468
+#: App/Controllers/Admin/Labels.php:1474
 msgid "Create reward"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1469
+#: App/Controllers/Admin/Labels.php:1475
 msgid "Launcher Installation"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1470
+#: App/Controllers/Admin/Labels.php:1476
 msgid "Choose color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1471
+#: App/Controllers/Admin/Labels.php:1477
 msgid "summary"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1472
+#: App/Controllers/Admin/Labels.php:1478
 msgid "Completed onboard"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1474
-#: App/Controllers/Admin/Labels.php:1525
+#: App/Controllers/Admin/Labels.php:1480
+#: App/Controllers/Admin/Labels.php:1531
 msgid "Launcher settings"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1475
+#: App/Controllers/Admin/Labels.php:1481
 msgid "Signup"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1478
+#: App/Controllers/Admin/Labels.php:1484
 msgid "Point Conversion"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1479
+#: App/Controllers/Admin/Labels.php:1485
 msgid "Required points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1480
+#: App/Controllers/Admin/Labels.php:1486
 msgid "Points: "
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1481
+#: App/Controllers/Admin/Labels.php:1487
 msgid "Amount: "
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1482
+#: App/Controllers/Admin/Labels.php:1488
 msgid "Discount: "
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1494
+#: App/Controllers/Admin/Labels.php:1500
 msgid "What type of loyalty programs do you like to offer?"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1495
+#: App/Controllers/Admin/Labels.php:1501
 msgid "We’ll guide you all over the process."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1498
+#: App/Controllers/Admin/Labels.php:1504
 msgid "Reward customers points for sign up, purchase and for every dollar they spent."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1501
+#: App/Controllers/Admin/Labels.php:1507
 msgid "Referrals"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1502
+#: App/Controllers/Admin/Labels.php:1508
 msgid "Reward customers with coupons or discounts for referring their friends."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1506
+#: App/Controllers/Admin/Labels.php:1512
 msgid "Choose customer actions that you'd like to reward"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1507
+#: App/Controllers/Admin/Labels.php:1513
 msgid "You can always change or create more actions anytime you want."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1510
+#: App/Controllers/Admin/Labels.php:1516
 msgid "Set up your referral reward"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1511
+#: App/Controllers/Admin/Labels.php:1517
 msgid "Configure the reward for the friend and advocate accordingly."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1512
+#: App/Controllers/Admin/Labels.php:1518
 #: App/Models/EarnCampaign.php:241
 msgid "Friend"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1513
+#: App/Controllers/Admin/Labels.php:1519
 #: App/Models/EarnCampaign.php:228
 msgid "Advocate"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1516
+#: App/Controllers/Admin/Labels.php:1522
 msgid "Create rewards for customers to redeem their points"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1517
+#: App/Controllers/Admin/Labels.php:1523
 msgid "You can always customize them anytime you want."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1520
+#: App/Controllers/Admin/Labels.php:1526
 msgid "Pick a theme for your brand"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1521
+#: App/Controllers/Admin/Labels.php:1527
 msgid "Theme color"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1522
+#: App/Controllers/Admin/Labels.php:1528
 msgid "You can change them anytime."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1526
+#: App/Controllers/Admin/Labels.php:1532
 msgid "Do you want to install launcher add-on now ? "
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1527
+#: App/Controllers/Admin/Labels.php:1533
 msgid "Choose whether to install the launcher add-on now."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1532
+#: App/Controllers/Admin/Labels.php:1538
 msgid "Here is an summary of your previous steps"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1533
+#: App/Controllers/Admin/Labels.php:1539
 msgid "Check your preferences and click continue."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1534
+#: App/Controllers/Admin/Labels.php:1540
 msgid "POINTS"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1535
+#: App/Controllers/Admin/Labels.php:1541
 msgid "REFERRALS"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1536
+#: App/Controllers/Admin/Labels.php:1542
 msgid "BRAND THEME"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1539
+#: App/Controllers/Admin/Labels.php:1545
 msgid "Progress completed!"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1540
+#: App/Controllers/Admin/Labels.php:1546
 msgid "Yes! It’s done. You can now start using the WPLoyalty"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1541
+#: App/Controllers/Admin/Labels.php:1547
 msgid "Launch WPLoyalty"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1542
+#: App/Controllers/Admin/Labels.php:1548
 msgid "Schedule a call"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1543
+#: App/Controllers/Admin/Labels.php:1549
 msgid "Go to docs"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1546
+#: App/Controllers/Admin/Labels.php:1552
 msgid "Have any queries? Get instant support from our team anytime, anywhere."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1549
+#: App/Controllers/Admin/Labels.php:1555
 msgid "Help Documents"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1550
+#: App/Controllers/Admin/Labels.php:1556
 msgid "Make use of the help docs to get a better understanding of  how it works."
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1636
+#: App/Controllers/Admin/Labels.php:1642
 #: App/Helpers/Woocommerce.php:343
 #: App/Helpers/Woocommerce.php:375
 #: App/Helpers/Woocommerce.php:408
@@ -4606,180 +4618,180 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1697
+#: App/Controllers/Admin/Labels.php:1703
 msgid "When Signin"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1698
+#: App/Controllers/Admin/Labels.php:1704
 msgid "When Signup"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1703
+#: App/Controllers/Admin/Labels.php:1709
 msgid "Before Product Price"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1704
+#: App/Controllers/Admin/Labels.php:1710
 msgid "After Product Price"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1705
+#: App/Controllers/Admin/Labels.php:1711
 msgid "Before Add to Cart"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1706
+#: App/Controllers/Admin/Labels.php:1712
 msgid "After Add to Cart"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1707
+#: App/Controllers/Admin/Labels.php:1713
 msgid "Before Product Title"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1708
+#: App/Controllers/Admin/Labels.php:1714
 msgid "After Product Title"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1711
-#: App/Controllers/Admin/Labels.php:1719
+#: App/Controllers/Admin/Labels.php:1717
+#: App/Controllers/Admin/Labels.php:1726
 msgid "Before Cart items [Normal Cart]"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1712
-#: App/Controllers/Admin/Labels.php:1720
+#: App/Controllers/Admin/Labels.php:1718
+#: App/Controllers/Admin/Labels.php:1727
 msgid "After Cart items [Normal Cart]"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1713
-#: App/Controllers/Admin/Labels.php:1721
+#: App/Controllers/Admin/Labels.php:1719
+#: App/Controllers/Admin/Labels.php:1728
 msgid "Below Order summary [Block Cart/Checkout]"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1714
-#: App/Controllers/Admin/Labels.php:1722
-msgid "Below Shipping [Block Cart/Checkout]"
+#: App/Controllers/Admin/Labels.php:1721
+#: App/Controllers/Admin/Labels.php:1730
+msgid "Below Shipping [Block Checkout]"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1715
-#: App/Controllers/Admin/Labels.php:1723
+#: App/Controllers/Admin/Labels.php:1722
+#: App/Controllers/Admin/Labels.php:1731
 msgid "Below Coupon [Block Cart/Checkout]"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1726
+#: App/Controllers/Admin/Labels.php:1734
 msgid "Top of the thank you message"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1727
+#: App/Controllers/Admin/Labels.php:1735
 msgid "After order details"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1749
+#: App/Controllers/Admin/Labels.php:1757
 msgid "All time"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1753
+#: App/Controllers/Admin/Labels.php:1761
 msgid "Current day"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1757
+#: App/Controllers/Admin/Labels.php:1765
 msgid "Current week"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1761
+#: App/Controllers/Admin/Labels.php:1769
 msgid "Current month"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1765
+#: App/Controllers/Admin/Labels.php:1773
 msgid "Current year"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1769
+#: App/Controllers/Admin/Labels.php:1777
 msgid "1 Day"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1773
+#: App/Controllers/Admin/Labels.php:1781
 msgid "2 Days"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1777
+#: App/Controllers/Admin/Labels.php:1785
 msgid "3 Days"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1781
+#: App/Controllers/Admin/Labels.php:1789
 msgid "4 Days"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1785
+#: App/Controllers/Admin/Labels.php:1793
 msgid "5 Days"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1789
+#: App/Controllers/Admin/Labels.php:1797
 msgid "6 Days"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1793
+#: App/Controllers/Admin/Labels.php:1801
 msgid "1 Week"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1797
+#: App/Controllers/Admin/Labels.php:1805
 msgid "2 Weeks"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1801
+#: App/Controllers/Admin/Labels.php:1809
 msgid "3 Weeks"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1805
+#: App/Controllers/Admin/Labels.php:1813
 msgid "4 Weeks"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1809
+#: App/Controllers/Admin/Labels.php:1817
 msgid "1 Month"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1813
+#: App/Controllers/Admin/Labels.php:1821
 msgid "2 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1817
+#: App/Controllers/Admin/Labels.php:1825
 msgid "3 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1821
+#: App/Controllers/Admin/Labels.php:1829
 msgid "4 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1825
+#: App/Controllers/Admin/Labels.php:1833
 msgid "5 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1829
+#: App/Controllers/Admin/Labels.php:1837
 msgid "6 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1833
+#: App/Controllers/Admin/Labels.php:1841
 msgid "7 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1837
+#: App/Controllers/Admin/Labels.php:1845
 msgid "8 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1841
+#: App/Controllers/Admin/Labels.php:1849
 msgid "9 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1845
+#: App/Controllers/Admin/Labels.php:1853
 msgid "10 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1849
+#: App/Controllers/Admin/Labels.php:1857
 msgid "11 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1853
+#: App/Controllers/Admin/Labels.php:1861
 msgid "12 Months"
 msgstr ""
 
-#: App/Controllers/Admin/Labels.php:1861
+#: App/Controllers/Admin/Labels.php:1869
 msgid "3 Years"
 msgstr ""
 
@@ -4982,11 +4994,13 @@ msgstr ""
 msgid "Coupon %s deleted by admin."
 msgstr ""
 
-#: App/Controllers/Site/Coupon.php:340
+#. translators: 1: point, 2: point label, 3: coupon code
+#: App/Controllers/Site/Coupon.php:341
 msgid "%1$d %2$s added because coupon %3$s deleted by admin"
 msgstr ""
 
-#: App/Controllers/Site/Coupon.php:341
+#. translators: 1: email, 2: point label, 3: old points, 4: new points, 5: coupon code
+#: App/Controllers/Site/Coupon.php:343
 msgid "%1$s customer %2$s changed from %3$d to %4$d because coupon  %5$s deleted by admin"
 msgstr ""
 
@@ -5143,7 +5157,7 @@ msgstr ""
 
 #: App/Controllers/Site/Main.php:516
 #: App/Controllers/Site/Main.php:1088
-#: App/Controllers/Site/MyAccount.php:133
+#: App/Controllers/Site/MyAccount.php:132
 #: App/Premium/Controllers/Admin/Customers.php:379
 #: App/Premium/Controllers/Site/Birthday.php:74
 #: App/Premium/Controllers/Site/Referral.php:32
@@ -5219,66 +5233,66 @@ msgid "Happy Birthday! Celebrate Your Special Day!"
 msgstr ""
 
 #. translators: 1: label 2: campaign name
-#: App/Emails/WlrBirthdayEmail.php:185
-#: App/Emails/WlrBirthdayEmail.php:190
+#: App/Emails/WlrBirthdayEmail.php:189
+#: App/Emails/WlrBirthdayEmail.php:194
 msgid "Sending birthday earned %1$s email failed(%2$s)"
 msgstr ""
 
 #. translators: 1: label 2: email 3: campaign name
-#: App/Emails/WlrBirthdayEmail.php:187
-#: App/Emails/WlrBirthdayEmail.php:192
+#: App/Emails/WlrBirthdayEmail.php:191
+#: App/Emails/WlrBirthdayEmail.php:196
 msgid "Sending birthday earned %1$s email failed to %2$s for %3$s campaign"
 msgstr ""
 
 #. translators: 1: label 2: campaign name
-#: App/Emails/WlrBirthdayEmail.php:197
-#: App/Emails/WlrBirthdayEmail.php:202
+#: App/Emails/WlrBirthdayEmail.php:201
+#: App/Emails/WlrBirthdayEmail.php:206
 msgid "Earned %1$s birthday email sent to customer successfully(%2$s)"
 msgstr ""
 
 #. translators: 1: label 2: email 3: campaign name
-#: App/Emails/WlrBirthdayEmail.php:199
-#: App/Emails/WlrBirthdayEmail.php:204
+#: App/Emails/WlrBirthdayEmail.php:203
+#: App/Emails/WlrBirthdayEmail.php:208
 msgid "Earned %1$s birthday email sent to %2$s for %3$s campaign"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:215
+#: App/Emails/WlrBirthdayEmail.php:219
 msgid "Hi"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:216
+#: App/Emails/WlrBirthdayEmail.php:220
 #: templates/emails/plain/wlr-birthday-email.php:8
 #: templates/emails/wlr-birthday-email.php:14
 msgid "We wish you a very Happy Birthday!"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:218
+#: App/Emails/WlrBirthdayEmail.php:222
 msgid "Let's make your day even more special!"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:219
+#: App/Emails/WlrBirthdayEmail.php:223
 #: templates/emails/plain/wlr-birthday-email.php:9
 #: templates/emails/wlr-birthday-email.php:16
 msgid "Celebrate your birthday with a special gift from {wlr_store_name}"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:220
+#: App/Emails/WlrBirthdayEmail.php:224
 msgid "{wlr_earn_point_or_reward}."
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:221
+#: App/Emails/WlrBirthdayEmail.php:225
 #: templates/emails/wlr-birthday-email.php:19
 msgid "Shop Now!"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:222
+#: App/Emails/WlrBirthdayEmail.php:226
 #: App/Emails/WlrNewLevelEmail.php:144
 msgid "Refer your friends and earn more rewards."
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:223
-#: App/Emails/WlrEarnPointEmail.php:165
-#: App/Emails/WlrEarnRewardEmail.php:183
+#: App/Emails/WlrBirthdayEmail.php:227
+#: App/Emails/WlrEarnPointEmail.php:166
+#: App/Emails/WlrEarnRewardEmail.php:185
 #: App/Emails/WlrNewLevelEmail.php:145
 #: templates/emails/plain/wlr-birthday-email.php:14
 #: templates/emails/plain/wlr-earn-point.php:10
@@ -5308,39 +5322,39 @@ msgid "You have earned points"
 msgstr ""
 
 #. translators: 1: label 2: campaign name
-#: App/Emails/WlrEarnPointEmail.php:144
-#: App/Emails/WlrEarnRewardEmail.php:163
+#: App/Emails/WlrEarnPointEmail.php:145
+#: App/Emails/WlrEarnRewardEmail.php:165
 msgid "Sending earned %1$s email failed(%2$s)"
 msgstr ""
 
 #. translators: 1: label 2: email 3: campaign name
-#: App/Emails/WlrEarnPointEmail.php:146
-#: App/Emails/WlrEarnRewardEmail.php:165
+#: App/Emails/WlrEarnPointEmail.php:147
+#: App/Emails/WlrEarnRewardEmail.php:167
 msgid "Sending earned %1$s email failed to %2$s for %3$s campaign"
 msgstr ""
 
 #. translators: 1: label 2: campaign name
-#: App/Emails/WlrEarnPointEmail.php:149
-#: App/Emails/WlrEarnRewardEmail.php:168
+#: App/Emails/WlrEarnPointEmail.php:150
+#: App/Emails/WlrEarnRewardEmail.php:170
 msgid "Earned %1$s email sent to customer successfully(%2$s)"
 msgstr ""
 
 #. translators: 1: label 2: email 3: campaign name
-#: App/Emails/WlrEarnPointEmail.php:151
-#: App/Emails/WlrEarnRewardEmail.php:170
+#: App/Emails/WlrEarnPointEmail.php:152
+#: App/Emails/WlrEarnRewardEmail.php:172
 msgid "Earned %1$s email sent to %2$s for %3$s campaign"
 msgstr ""
 
-#: App/Emails/WlrEarnPointEmail.php:161
+#: App/Emails/WlrEarnPointEmail.php:162
 #: templates/emails/wlr-earn-point.php:14
 msgid "You have earned {wlr_earn_point} points!"
 msgstr ""
 
-#: App/Emails/WlrEarnPointEmail.php:163
+#: App/Emails/WlrEarnPointEmail.php:164
 msgid "Nice work! You have earned {wlr_earn_point} points!."
 msgstr ""
 
-#: App/Emails/WlrEarnPointEmail.php:164
+#: App/Emails/WlrEarnPointEmail.php:165
 msgid "Refer your friends and earn more points."
 msgstr ""
 
@@ -5357,17 +5371,17 @@ msgstr ""
 msgid "You have earned rewards."
 msgstr ""
 
-#: App/Emails/WlrEarnRewardEmail.php:179
+#: App/Emails/WlrEarnRewardEmail.php:181
 #: templates/emails/plain/wlr-earn-reward.php:9
 #: templates/emails/wlr-earn-reward.php:13
 msgid "You have earned {wlr_earn_reward} reward!"
 msgstr ""
 
-#: App/Emails/WlrEarnRewardEmail.php:181
+#: App/Emails/WlrEarnRewardEmail.php:183
 msgid "Nice work! You have earned {wlr_earn_reward} reward!."
 msgstr ""
 
-#: App/Emails/WlrEarnRewardEmail.php:182
+#: App/Emails/WlrEarnRewardEmail.php:184
 #: templates/emails/plain/wlr-birthday-email.php:13
 #: templates/emails/plain/wlr-earn-point.php:9
 #: templates/emails/plain/wlr-earn-reward.php:10
@@ -5395,28 +5409,28 @@ msgid "Your reward are about to expire. Redeem now!"
 msgstr ""
 
 #. translators: %s: discount code
-#: App/Emails/WlrExpireEmail.php:131
-#: App/Emails/WlrExpireEmail.php:133
+#: App/Emails/WlrExpireEmail.php:132
+#: App/Emails/WlrExpireEmail.php:134
 msgid "Sending expiry coupon email failed(%s)"
 msgstr ""
 
 #. translators: %s: discount code
-#: App/Emails/WlrExpireEmail.php:144
+#: App/Emails/WlrExpireEmail.php:145
 msgid "Expiry coupon email sent to customer successfully(%s)"
 msgstr ""
 
 #. translators: %s: discount code
-#: App/Emails/WlrExpireEmail.php:146
+#: App/Emails/WlrExpireEmail.php:147
 msgid "Expiry coupon email sent successfully(%s)"
 msgstr ""
 
-#: App/Emails/WlrExpireEmail.php:155
+#: App/Emails/WlrExpireEmail.php:156
 #: templates/emails/plain/wlr-expire-email.php:10
 #: templates/emails/wlr-expire-email.php:13
 msgid "{wlr_reward_name} reward are going to expire soon!"
 msgstr ""
 
-#: App/Emails/WlrExpireEmail.php:156
+#: App/Emails/WlrExpireEmail.php:157
 #: templates/emails/plain/wlr-expire-email.php:11
 #: templates/emails/wlr-expire-email.php:15
 msgid "Redeem your hard earned reward before it expires on {wlr_expiry_date}"
@@ -6419,17 +6433,75 @@ msgstr ""
 msgid "Invalid customer email address"
 msgstr ""
 
+#: App/Premium/Controllers/Admin/License.php:19
+#: App/Premium/Controllers/Admin/License.php:67
+#: App/Premium/Controllers/Admin/License.php:97
+msgid "Basic check failed"
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:27
+#: App/Premium/Controllers/Admin/License.php:105
+msgid "License key is required."
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:35
+msgid "License activation failed"
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:46
+msgid "License activated. Thank you!"
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:52
+#: App/Premium/Controllers/Admin/License.php:125
+msgid "License is expired."
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:57
+msgid "Invalid license key."
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:75
+msgid "License deactivation failed"
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:82
+msgid "License deactivated."
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:87
+msgid "License deactivated successfully."
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:113
+msgid "License status check failed"
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:120
+msgid "License is active."
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:130
+#: App/Premium/Controllers/Admin/License.php:136
+msgid "License is inactive."
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:169
+#: App/Premium/Helpers/License.php:285
+msgid "Make sure to activate your license to receive updates, support and security fixes!"
+msgstr ""
+
+#: App/Premium/Controllers/Admin/License.php:170
+#: App/Premium/Helpers/License.php:288
+msgid "Enter license key"
+msgstr ""
+
 #: App/Premium/Controllers/Admin/Main.php:80
 msgid "Delete Level"
 msgstr ""
 
 #: App/Premium/Controllers/Admin/Main.php:81
 msgid "Are you sure ?"
-msgstr ""
-
-#: App/Premium/Controllers/Admin/Main.php:96
-#: App/Premium/Helpers/License.php:83
-msgid "Invalid license key."
 msgstr ""
 
 #. translators: %s: level name
@@ -6547,103 +6619,31 @@ msgstr ""
 msgid "Checkout signup message"
 msgstr ""
 
-#: App/Premium/Helpers/License.php:66
-msgid "License activated successfully. Thank you!"
+#: App/Premium/Helpers/License.php:71
+#: App/Premium/Helpers/License.php:102
+#: App/Premium/Helpers/License.php:121
+msgid "Unable to connect server. Try again later!"
 msgstr ""
 
-#: App/Premium/Helpers/License.php:69
-msgid "License deactivated successfully."
+#: App/Premium/Helpers/License.php:267
+msgid "enter license key"
 msgstr ""
 
-#: App/Premium/Helpers/License.php:72
-msgid "License verified successfully."
+#: App/Premium/Helpers/License.php:269
+msgid "renew your license"
 msgstr ""
 
-#: App/Premium/Helpers/License.php:76
-msgid "Your license is not active for this URL."
+#. translators: 1. %s will replace upgrade url
+#: App/Premium/Helpers/License.php:272
+msgid "Please %s to receive automatic updates or you can manually update the plugin by downloading it."
 msgstr ""
 
-#: App/Premium/Helpers/License.php:80
-msgid "Your license key has been disabled."
+#: App/Premium/Helpers/License.php:288
+msgid "Activate license"
 msgstr ""
 
-#. translators: %s is replaced with expired date
-#: App/Premium/Helpers/License.php:88
-msgid "Your license key expired on %s."
-msgstr ""
-
-#: App/Premium/Helpers/License.php:92
-msgid "Your license key has been expired."
-msgstr ""
-
-#. translators: %s is replaced with license item name
-#: App/Premium/Helpers/License.php:98
-msgid "This appears to be an invalid license key for %s."
-msgstr ""
-
-#: App/Premium/Helpers/License.php:101
-msgid "Your license key has reached its activation limit."
-msgstr ""
-
-#: App/Premium/Helpers/License.php:104
-msgid "Unable to connect our server, please try again."
-msgstr ""
-
-#: App/Premium/Helpers/License.php:107
-msgid "An error occurred, please try again."
-msgstr ""
-
-#: App/Premium/Helpers/License.php:110
-msgid "Something went wrong, please try again."
-msgstr ""
-
-#: App/Premium/Helpers/License.php:133
-#: App/Premium/Helpers/License.php:353
-msgid "Make sure to activate your license to receive updates, support and security fixes!"
-msgstr ""
-
-#: App/Premium/Helpers/License.php:136
-#: App/Premium/Helpers/License.php:354
-msgid "Enter license key"
-msgstr ""
-
-#: App/Premium/Helpers/License.php:138
+#: App/Premium/Helpers/License.php:290
 msgid "Get License"
-msgstr ""
-
-#: App/Premium/Helpers/License.php:348
-msgid "The last attempt to renew your subscription for WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro failed."
-msgstr ""
-
-#. translators: the plugin name.
-#: App/Premium/Helpers/Update.php:426
-msgid "There is a new version of %1$s available."
-msgstr ""
-
-#. translators: 1. opening anchor tag, do not translate 2. the new plugin version 3. closing anchor tag, do not translate.
-#: App/Premium/Helpers/Update.php:433
-msgid " %1$sView version %2$s details%3$s."
-msgstr ""
-
-#. translators: 1. opening anchor tag, do not translate 2. the new plugin version 3. closing anchor tag, do not translate 4. opening anchor tag, do not translate 5. closing anchor tag, do not translate.
-#: App/Premium/Helpers/Update.php:441
-msgid " %1$sView version %2$s details%3$s or %4$supdate now%5$s."
-msgstr ""
-
-#: App/Premium/Helpers/Update.php:452
-msgid "Update now."
-msgstr ""
-
-#: App/Premium/Helpers/Update.php:531
-msgid "Points and Rewards for WooCommerce by WPLoyalty – Create WooCommerce Loyalty Programs, Referral Programs and Customer Rewards System"
-msgstr ""
-
-#: App/Premium/Helpers/Update.php:636
-msgid "You do not have permission to install plugin updates"
-msgstr ""
-
-#: App/Premium/Helpers/Update.php:636
-msgid "Error"
 msgstr ""
 
 #: App/Views/Admin/customer_import_preview.php:47
@@ -6672,7 +6672,6 @@ msgstr ""
 msgid "Available point"
 msgstr ""
 
-#. translators: $s: label
 #. translators: %s: label
 #: App/Views/Site/cart_page_popup.php:133
 #: App/Views/Site/cart_reward_page.php:122

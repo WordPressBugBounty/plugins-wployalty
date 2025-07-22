@@ -77,7 +77,7 @@ class WlrNewLevelEmail extends \WC_Email {
 		$level_model  = new Levels();
 		$level        = $level_model->getByKey( $user_fields['level_id'] );
 		$this->object = $level;
-
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		$this->placeholders['{wlr_level_name}']                = ! empty( $level->name ) ? __( $level->name, 'wp-loyalty-rules' ) : '';
 		$this->placeholders['{wlr_referral_url}']              = $ref_code ? $reward_helper->getReferralUrl( $ref_code ) : '';
 		$this->placeholders['{wlr_user_point}']                = $loyal_user->points ?? 0;
@@ -157,7 +157,7 @@ class WlrNewLevelEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 
 	public function get_content_plain() {
@@ -169,6 +169,6 @@ class WlrNewLevelEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 }

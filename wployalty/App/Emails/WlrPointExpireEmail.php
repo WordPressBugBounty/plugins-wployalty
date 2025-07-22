@@ -188,7 +188,7 @@ class WlrPointExpireEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 
 	public function get_content_plain() {
@@ -200,6 +200,6 @@ class WlrPointExpireEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 }

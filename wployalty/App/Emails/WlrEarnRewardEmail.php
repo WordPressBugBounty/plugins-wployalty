@@ -98,18 +98,20 @@ class WlrEarnRewardEmail extends \WC_Email {
 		if ( ! empty( $data['campaign_id'] ) ) {
 			$campaign_model = new EarnCampaign();
 			$campaign       = $campaign_model->getByKey( $data['campaign_id'] );
-			$campaign_name  = ! empty( $campaign ) && ! empty( $campaign->name ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+			$campaign_name = ! empty( $campaign ) && ! empty( $campaign->name ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
 		}
 
 		if ( ! empty( $data['order_id'] ) ) {
 			$this->order = wc_get_order( $data['order_id'] );
 			$this->lang  = $woocommerce_helper->getOrderLanguage( $data['order_id'] );
 		}
-
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		$display_name = $reward->display_name ? __( $reward->display_name, 'wp-loyalty-rules' ) : '';
-
-		$this->placeholders['{wlr_reward_title}']        = $reward->name ? __( $reward->name, 'wp-loyalty-rules' ) : '';
-		$this->placeholders['{wlr_reward_label}']        = $reward_helper->getRewardLabel( 1 );
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$this->placeholders['{wlr_reward_title}'] = $reward->name ? __( $reward->name, 'wp-loyalty-rules' ) : '';
+		$this->placeholders['{wlr_reward_label}'] = $reward_helper->getRewardLabel( 1 );
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		$this->placeholders['{wlr_reward_display_name}'] = $reward->display_name ? __( $reward->display_name, 'wp-loyalty-rules' ) : '';
 
 		$this->placeholders['{wlr_campaign_name}'] = $campaign_name;
@@ -196,7 +198,7 @@ class WlrEarnRewardEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 
 	public function get_content_plain() {
@@ -209,6 +211,6 @@ class WlrEarnRewardEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 }

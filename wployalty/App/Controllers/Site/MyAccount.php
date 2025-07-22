@@ -99,8 +99,7 @@ class MyAccount extends Base {
 		) {
 			return;
 		}
-		$status = true;
-		$status = apply_filters( 'wlr_flush_rewrite_rules', $status );
+		$status = apply_filters( 'wlr_flush_rewrite_rules', false );
 		if ( $status ) {
 			flush_rewrite_rules();
 		}

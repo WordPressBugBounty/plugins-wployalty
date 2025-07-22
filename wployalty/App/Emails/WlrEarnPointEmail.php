@@ -91,7 +91,8 @@ class WlrEarnPointEmail extends \WC_Email {
 			$campaign_model = new EarnCampaign();
 			$campaign       = $campaign_model->getByKey( $data['campaign_id'] );
 			$this->object   = $campaign;
-			$campaign_name  = ! empty( $campaign ) && ! empty( $campaign->nme ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
+			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+			$campaign_name = ! empty( $campaign ) && ! empty( $campaign->nme ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
 		}
 
 
@@ -178,7 +179,7 @@ class WlrEarnPointEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 
 	public function get_content_plain() {
@@ -191,6 +192,6 @@ class WlrEarnPointEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 }

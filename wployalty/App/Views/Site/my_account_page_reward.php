@@ -130,7 +130,7 @@ $is_right_to_left     = is_rtl();
 							<?php $user_points = (int) ( ! empty( $user ) && ! empty( $user->points ) ? $user->points : 0 ); ?>
                             <span id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-available-points-heading' ); ?>"
                                   class="wlr-text-color">
-        <?php echo /* translators: $s: label */
+        <?php echo /* translators: %s: label */
         esc_html( sprintf( __( 'Available %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( $user_points ) ) ) ?></span>
                             <div id="<?php echo esc_attr( WLR_PLUGIN_PREFIX . '-available-point-value' ) ?>"
                                  class="wlr-text-color">

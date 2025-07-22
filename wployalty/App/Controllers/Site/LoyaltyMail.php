@@ -20,6 +20,26 @@ defined( 'ABSPATH' ) or die;
 class LoyaltyMail extends Base {
 	public static function initNotification() {
 		add_filter( 'woocommerce_email_classes', [ self::class, 'addEmailClass' ] );
+		add_filter( 'woocommerce_template_directory', function ( $template_dir, $template ) {
+			if ( in_array( $template, [
+				'emails/wlr-earn-point.php',
+				'emails/plain/wlr-earn-point.php',
+				'emails/wlr-earn-reward.php',
+				'emails/plain/wlr-earn-reward.php',
+				'emails/wlr-expire-email.php',
+				'emails/plain/wlr-expire-email.php',
+				'emails/wlr-birthday-email.php',
+				'emails/plain/wlr-birthday-email.php',
+				'emails/wlr-new-level-email.php',
+				'emails/plain/wlr-new-level-email.php',
+				'emails/wlr-point-expire-email.php',
+				'emails/plain/wlr-point-expire-email.php'
+			] ) ) {
+				return 'wployalty';
+			}
+
+			return $template_dir;
+		}, 10, 2 );
 	}
 
 	public static function addEmailClass( $emails ) {

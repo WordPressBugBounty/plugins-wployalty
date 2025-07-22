@@ -76,7 +76,8 @@ class WlrExpireEmail extends \WC_Email {
 		$woocommerce_helper = Woocommerce::getInstance();
 		$this->object       = $user_reward;
 		$ref_code           = ! empty( $loyal_user->refer_code ) ? $loyal_user->refer_code : '';
-		$display_name       = __( $user_reward->display_name, 'wp-loyalty-rules' );
+		// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$display_name = __( $user_reward->display_name, 'wp-loyalty-rules' );
 		if ( ! empty( $user_reward->discount_code ) ) {
 			$display_name = $user_reward->discount_code;
 		}
@@ -167,7 +168,7 @@ class WlrExpireEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => false,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 
 	public function get_content_plain() {
@@ -179,6 +180,6 @@ class WlrExpireEmail extends \WC_Email {
 			'sent_to_admin'      => false,
 			'plain_text'         => true,
 			'email'              => $this
-		], 'wployalty/emails', $this->template_base ) );
+		], 'wployalty', $this->template_base ) );
 	}
 }

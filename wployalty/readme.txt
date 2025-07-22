@@ -5,8 +5,8 @@ Tags: points, rewards, loyalty, referrals, coupons
 Requires at least: 6.0
 Tested up to: 6.8
 WC requires at least: 6.5
-WC tested up to: 9.9
-Stable tag: 1.4.0
+WC tested up to: 10.0
+Stable tag: 1.4.1
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,11 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.4.1 =
+- Fix: Email template override.
+- Fix: Removed free shipping block slot.
+- Fix: License activate/deactivate issue.
+
 = 1.4.0 =
 - Improved: Core launcher code removed. Launcher add-on available as a separate add-on.
 - Improved: Old Loyalty email template code removed. We extend the support for new WooCommerce email preview and template edit.

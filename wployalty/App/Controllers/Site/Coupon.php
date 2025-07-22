@@ -282,68 +282,70 @@ class Coupon {
 	 * @return void
 	 */
 	public static function expireCouponOnDelete( $post_id ) {
-		if( ! function_exists('get_post_type') || ! function_exists('get_the_title')) {
+		if ( ! function_exists( 'get_post_type' ) || ! function_exists( 'get_the_title' ) ) {
 			return;
 		}
-		if ( get_post_type($post_id) !== 'shop_coupon' ) {
+		if ( get_post_type( $post_id ) !== 'shop_coupon' ) {
 			return;
 		}
-		$coupon_code = get_the_title($post_id);
-		$base = new Base();
+		$coupon_code = get_the_title( $post_id );
+		$base        = new Base();
 		if ( ! $base->is_loyalty_coupon( $coupon_code ) ) {
 			return;
 		}
 		global $wpdb;
-		$where = $wpdb->prepare( 'discount_code = %s AND status = %s', [ $coupon_code, 'active' ] );
+		$where       = $wpdb->prepare( 'discount_code = %s AND status = %s', [ $coupon_code, 'active' ] );
 		$user_reward = new UserRewards();
-		$coupon = $user_reward->getWhere($where);
+		$coupon      = $user_reward->getWhere( $where );
 
-		if( empty( $coupon ) || ! is_object($coupon) ){
+		if ( empty( $coupon ) || ! is_object( $coupon ) ) {
 			return;
 		}
 
 		$woocommerce = Woocommerce::getInstance();
-		$update_data       = [ 'status' => 'expired', 'end_at' => strtotime( gmdate( "Y-m-d 00:00:00" ) ) ];
-		$where = [ 'discount_code' => $coupon_code ];
+		$update_data = [ 'status' => 'expired', 'end_at' => strtotime( gmdate( "Y-m-d 00:00:00" ) ) ];
+		$where       = [ 'discount_code' => $coupon_code ];
 
-		if( ! $user_reward->updateRow( $update_data, $where ) ){
+		if ( ! $user_reward->updateRow( $update_data, $where ) ) {
 			return;
 		}
 		// Update log data
 		/* translators: %s is the coupon code */
-		$note = sprintf( __( 'Coupon %s deleted by admin.', 'wp-loyalty-rules' ), $coupon_code );
+		$note     = sprintf( __( 'Coupon %s deleted by admin.', 'wp-loyalty-rules' ), $coupon_code );
 		$log_data = [
-			'user_email' => $woocommerce->get_login_user_email(),
-			'action_type' => 'admin_change',
-			'reward_id' => $coupon->reward_id,
-			'user_reward_id' => $coupon->id,
-			'campaign_id' => $coupon->campaign_id,
-			'note'=> $note,
-			'customer_note' => $note,
-			'created_at' => strtotime( gmdate( "Y-m-d H:i:s" ) ),
-			'modified_at' => 0,
-			'discount_code' => $coupon_code,
+			'user_email'          => $woocommerce->get_login_user_email(),
+			'action_type'         => 'admin_change',
+			'reward_id'           => $coupon->reward_id,
+			'user_reward_id'      => $coupon->id,
+			'campaign_id'         => $coupon->campaign_id,
+			'note'                => $note,
+			'customer_note'       => $note,
+			'created_at'          => strtotime( gmdate( "Y-m-d H:i:s" ) ),
+			'modified_at'         => 0,
+			'discount_code'       => $coupon_code,
 			'action_process_type' => 'coupon_deleted',
 			'reward_display_name' => $coupon->display_name,
 		];
-		$base->add_note($log_data);
+		$base->add_note( $log_data );
 
 		$earn_campaign_helper = new EarnCampaign();
-		if(! empty( $coupon->reward_type ) || $coupon->reward_type == 'redeem_point' ){
+		if ( ! empty( $coupon->reward_type ) || $coupon->reward_type == 'redeem_point' ) {
 			// revert point if a coupon is redeemed using points
-			$user = $earn_campaign_helper->getPointUserByEmail( $coupon->email );
+			$user        = $earn_campaign_helper->getPointUserByEmail( $coupon->email );
 			$action_data = [
-				'user_email' => $coupon->email,
-				'points' => (int) $coupon->require_point,
-				'action_type' => 'admin_change',
+				'user_email'          => $coupon->email,
+				'points'              => (int) $coupon->require_point,
+				'action_type'         => 'admin_change',
 				'action_process_type' => 'coupon_deleted',
-				'customer_note' => sprintf( __( '%1$d %2$s added because coupon %3$s deleted by admin', 'wp-loyalty-rules' ), (int) $coupon->require_point, $earn_campaign_helper->getPointLabel( $coupon->require_point ), $coupon_code ),
-				'note' => sprintf( __( '%1$s customer %2$s changed from %3$d to %4$d because coupon  %5$s deleted by admin', 'wp-loyalty-rules' ), $user->user_email, $earn_campaign_helper->getPointLabel( 0 ), $user->points, ( $user->points + $coupon->require_point ), $coupon_code ),
-				'user_reward_id' => $coupon->id,
-				'reward_id' => $coupon->reward_id,
+				// translators: 1: point, 2: point label, 3: coupon code
+				'customer_note'       => sprintf( __( '%1$d %2$s added because coupon %3$s deleted by admin', 'wp-loyalty-rules' ), (int) $coupon->require_point, $earn_campaign_helper->getPointLabel( $coupon->require_point ), $coupon_code ),
+				// translators: 1: email, 2: point label, 3: old points, 4: new points, 5: coupon code
+				'note'                => sprintf( __( '%1$s customer %2$s changed from %3$d to %4$d because coupon  %5$s deleted by admin', 'wp-loyalty-rules' ), $user->user_email, $earn_campaign_helper->getPointLabel( 0 ), $user->points, ( $user->points + $coupon->require_point ), $coupon_code ),
+				'user_reward_id'      => $coupon->id,
+				'reward_id'           => $coupon->reward_id,
 				'reward_display_name' => $coupon->display_name,
 			];
-			$earn_campaign_helper->addExtraPointAction('admin_change', $coupon->require_point, $action_data, 'credit', true, false, false );
+			$earn_campaign_helper->addExtraPointAction( 'admin_change', $coupon->require_point, $action_data, 'credit', true, false, false );
 		}
 	}
 }

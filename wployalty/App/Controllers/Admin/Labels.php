@@ -1140,6 +1140,12 @@ class Labels {
 				'license'                  => [
 					'name'          => __( 'License', 'wp-loyalty-rules' ),
 					'validate'      => __( 'Verify Key', 'wp-loyalty-rules' ),
+					'activate'      => __( 'Activate', 'wp-loyalty-rules' ),
+					'deactivate'    => __( 'Deactivate', 'wp-loyalty-rules' ),
+					'status'        => __( 'Status', 'wp-loyalty-rules' ),
+					'active'        => __( 'Active', 'wp-loyalty-rules' ),
+					'inactive'      => __( 'Inactive', 'wp-loyalty-rules' ),
+					'refresh'       => __( 'Refresh Status', 'wp-loyalty-rules' ),
 					'description'   => __( 'You can get your license key from your', 'wp-loyalty-rules' ),
 					'flycart'       => __( 'account at WPLoyalty website', 'wp-loyalty-rules' ),
 					'license_key'   => [
@@ -1711,7 +1717,8 @@ class Labels {
 					'before'     => __( 'Before Cart items [Normal Cart]', 'wp-loyalty-rules' ),
 					'after'      => __( 'After Cart items [Normal Cart]', 'wp-loyalty-rules' ),
 					'order_meta' => __( 'Below Order summary [Block Cart/Checkout]', 'wp-loyalty-rules' ),
-					'shipping'   => __( 'Below Shipping [Block Cart/Checkout]', 'wp-loyalty-rules' ),
+//					'shipping'   => __( 'Below Shipping [Block Cart/Checkout]', 'wp-loyalty-rules' ),
+					'shipping'   => __( 'Below Shipping [Block Checkout]', 'wp-loyalty-rules' ),
 					'coupon'     => __( 'Below Coupon [Block Cart/Checkout]', 'wp-loyalty-rules' ),
 				],
 				//order_meta,shipping,coupon
@@ -1719,7 +1726,8 @@ class Labels {
 					'before'     => __( 'Before Cart items [Normal Cart]', 'wp-loyalty-rules' ),
 					'after'      => __( 'After Cart items [Normal Cart]', 'wp-loyalty-rules' ),
 					'order_meta' => __( 'Below Order summary [Block Cart/Checkout]', 'wp-loyalty-rules' ),
-					'shipping'   => __( 'Below Shipping [Block Cart/Checkout]', 'wp-loyalty-rules' ),
+//					'shipping'   => __( 'Below Shipping [Block Cart/Checkout]', 'wp-loyalty-rules' ),
+					'shipping'   => __( 'Below Shipping [Block Checkout]', 'wp-loyalty-rules' ),
 					'coupon'     => __( 'Below Coupon [Block Cart/Checkout]', 'wp-loyalty-rules' ),
 				],
 				'thank_you_page_position_event'            => [
