@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.1\n"
+"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-loyalty-rules-lite\n"
 "Last-Translator: flycart <support@wployalty.net>\n"
 "Language-Team: flycart <support@wployalty.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-22T08:54:17+00:00\n"
+"POT-Creation-Date: 2025-11-05T05:40:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-loyalty-rules\n"
@@ -180,12 +180,12 @@ msgid "Validation error"
 msgstr ""
 
 #: App/Apps/PointExpiry/App/Helpers/Validation.php:68
-#: App/Helpers/Validation.php:207
-#: App/Helpers/Validation.php:364
-#: App/Helpers/Validation.php:826
-#: App/Helpers/Validation.php:1408
-#: App/Helpers/Validation.php:1493
-#: App/Helpers/Validation.php:1547
+#: App/Helpers/Validation.php:211
+#: App/Helpers/Validation.php:368
+#: App/Helpers/Validation.php:855
+#: App/Helpers/Validation.php:1468
+#: App/Helpers/Validation.php:1564
+#: App/Helpers/Validation.php:1619
 msgid "This field"
 msgstr ""
 
@@ -195,15 +195,15 @@ msgstr ""
 
 #: App/Apps/PointExpiry/App/Helpers/Validation.php:85
 #: App/Helpers/Validation.php:23
-#: App/Helpers/Validation.php:259
-#: App/Helpers/Validation.php:441
-#: App/Helpers/Validation.php:757
-#: App/Helpers/Validation.php:1281
-#: App/Helpers/Validation.php:1289
-#: App/Helpers/Validation.php:1439
-#: App/Helpers/Validation.php:1464
-#: App/Helpers/Validation.php:1516
-#: App/Helpers/Validation.php:1573
+#: App/Helpers/Validation.php:263
+#: App/Helpers/Validation.php:446
+#: App/Helpers/Validation.php:782
+#: App/Helpers/Validation.php:1337
+#: App/Helpers/Validation.php:1348
+#: App/Helpers/Validation.php:1501
+#: App/Helpers/Validation.php:1525
+#: App/Helpers/Validation.php:1587
+#: App/Helpers/Validation.php:1645
 msgid "{field} is required"
 msgstr ""
 
@@ -490,21 +490,21 @@ msgstr ""
 #: App/Controllers/Admin/Settings.php:26
 #: App/Controllers/Admin/Settings.php:52
 #: App/Controllers/Admin/Settings.php:122
-#: App/Controllers/Admin/Settings.php:150
-#: App/Controllers/Admin/Settings.php:158
-#: App/Controllers/Admin/Settings.php:174
-#: App/Controllers/Admin/Settings.php:180
-#: App/Controllers/Admin/Settings.php:219
+#: App/Controllers/Admin/Settings.php:151
+#: App/Controllers/Admin/Settings.php:159
+#: App/Controllers/Admin/Settings.php:175
+#: App/Controllers/Admin/Settings.php:181
+#: App/Controllers/Admin/Settings.php:220
 #: App/Controllers/Site/CustomerPage.php:1217
 #: App/Controllers/Site/Main.php:1100
-#: App/Controllers/Site/MyAccount.php:143
+#: App/Controllers/Site/MyAccount.php:145
 msgid "Basic validation failed"
 msgstr ""
 
 #: App/Controllers/Admin/AddOn.php:259
-#: App/Premium/Controllers/Admin/Customers.php:153
-#: App/Premium/Controllers/Admin/Customers.php:268
-#: App/Premium/Controllers/Admin/UserLevels.php:366
+#: App/Premium/Controllers/Admin/Customers.php:154
+#: App/Premium/Controllers/Admin/Customers.php:269
+#: App/Premium/Controllers/Admin/UserLevels.php:395
 msgid "Invalid request"
 msgstr ""
 
@@ -684,9 +684,9 @@ msgstr ""
 #: App/Controllers/Admin/Customers.php:356
 #: App/Controllers/Admin/Customers.php:358
 #: App/Helpers/Validation.php:57
-#: App/Helpers/Validation.php:73
-#: App/Helpers/Validation.php:855
-#: App/Helpers/Validation.php:1374
+#: App/Helpers/Validation.php:74
+#: App/Helpers/Validation.php:884
+#: App/Helpers/Validation.php:1434
 msgid "{field} should be a valid date"
 msgstr ""
 
@@ -1020,7 +1020,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:62
 #: App/Views/Site/customer_reward_page.php:529
-#: App/Views/Site/my_account_page_reward.php:440
+#: App/Views/Site/my_account_page_reward.php:441
 msgid "Edit"
 msgstr ""
 
@@ -1146,12 +1146,13 @@ msgid "Tutorials"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:125
-#: App/Helpers/Validation.php:87
-#: App/Helpers/Validation.php:134
+#: App/Helpers/Validation.php:88
+#: App/Helpers/Validation.php:137
 msgid "Search"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:126
+#: App/Controllers/Site/LoyaltyMail.php:354
 msgid "Copied!"
 msgstr ""
 
@@ -1190,6 +1191,7 @@ msgid "Conditions"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:138
+#: App/Controllers/Site/LoyaltyMail.php:106
 msgid "Copy"
 msgstr ""
 
@@ -1322,10 +1324,10 @@ msgstr ""
 #: App/Views/Site/customer_reward_page.php:597
 #: App/Views/Site/customer_reward_page.php:627
 #: App/Views/Site/customer_reward_page.php:631
-#: App/Views/Site/my_account_page_reward.php:392
-#: App/Views/Site/my_account_page_reward.php:508
-#: App/Views/Site/my_account_page_reward.php:538
-#: App/Views/Site/my_account_page_reward.php:542
+#: App/Views/Site/my_account_page_reward.php:393
+#: App/Views/Site/my_account_page_reward.php:509
+#: App/Views/Site/my_account_page_reward.php:539
+#: App/Views/Site/my_account_page_reward.php:543
 #: App/Views/Site/page-content/coupon_content.php:49
 #: App/Views/Site/page-content/expired_coupon_content.php:29
 #: App/Views/Site/page-content/reward_content.php:60
@@ -1343,10 +1345,10 @@ msgstr ""
 #: App/Views/Site/customer_reward_page.php:597
 #: App/Views/Site/customer_reward_page.php:627
 #: App/Views/Site/customer_reward_page.php:631
-#: App/Views/Site/my_account_page_reward.php:392
-#: App/Views/Site/my_account_page_reward.php:508
-#: App/Views/Site/my_account_page_reward.php:538
-#: App/Views/Site/my_account_page_reward.php:542
+#: App/Views/Site/my_account_page_reward.php:393
+#: App/Views/Site/my_account_page_reward.php:509
+#: App/Views/Site/my_account_page_reward.php:539
+#: App/Views/Site/my_account_page_reward.php:543
 #: App/Views/Site/page-content/coupon_content.php:49
 #: App/Views/Site/page-content/expired_coupon_content.php:29
 #: App/Views/Site/page-content/reward_content.php:60
@@ -1412,6 +1414,7 @@ msgid "watch"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:187
+#: App/Controllers/Site/LoyaltyMail.php:91
 msgid "Description"
 msgstr ""
 
@@ -1919,7 +1922,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:327
 #: App/Premium/Conditions/UserLevel.php:18
-#: App/Premium/Controllers/Admin/UserLevels.php:390
+#: App/Premium/Controllers/Admin/UserLevels.php:419
 #: App/Premium/Controllers/Site/Main.php:472
 msgid "Customer Level"
 msgstr ""
@@ -2457,7 +2460,7 @@ msgid "Rewards Redeemed"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:502
-#: App/Helpers/Validation.php:790
+#: App/Helpers/Validation.php:819
 #: App/Premium/Conditions/UserLevel.php:19
 msgid "Level"
 msgstr ""
@@ -3072,7 +3075,7 @@ msgstr ""
 #: App/Helpers/Woocommerce.php:254
 #: App/Premium/Controllers/Site/Main.php:37
 #: App/Views/Site/customer_reward_page.php:499
-#: App/Views/Site/my_account_page_reward.php:410
+#: App/Views/Site/my_account_page_reward.php:411
 msgid "Follow"
 msgstr ""
 
@@ -3295,7 +3298,7 @@ msgid "Reward based on Order value"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:883
-#: App/Helpers/Validation.php:788
+#: App/Helpers/Validation.php:817
 msgid "Minimum spend"
 msgstr ""
 
@@ -3304,7 +3307,7 @@ msgid "How much a customer should spend in an order (cart order value) to get th
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:887
-#: App/Helpers/Validation.php:789
+#: App/Helpers/Validation.php:818
 msgid "Maximum spend"
 msgstr ""
 
@@ -4801,7 +4804,7 @@ msgstr ""
 
 #. translators: 1: name, 2: action mode
 #: App/Controllers/Admin/RewardPage.php:177
-#: App/Premium/Controllers/Admin/UserLevels.php:134
+#: App/Premium/Controllers/Admin/UserLevels.php:141
 msgid "%1$s %2$s failed"
 msgstr ""
 
@@ -4886,32 +4889,32 @@ msgstr ""
 msgid "License key invalid"
 msgstr ""
 
-#: App/Controllers/Admin/Settings.php:137
+#: App/Controllers/Admin/Settings.php:138
 msgid "Page created successfully"
 msgstr ""
 
-#: App/Controllers/Admin/Settings.php:140
-#: App/Controllers/Admin/Settings.php:143
+#: App/Controllers/Admin/Settings.php:141
+#: App/Controllers/Admin/Settings.php:144
 msgid "Page creation has failed"
 msgstr ""
 
-#: App/Controllers/Admin/Settings.php:162
+#: App/Controllers/Admin/Settings.php:163
 msgid "Email template updated successfully."
 msgstr ""
 
-#: App/Controllers/Admin/Settings.php:164
+#: App/Controllers/Admin/Settings.php:165
 msgid "Email template update failed."
 msgstr ""
 
-#: App/Controllers/Admin/Settings.php:184
+#: App/Controllers/Admin/Settings.php:185
 msgid "Email template reset successfully."
 msgstr ""
 
-#: App/Controllers/Admin/Settings.php:186
+#: App/Controllers/Admin/Settings.php:187
 msgid "Email template reset failed."
 msgstr ""
 
-#: App/Controllers/Admin/Settings.php:227
+#: App/Controllers/Admin/Settings.php:228
 msgid "Plugin Compatible"
 msgstr ""
 
@@ -5073,6 +5076,30 @@ msgstr ""
 msgid "You have earned {wlr_earned_points} {wlr_points_label} for this order. You have a total of {wlr_total_points}."
 msgstr ""
 
+#: App/Controllers/Site/LoyaltyMail.php:83
+msgid "Short Codes"
+msgstr ""
+
+#: App/Controllers/Site/LoyaltyMail.php:84
+msgid "Short codes are used to customize the email content."
+msgstr ""
+
+#: App/Controllers/Site/LoyaltyMail.php:90
+msgid "Short Code"
+msgstr ""
+
+#: App/Controllers/Site/LoyaltyMail.php:104
+msgid "Copy to clipboard"
+msgstr ""
+
+#: App/Controllers/Site/LoyaltyMail.php:358
+msgid "Short code copied to clipboard!"
+msgstr ""
+
+#: App/Controllers/Site/LoyaltyMail.php:385
+msgid "Copy failed. Please copy manually."
+msgstr ""
+
 #: App/Controllers/Site/Main.php:93
 msgid "Security validation failed"
 msgstr ""
@@ -5157,8 +5184,8 @@ msgstr ""
 
 #: App/Controllers/Site/Main.php:516
 #: App/Controllers/Site/Main.php:1088
-#: App/Controllers/Site/MyAccount.php:132
-#: App/Premium/Controllers/Admin/Customers.php:379
+#: App/Controllers/Site/MyAccount.php:134
+#: App/Premium/Controllers/Admin/Customers.php:380
 #: App/Premium/Controllers/Site/Birthday.php:74
 #: App/Premium/Controllers/Site/Referral.php:32
 msgid "Invalid nonce"
@@ -5233,64 +5260,64 @@ msgid "Happy Birthday! Celebrate Your Special Day!"
 msgstr ""
 
 #. translators: 1: label 2: campaign name
-#: App/Emails/WlrBirthdayEmail.php:189
-#: App/Emails/WlrBirthdayEmail.php:194
+#: App/Emails/WlrBirthdayEmail.php:188
+#: App/Emails/WlrBirthdayEmail.php:193
 msgid "Sending birthday earned %1$s email failed(%2$s)"
 msgstr ""
 
 #. translators: 1: label 2: email 3: campaign name
-#: App/Emails/WlrBirthdayEmail.php:191
-#: App/Emails/WlrBirthdayEmail.php:196
+#: App/Emails/WlrBirthdayEmail.php:190
+#: App/Emails/WlrBirthdayEmail.php:195
 msgid "Sending birthday earned %1$s email failed to %2$s for %3$s campaign"
 msgstr ""
 
 #. translators: 1: label 2: campaign name
-#: App/Emails/WlrBirthdayEmail.php:201
-#: App/Emails/WlrBirthdayEmail.php:206
+#: App/Emails/WlrBirthdayEmail.php:200
+#: App/Emails/WlrBirthdayEmail.php:205
 msgid "Earned %1$s birthday email sent to customer successfully(%2$s)"
 msgstr ""
 
 #. translators: 1: label 2: email 3: campaign name
-#: App/Emails/WlrBirthdayEmail.php:203
-#: App/Emails/WlrBirthdayEmail.php:208
+#: App/Emails/WlrBirthdayEmail.php:202
+#: App/Emails/WlrBirthdayEmail.php:207
 msgid "Earned %1$s birthday email sent to %2$s for %3$s campaign"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:219
+#: App/Emails/WlrBirthdayEmail.php:218
 msgid "Hi"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:220
+#: App/Emails/WlrBirthdayEmail.php:219
 #: templates/emails/plain/wlr-birthday-email.php:8
 #: templates/emails/wlr-birthday-email.php:14
 msgid "We wish you a very Happy Birthday!"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:222
+#: App/Emails/WlrBirthdayEmail.php:221
 msgid "Let's make your day even more special!"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:223
+#: App/Emails/WlrBirthdayEmail.php:222
 #: templates/emails/plain/wlr-birthday-email.php:9
 #: templates/emails/wlr-birthday-email.php:16
 msgid "Celebrate your birthday with a special gift from {wlr_store_name}"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:224
+#: App/Emails/WlrBirthdayEmail.php:223
 msgid "{wlr_earn_point_or_reward}."
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:225
+#: App/Emails/WlrBirthdayEmail.php:224
 #: templates/emails/wlr-birthday-email.php:19
 msgid "Shop Now!"
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:226
+#: App/Emails/WlrBirthdayEmail.php:225
 #: App/Emails/WlrNewLevelEmail.php:144
 msgid "Refer your friends and earn more rewards."
 msgstr ""
 
-#: App/Emails/WlrBirthdayEmail.php:227
+#: App/Emails/WlrBirthdayEmail.php:226
 #: App/Emails/WlrEarnPointEmail.php:166
 #: App/Emails/WlrEarnRewardEmail.php:185
 #: App/Emails/WlrNewLevelEmail.php:145
@@ -5307,6 +5334,153 @@ msgstr ""
 #: templates/emails/wlr-new-level-email.php:20
 #: templates/emails/wlr-point-expire-email.php:19
 msgid "Your Referral Link"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:275
+msgid "The title of the reward earned"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:276
+#: App/Emails/WlrEarnPointEmail.php:218
+msgid "The label for points (e.g., points, pts)"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:277
+#: App/Emails/WlrEarnRewardEmail.php:237
+msgid "The label for rewards (e.g., rewards, coupons)"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:278
+#: App/Emails/WlrEarnRewardEmail.php:238
+msgid "The display name of the reward earned"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:279
+#: App/Emails/WlrEarnRewardEmail.php:239
+msgid "The name of the campaign that triggered the email"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:280
+#: App/Emails/WlrEarnPointEmail.php:219
+#: App/Emails/WlrEarnRewardEmail.php:240
+msgid "The name of the action that triggered the email"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:281
+#: App/Emails/WlrEarnPointEmail.php:220
+msgid "The number of points earned by the customer"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:282
+#: App/Emails/WlrEarnRewardEmail.php:241
+msgid "The reward (e.g., coupon code) earned"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:283
+msgid "The points or reward earned"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:284
+msgid "The URL of the shop page"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:287
+#: App/Emails/WlrEarnPointEmail.php:223
+#: App/Emails/WlrEarnRewardEmail.php:244
+#: App/Emails/WlrExpireEmail.php:209
+#: App/Emails/WlrNewLevelEmail.php:196
+#: App/Emails/WlrPointExpireEmail.php:231
+msgid "The referral URL for the customer to share with friends"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:288
+#: App/Emails/WlrEarnPointEmail.php:224
+#: App/Emails/WlrEarnRewardEmail.php:245
+#: App/Emails/WlrExpireEmail.php:210
+#: App/Emails/WlrNewLevelEmail.php:197
+#: App/Emails/WlrPointExpireEmail.php:232
+msgid "The current points balance of the customer"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:289
+#: App/Emails/WlrEarnPointEmail.php:225
+#: App/Emails/WlrEarnRewardEmail.php:246
+#: App/Emails/WlrExpireEmail.php:211
+#: App/Emails/WlrNewLevelEmail.php:198
+#: App/Emails/WlrPointExpireEmail.php:233
+msgid "The total points ever earned by the customer"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:290
+#: App/Emails/WlrEarnPointEmail.php:226
+#: App/Emails/WlrEarnRewardEmail.php:247
+#: App/Emails/WlrExpireEmail.php:212
+#: App/Emails/WlrNewLevelEmail.php:199
+#: App/Emails/WlrPointExpireEmail.php:234
+msgid "The total points used/redeemed by the customer"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:291
+#: App/Emails/WlrEarnPointEmail.php:227
+#: App/Emails/WlrEarnRewardEmail.php:248
+#: App/Emails/WlrExpireEmail.php:213
+#: App/Emails/WlrNewLevelEmail.php:200
+#: App/Emails/WlrPointExpireEmail.php:235
+msgid "The display name of the customer"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:292
+#: App/Emails/WlrEarnPointEmail.php:228
+#: App/Emails/WlrEarnRewardEmail.php:249
+#: App/Emails/WlrExpireEmail.php:214
+#: App/Emails/WlrNewLevelEmail.php:201
+#: App/Emails/WlrPointExpireEmail.php:236
+msgid "The name of the store or website"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:293
+#: App/Emails/WlrEarnPointEmail.php:229
+#: App/Emails/WlrEarnRewardEmail.php:250
+#: App/Emails/WlrExpireEmail.php:215
+#: App/Emails/WlrNewLevelEmail.php:202
+#: App/Emails/WlrPointExpireEmail.php:237
+msgid "The URL to the customer's reward page"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:295
+#: App/Emails/WlrEarnPointEmail.php:232
+#: App/Emails/WlrEarnRewardEmail.php:253
+#: App/Emails/WlrExpireEmail.php:218
+#: App/Emails/WlrNewLevelEmail.php:204
+#: App/Emails/WlrPointExpireEmail.php:240
+msgid "The title of the website"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:296
+#: App/Emails/WlrEarnPointEmail.php:233
+#: App/Emails/WlrEarnRewardEmail.php:254
+#: App/Emails/WlrExpireEmail.php:219
+#: App/Emails/WlrNewLevelEmail.php:205
+#: App/Emails/WlrPointExpireEmail.php:241
+msgid "The address of the website"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:297
+#: App/Emails/WlrEarnPointEmail.php:234
+#: App/Emails/WlrEarnRewardEmail.php:255
+#: App/Emails/WlrExpireEmail.php:220
+#: App/Emails/WlrNewLevelEmail.php:206
+#: App/Emails/WlrPointExpireEmail.php:242
+msgid "The URL of the website"
+msgstr ""
+
+#: App/Emails/WlrBirthdayEmail.php:298
+#: App/Emails/WlrEarnPointEmail.php:235
+#: App/Emails/WlrEarnRewardEmail.php:256
+#: App/Emails/WlrExpireEmail.php:221
+#: App/Emails/WlrNewLevelEmail.php:207
+#: App/Emails/WlrPointExpireEmail.php:243
+msgid "The store's contact email address"
 msgstr ""
 
 #: App/Emails/WlrEarnPointEmail.php:22
@@ -5358,6 +5532,15 @@ msgstr ""
 msgid "Refer your friends and earn more points."
 msgstr ""
 
+#: App/Emails/WlrEarnPointEmail.php:217
+msgid "The name of the campaign under which points are earned"
+msgstr ""
+
+#: App/Emails/WlrEarnPointEmail.php:230
+#: App/Emails/WlrPointExpireEmail.php:238
+msgid "The order ID associated with the points earning (if applicable)"
+msgstr ""
+
 #: App/Emails/WlrEarnRewardEmail.php:23
 msgid "Reward earned"
 msgstr ""
@@ -5393,6 +5576,14 @@ msgstr ""
 #: templates/emails/wlr-expire-email.php:19
 #: templates/emails/wlr-new-level-email.php:19
 msgid "Refer your friends and earn more points and reward."
+msgstr ""
+
+#: App/Emails/WlrEarnRewardEmail.php:236
+msgid "The title of the earned reward"
+msgstr ""
+
+#: App/Emails/WlrEarnRewardEmail.php:251
+msgid "The order ID associated with the reward earning (if applicable)"
 msgstr ""
 
 #: App/Emails/WlrExpireEmail.php:21
@@ -5434,6 +5625,22 @@ msgstr ""
 #: templates/emails/plain/wlr-expire-email.php:11
 #: templates/emails/wlr-expire-email.php:15
 msgid "Redeem your hard earned reward before it expires on {wlr_expiry_date}"
+msgstr ""
+
+#: App/Emails/WlrExpireEmail.php:205
+msgid "The reward name"
+msgstr ""
+
+#: App/Emails/WlrExpireEmail.php:206
+msgid "The URL to redeem the reward"
+msgstr ""
+
+#: App/Emails/WlrExpireEmail.php:207
+msgid "The reward expiry date"
+msgstr ""
+
+#: App/Emails/WlrExpireEmail.php:216
+msgid "The order ID associated with the earning (if applicable)"
 msgstr ""
 
 #: App/Emails/WlrNewLevelEmail.php:22
@@ -5482,6 +5689,10 @@ msgstr ""
 msgid "Check out now! "
 msgstr ""
 
+#: App/Emails/WlrNewLevelEmail.php:194
+msgid "The name of the new level the customer has achieved"
+msgstr ""
+
 #: App/Emails/WlrPointExpireEmail.php:22
 msgid "Point expiry notification"
 msgstr ""
@@ -5505,6 +5716,22 @@ msgstr ""
 #: App/Emails/WlrPointExpireEmail.php:156
 #: App/Emails/WlrPointExpireEmail.php:158
 msgid "Expiry %1$s (%2$s) email sent successfully"
+msgstr ""
+
+#: App/Emails/WlrPointExpireEmail.php:225
+msgid "The number of points that are going to expire"
+msgstr ""
+
+#: App/Emails/WlrPointExpireEmail.php:226
+msgid "The label for points (e.g., points, credits)"
+msgstr ""
+
+#: App/Emails/WlrPointExpireEmail.php:227
+msgid "The URL to the shop page of the website"
+msgstr ""
+
+#: App/Emails/WlrPointExpireEmail.php:228
+msgid "The date when the points will expire"
 msgstr ""
 
 #: App/Helpers/Base.php:390
@@ -5597,7 +5824,7 @@ msgstr ""
 
 #. translators: 1: point 2: point label
 #: App/Helpers/CsvHelper.php:274
-#: App/Premium/Controllers/Admin/Customers.php:307
+#: App/Premium/Controllers/Admin/Customers.php:308
 msgid "Added %1$d %2$s by site admin"
 msgstr ""
 
@@ -5698,7 +5925,7 @@ msgid "%s reward"
 msgstr ""
 
 #: App/Helpers/Rewards.php:231
-msgid "Coupon will apply, when cart have items"
+msgid "Coupon will apply when the cart has items"
 msgstr ""
 
 #: App/Helpers/Rewards.php:240
@@ -5737,8 +5964,8 @@ msgid "Page number"
 msgstr ""
 
 #: App/Helpers/Validation.php:28
-#: App/Helpers/Validation.php:118
-#: App/Helpers/Validation.php:153
+#: App/Helpers/Validation.php:121
+#: App/Helpers/Validation.php:157
 msgid "{field} must contain only numbers 0-9"
 msgstr ""
 
@@ -5751,296 +5978,300 @@ msgid "Currency Code"
 msgstr ""
 
 #: App/Helpers/Validation.php:53
-#: App/Helpers/Validation.php:385
-#: App/Helpers/Validation.php:851
+#: App/Helpers/Validation.php:389
+#: App/Helpers/Validation.php:880
 msgid "accepts only letters,numbers and underscore"
 msgstr ""
 
 #: App/Helpers/Validation.php:62
-#: App/Helpers/Validation.php:112
+#: App/Helpers/Validation.php:114
 msgid "{field} must contain only letters a-z and/or numbers 0-9 and/or under score"
 msgstr ""
 
-#: App/Helpers/Validation.php:67
+#: App/Helpers/Validation.php:68
 msgid "{field} must contain only letters A-Z"
 msgstr ""
 
-#: App/Helpers/Validation.php:88
+#: App/Helpers/Validation.php:89
 msgid "Filter order"
 msgstr ""
 
-#: App/Helpers/Validation.php:89
-#: App/Helpers/Validation.php:135
+#: App/Helpers/Validation.php:90
+#: App/Helpers/Validation.php:138
 msgid "Limit"
 msgstr ""
 
-#: App/Helpers/Validation.php:90
-#: App/Helpers/Validation.php:136
+#: App/Helpers/Validation.php:91
+#: App/Helpers/Validation.php:139
 msgid "Offset"
 msgstr ""
 
-#: App/Helpers/Validation.php:91
+#: App/Helpers/Validation.php:92
 msgid "Filter Direction"
 msgstr ""
 
-#: App/Helpers/Validation.php:97
-#: App/Helpers/Validation.php:142
-#: App/Helpers/Validation.php:216
+#: App/Helpers/Validation.php:98
+#: App/Helpers/Validation.php:145
 #: App/Helpers/Validation.php:220
-#: App/Helpers/Validation.php:236
-#: App/Helpers/Validation.php:248
-#: App/Helpers/Validation.php:373
+#: App/Helpers/Validation.php:224
+#: App/Helpers/Validation.php:240
+#: App/Helpers/Validation.php:252
 #: App/Helpers/Validation.php:377
-#: App/Helpers/Validation.php:835
-#: App/Helpers/Validation.php:839
-#: App/Helpers/Validation.php:1506
-#: App/Helpers/Validation.php:1510
-#: App/Helpers/Validation.php:1560
-#: App/Helpers/Validation.php:1564
+#: App/Helpers/Validation.php:381
+#: App/Helpers/Validation.php:864
+#: App/Helpers/Validation.php:868
+#: App/Helpers/Validation.php:1577
+#: App/Helpers/Validation.php:1581
+#: App/Helpers/Validation.php:1632
+#: App/Helpers/Validation.php:1636
 msgid "Invalid characters"
 msgstr ""
 
-#: App/Helpers/Validation.php:102
-#: App/Helpers/Validation.php:232
-#: App/Helpers/Validation.php:389
-#: App/Helpers/Validation.php:847
+#: App/Helpers/Validation.php:103
+#: App/Helpers/Validation.php:236
+#: App/Helpers/Validation.php:393
+#: App/Helpers/Validation.php:876
 msgid "validation has failed"
 msgstr ""
 
-#: App/Helpers/Validation.php:107
-#: App/Helpers/Validation.php:147
+#: App/Helpers/Validation.php:108
+#: App/Helpers/Validation.php:150
 msgid "{field} must only contain letters a-z and/or numbers 0-9 and/or under score,@,- and/or space "
 msgstr ""
 
-#: App/Helpers/Validation.php:123
+#: App/Helpers/Validation.php:126
 msgid "{field} must contain only letters a-z"
 msgstr ""
 
-#: App/Helpers/Validation.php:224
-#: App/Helpers/Validation.php:381
-#: App/Helpers/Validation.php:843
+#: App/Helpers/Validation.php:228
+#: App/Helpers/Validation.php:385
+#: App/Helpers/Validation.php:872
 msgid "accepts only letters,numbers and space"
 msgstr ""
 
-#: App/Helpers/Validation.php:228
+#: App/Helpers/Validation.php:232
 msgid "must contain any of the following values: yes,no,1,0"
 msgstr ""
 
-#: App/Helpers/Validation.php:240
+#: App/Helpers/Validation.php:244
 msgid "Character length must be less than 20"
 msgstr ""
 
-#: App/Helpers/Validation.php:244
+#: App/Helpers/Validation.php:248
 msgid "invalid color format use hex color"
 msgstr ""
 
-#: App/Helpers/Validation.php:253
+#: App/Helpers/Validation.php:257
 msgid "{field} accepts only letters and numbers"
 msgstr ""
 
-#: App/Helpers/Validation.php:266
+#: App/Helpers/Validation.php:270
 msgid "{field} accepts only letters"
 msgstr ""
 
-#: App/Helpers/Validation.php:272
-#: App/Helpers/Validation.php:1355
+#: App/Helpers/Validation.php:276
+#: App/Helpers/Validation.php:1415
 msgid "{field} accepts only letters,numbers and space"
 msgstr ""
 
-#: App/Helpers/Validation.php:281
+#: App/Helpers/Validation.php:285
 msgid "{field} must contain only yes,no,0,1 and/or boolean"
 msgstr ""
 
-#: App/Helpers/Validation.php:294
-#: App/Helpers/Validation.php:307
-#: App/Helpers/Validation.php:340
-#: App/Helpers/Validation.php:629
-#: App/Helpers/Validation.php:630
-#: App/Helpers/Validation.php:638
-#: App/Helpers/Validation.php:643
-#: App/Helpers/Validation.php:1264
-#: App/Helpers/Validation.php:1265
-#: App/Helpers/Validation.php:1303
+#: App/Helpers/Validation.php:298
+#: App/Helpers/Validation.php:311
+#: App/Helpers/Validation.php:344
+#: App/Helpers/Validation.php:648
+#: App/Helpers/Validation.php:650
+#: App/Helpers/Validation.php:661
+#: App/Helpers/Validation.php:666
 #: App/Helpers/Validation.php:1317
-#: App/Helpers/Validation.php:1525
-#: App/Helpers/Validation.php:1531
-#: App/Helpers/Validation.php:1582
-#: App/Helpers/Validation.php:1588
+#: App/Helpers/Validation.php:1319
+#: App/Helpers/Validation.php:1363
+#: App/Helpers/Validation.php:1377
+#: App/Helpers/Validation.php:1597
+#: App/Helpers/Validation.php:1603
+#: App/Helpers/Validation.php:1655
+#: App/Helpers/Validation.php:1661
 msgid "{field} has invalid characters"
 msgstr ""
 
-#: App/Helpers/Validation.php:312
+#: App/Helpers/Validation.php:316
 msgid "{field} accepts only letters,numbers and under score"
 msgstr ""
 
-#: App/Helpers/Validation.php:320
+#: App/Helpers/Validation.php:324
 msgid "{field} length must be 5 to 20 character"
 msgstr ""
 
-#: App/Helpers/Validation.php:351
+#: App/Helpers/Validation.php:355
 msgid "Expiry notification"
 msgstr ""
 
-#: App/Helpers/Validation.php:352
-#: App/Helpers/Validation.php:786
+#: App/Helpers/Validation.php:356
+#: App/Helpers/Validation.php:815
 msgid "Minimum points"
 msgstr ""
 
-#: App/Helpers/Validation.php:353
-#: App/Helpers/Validation.php:787
+#: App/Helpers/Validation.php:357
+#: App/Helpers/Validation.php:816
 msgid "Maximum points"
 msgstr ""
 
-#: App/Helpers/Validation.php:354
+#: App/Helpers/Validation.php:358
 msgid "Maximum discount"
 msgstr ""
 
-#: App/Helpers/Validation.php:393
-#: App/Helpers/Validation.php:859
-#: App/Helpers/Validation.php:1417
-#: App/Helpers/Validation.php:1502
-#: App/Helpers/Validation.php:1556
+#: App/Helpers/Validation.php:397
+#: App/Helpers/Validation.php:888
+#: App/Helpers/Validation.php:1477
+#: App/Helpers/Validation.php:1573
+#: App/Helpers/Validation.php:1628
 msgid "accepts only numbers"
 msgstr ""
 
-#: App/Helpers/Validation.php:397
-#: App/Helpers/Validation.php:863
-#: App/Helpers/Validation.php:1421
+#: App/Helpers/Validation.php:401
+#: App/Helpers/Validation.php:892
+#: App/Helpers/Validation.php:1481
 msgid "required field"
 msgstr ""
 
-#: App/Helpers/Validation.php:398
+#: App/Helpers/Validation.php:402
 msgid "is empty"
 msgstr ""
 
-#: App/Helpers/Validation.php:402
-#: App/Helpers/Validation.php:867
-#: App/Helpers/Validation.php:1425
+#: App/Helpers/Validation.php:406
+#: App/Helpers/Validation.php:896
+#: App/Helpers/Validation.php:1485
 msgid "must be greater than {field1}"
 msgstr ""
 
-#: App/Helpers/Validation.php:406
+#: App/Helpers/Validation.php:410
 msgid " is too length"
 msgstr ""
 
-#: App/Helpers/Validation.php:410
-#: App/Helpers/Validation.php:880
+#: App/Helpers/Validation.php:414
+#: App/Helpers/Validation.php:909
 msgid "product is not available"
 msgstr ""
 
-#: App/Helpers/Validation.php:415
+#: App/Helpers/Validation.php:419
 msgid "{field} is invalid"
 msgstr ""
 
-#: App/Helpers/Validation.php:437
-#: App/Helpers/Validation.php:929
-#: App/Helpers/Validation.php:941
+#: App/Helpers/Validation.php:442
+#: App/Helpers/Validation.php:960
+#: App/Helpers/Validation.php:973
 msgid "{field} is must be less than or equal to 100"
 msgstr ""
 
-#: App/Helpers/Validation.php:509
-#: App/Helpers/Validation.php:537
-#: App/Helpers/Validation.php:550
-#: App/Helpers/Validation.php:564
-#: App/Helpers/Validation.php:612
-#: App/Helpers/Validation.php:678
-#: App/Helpers/Validation.php:1062
-#: App/Helpers/Validation.php:1087
-#: App/Helpers/Validation.php:1098
-#: App/Helpers/Validation.php:1112
-#: App/Helpers/Validation.php:1173
-#: App/Helpers/Validation.php:1198
-#: App/Helpers/Validation.php:1211
-#: App/Helpers/Validation.php:1227
-#: App/Helpers/Validation.php:1249
-#: App/Helpers/Validation.php:1332
-#: App/Helpers/Validation.php:1445
-#: App/Helpers/Validation.php:1520
-#: App/Helpers/Validation.php:1577
+#: App/Helpers/Validation.php:516
+#: App/Helpers/Validation.php:546
+#: App/Helpers/Validation.php:561
+#: App/Helpers/Validation.php:577
+#: App/Helpers/Validation.php:627
+#: App/Helpers/Validation.php:702
+#: App/Helpers/Validation.php:1095
+#: App/Helpers/Validation.php:1122
+#: App/Helpers/Validation.php:1135
+#: App/Helpers/Validation.php:1151
+#: App/Helpers/Validation.php:1214
+#: App/Helpers/Validation.php:1241
+#: App/Helpers/Validation.php:1256
+#: App/Helpers/Validation.php:1274
+#: App/Helpers/Validation.php:1301
+#: App/Helpers/Validation.php:1392
+#: App/Helpers/Validation.php:1508
+#: App/Helpers/Validation.php:1592
+#: App/Helpers/Validation.php:1650
 msgid "{field} accepts only numbers"
 msgstr ""
 
-#: App/Helpers/Validation.php:621
-#: App/Helpers/Validation.php:1236
+#: App/Helpers/Validation.php:637
+#: App/Helpers/Validation.php:1284
 msgid "Min Amount"
 msgstr ""
 
-#: App/Helpers/Validation.php:622
-#: App/Helpers/Validation.php:1237
+#: App/Helpers/Validation.php:639
+#: App/Helpers/Validation.php:1286
 msgid "Max Amount"
 msgstr ""
 
-#: App/Helpers/Validation.php:631
-#: App/Helpers/Validation.php:1266
+#: App/Helpers/Validation.php:653
+#: App/Helpers/Validation.php:1322
 msgid "{field} has one of deleted product"
 msgstr ""
 
-#: App/Helpers/Validation.php:633
-#: App/Helpers/Validation.php:762
-#: App/Helpers/Validation.php:1284
+#: App/Helpers/Validation.php:655
+#: App/Helpers/Validation.php:788
+#: App/Helpers/Validation.php:1341
 msgid "{field} is empty"
 msgstr ""
 
-#: App/Helpers/Validation.php:649
-#: App/Helpers/Validation.php:1344
+#: App/Helpers/Validation.php:672
+#: App/Helpers/Validation.php:1404
 msgid "{field} accepts only letters A-Z"
 msgstr ""
 
-#: App/Helpers/Validation.php:657
-#: App/Helpers/Validation.php:683
-#: App/Helpers/Validation.php:1368
+#: App/Helpers/Validation.php:680
+#: App/Helpers/Validation.php:707
+#: App/Helpers/Validation.php:1428
 msgid "{field} accepts only letters,numbers and underscore"
 msgstr ""
 
-#: App/Helpers/Validation.php:664
-#: App/Helpers/Validation.php:764
-#: App/Helpers/Validation.php:1286
-#: App/Helpers/Validation.php:1447
-#: App/Helpers/Validation.php:1468
+#: App/Helpers/Validation.php:688
+#: App/Helpers/Validation.php:792
+#: App/Helpers/Validation.php:1345
+#: App/Helpers/Validation.php:1530
+#: App/Helpers/Validation.php:1534
 msgid "{field} must be greater than 0"
 msgstr ""
 
-#: App/Helpers/Validation.php:750
+#: App/Helpers/Validation.php:774
 msgid "The date range is wrong"
 msgstr ""
 
 #. translators: %d: max value
-#: App/Helpers/Validation.php:753
+#: App/Helpers/Validation.php:777
 msgid "The value should be less than %d"
 msgstr ""
 
-#: App/Helpers/Validation.php:763
+#: App/Helpers/Validation.php:790
 msgid "{field} is must be less than or equal to 50"
 msgstr ""
 
-#: App/Helpers/Validation.php:868
-#: App/Helpers/Validation.php:1430
-#: App/Helpers/Validation.php:1434
+#: App/Helpers/Validation.php:897
+#: App/Helpers/Validation.php:1490
+#: App/Helpers/Validation.php:1494
 msgid " is empty"
 msgstr ""
 
-#: App/Helpers/Validation.php:872
+#: App/Helpers/Validation.php:901
 msgid " is required"
 msgstr ""
 
-#: App/Helpers/Validation.php:876
-#: App/Helpers/Validation.php:1429
+#: App/Helpers/Validation.php:905
+#: App/Helpers/Validation.php:1489
 msgid "is too length"
 msgstr ""
 
-#: App/Helpers/Validation.php:1350
+#: App/Helpers/Validation.php:1410
 msgid "{field} must contain only Yes or No"
 msgstr ""
 
-#: App/Helpers/Validation.php:1458
+#: App/Helpers/Validation.php:1519
 msgid "{field} can not be 0"
 msgstr ""
 
-#: App/Helpers/Validation.php:1471
+#: App/Helpers/Validation.php:1538
 msgid "You seem to have another level configured that conflicts with this range. Check and make sure that the ranges are correct. Example: if you already have a level with points range 1 to 100, then you cannot create another level with points range like: 50 to 200. It should be 101 to 200"
 msgstr ""
 
-#: App/Helpers/Validation.php:1568
+#: App/Helpers/Validation.php:1543
+msgid "From field"
+msgstr ""
+
+#: App/Helpers/Validation.php:1640
 msgid "{field} has invalid email address"
 msgstr ""
 
@@ -6385,51 +6616,55 @@ msgstr ""
 msgid "User Total Earn Point"
 msgstr ""
 
+#: App/Premium/Controllers/Admin/Customers.php:83
+msgid "Import file data is empty or invalid data"
+msgstr ""
+
 #. translators: %s: count
-#: App/Premium/Controllers/Admin/Customers.php:136
+#: App/Premium/Controllers/Admin/Customers.php:137
 msgid "Insert/Update %s customer"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:144
+#: App/Premium/Controllers/Admin/Customers.php:145
 msgid "Import customer successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:196
+#: App/Premium/Controllers/Admin/Customers.php:197
 msgid "Export preview nonce failed"
 msgstr ""
 
 #. translators: %s: count
-#: App/Premium/Controllers/Admin/Customers.php:255
+#: App/Premium/Controllers/Admin/Customers.php:256
 msgid "Exported %s customer"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:259
+#: App/Premium/Controllers/Admin/Customers.php:260
 msgid "Export customer successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:290
-#: App/Premium/Controllers/Admin/Customers.php:367
+#: App/Premium/Controllers/Admin/Customers.php:291
+#: App/Premium/Controllers/Admin/Customers.php:368
 msgid "Invalid customer data"
 msgstr ""
 
 #. translators: 1: customer email 2: point 3: point label 4: admin email
-#: App/Premium/Controllers/Admin/Customers.php:309
+#: App/Premium/Controllers/Admin/Customers.php:310
 msgid "%1$s customer added with %2$d %3$s by admin(%4$s)"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:345
+#: App/Premium/Controllers/Admin/Customers.php:346
 msgid "New Customer added successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:354
+#: App/Premium/Controllers/Admin/Customers.php:355
 msgid "Add New Customer failed"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:361
+#: App/Premium/Controllers/Admin/Customers.php:362
 msgid "Customer already exist!"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:373
+#: App/Premium/Controllers/Admin/Customers.php:374
 msgid "Invalid customer email address"
 msgstr ""
 
@@ -6496,82 +6731,82 @@ msgstr ""
 msgid "Enter license key"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Main.php:80
+#: App/Premium/Controllers/Admin/Main.php:86
 msgid "Delete Level"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Main.php:81
+#: App/Premium/Controllers/Admin/Main.php:87
 msgid "Are you sure ?"
 msgstr ""
 
 #. translators: %s: level name
-#: App/Premium/Controllers/Admin/UserLevels.php:125
+#: App/Premium/Controllers/Admin/UserLevels.php:131
 msgid "Please remove %s in campaign condition"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:179
+#: App/Premium/Controllers/Admin/UserLevels.php:189
 msgid "You don't have access or invalid nonce"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:192
+#: App/Premium/Controllers/Admin/UserLevels.php:202
 msgid "Levels not saved!"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:200
+#: App/Premium/Controllers/Admin/UserLevels.php:214
 msgid "Level not saved!"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:205
+#: App/Premium/Controllers/Admin/UserLevels.php:220
 msgid "Level saved successfully!"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:225
+#: App/Premium/Controllers/Admin/UserLevels.php:241
 msgid "Level delete failed"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:233
-#: App/Premium/Controllers/Admin/UserLevels.php:262
+#: App/Premium/Controllers/Admin/UserLevels.php:254
+#: App/Premium/Controllers/Admin/UserLevels.php:288
 msgid "Level used in campaign"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:236
+#: App/Premium/Controllers/Admin/UserLevels.php:258
 msgid "Level deleted successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:247
+#: App/Premium/Controllers/Admin/UserLevels.php:269
 msgid "Levels status change failed"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:253
+#: App/Premium/Controllers/Admin/UserLevels.php:275
 msgid "Level status change failed"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:257
+#: App/Premium/Controllers/Admin/UserLevels.php:283
 msgid "Level disable failed"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:259
+#: App/Premium/Controllers/Admin/UserLevels.php:285
 msgid "Level activation failed"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:265
+#: App/Premium/Controllers/Admin/UserLevels.php:292
 msgid "Level disabled successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:267
+#: App/Premium/Controllers/Admin/UserLevels.php:294
 msgid "Level activated successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:306
+#: App/Premium/Controllers/Admin/UserLevels.php:334
 msgid "Customer level update failed"
 msgstr ""
 
 #. translators: %s: customer count
-#: App/Premium/Controllers/Admin/UserLevels.php:353
+#: App/Premium/Controllers/Admin/UserLevels.php:381
 msgid "%s customer level updated"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/UserLevels.php:357
+#: App/Premium/Controllers/Admin/UserLevels.php:386
 msgid "Customer level updated successfully"
 msgstr ""
 
@@ -6676,7 +6911,7 @@ msgstr ""
 #: App/Views/Site/cart_page_popup.php:133
 #: App/Views/Site/cart_reward_page.php:122
 #: App/Views/Site/customer_reward_page.php:122
-#: App/Views/Site/my_account_page_reward.php:134
+#: App/Views/Site/my_account_page_reward.php:135
 msgid "Available %s"
 msgstr ""
 
@@ -6684,14 +6919,14 @@ msgstr ""
 #: App/Views/Site/cart_page_popup.php:141
 #: App/Views/Site/cart_reward_page.php:130
 #: App/Views/Site/customer_reward_page.php:130
-#: App/Views/Site/my_account_page_reward.php:142
+#: App/Views/Site/my_account_page_reward.php:143
 msgid "Total %1$s earned: %2$s"
 msgstr ""
 
 #: App/Views/Site/cart_page_popup.php:149
 #: App/Views/Site/cart_reward_page.php:139
 #: App/Views/Site/customer_reward_page.php:139
-#: App/Views/Site/my_account_page_reward.php:150
+#: App/Views/Site/my_account_page_reward.php:151
 msgid "Redeem point"
 msgstr ""
 
@@ -6699,7 +6934,7 @@ msgstr ""
 #: App/Views/Site/cart_page_popup.php:159
 #: App/Views/Site/cart_reward_page.php:149
 #: App/Views/Site/customer_reward_page.php:149
-#: App/Views/Site/my_account_page_reward.php:160
+#: App/Views/Site/my_account_page_reward.php:161
 msgid "Redeemed %s"
 msgstr ""
 
@@ -6707,14 +6942,14 @@ msgstr ""
 #: App/Views/Site/cart_page_popup.php:167
 #: App/Views/Site/cart_reward_page.php:157
 #: App/Views/Site/customer_reward_page.php:157
-#: App/Views/Site/my_account_page_reward.php:168
+#: App/Views/Site/my_account_page_reward.php:169
 msgid "%1$s to Coupons : %2$s "
 msgstr ""
 
 #: App/Views/Site/cart_page_popup.php:176
 #: App/Views/Site/cart_reward_page.php:167
 #: App/Views/Site/customer_reward_page.php:167
-#: App/Views/Site/my_account_page_reward.php:177
+#: App/Views/Site/my_account_page_reward.php:178
 msgid "User used rewards"
 msgstr ""
 
@@ -6722,7 +6957,7 @@ msgstr ""
 #: App/Views/Site/cart_page_popup.php:199
 #: App/Views/Site/cart_reward_page.php:192
 #: App/Views/Site/customer_reward_page.php:192
-#: App/Views/Site/my_account_page_reward.php:200
+#: App/Views/Site/my_account_page_reward.php:201
 msgid "Used %s"
 msgstr ""
 
@@ -6731,60 +6966,60 @@ msgid "Change Variant"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:218
-#: App/Views/Site/my_account_page_reward.php:222
+#: App/Views/Site/my_account_page_reward.php:223
 msgid "My Levels"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:226
-#: App/Views/Site/my_account_page_reward.php:230
+#: App/Views/Site/my_account_page_reward.php:231
 msgid "Level image"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:240
-#: App/Views/Site/my_account_page_reward.php:244
+#: App/Views/Site/my_account_page_reward.php:245
 msgid "Current level"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:253
-#: App/Views/Site/my_account_page_reward.php:256
+#: App/Views/Site/my_account_page_reward.php:257
 msgid "Next level"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:255
-#: App/Views/Site/my_account_page_reward.php:258
+#: App/Views/Site/my_account_page_reward.php:259
 msgid "No next level"
 msgstr ""
 
 #. translators: 1: point 2: point label
 #: App/Views/Site/customer_reward_page.php:269
-#: App/Views/Site/my_account_page_reward.php:273
+#: App/Views/Site/my_account_page_reward.php:274
 msgid "%1$d %2$s more needed to unlock next level"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:288
-#: App/Views/Site/my_account_page_reward.php:292
+#: App/Views/Site/my_account_page_reward.php:293
 msgid "Congratulations!"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:290
-#: App/Views/Site/my_account_page_reward.php:294
+#: App/Views/Site/my_account_page_reward.php:295
 msgid "You have reached the final level"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:309
-#: App/Views/Site/my_account_page_reward.php:310
+#: App/Views/Site/my_account_page_reward.php:311
 msgid "Referral link"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:320
-#: App/Views/Site/my_account_page_reward.php:321
+#: App/Views/Site/my_account_page_reward.php:322
 #: App/Views/Site/page-content/coupon_content.php:87
 #: App/Views/Site/rewards/coupons.php:95
 msgid "copy to clipboard"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:322
-#: App/Views/Site/my_account_page_reward.php:323
+#: App/Views/Site/my_account_page_reward.php:324
 msgid "Copy Link"
 msgstr ""
 
@@ -6805,49 +7040,49 @@ msgstr ""
 
 #. translators: %s: reward label
 #: App/Views/Site/customer_reward_page.php:451
-#: App/Views/Site/my_account_page_reward.php:363
+#: App/Views/Site/my_account_page_reward.php:364
 msgid "Ways to earn %s "
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:529
-#: App/Views/Site/my_account_page_reward.php:440
+#: App/Views/Site/my_account_page_reward.php:441
 msgid "Set Birthday"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:551
-#: App/Views/Site/my_account_page_reward.php:462
+#: App/Views/Site/my_account_page_reward.php:463
 msgid "Day"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:562
-#: App/Views/Site/my_account_page_reward.php:473
+#: App/Views/Site/my_account_page_reward.php:474
 msgid "Month"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:573
-#: App/Views/Site/my_account_page_reward.php:484
+#: App/Views/Site/my_account_page_reward.php:485
 msgid "Year"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:588
-#: App/Views/Site/my_account_page_reward.php:499
+#: App/Views/Site/my_account_page_reward.php:500
 msgid "Update Birthday"
 msgstr ""
 
 #. translators: %s: reward label
 #: App/Views/Site/customer_reward_page.php:614
-#: App/Views/Site/my_account_page_reward.php:525
+#: App/Views/Site/my_account_page_reward.php:526
 msgid "%s opportunities"
 msgstr ""
 
 #: App/Views/Site/customer_reward_page.php:646
-#: App/Views/Site/my_account_page_reward.php:556
+#: App/Views/Site/my_account_page_reward.php:557
 msgid "Notification Preference"
 msgstr ""
 
 #. translators: 1: point label 2: reward label
 #: App/Views/Site/customer_reward_page.php:654
-#: App/Views/Site/my_account_page_reward.php:564
+#: App/Views/Site/my_account_page_reward.php:565
 msgid "Opt-in for receiving %1$s & %2$s emails"
 msgstr ""
 

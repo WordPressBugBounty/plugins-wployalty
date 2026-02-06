@@ -125,6 +125,7 @@ $is_right_to_left     = is_rtl();
 								"height" => 64,
 								"width"  => 64
 							) ) ); ?>
+							<?php do_action("wlr_after_customer_reward_page_available_points_content"); ?>
                         </div>
                         <div>
 							<?php $user_points = (int) ( ! empty( $user ) && ! empty( $user->points ) ? $user->points : 0 ); ?>

@@ -35,7 +35,8 @@ class MyAccount extends Base {
 			unset( $menu_items['customer-logout'] );
 			$base_helper = new \Wlr\App\Helpers\Base();
 			/* translators: 1: point label 2: Reward label  */
-			$menu_items['loyalty_reward']  = sprintf( __( '%1$s & %2$s', 'wp-loyalty-rules' ), ucfirst( $base_helper->getPointLabel( 3 ) ), ucfirst( $base_helper->getRewardLabel( 3 ) ) );
+			$menu_items['loyalty_reward']  = sprintf( __( '%1$s & %2$s', 'wp-loyalty-rules' ),
+				ucfirst( $base_helper->getPointLabel( 3 ) ), ucfirst( $base_helper->getRewardLabel( 3 ) ) );
 			$menu_items['customer-logout'] = $logout;
 		}
 
@@ -56,7 +57,8 @@ class MyAccount extends Base {
 	}
 
 	function rewardPage( $page_type = '' ) {
-		if ( empty( $page_type ) || ! in_array( $page_type, [ 'myaccount', 'page', 'cart' ] ) ) {
+		if ( empty( $page_type ) || ! in_array( $page_type,
+				[ 'myaccount', 'page', 'cart' ] ) || ! apply_filters( 'wlr_before_render_reward_page', true ) ) {
 			return '';
 		}
 
@@ -99,7 +101,7 @@ class MyAccount extends Base {
 		) {
 			return;
 		}
-		$status = apply_filters( 'wlr_flush_rewrite_rules', false );
+		$status = apply_filters( 'wlr_flush_rewrite_rules', true );
 		if ( $status ) {
 			flush_rewrite_rules();
 		}

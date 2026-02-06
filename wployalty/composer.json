@@ -16,12 +16,6 @@
     "ext-json": "*",
     "vlucas/valitron": "^1.4.6"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:wployalty/notifications.git"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "Wlr\\": "",

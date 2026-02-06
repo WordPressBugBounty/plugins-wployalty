@@ -92,7 +92,7 @@ class WlrEarnPointEmail extends \WC_Email {
 			$campaign       = $campaign_model->getByKey( $data['campaign_id'] );
 			$this->object   = $campaign;
 			// phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-			$campaign_name = ! empty( $campaign ) && ! empty( $campaign->nme ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
+			$campaign_name = ! empty( $campaign ) && ! empty( $campaign->name ) ? __( $campaign->name, 'wp-loyalty-rules' ) : '';
 		}
 
 
@@ -193,5 +193,48 @@ class WlrEarnPointEmail extends \WC_Email {
 			'plain_text'         => true,
 			'email'              => $this
 		], 'wployalty', $this->template_base ) );
+	}
+
+	public function getShortCodesList() {
+		$short_codes        = [];
+		$ignore_short_codes = [ '{wlr_earn_point_mail_content}' ];
+		foreach ( $this->placeholders as $short_code => $default_value ) {
+			if ( $short_code && in_array( $short_code, $ignore_short_codes ) ) {
+				continue;
+			}
+			$short_codes[] = [
+				'short_code'    => $short_code,
+				'description'   => $this->getShortCodeDescription( $short_code ),
+				'default_value' => $default_value
+			];
+		}
+
+		return $short_codes;
+	}
+
+	protected function getShortCodeDescription( $short_code ) {
+		$short_code_descriptions = [
+			'{wlr_campaign_name}'             => __( 'The name of the campaign under which points are earned', 'wp-loyalty-rules' ),
+			'{wlr_points_label}'              => __( 'The label for points (e.g., points, pts)', 'wp-loyalty-rules' ),
+			'{wlr_action_name}'               => __( 'The name of the action that triggered the email', 'wp-loyalty-rules' ),
+			'{wlr_earn_point}'                => __( 'The number of points earned by the customer', 'wp-loyalty-rules' ),
+
+			// loyalty common
+			'{wlr_referral_url}'              => __( 'The referral URL for the customer to share with friends', 'wp-loyalty-rules' ),
+			'{wlr_user_point}'                => __( 'The current points balance of the customer', 'wp-loyalty-rules' ),
+			'{wlr_total_earned_point}'        => __( 'The total points ever earned by the customer', 'wp-loyalty-rules' ),
+			'{wlr_used_point}'                => __( 'The total points used/redeemed by the customer', 'wp-loyalty-rules' ),
+			'{wlr_user_name}'                 => __( 'The display name of the customer', 'wp-loyalty-rules' ),
+			'{wlr_store_name}'                => __( 'The name of the store or website', 'wp-loyalty-rules' ),
+			'{wlr_customer_reward_page_link}' => __( 'The URL to the customer\'s reward page', 'wp-loyalty-rules' ),
+			'{wlr_order_id}'                  => __( 'The order ID associated with the points earning (if applicable)', 'wp-loyalty-rules' ),
+			// common
+			'{site_title}'                    => __( 'The title of the website', 'wp-loyalty-rules' ),
+			'{site_address}'                  => __( 'The address of the website', 'wp-loyalty-rules' ),
+			'{site_url}'                      => __( 'The URL of the website', 'wp-loyalty-rules' ),
+			'{store_email}'                   => __( 'The store\'s contact email address', 'wp-loyalty-rules' )
+		];
+
+		return in_array( $short_code, array_keys( $short_code_descriptions ) ) ? $short_code_descriptions[ $short_code ] : '';
 	}
 }

@@ -133,8 +133,9 @@ class Settings {
 			$post_id          = wp_insert_post( $post_information );
 			if ( ! empty( $post_id ) ) {
 				wp_send_json_success( [
-					'post_id' => $post_id,
-					'message' => __( 'Page created successfully', 'wp-loyalty-rules' )
+					'post_id'  => $post_id,
+					'page_url' => admin_url( 'post.php?post=' . $post_id . '&action=edit' ),
+					'message'  => __( 'Page created successfully', 'wp-loyalty-rules' )
 				] );
 			}
 			wp_send_json_error( [ 'message' => __( 'Page creation has failed', 'wp-loyalty-rules' ) ] );

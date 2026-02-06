@@ -228,7 +228,7 @@ class Rewards extends EarnCampaign {
 		$response = [];
 		if ( self::$woocommerce_helper->isMethodExists( $cart, 'get_cart' ) && empty( $cart->get_cart() ) && apply_filters( 'wlr_show_coupon_will_apply_message', true, $user_reward ) ) {
 			$response['message_type'] = 'success';
-			$response['message']      = __( 'Coupon will apply, when cart have items', 'wp-loyalty-rules' );
+			$response['message']      = __( 'Coupon will apply when the cart has items', 'wp-loyalty-rules' );
 			wc_add_notice( $response['message'] );
 		} else if ( $is_block && ! empty( $user_reward->discount_code ) ) {
 			try {

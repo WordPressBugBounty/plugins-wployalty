@@ -59,7 +59,8 @@ class Validation {
 				array(
 					'fil_type'
 				)
-			)->message( __( '{field} must contain only letters a-z and/or numbers 0-9 and/or under score', 'wp-loyalty-rules' ) );
+			)->message( __( '{field} must contain only letters a-z and/or numbers 0-9 and/or under score',
+				'wp-loyalty-rules' ) );
 			$settings_validator->rule( 'alpha',
 				array(
 					'currency'
@@ -104,12 +105,14 @@ class Validation {
 			array(
 				'search'
 			)
-		)->message( __( '{field} must only contain letters a-z and/or numbers 0-9 and/or under score,@,- and/or space ', 'wp-loyalty-rules' ) );
+		)->message( __( '{field} must only contain letters a-z and/or numbers 0-9 and/or under score,@,- and/or space ',
+			'wp-loyalty-rules' ) );
 		$settings_validator->rule( 'alphaNumWithUnderscore',
 			array(
 				'filter_order'
 			)
-		)->message( __( '{field} must contain only letters a-z and/or numbers 0-9 and/or under score', 'wp-loyalty-rules' ) );
+		)->message( __( '{field} must contain only letters a-z and/or numbers 0-9 and/or under score',
+			'wp-loyalty-rules' ) );
 		$settings_validator->rule( 'numeric',
 			array(
 				'limit',
@@ -144,7 +147,8 @@ class Validation {
 			[
 				'search'
 			]
-		)->message( __( '{field} must only contain letters a-z and/or numbers 0-9 and/or under score,@,- and/or space ', 'wp-loyalty-rules' ) );
+		)->message( __( '{field} must only contain letters a-z and/or numbers 0-9 and/or under score,@,- and/or space ',
+			'wp-loyalty-rules' ) );
 		$settings_validator->rule( 'numeric',
 			[
 				'limit',
@@ -396,9 +400,9 @@ class Validation {
 			'validateNumberGeZero'
 		), __( 'required field', 'wp-loyalty-rules' ) );
 		Validator::addRule( 'isEmpty', array( __CLASS__, 'validateIsEmpty' ), __( 'is empty', 'wp-loyalty-rules' ) );
-		Validator::addRule( 'greaterThen', array(
+		Validator::addRule( 'greaterThenEqual', array(
 			__CLASS__,
-			'validateGreaterThen'
+			'validateGreaterThenEqual'
 		), __( 'must be greater than {field1}', 'wp-loyalty-rules' ) );
 		Validator::addRule( 'nameLengthLimit', array(
 			__CLASS__,
@@ -433,19 +437,21 @@ class Validation {
 			$number_non_zero_field[] = 'discount_value';
 			if ( $post['discount_type'] == 'percent' ) {
 				$max_fields[] = 'discount_value';
-				if( isset($post['discount_value']) ){
-					$rule_validator->rule( 'max', [ 'discount_value' ], 100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
+				if ( isset( $post['discount_value'] ) ) {
+					$rule_validator->rule( 'max', [ 'discount_value' ],
+						100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
 				}
 			}
 		} elseif ( isset( $post['discount_type'] ) && $post['discount_type'] == 'free_product' ) {
-			$rule_validator->rule( 'isEmpty', array( 'free_product' ) )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'isEmpty', array( 'free_product' ) )->message( __( '{field} is required',
+				'wp-loyalty-rules' ) );
 		}
 		if ( isset( $post['reward_type'] ) && $post['reward_type'] == 'redeem_point' ) {
 			$required_fields[]       = 'require_point';
 			$number_non_zero_field[] = 'require_point';
 		}
 		if ( isset( $post['maximum_point'] ) && $post['maximum_point'] > 0 ) {
-			$rule_validator->rule( 'greaterThen', 'maximum_point', 'minimum_point' );
+			$rule_validator->rule( 'greaterThenEqual', 'maximum_point', 'minimum_point' );
 		}
 		$empty_check_fields = $condition_label = $condition_clean = $check_product_exist = array();
 		if ( isset( $post['conditions'] ) && is_array( $post['conditions'] ) && ! empty( $post['conditions'] ) ) {
@@ -506,7 +512,9 @@ class Validation {
 						$required_fields[]                                          = 'conditions.' . $key . '.options.value';
 						$empty_check_fields[]                                       = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						break;
 					case 'user_point':
 						$required_fields[]                                             = 'conditions.' . $key . '.options.operator';
@@ -534,7 +542,9 @@ class Validation {
 						$required_fields[]                                            = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]   = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
 						if ( $condition['type'] === 'cart_subtotal' ) {
-							$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+							$rule_validator->rule( 'number',
+								array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+								'wp-loyalty-rules' ) );
 						} else {
 							$empty_check_fields[] = 'conditions.' . $key . '.options.value';
 						}
@@ -547,7 +557,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                                       = 'conditions.' . $key . '.options.sub_condition_type';
 						$empty_check_fields[]                                                    = 'conditions.' . $key . '.options.sub_condition_type';
 						$condition_label[ 'conditions.' . $key . '.options.sub_condition_type' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.sub_condition_type' ];
@@ -561,7 +573,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                                 = 'conditions.' . $key . '.options.order_status';
 						$empty_check_fields[]                                              = 'conditions.' . $key . '.options.order_status';
 						$condition_label[ 'conditions.' . $key . '.options.order_status' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.order_status' ];
@@ -609,7 +623,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                           = 'conditions.' . $key . '.options.status';
 						$empty_check_fields[]                                        = 'conditions.' . $key . '.options.status';
 						$condition_label[ 'conditions.' . $key . '.options.status' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.status' ];
@@ -618,19 +634,26 @@ class Validation {
 						$condition_label[ 'conditions.' . $key . '.options.time' ]   = $condition_label_text[ 'conditions.' . $condition['type'] . '.time' ];
 						$condition_clean[]                                           = 'conditions.' . $key . '.options.time';
 						if ( isset( $condition['options'] ) && isset( $condition['options']['max_amount'] ) > 0 ) {
-							$condition_label[ 'conditions.' . $key . '.options.min_amount' ] = __( 'Min Amount', 'wp-loyalty-rules' );
-							$condition_label[ 'conditions.' . $key . '.options.max_amount' ] = __( 'Max Amount', 'wp-loyalty-rules' );
-							$rule_validator->rule( 'greaterThen', 'conditions.' . $key . '.options.max_amount', 'conditions.' . $key . '.options.min_amount' );
+							$condition_label[ 'conditions.' . $key . '.options.min_amount' ] = __( 'Min Amount',
+								'wp-loyalty-rules' );
+							$condition_label[ 'conditions.' . $key . '.options.max_amount' ] = __( 'Max Amount',
+								'wp-loyalty-rules' );
+							$rule_validator->rule( 'greaterThenEqual', 'conditions.' . $key . '.options.max_amount',
+								'conditions.' . $key . '.options.min_amount' );
 						}
 						break;
 				}
 			}
 			$rule_validator->labels( $condition_label );
-			$rule_validator->rule( 'cleanHtml', $condition_clean )->message( __( '{field} has invalid characters', 'wp-loyalty-rules' ) );
-			$rule_validator->rule( 'basicHtmlTags', $condition_clean )->message( __( '{field} has invalid characters', 'wp-loyalty-rules' ) );
-			$rule_validator->rule( 'isProductExist', $check_product_exist )->message( __( '{field} has one of deleted product', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'cleanHtml', $condition_clean )->message( __( '{field} has invalid characters',
+				'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'basicHtmlTags', $condition_clean )->message( __( '{field} has invalid characters',
+				'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'isProductExist',
+				$check_product_exist )->message( __( '{field} has one of deleted product', 'wp-loyalty-rules' ) );
 		}
-		$rule_validator->rule( 'isEmpty', $empty_check_fields )->message( __( '{field} is empty', 'wp-loyalty-rules' ) );
+		$rule_validator->rule( 'isEmpty', $empty_check_fields )->message( __( '{field} is empty',
+			'wp-loyalty-rules' ) );
 		$rule_validator->rule( 'cleanHtml',
 			array(
 				'description'
@@ -661,7 +684,8 @@ class Validation {
 			$required_fields[]       = 'expire_email';
 		}
 		if ( ! empty( $number_non_zero_field ) ) {
-			$rule_validator->rule( 'numberGeZero', $number_non_zero_field )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'numberGeZero',
+				$number_non_zero_field )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
 		}
 		$rule_validator->rule( 'number', array(
 			'conditions.*.options.qty',
@@ -750,18 +774,23 @@ class Validation {
 					$error_message = sprintf( __( 'The date range is wrong', 'wp-loyalty-rules' ), $max_value );
 				} elseif ( $max_value < $post['expire_email'] ) {
 					/* translators: %d: max value */
-					$error_message = sprintf( __( 'The value should be less than %d', 'wp-loyalty-rules' ), $max_value );
+					$error_message = sprintf( __( 'The value should be less than %d', 'wp-loyalty-rules' ),
+						$max_value );
 				}
 			}
 		}
-		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
+		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required',
+			'wp-loyalty-rules' ) );
 		if ( isset( $post['coupon_type'] ) && $post['coupon_type'] == 'percent' ) {
 			$rule_validator->rule( 'isEmpty', array(
 				'max_discount',
 				'max_percentage'
 			) )->message( __( '{field} is empty', 'wp-loyalty-rules' ) );
-			$rule_validator->rule( 'max', array( 'max_percentage' ), 50 )->message( __( '{field} is must be less than or equal to 50', 'wp-loyalty-rules' ) );
-			$rule_validator->rule( 'numberGeZero', array( 'max_percentage' ) )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'max', array( 'max_percentage' ),
+				50 )->message( __( '{field} is must be less than or equal to 50', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'numberGeZero',
+				[ 'max_percentage', 'max_discount' ] )->message( __( '{field} must be greater than 0',
+				'wp-loyalty-rules' ) );
 		}
 		$rule_validator->rule( 'nameLengthLimit', array( 'name' ) );
 		if ( $rule_validator->validate() ) {
@@ -861,9 +890,9 @@ class Validation {
 			__CLASS__,
 			'validateNumberGeZero'
 		), __( 'required field', 'wp-loyalty-rules' ) );
-		Validator::addRule( 'greaterThen', array(
+		Validator::addRule( 'greaterThenEqual', array(
 			__CLASS__,
-			'validateGreaterThen'
+			'validateGreaterThenEqual'
 		), __( 'must be greater than {field1}', 'wp-loyalty-rules' ) );
 		Validator::addRule( 'isEmpty', array( __CLASS__, 'validateIsEmpty' ), __( ' is empty', 'wp-loyalty-rules' ) );
 		Validator::addRule( 'checkOrderSpend', array(
@@ -920,13 +949,15 @@ class Validation {
 			$required_fields[]              = 'point_rule.earn_reward';
 			$number_non_zero_reward_field[] = 'point_rule.earn_reward';
 		}
-		if ( isset( $post['action_type'] ) && ! empty( $post['action_type'] ) && in_array( $post['action_type'], array( 'referral' ) ) ) {
+		if ( isset( $post['action_type'] ) && ! empty( $post['action_type'] ) && in_array( $post['action_type'],
+				array( 'referral' ) ) ) {
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['advocate'] ) && isset( $post['point_rule']['advocate']['campaign_type'] ) && $post['point_rule']['advocate']['campaign_type'] == 'point' ) {
 				$required_fields[] = 'point_rule.advocate.earn_point';
 				//$number_non_zero_field[] = 'point_rule.advocate.earn_point';
 			}
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['advocate'] ) && isset( $post['point_rule']['advocate']['earn_type'] ) && $post['point_rule']['advocate']['earn_type'] == 'subtotal_percentage' ) {
-				$rule_validator->rule( 'max', [ 'point_rule.advocate.earn_point' ], 100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
+				$rule_validator->rule( 'max', [ 'point_rule.advocate.earn_point' ],
+					100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
 			}
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['advocate'] ) && isset( $post['point_rule']['advocate']['campaign_type'] ) && $post['point_rule']['advocate']['campaign_type'] == 'coupon' ) {
 				$required_fields[]              = 'point_rule.advocate.earn_reward';
@@ -938,7 +969,8 @@ class Validation {
 				//$number_non_zero_field[] = 'point_rule.friend.earn_point';
 			}
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['friend'] ) && isset( $post['point_rule']['friend']['earn_type'] ) && $post['point_rule']['friend']['earn_type'] == 'subtotal_percentage' ) {
-				$rule_validator->rule( 'max', [ 'point_rule.friend.earn_point' ], 100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
+				$rule_validator->rule( 'max', [ 'point_rule.friend.earn_point' ],
+					100 )->message( __( '{field} is must be less than or equal to 100', 'wp-loyalty-rules' ) );
 			}
 			if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['friend'] ) && isset( $post['point_rule']['friend']['campaign_type'] ) && $post['point_rule']['friend']['campaign_type'] == 'coupon' ) {
 				$required_fields[]              = 'point_rule.friend.earn_reward';
@@ -1059,7 +1091,9 @@ class Validation {
 							$empty_check_fields[] = 'conditions.' . $key . '.options.value';
 						}
 						$condition_label[ 'conditions.' . $key . '.options.value' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						break;
 					case 'product_onsale':
 						$required_fields[]                                             = 'conditions.' . $key . '.options.operator';
@@ -1084,7 +1118,9 @@ class Validation {
 						}
 						$condition_label[ 'conditions.' . $key . '.options.value' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
 						if ( $condition['type'] === 'cart_subtotal' ) {
-							$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+							$rule_validator->rule( 'number',
+								array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+								'wp-loyalty-rules' ) );
 						}
 						break;
 					case 'cart_line_items_count':
@@ -1095,7 +1131,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                                       = 'conditions.' . $key . '.options.sub_condition_type';
 						$empty_check_fields[]                                                    = 'conditions.' . $key . '.options.sub_condition_type';
 						$condition_label[ 'conditions.' . $key . '.options.sub_condition_type' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.sub_condition_type' ];
@@ -1109,7 +1147,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                                 = 'conditions.' . $key . '.options.order_status';
 						$empty_check_fields[]                                              = 'conditions.' . $key . '.options.order_status';
 						$condition_label[ 'conditions.' . $key . '.options.order_status' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.order_status' ];
@@ -1170,7 +1210,9 @@ class Validation {
 						$empty_check_fields[]                                                     = 'conditions.' . $key . '.options.condition';
 						$condition_label[ 'conditions.' . $key . '.options.condition' ]           = $condition_label_text[ 'conditions.' . $condition['type'] . '.condition' ];
 						$required_fields[]                                                        = 'conditions.' . $key . '.options.qty';
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.qty' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.qty' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$condition_label[ 'conditions.' . $key . '.options.qty' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.qty' ];
 						break;
 					case 'purchase_first_order':
@@ -1195,7 +1237,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                           = 'conditions.' . $key . '.options.status';
 						$empty_check_fields[]                                        = 'conditions.' . $key . '.options.status';
 						$condition_label[ 'conditions.' . $key . '.options.status' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.status' ];
@@ -1208,7 +1252,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                           = 'conditions.' . $key . '.options.status';
 						$empty_check_fields[]                                        = 'conditions.' . $key . '.options.status';
 						$condition_label[ 'conditions.' . $key . '.options.status' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.status' ];
@@ -1224,7 +1270,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                           = 'conditions.' . $key . '.options.status';
 						$empty_check_fields[]                                        = 'conditions.' . $key . '.options.status';
 						$condition_label[ 'conditions.' . $key . '.options.status' ] = $condition_label_text[ 'conditions.' . $condition['type'] . '.status' ];
@@ -1233,9 +1281,12 @@ class Validation {
 						$condition_label[ 'conditions.' . $key . '.options.time' ]   = $condition_label_text[ 'conditions.' . $condition['type'] . '.time' ];
 						$condition_clean[]                                           = 'conditions.' . $key . '.options.time';
 						if ( isset( $condition['options'] ) && isset( $condition['options']['max_amount'] ) > 0 ) {
-							$condition_label[ 'conditions.' . $key . '.options.min_amount' ] = __( 'Min Amount', 'wp-loyalty-rules' );
-							$condition_label[ 'conditions.' . $key . '.options.max_amount' ] = __( 'Max Amount', 'wp-loyalty-rules' );
-							$rule_validator->rule( 'greaterThen', 'conditions.' . $key . '.options.max_amount', 'conditions.' . $key . '.options.min_amount' );
+							$condition_label[ 'conditions.' . $key . '.options.min_amount' ] = __( 'Min Amount',
+								'wp-loyalty-rules' );
+							$condition_label[ 'conditions.' . $key . '.options.max_amount' ] = __( 'Max Amount',
+								'wp-loyalty-rules' );
+							$rule_validator->rule( 'greaterThenEqual', 'conditions.' . $key . '.options.max_amount',
+								'conditions.' . $key . '.options.min_amount' );
 						}
 						break;
 					case 'purchase_previous_orders_for_specific_product':
@@ -1246,7 +1297,9 @@ class Validation {
 						$condition_clean[]                                             = 'conditions.' . $key . '.options.operator';
 						$required_fields[]                                             = 'conditions.' . $key . '.options.value';
 						$condition_label[ 'conditions.' . $key . '.options.value' ]    = $condition_label_text[ 'conditions.' . $condition['type'] . '.value' ];
-						$rule_validator->rule( 'number', array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
+						$rule_validator->rule( 'number',
+							array( 'conditions.' . $key . '.options.value' ) )->message( __( '{field} accepts only numbers',
+							'wp-loyalty-rules' ) );
 						$required_fields[]                                             = 'conditions.' . $key . '.options.status';
 						$empty_check_fields[]                                          = 'conditions.' . $key . '.options.status';
 						$condition_label[ 'conditions.' . $key . '.options.status' ]   = $condition_label_text[ 'conditions.' . $condition['type'] . '.status' ];
@@ -1261,9 +1314,12 @@ class Validation {
 				}
 			}
 			$rule_validator->labels( $condition_label );
-			$rule_validator->rule( 'cleanHtml', $condition_clean )->message( __( '{field} has invalid characters', 'wp-loyalty-rules' ) );
-			$rule_validator->rule( 'basicHtmlTags', $condition_clean )->message( __( '{field} has invalid characters', 'wp-loyalty-rules' ) );
-			$rule_validator->rule( 'isProductExist', $check_product_exist )->message( __( '{field} has one of deleted product', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'cleanHtml', $condition_clean )->message( __( '{field} has invalid characters',
+				'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'basicHtmlTags', $condition_clean )->message( __( '{field} has invalid characters',
+				'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'isProductExist',
+				$check_product_exist )->message( __( '{field} has one of deleted product', 'wp-loyalty-rules' ) );
 		}
 		// case 1: minimum_spend_on_order > 0  no_of_purchase > 0
 		if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['minimum_spend_on_order'] ) && $post['point_rule']['minimum_spend_on_order'] > 0 ) {
@@ -1278,15 +1334,19 @@ class Validation {
 				$required_fields[] = 'point_rule.minimum_spend_on_order';
 			}
 		}
-		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
+		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required',
+			'wp-loyalty-rules' ) );
 		$rule_validator->rule( 'nameLengthLimit', array( 'name' ) );
 		//$rule_validator->rule('checkOrderSpend', 'point_rule.no_of_purchase', 'point_rule.minimum_spend_on_order');
-		$rule_validator->rule( 'isEmpty', $empty_check_fields )->message( __( '{field} is empty', 'wp-loyalty-rules' ) );
+		$rule_validator->rule( 'isEmpty', $empty_check_fields )->message( __( '{field} is empty',
+			'wp-loyalty-rules' ) );
 		if ( ! empty( $number_non_zero_field ) ) {
-			$rule_validator->rule( 'numberGeZero', $number_non_zero_field )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'numberGeZero',
+				$number_non_zero_field )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
 		}
 		if ( ! empty( $number_non_zero_reward_field ) ) {
-			$rule_validator->rule( 'numberGeZero', $number_non_zero_reward_field )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'numberGeZero', $number_non_zero_reward_field )->message( __( '{field} is required',
+				'wp-loyalty-rules' ) );
 		}
 		$rule_validator->rule( 'cleanHtml',
 			array(
@@ -1331,10 +1391,10 @@ class Validation {
 			'conditions.*.options.qty',
 		) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
 		if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['maximum_point'] ) && $post['point_rule']['maximum_point'] > 0 ) {
-			$rule_validator->rule( 'greaterThen', 'point_rule.maximum_point', 'point_rule.minimum_point' );
+			$rule_validator->rule( 'greaterThenEqual', 'point_rule.maximum_point', 'point_rule.minimum_point' );
 		}
 		if ( isset( $post['point_rule'] ) && isset( $post['point_rule']['max_subtotal'] ) && $post['point_rule']['max_subtotal'] > 0 ) {
-			$rule_validator->rule( 'greaterThen', 'point_rule.max_subtotal', 'point_rule.min_subtotal' );
+			$rule_validator->rule( 'greaterThenEqual', 'point_rule.max_subtotal', 'point_rule.min_subtotal' );
 		}
 		$rule_validator->rule( 'alpha',
 			array(
@@ -1435,17 +1495,18 @@ class Validation {
 		$required_fields       = array(
 			'name',
 		);
-		$number_non_zero_field = array();
-		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
+		$number_non_zero_field = [
+			'to_points'
+		];
+		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required',
+			'wp-loyalty-rules' ) );
 		$rule_validator->rule( 'nameLengthLimit', array( 'name' ) );
 		$rule_validator->rule( 'number', array(
 			'from_points',
 			'to_points',
 			'active',
 		) )->message( __( '{field} accepts only numbers', 'wp-loyalty-rules' ) );
-		if ( ! empty( $number_non_zero_field ) ) {
-			$rule_validator->rule( 'numberGeZero', $number_non_zero_field )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
-		}
+
 		/* level points validations start here */
 		// case 1: from 0 , to 0 - validate require field
 		// case 2: from "" and to "" - validate required
@@ -1464,13 +1525,23 @@ class Validation {
 				) )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
 			}
 		}
-		if ( ! empty( $number_non_zero_field ) ) {
-			$rule_validator->rule( 'numberGeZero', $number_non_zero_field )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
+		if ( ! empty( $number_non_zero_field ) && isset( $post['from_points'] ) && $post['from_points'] <= 0 ) {
+			$rule_validator->rule( 'numberGeZero',
+				$number_non_zero_field )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
+		}
+		if ( ! empty( $number_non_zero_field ) && isset( $post['to_points'] ) && $post['to_points'] <= 0 ) {
+			$rule_validator->rule( 'numberGeZero',
+				array( 'from_points' ) )->message( __( '{field} must be greater than 0', 'wp-loyalty-rules' ) );
 		}
 		if ( isset( $post['from_points'] ) && isset( $post['to_points'] ) && ( $post['from_points'] || $post['to_points'] ) ) {
-			$rule_validator->rule( 'levelPoints', 'from_points', 'to_points' )->message( __( 'You seem to have another level configured that conflicts with this range. Check and make sure that the ranges are correct. Example: if you already have a level with points range 1 to 100, then you cannot create another level with points range like: 50 to 200. It should be 101 to 200', 'wp-loyalty-rules' ) );
+			$rule_validator->rule( 'levelPoints', 'from_points',
+				'to_points' )->message( __( 'You seem to have another level configured that conflicts with this range. Check and make sure that the ranges are correct. Example: if you already have a level with points range 1 to 100, then you cannot create another level with points range like: 50 to 200. It should be 101 to 200',
+				'wp-loyalty-rules' ) );
 			if ( $post['from_points'] > $post['to_points'] && $post['to_points'] != 0 ) {
 				$rule_validator->rule( 'greaterThen', 'to_points', 'from_points' );
+				$rule_validator->labels( [
+					'from_points' => __( 'From field', 'wp-loyalty-rules' )
+				] );
 			}
 		}
 		/* level points validations end here */
@@ -1513,7 +1584,8 @@ class Validation {
 			'action_type',
 			'points'
 		);
-		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
+		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required',
+			'wp-loyalty-rules' ) );
 		$rule_validator->rule( 'number', array(
 			'id',
 			'points',
@@ -1570,7 +1642,8 @@ class Validation {
 			'user_email',
 			'points'
 		);
-		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required', 'wp-loyalty-rules' ) );
+		$rule_validator->rule( 'required', $required_fields )->message( __( '{field} is required',
+			'wp-loyalty-rules' ) );
 		$rule_validator->rule( 'validateEmail', array( 'user_email' ) );
 		$rule_validator->rule( 'number', array(
 			'points',
@@ -1674,7 +1747,7 @@ class Validation {
 	}
 
 	/**
-	 * @param $params
+	 * @param          $params
 	 * @param array $fields
 	 *
 	 * @return int|mixed
@@ -1772,8 +1845,8 @@ class Validation {
 	/**
 	 * validate the conditional values
 	 *
-	 * @param $field
-	 * @param $value
+	 * @param          $field
+	 * @param          $value
 	 * @param array $params
 	 * @param array $fields
 	 *
@@ -1793,8 +1866,8 @@ class Validation {
 	/**
 	 * validate Input Text Html Tags
 	 *
-	 * @param $field
-	 * @param $value
+	 * @param          $field
+	 * @param          $value
 	 * @param array $params
 	 * @param array $fields
 	 *
@@ -1819,8 +1892,8 @@ class Validation {
 	/**
 	 * validate Radio Button And Select Box
 	 *
-	 * @param $field
-	 * @param $value
+	 * @param          $field
+	 * @param          $value
 	 * @param array $params
 	 * @param array $fields
 	 *
@@ -1872,11 +1945,23 @@ class Validation {
 		return $status;
 	}
 
-	static function validateGreaterThen( $field, $value, array $params, array $fields ) {
+	static function validateGreaterThenEqual( $field, $value, array $params, array $fields ) {
 		$status = false;
 		if ( isset( $params[0] ) && $params[0] ) {
 			$second_field = self::getSecondFieldValue( $params[0], $fields );
 			if ( (int) $value >= (int) $second_field ) {
+				$status = true;
+			}
+		}
+
+		return $status;
+	}
+
+	static function validateGreaterThen( $field, $value, array $params, array $fields ) {
+		$status = false;
+		if ( isset( $params[0] ) && $params[0] ) {
+			$second_field = self::getSecondFieldValue( $params[0], $fields );
+			if ( (int) $value > (int) $second_field ) {
 				$status = true;
 			}
 		}
