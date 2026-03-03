@@ -220,7 +220,6 @@ class Schedules {
 			'point_for_purchase' => [ 'variable_product_message', 'single_product_message' ],
 			'product_review'     => [ 'review_message' ],
 			'signup'             => [ 'signup_message' ],
-			'facebook_share'     => [ 'share_message' ],
 			'twitter_share'      => [ 'share_message' ],
 			'whatsapp_share'     => [ 'share_message' ],
 			'email_share'        => [ 'share_body', 'share_subject' ]

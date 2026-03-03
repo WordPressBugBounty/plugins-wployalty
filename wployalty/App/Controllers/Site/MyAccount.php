@@ -95,17 +95,44 @@ class MyAccount extends Base {
 		return apply_filters( 'wlr_my_account_point_and_reward_page', $my_account_content, $main_page_params );
 	}
 
-	public function addEndPoints() {
+	public function registerRewriteEndpoint() {
 		if ( self::$woocommerce->isBannedUser()
 		     || ! apply_filters( 'wlr_before_adding_menu_endpoint', true )
 		) {
 			return;
 		}
-		$status = apply_filters( 'wlr_flush_rewrite_rules', true );
-		if ( $status ) {
-			flush_rewrite_rules();
-		}
+
 		add_rewrite_endpoint( 'loyalty_reward', EP_ROOT | EP_PAGES );
+		add_filter( 'woocommerce_get_query_vars', [ $this, 'addLoyaltyEndpointQueryVarToWC' ] );
+	}
+	/**
+	 * Add loyalty_reward to WooCommerce query vars
+	 *
+	 * @param array $query_vars Existing query vars
+	 * @return array Modified query vars
+	 */
+	public function addLoyaltyEndpointQueryVarToWC(array $query_vars ):array {
+		if( empty( $query_vars ) ) {
+			return $query_vars;
+		}
+
+		$query_vars['loyalty_reward'] = 'loyalty_reward';
+
+		return $query_vars;
+	}
+
+	public function flushRewriteRules( $old_permalink_structure = '', $new_permalink_structure = '' ) {
+		$structure_changed = $old_permalink_structure !== $new_permalink_structure;
+		$option_flag       = get_option( 'wlr_is_flush_required', 'no' ) === 'yes';
+		$default_required  = $structure_changed || $option_flag;
+
+		$is_flush_required = apply_filters('wlr_is_flush_required', $default_required );
+		$status = apply_filters( 'wlr_flush_rewrite_rules', true );
+		if ( $status && $is_flush_required ) {
+			$this->registerRewriteEndpoint();
+			flush_rewrite_rules();
+			update_option( 'wlr_is_flush_required', 'no' );
+		}
 	}
 
 	function showRewardList() {

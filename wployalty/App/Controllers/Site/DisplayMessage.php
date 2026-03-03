@@ -562,7 +562,9 @@ class DisplayMessage extends Base {
 			$user_reward   = $reward_helper->getUserRewards( $user_email, $extra );
 			$point_rewards = $reward_helper->getPointRewards( $user_email, $extra );
 			$reward_list   = array_merge( $user_reward, $point_rewards );
-			if ( count( $reward_list ) > 0 || $points > 0 ) {
+			$status        = count( $reward_list ) > 0 || $points > 0;
+			$status        = apply_filters( 'wlr_is_show_redeem_message', $status, $reward_list, $points );
+			if ( $status ) {
 				if ( is_checkout() || ! $is_cart ) {
 					$message = ( isset( $setting_option['wlr_checkout_redeem_points_message'] ) && ! empty( $setting_option['wlr_checkout_redeem_points_message'] ) )
 						? __( $setting_option['wlr_checkout_redeem_points_message'], 'wp-loyalty-rules' )//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText

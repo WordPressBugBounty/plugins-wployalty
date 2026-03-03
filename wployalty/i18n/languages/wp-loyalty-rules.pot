@@ -1,15 +1,15 @@
-# Copyright (C) 2025 Wployalty
+# Copyright (C) 2026 Wployalty
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.3\n"
+"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-loyalty-rules-lite\n"
 "Last-Translator: flycart <support@wployalty.net>\n"
 "Language-Team: flycart <support@wployalty.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-05T05:40:50+00:00\n"
+"POT-Creation-Date: 2026-03-03T07:18:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-loyalty-rules\n"
@@ -99,8 +99,8 @@ msgstr ""
 
 #: App/Apps/PointExpiry/App/Controllers/Base.php:319
 #: App/Apps/PointExpiry/App/Controllers/Base.php:329
-#: App/Setup.php:46
-#: App/Setup.php:102
+#: App/Setup.php:48
+#: App/Setup.php:104
 msgid "Plugin required table creation failed."
 msgstr ""
 
@@ -122,24 +122,24 @@ msgstr ""
 msgid "%1$s %2$s expired"
 msgstr ""
 
-#: App/Apps/PointExpiry/App/Controllers/Base.php:630
+#: App/Apps/PointExpiry/App/Controllers/Base.php:631
 msgid "Invalid customer"
 msgstr ""
 
-#: App/Apps/PointExpiry/App/Controllers/Base.php:639
+#: App/Apps/PointExpiry/App/Controllers/Base.php:640
 msgid "Invalid date format"
 msgstr ""
 
-#: App/Apps/PointExpiry/App/Controllers/Base.php:659
+#: App/Apps/PointExpiry/App/Controllers/Base.php:660
 msgid "Point expiry date updated successfully"
 msgstr ""
 
-#: App/Apps/PointExpiry/App/Controllers/Base.php:669
+#: App/Apps/PointExpiry/App/Controllers/Base.php:670
 msgid "Email expiry date updated successfully"
 msgstr ""
 
-#: App/Apps/PointExpiry/App/Controllers/Base.php:677
-#: App/Apps/PointExpiry/App/Controllers/Base.php:683
+#: App/Apps/PointExpiry/App/Controllers/Base.php:678
+#: App/Apps/PointExpiry/App/Controllers/Base.php:684
 msgid "Failed to update date"
 msgstr ""
 
@@ -183,9 +183,9 @@ msgstr ""
 #: App/Helpers/Validation.php:211
 #: App/Helpers/Validation.php:368
 #: App/Helpers/Validation.php:855
-#: App/Helpers/Validation.php:1468
-#: App/Helpers/Validation.php:1564
-#: App/Helpers/Validation.php:1619
+#: App/Helpers/Validation.php:1467
+#: App/Helpers/Validation.php:1563
+#: App/Helpers/Validation.php:1618
 msgid "This field"
 msgstr ""
 
@@ -198,12 +198,12 @@ msgstr ""
 #: App/Helpers/Validation.php:263
 #: App/Helpers/Validation.php:446
 #: App/Helpers/Validation.php:782
-#: App/Helpers/Validation.php:1337
-#: App/Helpers/Validation.php:1348
-#: App/Helpers/Validation.php:1501
-#: App/Helpers/Validation.php:1525
-#: App/Helpers/Validation.php:1587
-#: App/Helpers/Validation.php:1645
+#: App/Helpers/Validation.php:1336
+#: App/Helpers/Validation.php:1347
+#: App/Helpers/Validation.php:1500
+#: App/Helpers/Validation.php:1524
+#: App/Helpers/Validation.php:1586
+#: App/Helpers/Validation.php:1644
 msgid "{field} is required"
 msgstr ""
 
@@ -393,8 +393,8 @@ msgid "Redeem Now!"
 msgstr ""
 
 #: App/Conditions/CartLineItemsCount.php:15
-#: App/Helpers/Woocommerce.php:401
-#: App/Helpers/Woocommerce.php:434
+#: App/Helpers/Woocommerce.php:402
+#: App/Helpers/Woocommerce.php:435
 #: App/Premium/Controllers/Site/Main.php:97
 msgid "Line Item Count"
 msgstr ""
@@ -402,9 +402,9 @@ msgstr ""
 #: App/Conditions/CartLineItemsCount.php:16
 #: App/Conditions/CartSubTotal.php:16
 #: App/Controllers/Admin/Labels.php:1128
-#: App/Helpers/Woocommerce.php:331
-#: App/Helpers/Woocommerce.php:363
-#: App/Helpers/Woocommerce.php:431
+#: App/Helpers/Woocommerce.php:332
+#: App/Helpers/Woocommerce.php:364
+#: App/Helpers/Woocommerce.php:432
 #: App/Premium/Conditions/CartWeights.php:18
 #: App/Premium/Conditions/LifeTimeSaleValue.php:21
 #: App/Premium/Conditions/PaymentMethod.php:18
@@ -423,7 +423,7 @@ msgid "User role"
 msgstr ""
 
 #: App/Conditions/UserRole.php:16
-#: App/Helpers/Woocommerce.php:397
+#: App/Helpers/Woocommerce.php:398
 #: App/Premium/Controllers/Site/Main.php:198
 msgid "Customer"
 msgstr ""
@@ -483,10 +483,10 @@ msgstr ""
 #: App/Controllers/Admin/RewardPage.php:137
 #: App/Controllers/Admin/RewardPage.php:151
 #: App/Controllers/Admin/RewardPage.php:230
-#: App/Controllers/Admin/RewardPage.php:256
-#: App/Controllers/Admin/RewardPage.php:305
-#: App/Controllers/Admin/RewardPage.php:363
-#: App/Controllers/Admin/RewardPage.php:381
+#: App/Controllers/Admin/RewardPage.php:261
+#: App/Controllers/Admin/RewardPage.php:310
+#: App/Controllers/Admin/RewardPage.php:368
+#: App/Controllers/Admin/RewardPage.php:386
 #: App/Controllers/Admin/Settings.php:26
 #: App/Controllers/Admin/Settings.php:52
 #: App/Controllers/Admin/Settings.php:122
@@ -497,13 +497,13 @@ msgstr ""
 #: App/Controllers/Admin/Settings.php:220
 #: App/Controllers/Site/CustomerPage.php:1217
 #: App/Controllers/Site/Main.php:1100
-#: App/Controllers/Site/MyAccount.php:145
+#: App/Controllers/Site/MyAccount.php:172
 msgid "Basic validation failed"
 msgstr ""
 
 #: App/Controllers/Admin/AddOn.php:259
-#: App/Premium/Controllers/Admin/Customers.php:154
-#: App/Premium/Controllers/Admin/Customers.php:269
+#: App/Premium/Controllers/Admin/Customers.php:155
+#: App/Premium/Controllers/Admin/Customers.php:270
 #: App/Premium/Controllers/Admin/UserLevels.php:395
 msgid "Invalid request"
 msgstr ""
@@ -609,7 +609,7 @@ msgstr ""
 
 #: App/Controllers/Admin/CampaignPage.php:360
 #: App/Controllers/Admin/Labels.php:173
-#: App/Controllers/Admin/RewardPage.php:313
+#: App/Controllers/Admin/RewardPage.php:318
 msgid "copy"
 msgstr ""
 
@@ -634,8 +634,8 @@ msgstr ""
 msgid "Get Pro"
 msgstr ""
 
-#: App/Controllers/Admin/Common.php:224
-#: App/Controllers/Admin/Common.php:260
+#: App/Controllers/Admin/Common.php:230
+#: App/Controllers/Admin/Common.php:266
 #: App/Controllers/Admin/Dashboard.php:354
 #: App/Controllers/Admin/Dashboard.php:392
 #: App/Premium/Api/WPLoyaltyApi.php:82
@@ -643,12 +643,12 @@ msgstr ""
 msgid "Basic security validation failed"
 msgstr ""
 
-#: App/Controllers/Admin/Common.php:230
-#: App/Controllers/Admin/Common.php:250
+#: App/Controllers/Admin/Common.php:236
+#: App/Controllers/Admin/Common.php:256
 msgid "Invalid method"
 msgstr ""
 
-#: App/Controllers/Admin/Common.php:248
+#: App/Controllers/Admin/Common.php:254
 msgid "Method not found"
 msgstr ""
 
@@ -686,7 +686,7 @@ msgstr ""
 #: App/Helpers/Validation.php:57
 #: App/Helpers/Validation.php:74
 #: App/Helpers/Validation.php:884
-#: App/Helpers/Validation.php:1434
+#: App/Helpers/Validation.php:1433
 msgid "{field} should be a valid date"
 msgstr ""
 
@@ -901,7 +901,7 @@ msgid "Note:To address the issue of failed renaming for overwritten template fil
 msgstr ""
 
 #: App/Controllers/Admin/Dashboard.php:417
-#: App/Controllers/Site/Common.php:79
+#: App/Controllers/Site/Common.php:85
 msgid "Ok"
 msgstr ""
 
@@ -1105,7 +1105,7 @@ msgid "Save & Close"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:83
-#: App/Controllers/Site/Common.php:80
+#: App/Controllers/Site/Common.php:86
 msgid "Cancel"
 msgstr ""
 
@@ -1544,22 +1544,22 @@ msgid "Custom"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:223
-#: App/Helpers/Woocommerce.php:72
+#: App/Helpers/Woocommerce.php:73
 msgid "Day(s)"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:224
-#: App/Helpers/Woocommerce.php:73
+#: App/Helpers/Woocommerce.php:74
 msgid "Week(s)"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:225
-#: App/Helpers/Woocommerce.php:74
+#: App/Helpers/Woocommerce.php:75
 msgid "Month(s)"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:226
-#: App/Helpers/Woocommerce.php:75
+#: App/Helpers/Woocommerce.php:76
 msgid "Year(s)"
 msgstr ""
 
@@ -1791,7 +1791,7 @@ msgid "Fixed Discount"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:290
-#: App/Helpers/Woocommerce.php:267
+#: App/Helpers/Woocommerce.php:268
 msgid "Percentage discount"
 msgstr ""
 
@@ -1808,8 +1808,8 @@ msgid "after discount"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:303
-#: App/Helpers/Woocommerce.php:395
-#: App/Helpers/Woocommerce.php:423
+#: App/Helpers/Woocommerce.php:396
+#: App/Helpers/Woocommerce.php:424
 #: App/Premium/Controllers/Site/Main.php:85
 #: App/Premium/Controllers/Site/Main.php:140
 #: App/Premium/Controllers/Site/Main.php:196
@@ -1832,10 +1832,10 @@ msgid "Select user role(s)"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:308
-#: App/Helpers/Woocommerce.php:327
-#: App/Helpers/Woocommerce.php:359
-#: App/Helpers/Woocommerce.php:396
-#: App/Helpers/Woocommerce.php:424
+#: App/Helpers/Woocommerce.php:328
+#: App/Helpers/Woocommerce.php:360
+#: App/Helpers/Woocommerce.php:397
+#: App/Helpers/Woocommerce.php:425
 #: App/Premium/Controllers/Site/Main.php:86
 #: App/Premium/Controllers/Site/Main.php:141
 #: App/Premium/Controllers/Site/Main.php:197
@@ -1862,7 +1862,7 @@ msgid "Points value"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:314
-#: App/Helpers/Woocommerce.php:425
+#: App/Helpers/Woocommerce.php:426
 #: App/Premium/Conditions/Customer.php:18
 #: App/Premium/Controllers/Site/Main.php:87
 #: App/Premium/Controllers/Site/Main.php:142
@@ -1896,10 +1896,10 @@ msgid "Select language"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:323
-#: App/Helpers/Woocommerce.php:326
-#: App/Helpers/Woocommerce.php:358
-#: App/Helpers/Woocommerce.php:399
-#: App/Helpers/Woocommerce.php:427
+#: App/Helpers/Woocommerce.php:327
+#: App/Helpers/Woocommerce.php:359
+#: App/Helpers/Woocommerce.php:400
+#: App/Helpers/Woocommerce.php:428
 #: App/Premium/Conditions/Currency.php:18
 #: App/Premium/Controllers/Site/Main.php:89
 #: App/Premium/Controllers/Site/Main.php:144
@@ -1928,10 +1928,10 @@ msgid "Customer Level"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:331
-#: App/Helpers/Woocommerce.php:333
-#: App/Helpers/Woocommerce.php:365
-#: App/Helpers/Woocommerce.php:400
-#: App/Helpers/Woocommerce.php:433
+#: App/Helpers/Woocommerce.php:334
+#: App/Helpers/Woocommerce.php:366
+#: App/Helpers/Woocommerce.php:401
+#: App/Helpers/Woocommerce.php:434
 #: App/Premium/Controllers/Site/Main.php:96
 msgid "Cart Subtotal"
 msgstr ""
@@ -1962,8 +1962,8 @@ msgid "All item count "
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:344
-#: App/Helpers/Woocommerce.php:402
-#: App/Helpers/Woocommerce.php:435
+#: App/Helpers/Woocommerce.php:403
+#: App/Helpers/Woocommerce.php:436
 #: App/Premium/Conditions/CartWeights.php:17
 #: App/Premium/Controllers/Site/Main.php:98
 msgid "Cart Weight"
@@ -1976,10 +1976,10 @@ msgstr ""
 #: App/Controllers/Admin/Labels.php:351
 #: App/Controllers/Admin/Labels.php:1125
 #: App/Controllers/Admin/Labels.php:1639
-#: App/Helpers/Woocommerce.php:339
-#: App/Helpers/Woocommerce.php:371
-#: App/Helpers/Woocommerce.php:403
-#: App/Helpers/Woocommerce.php:441
+#: App/Helpers/Woocommerce.php:340
+#: App/Helpers/Woocommerce.php:372
+#: App/Helpers/Woocommerce.php:404
+#: App/Helpers/Woocommerce.php:442
 #: App/Premium/Conditions/Products.php:17
 #: App/Premium/Controllers/Site/Main.php:104
 #: App/Premium/Controllers/Site/Main.php:151
@@ -2003,10 +2003,10 @@ msgid "Product(s) quantity"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:358
-#: App/Helpers/Woocommerce.php:340
-#: App/Helpers/Woocommerce.php:372
-#: App/Helpers/Woocommerce.php:404
-#: App/Helpers/Woocommerce.php:442
+#: App/Helpers/Woocommerce.php:341
+#: App/Helpers/Woocommerce.php:373
+#: App/Helpers/Woocommerce.php:405
+#: App/Helpers/Woocommerce.php:443
 #: App/Premium/Controllers/Site/Main.php:105
 #: App/Premium/Controllers/Site/Main.php:152
 msgid "Product Attributes"
@@ -2030,10 +2030,10 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:365
 #: App/Controllers/Admin/Labels.php:1640
-#: App/Helpers/Woocommerce.php:341
-#: App/Helpers/Woocommerce.php:373
-#: App/Helpers/Woocommerce.php:405
-#: App/Helpers/Woocommerce.php:443
+#: App/Helpers/Woocommerce.php:342
+#: App/Helpers/Woocommerce.php:374
+#: App/Helpers/Woocommerce.php:406
+#: App/Helpers/Woocommerce.php:444
 #: App/Premium/Controllers/Site/Main.php:106
 #: App/Premium/Controllers/Site/Main.php:153
 msgid "Product Category"
@@ -2057,10 +2057,10 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:372
 #: App/Controllers/Admin/Labels.php:1641
-#: App/Helpers/Woocommerce.php:342
-#: App/Helpers/Woocommerce.php:374
-#: App/Helpers/Woocommerce.php:406
-#: App/Helpers/Woocommerce.php:444
+#: App/Helpers/Woocommerce.php:343
+#: App/Helpers/Woocommerce.php:375
+#: App/Helpers/Woocommerce.php:407
+#: App/Helpers/Woocommerce.php:445
 #: App/Premium/Controllers/Site/Main.php:107
 #: App/Premium/Controllers/Site/Main.php:154
 msgid "Product SKU"
@@ -2143,8 +2143,8 @@ msgid "Select payment method(s) "
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:402
-#: App/Helpers/Woocommerce.php:410
-#: App/Helpers/Woocommerce.php:453
+#: App/Helpers/Woocommerce.php:411
+#: App/Helpers/Woocommerce.php:454
 #: App/Premium/Conditions/OrderStatus.php:17
 #: App/Premium/Controllers/Site/Main.php:116
 msgid "Order Status"
@@ -2159,8 +2159,8 @@ msgid "Select order status "
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:407
-#: App/Helpers/Woocommerce.php:411
-#: App/Helpers/Woocommerce.php:459
+#: App/Helpers/Woocommerce.php:412
+#: App/Helpers/Woocommerce.php:460
 #: App/Premium/Conditions/PurchaseFirstOrder.php:18
 #: App/Premium/Conditions/PurchaseHistory.php:20
 #: App/Premium/Conditions/PurchaseLastOrder.php:20
@@ -2189,7 +2189,7 @@ msgid "Select purchase status "
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:413
-#: App/Helpers/Woocommerce.php:412
+#: App/Helpers/Woocommerce.php:413
 #: App/Premium/Conditions/PurchaseHistoryQty.php:18
 msgid "Purchase History Quantity"
 msgstr ""
@@ -2249,7 +2249,7 @@ msgid "Last order"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:432
-#: App/Helpers/Woocommerce.php:463
+#: App/Helpers/Woocommerce.php:464
 #: App/Premium/Conditions/PurchaseLastOrderAmount.php:19
 #: App/Premium/Controllers/Site/Main.php:127
 #: App/Premium/Controllers/Site/Main.php:174
@@ -2269,7 +2269,7 @@ msgid "Number of orders made with following products "
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:436
-#: App/Helpers/Woocommerce.php:466
+#: App/Helpers/Woocommerce.php:467
 #: App/Premium/Conditions/PurchaseQuantitiesForSpecificProduct.php:19
 #: App/Premium/Controllers/Site/Main.php:131
 #: App/Premium/Controllers/Site/Main.php:177
@@ -2277,7 +2277,7 @@ msgid "Number of quantities made with following products"
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:437
-#: App/Helpers/Woocommerce.php:467
+#: App/Helpers/Woocommerce.php:468
 #: App/Premium/Conditions/PurchaseSpent.php:19
 #: App/Premium/Controllers/Site/Main.php:132
 #: App/Premium/Controllers/Site/Main.php:178
@@ -2471,7 +2471,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:504
 #: App/Controllers/Admin/Labels.php:682
-#: App/Helpers/Woocommerce.php:249
+#: App/Helpers/Woocommerce.php:250
 #: App/Premium/Controllers/Site/Birthday.php:430
 #: App/Premium/Controllers/Site/Birthday.php:526
 #: App/Premium/Controllers/Site/Birthday.php:566
@@ -2965,7 +2965,7 @@ msgstr ""
 #. translators: %s: point label
 #: App/Controllers/Admin/Labels.php:674
 #: App/Controllers/Admin/Labels.php:775
-#: App/Helpers/Woocommerce.php:244
+#: App/Helpers/Woocommerce.php:245
 #: App/Premium/Controllers/Site/Main.php:27
 msgid "Reward based on spending"
 msgstr ""
@@ -2976,7 +2976,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:678
 #: App/Controllers/Admin/Labels.php:1479
-#: App/Helpers/Woocommerce.php:245
+#: App/Helpers/Woocommerce.php:246
 #: App/Premium/Controllers/Site/Main.php:28
 msgid "Order Goals"
 msgstr ""
@@ -2990,7 +2990,7 @@ msgid "Reward customers for sharing their date of birth with you. This will help
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:686
-#: App/Helpers/Woocommerce.php:246
+#: App/Helpers/Woocommerce.php:247
 #: App/Premium/Controllers/Site/Main.php:36
 msgid "Referral"
 msgstr ""
@@ -3000,7 +3000,7 @@ msgid "Reward customers for referring their friends to your store. Turn your cus
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:690
-#: App/Helpers/Woocommerce.php:247
+#: App/Helpers/Woocommerce.php:248
 #: App/Premium/Controllers/Site/Main.php:29
 msgid "Sign Up"
 msgstr ""
@@ -3010,7 +3010,7 @@ msgid "Reward customers for creating / registering an account with your store.  
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:694
-#: App/Helpers/Woocommerce.php:248
+#: App/Helpers/Woocommerce.php:249
 #: App/Premium/Controllers/Site/Main.php:30
 msgid "Write a review"
 msgstr ""
@@ -3021,7 +3021,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:698
 #: App/Controllers/Admin/Labels.php:849
-#: App/Helpers/Woocommerce.php:250
+#: App/Helpers/Woocommerce.php:251
 #: App/Premium/Controllers/Site/Main.php:32
 msgid "Facebook Share"
 msgstr ""
@@ -3032,7 +3032,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:702
 #: App/Controllers/Admin/Labels.php:857
-#: App/Helpers/Woocommerce.php:251
+#: App/Helpers/Woocommerce.php:252
 #: App/Premium/Controllers/Site/Main.php:33
 msgid "Twitter Share"
 msgstr ""
@@ -3042,7 +3042,7 @@ msgid "Reward customers for sharing your store / products in Twitter. This helps
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:706
-#: App/Helpers/Woocommerce.php:252
+#: App/Helpers/Woocommerce.php:253
 #: App/Premium/Controllers/Site/Main.php:34
 msgid "WhatsApp Share"
 msgstr ""
@@ -3053,7 +3053,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:710
 #: App/Controllers/Admin/Labels.php:867
-#: App/Helpers/Woocommerce.php:253
+#: App/Helpers/Woocommerce.php:254
 #: App/Premium/Controllers/Site/Main.php:35
 msgid "Email Share"
 msgstr ""
@@ -3072,7 +3072,7 @@ msgstr ""
 
 #: App/Controllers/Admin/Labels.php:718
 #: App/Controllers/Admin/Labels.php:893
-#: App/Helpers/Woocommerce.php:254
+#: App/Helpers/Woocommerce.php:255
 #: App/Premium/Controllers/Site/Main.php:37
 #: App/Views/Site/customer_reward_page.php:499
 #: App/Views/Site/my_account_page_reward.php:411
@@ -3084,7 +3084,7 @@ msgid "Let customers follow your pages in social media like Facebook, Instagram.
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:722
-#: App/Helpers/Woocommerce.php:255
+#: App/Helpers/Woocommerce.php:256
 #: App/Premium/Controllers/Site/Main.php:38
 msgid "Achievement"
 msgstr ""
@@ -4611,10 +4611,10 @@ msgid "Make use of the help docs to get a better understanding of  how it works.
 msgstr ""
 
 #: App/Controllers/Admin/Labels.php:1642
-#: App/Helpers/Woocommerce.php:343
-#: App/Helpers/Woocommerce.php:375
-#: App/Helpers/Woocommerce.php:408
-#: App/Helpers/Woocommerce.php:446
+#: App/Helpers/Woocommerce.php:344
+#: App/Helpers/Woocommerce.php:376
+#: App/Helpers/Woocommerce.php:409
+#: App/Helpers/Woocommerce.php:447
 #: App/Premium/Conditions/ProductTags.php:17
 #: App/Premium/Controllers/Site/Main.php:109
 #: App/Premium/Controllers/Site/Main.php:156
@@ -4811,7 +4811,7 @@ msgstr ""
 #. translators: %s: reward name
 #: App/Controllers/Admin/RewardPage.php:183
 #: App/Controllers/Admin/RewardPage.php:237
-#: App/Controllers/Admin/RewardPage.php:273
+#: App/Controllers/Admin/RewardPage.php:278
 msgid "Please remove \"%s\" reward in campaign"
 msgstr ""
 
@@ -4824,64 +4824,64 @@ msgstr ""
 msgid "Invalid action mode"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:242
+#: App/Controllers/Admin/RewardPage.php:247
 msgid "Reward deleted successfully"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:244
+#: App/Controllers/Admin/RewardPage.php:249
 msgid "Reward delete failed"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:262
-#: App/Controllers/Admin/RewardPage.php:291
+#: App/Controllers/Admin/RewardPage.php:267
+#: App/Controllers/Admin/RewardPage.php:296
 msgid "Reward status change has failed"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:277
+#: App/Controllers/Admin/RewardPage.php:282
 msgid "Disabling reward has failed"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:279
+#: App/Controllers/Admin/RewardPage.php:284
 msgid "Reward activation has failed"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:285
+#: App/Controllers/Admin/RewardPage.php:290
 msgid "Reward disabled successfully"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:287
+#: App/Controllers/Admin/RewardPage.php:292
 msgid "Reward activated successfully"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:310
+#: App/Controllers/Admin/RewardPage.php:315
 msgid "Reward not found"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:325
+#: App/Controllers/Admin/RewardPage.php:330
 msgid "Reward could not be saved"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:328
+#: App/Controllers/Admin/RewardPage.php:333
 msgid "Reward duplicated successfully"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:395
+#: App/Controllers/Admin/RewardPage.php:400
 msgid "Before change reward type, please remove reward in campaign."
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:398
+#: App/Controllers/Admin/RewardPage.php:403
 msgid "Before change active status, please remove reward in campaign."
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:412
+#: App/Controllers/Admin/RewardPage.php:417
 msgid "Reward not saved"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:422
+#: App/Controllers/Admin/RewardPage.php:427
 msgid "Reward saved successfully"
 msgstr ""
 
-#: App/Controllers/Admin/RewardPage.php:427
+#: App/Controllers/Admin/RewardPage.php:432
 msgid "Reward save has failed"
 msgstr ""
 
@@ -4925,13 +4925,13 @@ msgstr ""
 
 #: App/Controllers/Site/Blocks/Integration/Message.php:125
 #: App/Controllers/Site/Blocks/Integration/Message.php:131
-#: App/Controllers/Site/DisplayMessage.php:569
-#: App/Controllers/Site/DisplayMessage.php:573
+#: App/Controllers/Site/DisplayMessage.php:571
+#: App/Controllers/Site/DisplayMessage.php:575
 msgid "You have {wlr_redeem_cart_points} {wlr_points_label} earned choose your rewards {wlr_reward_link}"
 msgstr ""
 
 #: App/Controllers/Site/Blocks/Integration/Message.php:164
-#: App/Controllers/Site/DisplayMessage.php:580
+#: App/Controllers/Site/DisplayMessage.php:582
 msgid "Click Here"
 msgstr ""
 
@@ -4971,39 +4971,39 @@ msgid "Cart redeeming message"
 msgstr ""
 
 #. translators: %s: point label
-#: App/Controllers/Site/Common.php:78
+#: App/Controllers/Site/Common.php:83
 msgid "How much %s you would like to use"
 msgstr ""
 
 #. translators: %s: reward label
-#: App/Controllers/Site/Common.php:82
+#: App/Controllers/Site/Common.php:88
 msgid "Are you sure you want to return the %s ?"
 msgstr ""
 
-#: App/Controllers/Site/Coupon.php:185
+#: App/Controllers/Site/Coupon.php:186
 msgid "Please login before applying the coupon"
 msgstr ""
 
-#: App/Controllers/Site/Coupon.php:192
+#: App/Controllers/Site/Coupon.php:193
 msgid "This coupon is not applicable for the current user"
 msgstr ""
 
-#: App/Controllers/Site/Coupon.php:202
+#: App/Controllers/Site/Coupon.php:203
 msgid "This coupon cannot be used for the current cart"
 msgstr ""
 
 #. translators: %s is the coupon code
-#: App/Controllers/Site/Coupon.php:314
+#: App/Controllers/Site/Coupon.php:315
 msgid "Coupon %s deleted by admin."
 msgstr ""
 
 #. translators: 1: point, 2: point label, 3: coupon code
-#: App/Controllers/Site/Coupon.php:341
+#: App/Controllers/Site/Coupon.php:342
 msgid "%1$d %2$s added because coupon %3$s deleted by admin"
 msgstr ""
 
 #. translators: 1: email, 2: point label, 3: old points, 4: new points, 5: coupon code
-#: App/Controllers/Site/Coupon.php:343
+#: App/Controllers/Site/Coupon.php:344
 msgid "%1$s customer %2$s changed from %3$d to %4$d because coupon  %5$s deleted by admin"
 msgstr ""
 
@@ -5027,7 +5027,7 @@ msgstr ""
 
 #. translators: 1: point label 2: content
 #: App/Controllers/Site/CustomerPage.php:721
-#: App/Helpers/EarnCampaign.php:1173
+#: App/Helpers/EarnCampaign.php:1184
 msgid "You get %1$s : %2$s"
 msgstr ""
 
@@ -5072,7 +5072,7 @@ msgstr ""
 msgid "Max allowed %1$s: %2$s"
 msgstr ""
 
-#: App/Controllers/Site/DisplayMessage.php:633
+#: App/Controllers/Site/DisplayMessage.php:635
 msgid "You have earned {wlr_earned_points} {wlr_points_label} for this order. You have a total of {wlr_total_points}."
 msgstr ""
 
@@ -5184,8 +5184,8 @@ msgstr ""
 
 #: App/Controllers/Site/Main.php:516
 #: App/Controllers/Site/Main.php:1088
-#: App/Controllers/Site/MyAccount.php:134
-#: App/Premium/Controllers/Admin/Customers.php:380
+#: App/Controllers/Site/MyAccount.php:161
+#: App/Premium/Controllers/Admin/Customers.php:381
 #: App/Premium/Controllers/Site/Birthday.php:74
 #: App/Premium/Controllers/Site/Referral.php:32
 msgid "Invalid nonce"
@@ -5238,7 +5238,7 @@ msgid "%1$s & %2$s"
 msgstr ""
 
 #: App/Controllers/Site/Schedules.php:124
-#: App/Helpers/Base.php:1267
+#: App/Helpers/Base.php:1303
 msgid "Starting point of customer"
 msgstr ""
 
@@ -5794,7 +5794,7 @@ msgstr ""
 
 #. translators: 1: reward name 2: reward label 3: action name
 #: App/Helpers/Base.php:937
-#: App/Helpers/EarnCampaign.php:1029
+#: App/Helpers/EarnCampaign.php:1040
 msgid "%1$s %2$s earned via %3$s"
 msgstr ""
 
@@ -5824,7 +5824,7 @@ msgstr ""
 
 #. translators: 1: point 2: point label
 #: App/Helpers/CsvHelper.php:274
-#: App/Premium/Controllers/Admin/Customers.php:308
+#: App/Premium/Controllers/Admin/Customers.php:309
 msgid "Added %1$d %2$s by site admin"
 msgstr ""
 
@@ -5854,99 +5854,99 @@ msgid "%1$d %2$s reduced for order return"
 msgstr ""
 
 #. translators: 1: email 2: reward display name 3: order id
-#: App/Helpers/EarnCampaign.php:417
+#: App/Helpers/EarnCampaign.php:425
 msgid "%1$s customer reward(%2$s) marked as expired due to order return(%3$s)"
 msgstr ""
 
 #. translators: %s: reward display name
-#: App/Helpers/EarnCampaign.php:419
+#: App/Helpers/EarnCampaign.php:427
 msgid "%s reward marked as expired for order return"
 msgstr ""
 
 #. translators: 1: coupon code 2: email 3: order id
-#: App/Helpers/EarnCampaign.php:512
+#: App/Helpers/EarnCampaign.php:520
 msgid "%1$s coupon return back to %2$s for # %3$s order return"
 msgstr ""
 
 #. translators: %s: coupon code
-#: App/Helpers/EarnCampaign.php:514
+#: App/Helpers/EarnCampaign.php:522
 msgid "%s coupon return back for order return"
 msgstr ""
 
 #. translators: 1: reward name 2: label 3: action name 4. Achievement name
 #. translators: 1: point 2: label 3: action name 4: Achievement name
-#: App/Helpers/EarnCampaign.php:1016
-#: App/Helpers/EarnCampaign.php:1032
+#: App/Helpers/EarnCampaign.php:1027
+#: App/Helpers/EarnCampaign.php:1043
 msgid "%1$s %2$s earned via %3$s (%4$s)"
 msgstr ""
 
 #. translators: 1: reward name 2: label 3: action name 4: email
 #. translators: 1: point 2: label 3: action name 4: email
-#: App/Helpers/EarnCampaign.php:1022
-#: App/Helpers/EarnCampaign.php:1038
+#: App/Helpers/EarnCampaign.php:1033
+#: App/Helpers/EarnCampaign.php:1049
 msgid "%1$s %2$s earned via %3$s for referring %4$s"
 msgstr ""
 
 #. translators: 1: reward name 2: label 3: action name 4: email
 #. translators: 1: point 2: label 3: action name 4: email
-#: App/Helpers/EarnCampaign.php:1025
-#: App/Helpers/EarnCampaign.php:1041
+#: App/Helpers/EarnCampaign.php:1036
+#: App/Helpers/EarnCampaign.php:1052
 msgid "%1$s %2$s earned via %3$s from referrer %4$s"
 msgstr ""
 
 #. translators: 1: point 2: label 3: action name
-#: App/Helpers/EarnCampaign.php:1045
+#: App/Helpers/EarnCampaign.php:1056
 msgid "%1$s %2$s earned via %3$s "
 msgstr ""
 
 #. translators: %s: point label
-#: App/Helpers/EarnCampaign.php:1186
+#: App/Helpers/EarnCampaign.php:1197
 msgid "%s Advocate reward"
 msgstr ""
 
 #. translators: 1: point label 2: label
-#: App/Helpers/EarnCampaign.php:1202
+#: App/Helpers/EarnCampaign.php:1213
 msgid " | Your friend gets %1$s : %2$s"
 msgstr ""
 
 #. translators: %s: point label
-#: App/Helpers/EarnCampaign.php:1218
+#: App/Helpers/EarnCampaign.php:1229
 msgid " | %s Friend reward"
 msgstr ""
 
 #. translators: 1: point 2: point label 3: price
-#: App/Helpers/EarnCampaign.php:1227
+#: App/Helpers/EarnCampaign.php:1238
 msgid "%1$d %2$s for each %3$d spent"
 msgstr ""
 
 #. translators: %s: point label
-#: App/Helpers/EarnCampaign.php:1237
+#: App/Helpers/EarnCampaign.php:1248
 msgid "%s reward"
 msgstr ""
 
-#: App/Helpers/Rewards.php:231
+#: App/Helpers/Rewards.php:232
 msgid "Coupon will apply when the cart has items"
 msgstr ""
 
-#: App/Helpers/Rewards.php:240
+#: App/Helpers/Rewards.php:241
 msgid "Coupon applied successfully."
 msgstr ""
 
 #. translators: 1:coupon code 2: email 3: reward display name
-#: App/Helpers/Rewards.php:336
+#: App/Helpers/Rewards.php:337
 msgid "%1$s coupon created for %2$s from %3$s reward"
 msgstr ""
 
-#: App/Helpers/Rewards.php:510
+#: App/Helpers/Rewards.php:511
 msgid "Missing parameter \"code\""
 msgstr ""
 
-#: App/Helpers/Rewards.php:515
+#: App/Helpers/Rewards.php:516
 msgid "The coupon code already exists"
 msgstr ""
 
 #. translators: %s: coupon types
-#: App/Helpers/Rewards.php:541
+#: App/Helpers/Rewards.php:542
 msgid "Invalid coupon type - the coupon type must be any of these: %s"
 msgstr ""
 
@@ -6020,10 +6020,10 @@ msgstr ""
 #: App/Helpers/Validation.php:381
 #: App/Helpers/Validation.php:864
 #: App/Helpers/Validation.php:868
-#: App/Helpers/Validation.php:1577
-#: App/Helpers/Validation.php:1581
-#: App/Helpers/Validation.php:1632
-#: App/Helpers/Validation.php:1636
+#: App/Helpers/Validation.php:1576
+#: App/Helpers/Validation.php:1580
+#: App/Helpers/Validation.php:1631
+#: App/Helpers/Validation.php:1635
 msgid "Invalid characters"
 msgstr ""
 
@@ -6070,7 +6070,7 @@ msgid "{field} accepts only letters"
 msgstr ""
 
 #: App/Helpers/Validation.php:276
-#: App/Helpers/Validation.php:1415
+#: App/Helpers/Validation.php:1414
 msgid "{field} accepts only letters,numbers and space"
 msgstr ""
 
@@ -6085,14 +6085,14 @@ msgstr ""
 #: App/Helpers/Validation.php:650
 #: App/Helpers/Validation.php:661
 #: App/Helpers/Validation.php:666
-#: App/Helpers/Validation.php:1317
-#: App/Helpers/Validation.php:1319
-#: App/Helpers/Validation.php:1363
-#: App/Helpers/Validation.php:1377
-#: App/Helpers/Validation.php:1597
-#: App/Helpers/Validation.php:1603
-#: App/Helpers/Validation.php:1655
-#: App/Helpers/Validation.php:1661
+#: App/Helpers/Validation.php:1316
+#: App/Helpers/Validation.php:1318
+#: App/Helpers/Validation.php:1362
+#: App/Helpers/Validation.php:1376
+#: App/Helpers/Validation.php:1596
+#: App/Helpers/Validation.php:1602
+#: App/Helpers/Validation.php:1654
+#: App/Helpers/Validation.php:1660
 msgid "{field} has invalid characters"
 msgstr ""
 
@@ -6124,15 +6124,15 @@ msgstr ""
 
 #: App/Helpers/Validation.php:397
 #: App/Helpers/Validation.php:888
-#: App/Helpers/Validation.php:1477
-#: App/Helpers/Validation.php:1573
-#: App/Helpers/Validation.php:1628
+#: App/Helpers/Validation.php:1476
+#: App/Helpers/Validation.php:1572
+#: App/Helpers/Validation.php:1627
 msgid "accepts only numbers"
 msgstr ""
 
 #: App/Helpers/Validation.php:401
 #: App/Helpers/Validation.php:892
-#: App/Helpers/Validation.php:1481
+#: App/Helpers/Validation.php:1480
 msgid "required field"
 msgstr ""
 
@@ -6142,7 +6142,7 @@ msgstr ""
 
 #: App/Helpers/Validation.php:406
 #: App/Helpers/Validation.php:896
-#: App/Helpers/Validation.php:1485
+#: App/Helpers/Validation.php:1484
 msgid "must be greater than {field1}"
 msgstr ""
 
@@ -6160,8 +6160,8 @@ msgid "{field} is invalid"
 msgstr ""
 
 #: App/Helpers/Validation.php:442
-#: App/Helpers/Validation.php:960
-#: App/Helpers/Validation.php:973
+#: App/Helpers/Validation.php:959
+#: App/Helpers/Validation.php:972
 msgid "{field} is must be less than or equal to 100"
 msgstr ""
 
@@ -6171,59 +6171,59 @@ msgstr ""
 #: App/Helpers/Validation.php:577
 #: App/Helpers/Validation.php:627
 #: App/Helpers/Validation.php:702
-#: App/Helpers/Validation.php:1095
-#: App/Helpers/Validation.php:1122
-#: App/Helpers/Validation.php:1135
-#: App/Helpers/Validation.php:1151
-#: App/Helpers/Validation.php:1214
-#: App/Helpers/Validation.php:1241
-#: App/Helpers/Validation.php:1256
-#: App/Helpers/Validation.php:1274
-#: App/Helpers/Validation.php:1301
-#: App/Helpers/Validation.php:1392
-#: App/Helpers/Validation.php:1508
-#: App/Helpers/Validation.php:1592
-#: App/Helpers/Validation.php:1650
+#: App/Helpers/Validation.php:1094
+#: App/Helpers/Validation.php:1121
+#: App/Helpers/Validation.php:1134
+#: App/Helpers/Validation.php:1150
+#: App/Helpers/Validation.php:1213
+#: App/Helpers/Validation.php:1240
+#: App/Helpers/Validation.php:1255
+#: App/Helpers/Validation.php:1273
+#: App/Helpers/Validation.php:1300
+#: App/Helpers/Validation.php:1391
+#: App/Helpers/Validation.php:1507
+#: App/Helpers/Validation.php:1591
+#: App/Helpers/Validation.php:1649
 msgid "{field} accepts only numbers"
 msgstr ""
 
 #: App/Helpers/Validation.php:637
-#: App/Helpers/Validation.php:1284
+#: App/Helpers/Validation.php:1283
 msgid "Min Amount"
 msgstr ""
 
 #: App/Helpers/Validation.php:639
-#: App/Helpers/Validation.php:1286
+#: App/Helpers/Validation.php:1285
 msgid "Max Amount"
 msgstr ""
 
 #: App/Helpers/Validation.php:653
-#: App/Helpers/Validation.php:1322
+#: App/Helpers/Validation.php:1321
 msgid "{field} has one of deleted product"
 msgstr ""
 
 #: App/Helpers/Validation.php:655
 #: App/Helpers/Validation.php:788
-#: App/Helpers/Validation.php:1341
+#: App/Helpers/Validation.php:1340
 msgid "{field} is empty"
 msgstr ""
 
 #: App/Helpers/Validation.php:672
-#: App/Helpers/Validation.php:1404
+#: App/Helpers/Validation.php:1403
 msgid "{field} accepts only letters A-Z"
 msgstr ""
 
 #: App/Helpers/Validation.php:680
 #: App/Helpers/Validation.php:707
-#: App/Helpers/Validation.php:1428
+#: App/Helpers/Validation.php:1427
 msgid "{field} accepts only letters,numbers and underscore"
 msgstr ""
 
 #: App/Helpers/Validation.php:688
 #: App/Helpers/Validation.php:792
-#: App/Helpers/Validation.php:1345
-#: App/Helpers/Validation.php:1530
-#: App/Helpers/Validation.php:1534
+#: App/Helpers/Validation.php:1344
+#: App/Helpers/Validation.php:1529
+#: App/Helpers/Validation.php:1533
 msgid "{field} must be greater than 0"
 msgstr ""
 
@@ -6241,8 +6241,8 @@ msgid "{field} is must be less than or equal to 50"
 msgstr ""
 
 #: App/Helpers/Validation.php:897
-#: App/Helpers/Validation.php:1490
-#: App/Helpers/Validation.php:1494
+#: App/Helpers/Validation.php:1489
+#: App/Helpers/Validation.php:1493
 msgid " is empty"
 msgstr ""
 
@@ -6251,69 +6251,69 @@ msgid " is required"
 msgstr ""
 
 #: App/Helpers/Validation.php:905
-#: App/Helpers/Validation.php:1489
+#: App/Helpers/Validation.php:1488
 msgid "is too length"
 msgstr ""
 
-#: App/Helpers/Validation.php:1410
+#: App/Helpers/Validation.php:1409
 msgid "{field} must contain only Yes or No"
 msgstr ""
 
-#: App/Helpers/Validation.php:1519
+#: App/Helpers/Validation.php:1518
 msgid "{field} can not be 0"
 msgstr ""
 
-#: App/Helpers/Validation.php:1538
+#: App/Helpers/Validation.php:1537
 msgid "You seem to have another level configured that conflicts with this range. Check and make sure that the ranges are correct. Example: if you already have a level with points range 1 to 100, then you cannot create another level with points range like: 50 to 200. It should be 101 to 200"
 msgstr ""
 
-#: App/Helpers/Validation.php:1543
+#: App/Helpers/Validation.php:1542
 msgid "From field"
 msgstr ""
 
-#: App/Helpers/Validation.php:1640
+#: App/Helpers/Validation.php:1639
 msgid "{field} has invalid email address"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:226
-#: App/Helpers/Woocommerce.php:243
+#: App/Helpers/Woocommerce.php:227
+#: App/Helpers/Woocommerce.php:244
 msgid "Points For Purchase"
 msgstr ""
 
 #. translators: %s: point label
-#: App/Helpers/Woocommerce.php:227
-#: App/Helpers/Woocommerce.php:243
+#: App/Helpers/Woocommerce.php:228
+#: App/Helpers/Woocommerce.php:244
 msgid "%s For Purchase"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:266
+#: App/Helpers/Woocommerce.php:267
 msgid "Fixed discount"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:268
+#: App/Helpers/Woocommerce.php:269
 msgid "Free shipping"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:269
+#: App/Helpers/Woocommerce.php:270
 msgid "Free product"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:270
+#: App/Helpers/Woocommerce.php:271
 msgid "Points conversion"
 msgstr ""
 
 #. translators: %s: point label
-#: App/Helpers/Woocommerce.php:270
+#: App/Helpers/Woocommerce.php:271
 msgid "%s conversion"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:285
+#: App/Helpers/Woocommerce.php:286
 msgid "Guest"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:323
-#: App/Helpers/Woocommerce.php:355
-#: App/Helpers/Woocommerce.php:421
+#: App/Helpers/Woocommerce.php:324
+#: App/Helpers/Woocommerce.php:356
+#: App/Helpers/Woocommerce.php:422
 #: App/Premium/Conditions/Currency.php:19
 #: App/Premium/Conditions/Customer.php:19
 #: App/Premium/Conditions/Language.php:19
@@ -6332,10 +6332,10 @@ msgstr ""
 msgid "Common"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:325
-#: App/Helpers/Woocommerce.php:357
-#: App/Helpers/Woocommerce.php:398
-#: App/Helpers/Woocommerce.php:426
+#: App/Helpers/Woocommerce.php:326
+#: App/Helpers/Woocommerce.php:358
+#: App/Helpers/Woocommerce.php:399
+#: App/Helpers/Woocommerce.php:427
 #: App/Premium/Controllers/Site/Main.php:143
 #: App/Premium/Controllers/Site/Main.php:187
 #: App/Premium/Controllers/Site/Main.php:199
@@ -6349,9 +6349,9 @@ msgstr ""
 msgid "language"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:337
-#: App/Helpers/Woocommerce.php:369
-#: App/Helpers/Woocommerce.php:439
+#: App/Helpers/Woocommerce.php:338
+#: App/Helpers/Woocommerce.php:370
+#: App/Helpers/Woocommerce.php:440
 #: App/Premium/Conditions/ProductAttributes.php:18
 #: App/Premium/Conditions/ProductCategory.php:18
 #: App/Premium/Conditions/ProductOnSale.php:18
@@ -6363,55 +6363,55 @@ msgstr ""
 msgid "Product"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:347
-#: App/Helpers/Woocommerce.php:379
-#: App/Helpers/Woocommerce.php:450
+#: App/Helpers/Woocommerce.php:348
+#: App/Helpers/Woocommerce.php:380
+#: App/Helpers/Woocommerce.php:451
 #: App/Premium/Conditions/OrderStatus.php:18
 #: App/Premium/Conditions/UsageLimits.php:20
 #: App/Premium/Controllers/Site/Main.php:113
 msgid "Order"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:349
-#: App/Helpers/Woocommerce.php:381
-#: App/Helpers/Woocommerce.php:409
-#: App/Helpers/Woocommerce.php:452
+#: App/Helpers/Woocommerce.php:350
+#: App/Helpers/Woocommerce.php:382
+#: App/Helpers/Woocommerce.php:410
+#: App/Helpers/Woocommerce.php:453
 #: App/Premium/Conditions/PaymentMethod.php:17
 #: App/Premium/Controllers/Site/Main.php:115
 msgid "Payment Method"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:407
-#: App/Helpers/Woocommerce.php:445
+#: App/Helpers/Woocommerce.php:408
+#: App/Helpers/Woocommerce.php:446
 #: App/Premium/Conditions/ProductOnSale.php:17
 msgid "On sale products"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:413
+#: App/Helpers/Woocommerce.php:414
 #: App/Premium/Conditions/LifeTimeSaleValue.php:20
 msgid "Life Time Sale value"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:461
+#: App/Helpers/Woocommerce.php:462
 #: App/Premium/Controllers/Site/Main.php:125
 #: App/Premium/Controllers/Site/Main.php:172
 msgid "First Order"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:462
+#: App/Helpers/Woocommerce.php:463
 #: App/Premium/Controllers/Site/Main.php:126
 #: App/Premium/Controllers/Site/Main.php:173
 msgid "Last Order"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:464
+#: App/Helpers/Woocommerce.php:465
 #: App/Premium/Conditions/PurchasePreviousOrders.php:19
 #: App/Premium/Controllers/Site/Main.php:128
 #: App/Premium/Controllers/Site/Main.php:175
 msgid "Number of orders made"
 msgstr ""
 
-#: App/Helpers/Woocommerce.php:465
+#: App/Helpers/Woocommerce.php:466
 #: App/Premium/Conditions/PurchasePreviousOrdersForSpecificProduct.php:19
 #: App/Premium/Controllers/Site/Main.php:130
 #: App/Premium/Controllers/Site/Main.php:176
@@ -6629,42 +6629,42 @@ msgstr ""
 msgid "Import customer successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:197
+#: App/Premium/Controllers/Admin/Customers.php:198
 msgid "Export preview nonce failed"
 msgstr ""
 
 #. translators: %s: count
-#: App/Premium/Controllers/Admin/Customers.php:256
+#: App/Premium/Controllers/Admin/Customers.php:257
 msgid "Exported %s customer"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:260
+#: App/Premium/Controllers/Admin/Customers.php:261
 msgid "Export customer successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:291
-#: App/Premium/Controllers/Admin/Customers.php:368
+#: App/Premium/Controllers/Admin/Customers.php:292
+#: App/Premium/Controllers/Admin/Customers.php:369
 msgid "Invalid customer data"
 msgstr ""
 
 #. translators: 1: customer email 2: point 3: point label 4: admin email
-#: App/Premium/Controllers/Admin/Customers.php:310
+#: App/Premium/Controllers/Admin/Customers.php:311
 msgid "%1$s customer added with %2$d %3$s by admin(%4$s)"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:346
+#: App/Premium/Controllers/Admin/Customers.php:347
 msgid "New Customer added successfully"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:355
+#: App/Premium/Controllers/Admin/Customers.php:356
 msgid "Add New Customer failed"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:362
+#: App/Premium/Controllers/Admin/Customers.php:363
 msgid "Customer already exist!"
 msgstr ""
 
-#: App/Premium/Controllers/Admin/Customers.php:374
+#: App/Premium/Controllers/Admin/Customers.php:375
 msgid "Invalid customer email address"
 msgstr ""
 

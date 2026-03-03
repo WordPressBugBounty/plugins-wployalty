@@ -85,7 +85,7 @@ class CampaignPage {
 			case 'in_active':
 				$query_data['active'] = [ 'operator' => '=', 'value' => 0 ];
 				break;
-			case 'all';
+			case 'all':
 			default:
 				break;
 		}

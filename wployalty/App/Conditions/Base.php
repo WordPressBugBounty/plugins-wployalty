@@ -113,7 +113,7 @@ abstract class Base {
 
 				return ! in_array( $key, $list );
 			default:
-			case 'in_list';
+			case 'in_list':
 				if ( is_array( $key ) ) {
 					return ! empty( array_intersect( $key, $list ) );
 				}

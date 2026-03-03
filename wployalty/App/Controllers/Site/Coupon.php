@@ -88,6 +88,7 @@ class Coupon {
 
 		// 2. validate user
 		$billing_email = isset( $_POST['billing_email'] ) ? sanitize_email( wp_unslash( $_POST['billing_email'] ) ) : '';//phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$billing_email = apply_filters( 'wlr_validate_reward_coupon_billing_email', strtolower( $billing_email ), $coupon, $discount );
 
 		$user_email = $woocommerce->get_login_user_email();
 		if ( ! empty( $billing_email ) && ! empty( $user_email ) && strtolower( $billing_email ) != strtolower( $user_email ) ) {

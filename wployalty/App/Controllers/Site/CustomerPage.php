@@ -799,7 +799,7 @@ class CustomerPage extends Base {
 
 				return ! in_array( $key, $list );
 			default:
-			case 'in_list';
+			case 'in_list':
 				if ( is_array( $key ) ) {
 					return ! empty( array_intersect( $key, $list ) );
 				}
@@ -900,7 +900,7 @@ class CustomerPage extends Base {
 					break;
 				case 'facebook_share':
 					$social_share_list[ $key ]['name'] = __( 'Facebook', 'wp-loyalty-rules' );
-					$social_share_list[ $key ]['url']  = "https://www.facebook.com/sharer/sharer.php?quote=" . urlencode( $social_share_message ) . "&u=" . urlencode( $url ) . "&display=page";
+					$social_share_list[ $key ]['url']  = 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $url ) . '&display=page';
 					break;
 				case 'whatsapp_share':
 					$social_share_list[ $key ]['name'] = __( 'WhatsApp', 'wp-loyalty-rules' );
@@ -936,7 +936,7 @@ class CustomerPage extends Base {
 	}
 
 	function getSocialShareMessage( $action, $social_share, $social_share_list ) {
-		if ( empty( $action ) || $action == 'email_share' || ! is_array( $social_share ) || empty( $social_share ) ) {
+		if ( empty( $action ) || $action == 'email_share' || $action == 'facebook_share' || ! is_array( $social_share ) || empty( $social_share ) ) {
 			return '';
 		}
 		$social_share_message = is_array( $social_share_list ) && isset( $social_share_list[ $action ] ) && is_array( $social_share_list[ $action ] ) && isset( $social_share_list[ $action ]['share_content'] ) && ! empty( $social_share_list[ $action ]['share_content'] ) ? $social_share_list[ $action ]['share_content'] : '';

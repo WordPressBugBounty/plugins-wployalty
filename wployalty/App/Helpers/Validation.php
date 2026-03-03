@@ -916,7 +916,6 @@ class Validation {
 		$number_non_zero_reward_field = array();
 		$empty_check_fields           = array();
 		if ( isset( $post['action_type'] ) && ! empty( $post['action_type'] ) && in_array( $post['action_type'], array(
-				'facebook_share',
 				'twitter_share',
 				'whatsapp_share'
 			) ) ) {

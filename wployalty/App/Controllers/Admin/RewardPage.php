@@ -88,7 +88,7 @@ class RewardPage {
 			case 'in_active':
 				$query_data['active'] = [ 'operator' => '=', 'value' => 0 ];
 				break;
-			case 'all';
+			case 'all':
 			default:
 				break;
 		}
@@ -235,6 +235,11 @@ class RewardPage {
 		if ( ! empty( $reward ) && $reward->reward_type == 'redeem_coupon' && $reward_model->checkCampaignHaveReward( $id ) ) {
 			// translators: %s: reward name
 			wp_send_json_error( [ 'message' => sprintf( __( 'Please remove "%s" reward in campaign', 'wp-loyalty-rules' ), $reward->name ) ] );
+		}
+
+		$data = apply_filters( 'wlr_before_delete_reward', [], $reward );
+		if ( ! empty( $data ) ) {
+			wp_send_json( $data );
 		}
 
 		if ( $reward_model->deleteById( $id ) ) {

@@ -218,6 +218,7 @@ class Rewards extends EarnCampaign {
 				$rewards[]                  = $point_reward;
 			}
 		}
+		$rewards = apply_filters( 'wlr_user_point_reward_list', $rewards, $user_email, $user_point );
 
 		return self::$user_rewards[ $user_email ]['point_reward'] = $rewards;
 	}

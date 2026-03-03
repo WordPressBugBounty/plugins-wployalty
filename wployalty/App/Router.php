@@ -6,6 +6,7 @@
  * */
 
 namespace Wlr\App;
+
 defined( 'ABSPATH' ) or die;
 
 use Wlr\App\Controllers\Admin\AddOn;
@@ -59,8 +60,10 @@ class Router {
 		} else {
 			/*My Account*/
 			add_action( 'plugins_loaded', array( self::$my_account, 'includes' ) );
-			add_action( 'woocommerce_init', array( self::$my_account, 'addEndPoints' ) );
+			add_action( 'init', array( self::$my_account, 'registerRewriteEndpoint' ) );
+			add_action( 'init', [ self::$my_account, 'flushRewriteRules' ], 20 );
 		}
+		add_action( 'permalink_structure_changed', [ self::$my_account, 'flushRewriteRules' ], 10, 2 );
 		self::initCustomerPage();
 		self::initSchedules();
 		self::initDisplayMessage();

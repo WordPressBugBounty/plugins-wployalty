@@ -1157,7 +1157,10 @@ class Main extends Base {
 	 * @return void
 	 */
 	function removeFreeProductCouponCode() {
-		$applied_coupons    = WC()->cart->get_applied_coupons();
+		$applied_coupons = self::$woocommerce->getAppliedCoupons();
+		if ( empty( $applied_coupons ) ) {
+			return;
+		}
 		$reward_helper      = \Wlr\App\Helpers\Rewards::getInstance();
 		$woocommerce_helper = Woocommerce::getInstance();
 		$current_language   = $woocommerce_helper->getCurrentLanguage();

@@ -558,6 +558,7 @@ class Base {
 						'discount_code'       => null,
 					);
 					$base_helper->add_note( $log_data );
+					$base_helper->firePointsBalanceChangedHook( $user_email, $point, 'debit', 'expire_point', $log_data );
 				}
 			} catch ( \Exception $e ) {
 				$status = false;

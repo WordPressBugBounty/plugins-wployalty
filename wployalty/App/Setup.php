@@ -7,6 +7,7 @@
 
 namespace Wlr\App;
 
+use Wlr\App\Controllers\Site\MyAccount;
 use Wlr\App\Helpers\CompatibleCheck;
 use Wlr\App\Models\EarnCampaign;
 use Wlr\App\Models\EarnCampaignTransactions;
@@ -42,6 +43,7 @@ class Setup {
 		if ( $check->init_check( true ) ) {
 			try {
 				self::createRequiredTable();
+				self::performFlushRewriteRules();
 			} catch ( Exception $e ) {
 				exit( esc_html( WLR_PLUGIN_NAME . __( 'Plugin required table creation failed.', 'wp-loyalty-rules' ) ) );
 			}
@@ -142,7 +144,17 @@ class Setup {
 		if ( version_compare( $db_version, WLR_PLUGIN_VERSION, '<' ) ) {
 			self::runMigration();
 			update_option( 'wlr_version', WLR_PLUGIN_VERSION );
+			self::performFlushRewriteRules();
 		}
+	}
+
+	/**
+	 * Update the flush required option to perform flush_rewrite_rules().
+	 *
+	 * @return void
+	 */
+	private static function performFlushRewriteRules() {
+		update_option( 'wlr_is_flush_required', 'yes' );
 	}
 
 	/**

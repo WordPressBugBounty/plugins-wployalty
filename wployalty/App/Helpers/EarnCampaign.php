@@ -383,6 +383,14 @@ class EarnCampaign extends Base {
 					];
 					$this->add_note( $log_data );
 					$args['points'] = $need_to_reduce_point;
+					$action_data = array(
+						'user_email'          => $earn_campaign_tran->user_email,
+						'order_id'            => $order_id,
+						'action_process_type' => 'order_return',
+						'campaign_id'         => $earn_campaign_tran->campaign_id,
+					);
+					$base_helper = new \Wlr\App\Helpers\Base();
+					$base_helper->firePointsBalanceChangedHook( $earn_campaign_tran->user_email, $need_to_reduce_point, 'debit', 'order_return', $action_data);
 				}
 			} elseif ( isset( $earn_campaign_tran->campaign_type ) && $earn_campaign_tran->campaign_type == 'coupon' && isset( $earn_campaign_tran->user_email ) && ! empty( $earn_campaign_tran->user_email ) ) {
 				$log_table_name = ( new Logs() )->getTableName();
@@ -775,6 +783,9 @@ class EarnCampaign extends Base {
 		$action_data['campaign_id'] = $campaign_id;
 		do_action( 'wlr_after_add_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
 		do_action( 'wlr_notify_after_add_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
+
+		$base_helper = new \Wlr\App\Helpers\Base();
+		$base_helper->firePointsBalanceChangedHook( $action_data['user_email'], $point, 'credit', $action_type, $action_data );
 
 		return true;
 	}

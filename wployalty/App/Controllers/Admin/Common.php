@@ -101,7 +101,7 @@ class Common {
 	/**
 	 * Adds custom action links to the plugin.
 	 *
-	 * @param array $links An array of existing action links.
+	 * @param   array  $links  An array of existing action links.
 	 *
 	 * @return array The modified array of action links.
 	 */
@@ -156,14 +156,20 @@ class Common {
 		if ( defined( 'SCRIPT_DEBUG' ) ) {
 			$suffix = SCRIPT_DEBUG ? '' : '.min';
 		}
+		$cache_fix     = apply_filters( 'wlr_load_admin_asset_with_time', true );
+		$add_cache_fix = ( $cache_fix ) ? '&t=' . time() : '';
 		self::removeAdminNotice();
 		wp_enqueue_media();
 		//Register the styles
-		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION . '&t=' . time() );
-		wp_enqueue_style( WLR_PLUGIN_SLUG . '-wlr-font', WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts' . $suffix . '.css', [], WLR_PLUGIN_VERSION . '&t=' . time() );
-		wp_enqueue_style( WLR_PLUGIN_SLUG . '-wlr-admin', WLR_PLUGIN_URL . 'Assets/Admin/Css/wlr-admin' . $suffix . '.css', [], WLR_PLUGIN_VERSION . '&t=' . time() );
+		wp_enqueue_style( WLR_PLUGIN_SLUG . '-alertify',
+			WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION . $add_cache_fix );
+		wp_enqueue_style( WLR_PLUGIN_SLUG . '-wlr-font',
+			WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts' . $suffix . '.css', [], WLR_PLUGIN_VERSION . $add_cache_fix );
+		wp_enqueue_style( WLR_PLUGIN_SLUG . '-wlr-admin',
+			WLR_PLUGIN_URL . 'Assets/Admin/Css/wlr-admin' . $suffix . '.css', [], WLR_PLUGIN_VERSION . $add_cache_fix );
 		//Register the scripts
-		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . '&t=' . time(), true );
+		wp_enqueue_script( WLR_PLUGIN_SLUG . '-alertify', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js',
+			[], WLR_PLUGIN_VERSION . $add_cache_fix, false );
 		/* Admin React */
 		$common_path = WLR_PLUGIN_PATH . 'Assets/Admin/Js/dist';
 		$js_files    = Woocommerce::getDirFileLists( $common_path );
@@ -176,7 +182,7 @@ class Common {
 				wp_enqueue_script( $js_name, $js_file_url, [
 					'jquery',
 					WLR_PLUGIN_SLUG . '-alertify'
-				], WLR_PLUGIN_VERSION . '&t=' . time(), true );
+				], WLR_PLUGIN_VERSION . $add_cache_fix, false );
 			}
 		}
 		/*End Admin React */

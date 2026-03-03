@@ -53,6 +53,7 @@ class Woocommerce {
 				'b'      => array( 'class' => array() ),
 				'i'      => array( 'class' => array() ),
 			);
+			$allowed_html = apply_filters( 'wlr_get_clean_html_allowed_tags', $allowed_html, $html );
 
 			return wp_kses( $html, $allowed_html );
 		} catch ( \Exception $e ) {

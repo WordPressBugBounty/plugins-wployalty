@@ -39,9 +39,12 @@ class Common {
 		$cache_fix = apply_filters( 'wlr_load_asset_with_time', true );
 
 		$add_cache_fix = ( $cache_fix ) ? '&t=' . time() : '';
-		wp_register_style( WLR_PLUGIN_SLUG . '-alertify-front', WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION );
-		wp_register_style( WLR_PLUGIN_SLUG . '-main-front', WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-main' . $suffix . '.css', [], WLR_PLUGIN_VERSION );
-		wp_register_style( WLR_PLUGIN_SLUG . '-wlr-font', WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts' . $suffix . '.css', [], WLR_PLUGIN_VERSION );
+		wp_register_style( WLR_PLUGIN_SLUG . '-alertify-front',
+			WLR_PLUGIN_URL . 'Assets/Admin/Css/alertify' . $suffix . '.css', [], WLR_PLUGIN_VERSION . $add_cache_fix );
+		wp_register_style( WLR_PLUGIN_SLUG . '-main-front',
+			WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-main' . $suffix . '.css', [], WLR_PLUGIN_VERSION . $add_cache_fix );
+		wp_register_style( WLR_PLUGIN_SLUG . '-wlr-font',
+			WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts' . $suffix . '.css', [], WLR_PLUGIN_VERSION . $add_cache_fix );
 
 		$css_handlers = apply_filters( 'wlr_front_css_handler', [
 			WLR_PLUGIN_SLUG . '-alertify-front',
@@ -57,11 +60,13 @@ class Common {
 		if ( is_checkout() ) {
 			$main_js[] = 'wc-checkout';
 		}
-		
+
 		$main_js = apply_filters( 'wlr_load_site_main_js_depends', $main_js );
 
-		wp_register_script( WLR_PLUGIN_SLUG . '-main', WLR_PLUGIN_URL . 'Assets/Site/Js/wlr-main' . $suffix . '.js', $main_js, WLR_PLUGIN_VERSION . $add_cache_fix, false );
-		wp_register_script( WLR_PLUGIN_SLUG . '-alertify-front', WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION, true );
+		wp_register_script( WLR_PLUGIN_SLUG . '-main', WLR_PLUGIN_URL . 'Assets/Site/Js/wlr-main' . $suffix . '.js',
+			$main_js, WLR_PLUGIN_VERSION . $add_cache_fix, false );
+		wp_register_script( WLR_PLUGIN_SLUG . '-alertify-front',
+			WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . $add_cache_fix, false );
 		$js_handlers = apply_filters( 'wlr_front_js_handler', [
 			'wc-cart-fragments',
 			WLR_PLUGIN_SLUG . '-main',
@@ -75,11 +80,13 @@ class Common {
 		$earn_campaign_helper = EarnCampaign::getInstance();
 		$localize             = apply_filters( 'wlr_before_load_localize', [
 			/* translators: %s: point label */
-			'point_popup_message'        => sprintf( __( 'How much %s you would like to use', 'wp-loyalty-rules' ), $base_helper->getPointLabel( 3 ) ),
+			'point_popup_message'        => sprintf( __( 'How much %s you would like to use', 'wp-loyalty-rules' ),
+				$base_helper->getPointLabel( 3 ) ),
 			'popup_ok'                   => __( 'Ok', 'wp-loyalty-rules' ),
 			'popup_cancel'               => __( 'Cancel', 'wp-loyalty-rules' ),
 			/* translators: %s: reward label */
-			'revoke_coupon_message'      => sprintf( __( 'Are you sure you want to return the %s ?', 'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel() ),
+			'revoke_coupon_message'      => sprintf( __( 'Are you sure you want to return the %s ?',
+				'wp-loyalty-rules' ), $earn_campaign_helper->getRewardLabel() ),
 			'wlr_redeem_nonce'           => wp_create_nonce( 'wlr_redeem_nonce' ),
 			'wlr_reward_nonce'           => wp_create_nonce( 'wlr_reward_nonce' ),
 			'apply_share_nonce'          => wp_create_nonce( 'wlr_social_share_nonce' ),
@@ -142,7 +149,7 @@ class Common {
 	/**
 	 * Update loyalty metadata for an order.
 	 *
-	 * @param int $order_id The ID of the order.
+	 * @param   int  $order_id  The ID of the order.
 	 *
 	 * @return void
 	 */
@@ -152,7 +159,8 @@ class Common {
 		}
 		$woocommerce = Woocommerce::getInstance();
 		$meta        = [
-			'_wlr_order_language' => apply_filters( 'wlr_order_site_language', $woocommerce->getPluginBasedOrderLanguage( $order_id ) ),
+			'_wlr_order_language' => apply_filters( 'wlr_order_site_language',
+				$woocommerce->getPluginBasedOrderLanguage( $order_id ) ),
 		];
 		foreach ( $meta as $key => $value ) {
 			$woocommerce->updateOrderMetaData( $order_id, $key, $value );

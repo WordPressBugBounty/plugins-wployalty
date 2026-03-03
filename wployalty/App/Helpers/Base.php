@@ -1062,6 +1062,41 @@ class Base {
 		return isset( $achievement_names[ $achievement_key ] ) && ! empty( $achievement_names[ $achievement_key ] ) ? $achievement_names[ $achievement_key ] : '';
 	}
 
+	/**
+	 * Fire unified hook for all point balance changes
+	 *
+	 * @param string $user_email Customer email
+	 * @param int $points Point amount
+	 * @param string $transaction_type 'credit' or 'debit'
+	 * @param string $action_type Action type identifier
+	 * @param array $action_data Additional action data
+	 *
+	 * @return void
+	 */
+	function firePointsBalanceChangedHook( $user_email, $points, $transaction_type, $action_type, $action_data = [] ) {
+
+		$hook_data = [
+			'user_email'       => sanitize_email( $user_email ),
+			'points'            => (int) $points,
+			'transaction_type'  => $transaction_type,
+			'action_type'       => $action_type,
+			'action_data'       => $action_data,
+		];
+
+		$point_balance = $this->getPointBalanceByEmail( $user_email ) ?? 0;
+		/**
+		 * Unified hook that fires whenever customer points balance changes
+		 *
+		 * @param string $user_email Customer email
+		 * @param int $points Point amount changed (always positive)
+		 * @param string $transaction_type 'credit' for additions, 'debit' for deductions
+		 * @param string $action_type Action type (e.g., 'order', 'redeem_point', 'expire_point', 'admin_change', etc.)
+		 * @param array $hook_data Complete hook data added while firing the action
+		 * @param int $point_balance Current point balance after the change
+		 */
+		do_action( 'wlr_customer_points_balance_changed', $user_email, $points, $transaction_type, $action_type, $hook_data, $point_balance );
+	}
+
 	function addExtraPointAction( $action_type, $point, $action_data, $trans_type = 'credit', $is_update_used_point = false, $force_update_earn_campaign = false, $update_earn_total_point = true ) {
 		self::$woocommerce_helper->_log( 'Extra Action :' . $action_type . ',Point:' . $point . ', Trans:' . $trans_type );
 		if ( ! is_array( $action_data ) || $point < 0 || empty( $action_data['user_email'] ) || empty( $action_type ) || ! $this->isValidExtraAction( $action_type ) ) {
@@ -1224,6 +1259,7 @@ class Base {
 			\WC_Emails::instance();
 			do_action( 'wlr_after_add_extra_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
 			do_action( 'wlr_notify_after_add_extra_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
+			$this->firePointsBalanceChangedHook( $action_data['user_email'], $point, $trans_type, $action_type, $action_data );
 		}
 
 		return $status;
