@@ -5,8 +5,8 @@ Tags: points, rewards, loyalty, referrals, coupons
 Requires at least: 6.0
 Tested up to: 6.9
 WC requires at least: 6.5
-WC tested up to: 10.5
-Stable tag: 1.4.4
+WC tested up to: 10.6
+Stable tag: 1.4.5
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -165,6 +165,9 @@ If you have further questions other than this, please feel free to contact our [
 5. Customer reward page
 
 == Changelog ==
+= 1.4.5 =
+- Fixed: Loyalty account page rewrite rule flush issue.
+
 = 1.4.4 =
 - Improved: Flush menu rewrite rule for loyalty account page.
 - Added: New filter and action

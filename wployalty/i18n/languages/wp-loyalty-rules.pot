@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.4\n"
+"Project-Id-Version: WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral Pro 1.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-loyalty-rules-lite\n"
 "Last-Translator: flycart <support@wployalty.net>\n"
 "Language-Team: flycart <support@wployalty.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-03T07:18:56+00:00\n"
+"POT-Creation-Date: 2026-03-26T07:28:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: wp-loyalty-rules\n"
@@ -495,7 +495,7 @@ msgstr ""
 #: App/Controllers/Admin/Settings.php:175
 #: App/Controllers/Admin/Settings.php:181
 #: App/Controllers/Admin/Settings.php:220
-#: App/Controllers/Site/CustomerPage.php:1217
+#: App/Controllers/Site/CustomerPage.php:1218
 #: App/Controllers/Site/Main.php:1100
 #: App/Controllers/Site/MyAccount.php:172
 msgid "Basic validation failed"
@@ -807,12 +807,12 @@ msgid "Ban user updated successfully."
 msgstr ""
 
 #: App/Controllers/Admin/Customers.php:796
-#: App/Controllers/Site/CustomerPage.php:1225
+#: App/Controllers/Site/CustomerPage.php:1226
 msgid "Email Opt-in updated successfully."
 msgstr ""
 
 #: App/Controllers/Admin/Customers.php:798
-#: App/Controllers/Site/CustomerPage.php:1228
+#: App/Controllers/Site/CustomerPage.php:1229
 msgid "Email Opt-in update failed"
 msgstr ""
 
@@ -5063,12 +5063,12 @@ msgid "E-mail"
 msgstr ""
 
 #. translators: 1: label , 2: point
-#: App/Controllers/Site/CustomerPage.php:1137
+#: App/Controllers/Site/CustomerPage.php:1138
 msgid "Min allowed %1$s: %2$s"
 msgstr ""
 
 #. translators: 1: label , 2: point
-#: App/Controllers/Site/CustomerPage.php:1139
+#: App/Controllers/Site/CustomerPage.php:1140
 msgid "Max allowed %1$s: %2$s"
 msgstr ""
 

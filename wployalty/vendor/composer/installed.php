@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c7da0e404a07f52d9101f15e0a63a6519c4f8cf3',
+        'reference' => '82e223ae639a1a58bb7fccbec0905fa119acc159',
         'name' => 'flycartinc/wp-loyalty',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c7da0e404a07f52d9101f15e0a63a6519c4f8cf3',
+            'reference' => '82e223ae639a1a58bb7fccbec0905fa119acc159',
             'dev_requirement' => false,
         ),
         'parsecsv/php-parsecsv' => array(

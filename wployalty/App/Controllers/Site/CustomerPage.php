@@ -1078,6 +1078,7 @@ class CustomerPage extends Base {
 		$earn_campaign_helper = new EarnCampaign();
 		$available_point      = ( is_object( $user ) && ! empty( $user->points ) ) ? $user->points : 0;
 		$cart_amount          = self::$woocommerce->getCartSubtotal();
+		$cart_amount          = apply_filters('wlr_before_processing_cart_subtotal_for_point_conversion_data', $cart_amount, $user, $user_reward_data );
 		$cart_amount          = self::$woocommerce->getCustomPrice( $cart_amount, false );
 		$cart_required_point  = 0;
 		$discount_value       = self::$woocommerce->getCustomPrice( $user_reward_data->discount_value, false );
