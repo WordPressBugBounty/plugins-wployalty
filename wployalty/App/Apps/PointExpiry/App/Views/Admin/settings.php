@@ -36,10 +36,10 @@ defined( 'ABSPATH' ) or die;
                 <div class="wlpe-settings-body-content">
                     <div class="wlpe-field-block">
                         <div>
-							<?php $enable_expire_point = isset( $options['enable_expire_point'] ) && ! empty( $options['enable_expire_point'] ) && ( $options['enable_expire_point'] === 'yes' ) ?
+							<?php $wlrf_enable_expire_point = isset( $options['enable_expire_point'] ) && ! empty( $options['enable_expire_point'] ) && ( $options['enable_expire_point'] === 'yes' ) ?
 								$options['enable_expire_point'] : 'no'; ?>
                             <input type="checkbox" id="wlpe_enable_expire_point" name="enable_expire_point"
-                                   value="<?php echo esc_attr( $enable_expire_point ); ?>"
+                                   value="<?php echo esc_attr( $wlrf_enable_expire_point ); ?>"
                                    onclick="wlpe.enableExpiryPoint('wlpe_enable_expire_point');"
 								<?php echo isset( $options['enable_expire_point'] ) && ! empty( $options['enable_expire_point'] ) && ( $options['enable_expire_point'] == 'yes' ) ?
 									'checked="checked"' : ""; ?>><label class="wlpe-enable-expire-point-label"
@@ -59,9 +59,9 @@ defined( 'ABSPATH' ) or die;
                             <div class="wlpe_expire_after_value_block">
                                 <div class="wlpe-expire-time-1">
                                     <div class="wlpe-input-field">
-										<?php $expire_after = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_after'] ) && ! empty( $options['expire_after'] ) ? $options['expire_after'] : 45 ?>
+										<?php $wlrf_expire_after = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_after'] ) && ! empty( $options['expire_after'] ) ? $options['expire_after'] : 45 ?>
                                         <input type="number" min="0" name="expire_after" class="wlpe-expire-after"
-                                               value="<?php echo esc_attr( $expire_after ); ?>"/>
+                                               value="<?php echo esc_attr( $wlrf_expire_after ); ?>"/>
                                     </div>
                                     <div class="wlpe-days">
                                         <p><?php esc_html_e( 'in days', 'wp-loyalty-rules' ); ?></p>
@@ -74,13 +74,13 @@ defined( 'ABSPATH' ) or die;
                     </div>
                     <div class="wlpe-email-expiry-email">
                         <div class="wlpe-send-email-checkbox">
-							<?php $enable_expire_email = isset( $options['enable_expire_email'] ) && ! empty( $options['enable_expire_email'] ) ? $options['enable_expire_email'] : 0; ?>
+							<?php $wlrf_enable_expire_email = isset( $options['enable_expire_email'] ) && ! empty( $options['enable_expire_email'] ) ? $options['enable_expire_email'] : 0; ?>
                             <input type="checkbox" id="wlpe_enable_expire_email" name="enable_expire_email" value="1"
-                                   onclick="wlpe.toggleSection();" <?php echo $enable_expire_email ? 'checked="checked"' : ""; ?>><label
+                                   onclick="wlpe.toggleSection();" <?php echo $wlrf_enable_expire_email ? 'checked="checked"' : ""; ?>><label
                                     for="wlpe_enable_expire_email"><?php esc_html_e( 'Send an email notification before the expiry of points?', 'wp-loyalty-rules' ); ?></label>
                         </div>
                         <div class="wlpe-email-notification"
-                             style="display: <?php echo $enable_expire_email ? 'block' : 'none'; ?>">
+                             style="display: <?php echo $wlrf_enable_expire_email ? 'block' : 'none'; ?>">
                             <div id="wlpe_expire_email_block">
                                 <label
                                         class="wlpe-setting-label"><?php esc_html_e( 'How many days before an expiry email notification be sent ?', 'wp-loyalty-rules' ); ?></label>
@@ -88,10 +88,10 @@ defined( 'ABSPATH' ) or die;
                             <div class="wlpe_expire_email_after_value_block">
                                 <div class="wlpe-expire-time-1">
                                     <div class="wlpe-input-field">
-										<?php $expire_email_after = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_email_after'] ) && ! empty( $options['expire_email_after'] ) ? $options['expire_email_after'] : 7 ?>
+										<?php $wlrf_expire_email_after = isset( $options ) && ! empty( $options ) && is_array( $options ) && isset( $options['expire_email_after'] ) && ! empty( $options['expire_email_after'] ) ? $options['expire_email_after'] : 7 ?>
                                         <input type="number" min="0" name="expire_email_after"
                                                class="wlpe-email-notification-value"
-                                               value="<?php echo esc_attr( $expire_email_after ); ?>"/>
+                                               value="<?php echo esc_attr( $wlrf_expire_email_after ); ?>"/>
                                     </div>
                                     <div class="wlpe-days">
                                         <p><?php esc_html_e( 'in days', 'wp-loyalty-rules' ); ?></p>
@@ -104,9 +104,9 @@ defined( 'ABSPATH' ) or die;
                         </div>
                     </div>
                     <div class="wlpe-email-expiry-email wlpe-email-expiry-editor"
-                         style="display: <?php echo $enable_expire_email ? 'flex' : 'none'; ?>">
+                         style="display: <?php echo $wlrf_enable_expire_email ? 'flex' : 'none'; ?>">
                         <div class="wlpe-send-email-checkbox">
-							<?php $enable_expire_email = isset( $options['enable_expire_email'] ) && ! empty( $options['enable_expire_email'] ) ? $options['enable_expire_email'] : 0; ?>
+							<?php $wlrf_enable_expire_email = isset( $options['enable_expire_email'] ) && ! empty( $options['enable_expire_email'] ) ? $options['enable_expire_email'] : 0; ?>
                             <label
                                     for="wlpe-expire-email-template-label"><?php esc_html_e( 'Points Expiry Email Template Content', 'wp-loyalty-rules' ); ?></label>
                         </div>
@@ -124,11 +124,11 @@ defined( 'ABSPATH' ) or die;
                            value="<?php echo ! empty( $save_key ) ? esc_attr( $save_key ) : 'wlpe_settings' ?>">
                     <div class="wlpe-field-block">
                         <div>
-							<?php $enable_customer_page_expire_content = isset( $options['enable_customer_page_expire_content'] ) && ! empty( $options['enable_customer_page_expire_content'] ) && ( $options['enable_customer_page_expire_content'] === 'yes' ) ?
+							<?php $wlrf_enable_customer_page_expire_content = isset( $options['enable_customer_page_expire_content'] ) && ! empty( $options['enable_customer_page_expire_content'] ) && ( $options['enable_customer_page_expire_content'] === 'yes' ) ?
 								$options['enable_customer_page_expire_content'] : 'no'; ?>
                             <input type="checkbox" id="wlpe_enable_customer_page_expire_content"
                                    name="enable_customer_page_expire_content"
-                                   value="<?php echo esc_attr( $enable_customer_page_expire_content ); ?>"
+                                   value="<?php echo esc_attr( $wlrf_enable_customer_page_expire_content ); ?>"
                                    onclick="wlpe.enableExpiryPoint('wlpe_enable_customer_page_expire_content')" <?php echo isset( $options['enable_customer_page_expire_content'] ) && ! empty( $options['enable_customer_page_expire_content'] ) && ( $options['enable_customer_page_expire_content'] == 'yes' ) ?
 								'checked="checked"' : ""; ?>><label class="wlpe-enable-expire-point-label"
                                                                     for="wlpe_enable_customer_page_expire_content"><?php esc_html_e( 'Show a list of "Upcoming Points Expiration" in the customer reward page', 'wp-loyalty-rules' ); ?></label>

@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Conditions;
 defined( 'ABSPATH' ) or die();
 
@@ -25,6 +26,7 @@ class CartSubTotal extends Base {
 			return false;
 		}
 		$operator          = sanitize_text_field( $options->operator );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$value             = apply_filters( 'wlr_convert_cart_subtotal', $options->value );
 		$is_calculate_base = $this->getCalculateBased( $data );
 		if ( ! $this->isValidCalculateBased( $is_calculate_base ) ) {
@@ -38,6 +40,7 @@ class CartSubTotal extends Base {
 		} elseif ( $is_calculate_base === 'product' ) {
 			return true;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$subtotal = apply_filters( 'wlr_subtotal_condition', $subtotal, $options, $data );
 
 		return $this->doComparisionOperation( $operator, $subtotal, $value );

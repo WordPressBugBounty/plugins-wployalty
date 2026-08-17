@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Conditions;
 defined( 'ABSPATH' ) or die();
 
@@ -34,6 +35,7 @@ class CartLineItemsCount extends Base {
 		if ( $is_calculate_base === 'cart' && isset( $data[ $is_calculate_base ] ) && ! empty( $data[ $is_calculate_base ] ) && isset( $options->sub_condition_type ) ) {
 			$cart_items = self::$woocommerce_helper->getCartItems( $data[ $is_calculate_base ] );
 			$cart_items = $this->getItemsWithoutFreeProduct( $cart_items, $is_calculate_base );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$cart_items = apply_filters( 'wlr_before_cart_line_item_condition', $cart_items, $options, $data );
 			switch ( $options->sub_condition_type ) {
 				case "all_item_count":
@@ -60,6 +62,7 @@ class CartLineItemsCount extends Base {
 		} elseif ( $is_calculate_base === 'order' && isset( $data[ $is_calculate_base ] ) && ! empty( $data[ $is_calculate_base ] ) && isset( $options->sub_condition_type ) ) {
 			$order_items = self::$woocommerce_helper->getOrderItems( $data[ $is_calculate_base ] );
 			$order_items = $this->getItemsWithoutFreeProduct( $order_items, $is_calculate_base );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$order_items = apply_filters( 'wlr_before_order_line_item_condition', $order_items, $options, $data );
 			switch ( $options->sub_condition_type ) {
 				case "all_item_count":

@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use stdClass;
@@ -45,6 +46,7 @@ class Schedules {
 		if ( Settings::getSettings( 'wlr_new_rewards_section_enabled', '' ) != 'yes' ) {
 			Woocommerce::addSchedule( 'wlr_notification_remind_me', '+10 days', 'daily' );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_schedule_event_register' );
 	}
 
@@ -73,6 +75,7 @@ class Schedules {
 		$user_reward_data = $user_reward->getExpireEmailList();
 		WC_Emails::instance();
 		foreach ( $user_reward_data as $single_user_reward ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_notify_send_expire_email', $single_user_reward );
 		}
 	}

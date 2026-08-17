@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 defined( 'ABSPATH' ) or die;
 
@@ -31,10 +32,12 @@ class Settings {
 		}
 		$data                          = [
 			'success' => true,
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			'data'    => apply_filters( 'wlr_get_setting_data', $setting_data ),
 		];
 		$data['data']['email_content'] = [];
 		\WC_Emails::instance();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data = apply_filters( 'wlr_notify_email_content_data', $data );
 		wp_send_json( $data );
 	}
@@ -53,6 +56,7 @@ class Settings {
 		}
 
 		$data        = $input->post();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$is_valid    = apply_filters( 'wlr_is_license_valid', true, $data );
 		$unset_array = [ 'option_key', 'action', 'wlr_nonce', 'license_key' ];
 		foreach ( $unset_array as $unset_key ) {
@@ -61,6 +65,7 @@ class Settings {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data          = apply_filters( 'wlr_before_save_settings', $data, $option_key );
 		$validate_data = Validation::validateSettingsTab( $data );
 		if ( is_array( $validate_data ) ) {
@@ -101,6 +106,7 @@ class Settings {
 				] ) );
 		}
 		update_option( $option_key, $data, true );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_after_save_settings', $data, $option_key );
 		$response['success'] = true;
 		$response['message'] = esc_html__( 'Settings saved successfully!', 'wp-loyalty-rules' );
@@ -158,6 +164,7 @@ class Settings {
 		if ( empty( $email_type ) || empty( $template_body ) || ! Settings::isValidEmailType( $email_type ) ) {
 			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status = apply_filters( 'wlr_save_email_template', false, $template_body, $email_type );
 		if ( $status ) {
 			wp_send_json_success( [ 'message' => __( 'Email template updated successfully.', 'wp-loyalty-rules' ) ] );
@@ -180,6 +187,7 @@ class Settings {
 		if ( empty( $email_type ) || ! Settings::isValidEmailType( $email_type ) ) {
 			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status = apply_filters( 'wlr_reset_email_template', false, $email_type );
 		if ( $status ) {
 			wp_send_json_success( [ 'message' => __( 'Email template reset successfully.', 'wp-loyalty-rules' ) ] );
@@ -198,6 +206,7 @@ class Settings {
 		if ( empty( $email_type ) || ! is_string( $email_type ) ) {
 			return false;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$email_types = apply_filters( 'wlr_is_valid_email_types', [
 			'earn_point_email',
 			'earn_reward_email',
@@ -228,6 +237,7 @@ class Settings {
 			$data['data']['title']   = __( 'Plugin Compatible', "wp-loyalty-rules" );
 			$data['data']['content'] = $content;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data = apply_filters( 'wlr_is_any_dynamic_notification', $data );
 		wp_send_json( $data );
 	}

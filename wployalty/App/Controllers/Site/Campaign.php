@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Helpers\Base;
@@ -48,8 +49,10 @@ class Campaign {
 		}
 		$user       = get_user_by( 'id', $user_id );
 		$user_email = ! empty( $user->user_email ) ? $user->user_email : '';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status     = apply_filters( 'wlr_user_role_status', true, $user );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! $status || ! apply_filters( 'wlr_before_add_to_loyalty_customer', true, $user_id, $user_email ) ) {
 			return;
 		}

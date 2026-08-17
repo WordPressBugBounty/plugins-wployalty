@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 defined( 'ABSPATH' ) or die();
 
@@ -62,6 +63,7 @@ class Settings {
 		}
 		$point_label = ( $point == 0 || $point > 1 ) ? $plural : $singular;
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_point_label', $point_label, $point );
 	}
 

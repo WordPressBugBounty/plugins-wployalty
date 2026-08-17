@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 
 use Automattic\WooCommerce\Admin\PluginsHelper;
@@ -30,6 +31,7 @@ class OnBoarding {
 		$post_data['campaigns'] = ! empty( $post_data['campaigns'] ) ? json_decode( stripslashes( $post_data['campaigns'] ), true ) : [];
 		$post_data['rewards']   = ! empty( $post_data['rewards'] ) ? json_decode( stripslashes( $post_data['rewards'] ), true ) : [];
 		$post_data['referrals'] = ! empty( $post_data['referrals'] ) ? json_decode( stripslashes( $post_data['referrals'] ), true ) : [];
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$post_data              = apply_filters( 'wlr_on_boarding_before_save', $post_data );
 		if ( is_array( $post_data['campaigns'] ) && ! empty( $post_data['campaigns'] ) ) {
 			$earn_campaign_model = new EarnCampaign();

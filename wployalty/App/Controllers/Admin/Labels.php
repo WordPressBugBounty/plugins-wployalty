@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 
 defined( 'ABSPATH' ) or die;
@@ -1559,6 +1560,7 @@ class Labels {
 
 			],
 		];
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$json               = (array) apply_filters( 'wlr_plugin_labels', $json );
 		wp_send_json( $json );
 	}
@@ -1590,6 +1592,7 @@ class Labels {
 		if ( is_string( $removing_status ) ) {
 			$removing_status = explode( ',', $removing_status );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$un_success_order_list = apply_filters( 'wlr_setting_unsuccessful_order_status_list', [
 			'failed',
 			'cancelled',
@@ -1742,6 +1745,7 @@ class Labels {
 			],
 			'levels'                   => [ 'levels_nonce' => Woocommerce::create_nonce( 'levels_nonce' ) ]
 		];
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$localize = apply_filters( 'wlr_pro_local_data', $localize );
 		wp_send_json( $localize );
 	}

@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 defined( 'ABSPATH' ) or die;
 
@@ -34,6 +35,7 @@ class Order extends Base {
 			'yes',
 			'no'
 		) ) ? $settings['is_earn_point_after_discount'] : 'no';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$is_earn_point_after_discount = apply_filters( 'wlr_process_order_earn_after_discount', $is_earn_point_after_discount );
 		if ( $cal_type == 'cart' && isset( $action_data[ $cal_type ] ) && ! empty( $action_data[ $cal_type ] ) ) {
 			$cart_items = self::$woocommerce_helper->getCartItems( $action_data[ $cal_type ] );
@@ -50,6 +52,7 @@ class Order extends Base {
 			$price = $this->getOrderEligiblePrice( $price, $order_items, $order, $rule, $action_data, $is_earn_point_after_discount );
 
 		} elseif ( $cal_type == 'product' && isset( $action_data[ $cal_type ] ) && ! empty( $action_data[ $cal_type ] ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$status = apply_filters( 'wlr_is_product_eligible_for_product', true, $action_data[ $cal_type ] );
 			if ( ! $status ) {
 				return $price;
@@ -61,10 +64,12 @@ class Order extends Base {
 			if ( ! empty( $rule ) && is_object( $rule ) ) {
 				$action_data['current']           = $product;
 				$allowed_condition                = array();
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$allowed_condition                = apply_filters( 'wlr_process_order_earn_allowed_condition', $allowed_condition );
 				$action_data['allowed_condition'] = $allowed_condition;
 				$status                           = $rule->processCampaignCondition( $action_data, true );
 				$item_price                       = self::$woocommerce_helper->getProductPrice( $product, null, false, '' );
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$item_price                       = apply_filters( 'wlr_is_product_page_price', $item_price, $product );
 				$item_line_quantity               = 1;
 				if ( $item_price > 0 ) {
@@ -83,6 +88,7 @@ class Order extends Base {
 		if ( empty( $cart_items ) ) {
 			return $price;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$allowed_condition                 = apply_filters( 'wlr_process_order_earn_allowed_condition', array() );
 		$action_data['allowed_condition']  = $allowed_condition;
 		$action_data['is_calculate_based'] = 'cart';
@@ -90,6 +96,7 @@ class Order extends Base {
 			if ( isset( $cart_item['loyalty_free_product'] ) && $cart_item['loyalty_free_product'] == 'yes' ) {
 				continue;
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$status = apply_filters( 'wlr_is_product_eligible_for_cart', true, $cart_item );
 			if ( ! $status ) {
 				continue;
@@ -107,6 +114,7 @@ class Order extends Base {
 			}
 			/* Earn point calculation after Discount Price */
 			$product_price      = self::$woocommerce_helper->getProductPrice( $product );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$product_price      = apply_filters( 'wlr_cart_product_price', $product_price, $cart_key, $cart_item, $action_data );
 			$cart_line_subtotal = isset( $cart_item['line_subtotal'] ) && $cart_item['line_subtotal'] > 0 ? $cart_item['line_subtotal'] : 0;
 			$cart_line_total    = isset( $cart_item['line_total'] ) && $cart_item['line_total'] > 0 ? $cart_item['line_total'] : 0;
@@ -128,6 +136,7 @@ class Order extends Base {
 					$cart_subtotal_tax = isset( $cart_item['line_subtotal_tax'] ) && $cart_item['line_subtotal_tax'] > 0 ? $cart_item['line_subtotal_tax'] : 0;
 					$discount_price    = ( ( $cart_subtotal_tax + $cart_line_subtotal ) - ( $cart_line_tax + $cart_line_total ) ) / $cart_line_qty;
 				}
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$discount_price = apply_filters( 'wlr_product_price', $discount_price,  null, false, '' );
 				$product_price  = $product_price - $discount_price;
 			}
@@ -143,6 +152,7 @@ class Order extends Base {
 		if ( empty( $order_items ) || ! is_object( $order ) ) {
 			return $price;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$allowed_condition                 = apply_filters( 'wlr_process_order_earn_allowed_condition', array() );
 		$action_data['allowed_condition']  = $allowed_condition;
 		$action_data['is_calculate_based'] = 'order';
@@ -153,6 +163,7 @@ class Order extends Base {
 			if ( ! is_object( $product ) ) {
 				continue;
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$status = apply_filters( 'wlr_is_product_eligible_for_order', true, $order_item, $order );
 			if ( ! $status ) {
 				continue;
@@ -195,6 +206,7 @@ class Order extends Base {
 					$line_item_subtotal_tax   = $order_item->get_subtotal_tax();
 					$line_item_discount_price = ( ( $line_item_subtotal_tax + $item_line_subtotal ) - ( $line_item_line_tax + $item_line_total ) ) / $item_line_quantity;
 				}
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$line_item_discount_price = apply_filters( 'wlr_product_price', $line_item_discount_price,  $order_item, false, $order->get_currency() );
 				$item_price               = $item_price - $line_item_discount_price;
 			}

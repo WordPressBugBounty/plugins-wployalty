@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site\Blocks\Integration;
 
 
@@ -67,6 +68,7 @@ class Message implements IntegrationInterface {
 				'schema_type'     => ARRAY_A,
 			]
 		);
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_register_endpoint_data', $extend );
 	}
 
@@ -163,6 +165,7 @@ class Message implements IntegrationInterface {
 			'{wlr_reward_label}'       => $reward_helper->getRewardLabel( count( $reward_list ) ),
 			'{wlr_reward_link}'        => '<a id="wlr-reward-link" href="javascript:void(0);">' . __( 'Click Here', 'wp-loyalty-rules' ) . '</a>'
 		];
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$message         = apply_filters( 'wlr_point_redeem_points_message', $message );
 
 		return $reward_helper->processShortCodes( $short_code_list, $message );
@@ -196,6 +199,7 @@ class Message implements IntegrationInterface {
 		$design_message        = '<div class="wlr-message-info wlr_point_redeem_message" style="' . esc_attr( 'margin:5px 0;padding: 5px 28px;border:1px solid ' . $cart_border_color . '; border-radius: 6px; color:' . $cart_text_color . '; background-color: ' . $cart_background_color . '; font-size: 15px;font-weight: 600; display: flex; align-items: center;' ) . '">
 ' . $svg_file . '<p style="margin: 0 0 0;">' . $message . '</p></div>';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_redeem_message_after_design', $design_message, $message );
 	}
 
@@ -227,6 +231,7 @@ class Message implements IntegrationInterface {
 		$design_message        = '<div class="wlr-message-info wlr_block_points_rewards_earn_points" style="' . esc_attr( 'margin:5px 0;padding: 5px 28px;border:1px solid ' . $cart_border_color . '; border-radius: 6px; color:' . $cart_text_color . '; background-color: ' . $cart_background_color . '; font-size: 15px;font-weight: 600; display: flex; align-items: center;' ) . '">
 ' . $svg_file . '<p style="margin:0 0 0;">' . $message . '</p>' . '</div>';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_earn_message_after_design', $design_message, $message );
 	}
 
@@ -288,6 +293,7 @@ class Message implements IntegrationInterface {
 			'{wlr_cart_rewards}'         => $available_rewards,
 		];
 		$message         = $earn_campaign->processShortCodes( $short_code_list, $message );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$message         = apply_filters( 'wlr_points_rewards_earn_points_message', $message, $short_code_list );
 
 		return Woocommerce::getCleanHtml( $message );
@@ -353,6 +359,7 @@ class Message implements IntegrationInterface {
 		$settings    = $woocommerce->getOptions( 'wlr_settings', [] );
 
 		//order_meta,shipping,coupon
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_block_checkout_script_data', [
 			'earn_display_position'   => ! empty( $settings['wlr_cart_earn_point_display'] ) ? $settings['wlr_cart_earn_point_display'] : 'before',
 			'redeem_display_position' => ! empty( $settings['wlr_cart_redeem_point_display'] ) ? $settings['wlr_cart_redeem_point_display'] : 'before',

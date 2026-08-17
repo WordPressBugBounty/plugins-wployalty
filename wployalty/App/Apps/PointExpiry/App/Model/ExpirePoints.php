@@ -149,6 +149,7 @@ class ExpirePoints extends Base {
 		foreach ( $credit_fields as $key => $value ) {
 			$credit_fields[ $key ] = isset( $args[ $key ] ) && ! empty( $args[ $key ] ) ? $args[ $key ] : ( isset( $earn_tran->$key ) ? $earn_tran->$key : $value );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$credit_fields = apply_filters( 'wlpr_before_credit_insert', $credit_fields );
 
 		return $this->insertRow( $credit_fields );
@@ -232,6 +233,7 @@ class ExpirePoints extends Base {
 				}
 			}
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$credit_fields = apply_filters( 'wlpr_before_starting_credit_insert', $credit_fields );
 
 		return $this->insertRow( $credit_fields );
@@ -389,6 +391,7 @@ class ExpirePoints extends Base {
 			$referral_url = site_url() . '?wlr_ref=' . $loyal_user->refer_code;
 		}
 		$expire_date_format = get_option( 'date_format', 'Y-m-d' );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$expire_date_format = apply_filters( 'wlr_expire_mail_date_format', $expire_date_format );
 		$reward_helper      = \Wlr\App\Helpers\Rewards::getInstance();
 		$available_point    = isset( $email_data->available_points ) && ! empty( $email_data->available_points ) ? $email_data->available_points : 0;
@@ -399,6 +402,7 @@ class ExpirePoints extends Base {
 			'{wlr_referral_url}'  => $referral_url,
 			'{wlr_expiry_date}'   => \Wlr\App\Helpers\Woocommerce::getInstance()->beforeDisplayDate( $email_data->expire_date, $expire_date_format )
 		);
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$short_codes        = apply_filters( 'wlr_point_expire_mail_short_code', $short_codes );
 		foreach ( $short_codes as $code => $value ) {
 			$html = str_replace( $code, $value, $html );

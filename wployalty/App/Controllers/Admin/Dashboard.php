@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 defined( 'ABSPATH' ) or die;
 
@@ -65,6 +66,7 @@ class Dashboard {
 				$end,
 				'redeem_point'
 			] );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$allowed_action_types = apply_filters( 'wlr_dashboard_point_reward_action_type', [ 'redeem_point' ] );
 			//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 			$user_reward_where  .= $wpdb->prepare( ' AND action_type IN (' . trim( str_repeat( '%s,', count( $allowed_action_types ) ), ',' ) . ')', $allowed_action_types );
@@ -207,6 +209,7 @@ class Dashboard {
 			$end,
 			'redeem_point'
 		] );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$allowed_action_types = apply_filters( 'wlr_dashboard_point_reward_action_type', [ 'redeem_point' ] );
 		//phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$user_reward_where      .= $wpdb->prepare( ' AND action_type IN (' . trim( str_repeat( '%s,', count( $allowed_action_types ) ), ',' ) . ')', $allowed_action_types );
@@ -396,6 +399,7 @@ class Dashboard {
 		$renamed            = [];
 		$file_rename_status = false;
 		if ( $is_enabled === 'yes' ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$files              = apply_filters( 'wlr_customer_reward_page_templates', [
 				'customer_page.php',
 				'cart_page.php',

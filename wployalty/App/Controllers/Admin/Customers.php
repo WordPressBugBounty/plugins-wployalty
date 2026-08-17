@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 defined( 'ABSPATH' ) or die;
 
@@ -120,6 +121,7 @@ class Customers {
 			$query_data['search'] = sanitize_text_field( $search );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_customers_query_data', $query_data );
 	}
 
@@ -194,6 +196,7 @@ class Customers {
 		];
 		$base_helper->updatePointLedger( $ledger_data, 'debit' );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_delete_customer', $status, $condition );
 	}
 
@@ -402,9 +405,12 @@ class Customers {
 		$id         = (int) $input->post_get( 'id', 0 );
 		$points     = (int) $input->post_get( 'points', 0 );
 		$point_type = (string) $input->post_get( 'action_type', 'add' );
-		if ( $id <= 0 || $points <= 0 || ! in_array( $point_type, [ 'add', 'reduce', 'overwrite' ] ) ) {
-			wp_send_json_error( [ 'message' => __( 'Basic verification failed', 'wp-loyalty-rules' ) ] );
-		}
+        if ( $id <= 0 || ! in_array( $point_type, [ 'add', 'reduce', 'overwrite' ] ) ) {
+            wp_send_json_error( [ 'message' => __( 'Basic verification failed', 'wp-loyalty-rules' ) ] );
+        }
+        if ( $points < 0 || ( 0 === $points && 'overwrite' !== $point_type ) ) {
+            wp_send_json_error( [ 'message' => __( 'Basic verification failed', 'wp-loyalty-rules' ) ] );
+        }
 		$customer_command = (string) $input->post_get( 'comments', '' );
 		$post_data        = $input->post();
 		$validate_data    = Validation::validateCustomerPointUpdate( $post_data );
@@ -483,6 +489,7 @@ class Customers {
 		}
 		$data['success'] = false;
 		$message         = __( 'Customer point updated failed', 'wp-loyalty-rules' );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$action_data     = apply_filters( 'wlr_before_update_customer_point', $action_data );
 		$base            = new \Wlr\App\Helpers\Base();
 		if ( isset( $action_data['points'] ) && $action_data['points'] > 0 ) {
@@ -496,6 +503,7 @@ class Customers {
 		$data['data'] = [
 			'message' => $message
 		];
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data         = apply_filters( 'wlr_after_update_customer_point', $data, $action_data );
 		wp_send_json( $data );
 	}
@@ -537,6 +545,7 @@ class Customers {
 			$item->order_link       = $woocommerce_helper->getOrderLink( $item->order_id );
 			$item->currency_symbol  = get_woocommerce_currency_symbol( $item->order_currency );
 			$item->created_at       = ! empty( $item->created_at ) ? $woocommerce_helper->beforeDisplayDate( $item->created_at ) : '';
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$item                   = apply_filters( 'wlr_customer_transaction_before_display', $item );
 		}
 		wp_send_json_success( [

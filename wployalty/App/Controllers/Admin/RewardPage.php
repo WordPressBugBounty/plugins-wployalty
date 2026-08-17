@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 
 use Exception;
@@ -154,6 +155,7 @@ class RewardPage {
 		$selected_list = (string) $input->post_get( 'selected_list', '' );
 		$selected_list = explode( ',', $selected_list );
 		$action_mode   = (string) $input->post_get( 'action_mode', '' );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data          = apply_filters( 'wlr_before_reward_bulk_action', [], $action_mode, $selected_list );
 		if ( ! empty( $data ) ) {
 			wp_send_json( $data );
@@ -237,6 +239,7 @@ class RewardPage {
 			wp_send_json_error( [ 'message' => sprintf( __( 'Please remove "%s" reward in campaign', 'wp-loyalty-rules' ), $reward->name ) ] );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data = apply_filters( 'wlr_before_delete_reward', [], $reward );
 		if ( ! empty( $data ) ) {
 			wp_send_json( $data );
@@ -266,6 +269,7 @@ class RewardPage {
 			if ( empty( $reward ) || ! is_object( $reward ) ) {
 				wp_send_json_error( [ 'message' => __( 'Reward status change has failed', 'wp-loyalty-rules' ) ] );
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$data = apply_filters( 'wlr_before_toggle_reward_active', [], $reward );
 			if ( ! empty( $data ) ) {
 				wp_send_json( $data );
@@ -369,8 +373,10 @@ class RewardPage {
 		}
 		$input                     = new Input();
 		$post_data                 = $input->post();
-		$post_data['name']         = ! empty( $_REQUEST['name'] ) ? apply_filters( 'title_save_pre', sanitize_text_field( wp_unslash( ( $_REQUEST['name'] ) ) ) ) : '';//phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$post_data['description']  = ! empty( $_REQUEST['description'] ) ? apply_filters( 'title_save_pre', wp_kses_post( wp_unslash( ( $_REQUEST['description'] ) ) ) ) : '';// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
+		$post_data['name']         = ! empty( $_REQUEST['name'] ) ? apply_filters( 'title_save_pre', sanitize_text_field( wp_unslash( ( $_REQUEST['name'] ) ) ) ) : '';//phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound, WordPress.Security.NonceVerification.Recommended -- Existing WordPress core hook retained because it is part of the public WordPress API.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
+		$post_data['description']  = ! empty( $_REQUEST['description'] ) ? apply_filters( 'title_save_pre', wp_kses_post( wp_unslash( ( $_REQUEST['description'] ) ) ) ) : '';// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound, WordPress.Security.NonceVerification.Recommended -- Existing WordPress core hook retained because it is part of the public WordPress API.
 		$post_data['conditions']   = ! empty( $post_data['conditions'] ) ? json_decode( stripslashes( $post_data['conditions'] ), true ) : [];
 		$post_data['free_product'] = ! empty( $post_data['free_product'] ) ? json_decode( stripslashes( $post_data['free_product'] ), true ) : [];
 		if ( $post_data['discount_type'] != "points_conversion" && empty( $post_data['coupon_type'] ) ) {
@@ -386,6 +392,7 @@ class RewardPage {
 				'message'     => __( 'Basic validation failed', 'wp-loyalty-rules' )
 			] );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data = apply_filters( 'wlr_before_save_reward_validation', [] );
 		if ( ! empty( $data ) ) {
 			wp_send_json( $data );

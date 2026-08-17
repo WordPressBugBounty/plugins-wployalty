@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App;
 
 defined( 'ABSPATH' ) or die;
@@ -33,6 +34,7 @@ class Router {
 	private static $site, $display_message, $my_account, $coupon;
 
 	function init() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_before_init' );
 		self::$site       = empty( self::$site ) ? new \Wlr\App\Controllers\Site\Main() : self::$site;
 		self::$my_account = empty( self::$my_account ) ? new MyAccount() : self::$my_account;
@@ -74,6 +76,7 @@ class Router {
 		self::initCampaignAction();
 		self::initBlocks();
 		add_action( 'woocommerce_loaded', [ LoyaltyMail::class, 'initNotification' ] );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_after_init' );
 		if ( class_exists( 'Wlr\App\Integrations\MultiCurrency\MultiCurrency' ) ) {
 			$multi = new \Wlr\App\Integrations\MultiCurrency\MultiCurrency();

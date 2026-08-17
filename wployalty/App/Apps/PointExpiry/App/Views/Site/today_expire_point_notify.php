@@ -1,14 +1,14 @@
 <?php
 defined( 'ABSPATH' ) or die();
-$earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
-$today_expire_point   = isset( $today_expire_point ) && ! empty( $today_expire_point ) ? $today_expire_point : 0;
-if ( ! empty( $today_expire_point ) ): ?>
+$wlrf_earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
+$wlrf_today_expire_point = isset( $today_expire_point ) && ! empty( $today_expire_point ) ? $today_expire_point : 0;
+if ( ! empty( $wlrf_today_expire_point ) ): ?>
     <div class="wlr-today-expire-points-section wlr-border-color">
         <i class="wlrf-clock wlr-theme-color-apply"></i>
         <p class="wlrborder wlr-text-color"
            style="margin: 0;">
             <?php /* translators: %1d & %2s show total_expire_points and its label. */
-            echo esc_html( sprintf( __( 'Alert! Your %1$d %2$s expire today.Use them now to avoid missing out.', 'wp-loyalty-rules' ), $today_expire_point, $earn_campaign_helper->getPointLabel( $today_expire_point ) ) ); ?></p>
+            echo esc_html( sprintf( __( 'Alert! Your %1$d %2$s expire today.Use them now to avoid missing out.', 'wp-loyalty-rules' ), $wlrf_today_expire_point, $wlrf_earn_campaign_helper->getPointLabel( $wlrf_today_expire_point ) ) ); ?></p>
 		<?php if ( isset( $show_redeem ) && $show_redeem ): ?>
             <p onclick="wlr_jquery( 'body' ).trigger( 'wlr_my_reward_section',[ 'rewards'])"
                class="wlr-theme-color-apply wlr-cursor"

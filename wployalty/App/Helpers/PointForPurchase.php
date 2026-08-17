@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 defined( 'ABSPATH' ) or die();
 
@@ -38,6 +39,7 @@ class PointForPurchase extends Order {
 	protected function checkPointForPurchaseData( $rule, $data, $point_rule ) {
 		$can_earn_point = $this->getPointForPurchaseEligiblePoint( $rule, $data, $point_rule );
 		if ( isset( $data['is_message'] ) && $data['is_message'] ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			return apply_filters( 'wlr_check_point_for_purchase_data', $can_earn_point, $rule, $data, $point_rule );
 		}
 		$min_status = false;
@@ -52,6 +54,7 @@ class PointForPurchase extends Order {
 			$can_earn_point = 0;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_check_point_for_purchase_data', $can_earn_point, $rule, $data, $point_rule );
 	}
 
@@ -78,6 +81,7 @@ class PointForPurchase extends Order {
 			'variable' => '',
 		);
 		$category_page        = ( is_shop() || is_product_category() );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$category_page        = apply_filters( 'wlr_is_product_category_page', $category_page );
 		$product_page         = is_product();
 		$display_page         = isset( $point_rule->display_product_message_page ) && ! empty( $point_rule->display_product_message_page ) ? $point_rule->display_product_message_page : 'all';
@@ -131,6 +135,7 @@ class PointForPurchase extends Order {
 		if ( ! empty( $available_rewards ) ) {
 			$reward_count = count( explode( ',', $available_rewards ) );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$short_code_list = apply_filters( 'wlr_point_for_purchase_message_shortcodes', array(
 			'{wlr_points}'         => $point > 0 ? self::$woocommerce_helper->numberFormatI18n( $point ) : '',
 			'{wlr_product_points}' => $point > 0 ? self::$woocommerce_helper->numberFormatI18n( $point ) : '',

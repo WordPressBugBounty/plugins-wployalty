@@ -40,6 +40,7 @@ class Base {
 		}
 		$params                   = array();
 		$params['expire_details'] = $this->getPointExpireDetails( $user_email );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$params                   = apply_filters( 'wlr_customer_reward_page_point_expire_data', $params );
 		wc_get_template( 'expire_points.php', $params, '', WLPE_PLUGIN_PATH . 'App/Views/Site/' );
 	}
@@ -79,6 +80,7 @@ class Base {
 		);
 		$expire_point_data  = $point_expire_model->getUpcomingExpirePointList( $user_email, $options );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_point_expire_details', array(
 			'expire_points'              => $expire_point_data['expire_points'],
 			'expire_points_total'        => (int) $expire_point_data['expire_points_total'],
@@ -207,7 +209,7 @@ class Base {
 							'view' => 'expire_points'
 						) ) );
 					if ( is_array( $error_array ) ) {
-						wp_redirect( $base_url );
+						wp_safe_redirect( $base_url );
 						exit;
 					}
 					$offset = $per_page * ( $current_page - 1 );
@@ -443,6 +445,7 @@ class Base {
 		$expire_points_list = $expire_points->getExpirePointEmailList();
 		\WC_Emails::instance();
 		foreach ( $expire_points_list as $single_expire_point ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_notify_send_expire_point_email', $single_expire_point );
 		}
 	}

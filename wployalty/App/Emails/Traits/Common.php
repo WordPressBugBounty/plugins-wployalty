@@ -1,7 +1,9 @@
 <?php
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Emails\Traits;
 defined( 'ABSPATH' ) or die;
+
 use Wlr\App\Helpers\Woocommerce;
 use Wlr\App\Models\EarnCampaign;
 use Wlr\App\Models\Users;

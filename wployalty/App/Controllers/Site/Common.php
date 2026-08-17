@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Helpers\Base;
@@ -27,6 +28,7 @@ class Common {
 			return;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! apply_filters( 'wlr_before_loyalty_assets', true ) ) {
 			return;
 		}
@@ -36,6 +38,7 @@ class Common {
 			$suffix = SCRIPT_DEBUG ? '' : '.min';
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$cache_fix = apply_filters( 'wlr_load_asset_with_time', true );
 
 		$add_cache_fix = ( $cache_fix ) ? '&t=' . time() : '';
@@ -46,6 +49,7 @@ class Common {
 		wp_register_style( WLR_PLUGIN_SLUG . '-wlr-font',
 			WLR_PLUGIN_URL . 'Assets/Site/Css/wlr-fonts' . $suffix . '.css', [], WLR_PLUGIN_VERSION . $add_cache_fix );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$css_handlers = apply_filters( 'wlr_front_css_handler', [
 			WLR_PLUGIN_SLUG . '-alertify-front',
 			WLR_PLUGIN_SLUG . '-main-front',
@@ -61,12 +65,14 @@ class Common {
 			$main_js[] = 'wc-checkout';
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$main_js = apply_filters( 'wlr_load_site_main_js_depends', $main_js );
 
 		wp_register_script( WLR_PLUGIN_SLUG . '-main', WLR_PLUGIN_URL . 'Assets/Site/Js/wlr-main' . $suffix . '.js',
 			$main_js, WLR_PLUGIN_VERSION . $add_cache_fix, false );
 		wp_register_script( WLR_PLUGIN_SLUG . '-alertify-front',
 			WLR_PLUGIN_URL . 'Assets/Admin/Js/alertify' . $suffix . '.js', [], WLR_PLUGIN_VERSION . $add_cache_fix, false );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$js_handlers = apply_filters( 'wlr_front_js_handler', [
 			'wc-cart-fragments',
 			WLR_PLUGIN_SLUG . '-main',
@@ -78,6 +84,7 @@ class Common {
 
 		$base_helper          = new Base();
 		$earn_campaign_helper = EarnCampaign::getInstance();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$localize             = apply_filters( 'wlr_before_load_localize', [
 			/* translators: %s: point label */
 			'point_popup_message'        => sprintf( __( 'How much %s you would like to use', 'wp-loyalty-rules' ),
@@ -99,10 +106,13 @@ class Common {
 			'is_cart'                    => is_cart(),
 			'is_checkout'                => is_checkout(),
 			'plugin_url'                 => WLR_PLUGIN_URL,
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			'is_pro'                     => apply_filters( 'wlr_is_pro', false ),
 			'is_allow_update_referral'   => true,
 			'theme_color'                => Settings::get( 'theme_color', '#4F47EB' ),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			'followup_share_window_open' => apply_filters( 'wlr_before_followup_share_window_open', true ),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			'social_share_window_open'   => apply_filters( 'wlr_before_social_share_window_open', true ),
 			'is_checkout_block'          => is_checkout() && Woocommerce::isCheckoutBlock(),
 		] );
@@ -159,6 +169,7 @@ class Common {
 		}
 		$woocommerce = Woocommerce::getInstance();
 		$meta        = [
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			'_wlr_order_language' => apply_filters( 'wlr_order_site_language',
 				$woocommerce->getPluginBasedOrderLanguage( $order_id ) ),
 		];

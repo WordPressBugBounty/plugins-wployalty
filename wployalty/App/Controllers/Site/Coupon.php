@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use WC_Coupon;
@@ -56,11 +57,13 @@ class Coupon {
 					}
 				}
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			if ( ! empty( $message ) && apply_filters( 'wlr_show_auto_apply_coupon_error_message', true, $discount_code ) ) {
 				$woocommerce->setSession( 'wlr_discount_code', '' );
 				wc_add_notice( $message, 'error' );
 			}
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_after_apply_cart_coupon', $discount_code );
 	}
 
@@ -88,6 +91,7 @@ class Coupon {
 
 		// 2. validate user
 		$billing_email = isset( $_POST['billing_email'] ) ? sanitize_email( wp_unslash( $_POST['billing_email'] ) ) : '';//phpcs:ignore WordPress.Security.NonceVerification.Missing
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$billing_email = apply_filters( 'wlr_validate_reward_coupon_billing_email', strtolower( $billing_email ), $coupon, $discount );
 
 		$user_email = $woocommerce->get_login_user_email();
@@ -97,6 +101,7 @@ class Coupon {
 		}
 
 		$user_email = sanitize_email( $user_email );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$user_email = apply_filters( 'wlr_validate_reward_coupon_user_email', $user_email, $coupon, $discount );
 
 		if ( empty( $user_email ) || $woocommerce->isBannedUser( $user_email ) ) {
@@ -113,6 +118,7 @@ class Coupon {
 		}
 
 		// 4. validate WPLoyalty coupon conditions
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$extra = apply_filters( 'wlr_validate_reward_coupon_extra_data', [
 			'user_email'         => $user_email,
 			'cart'               => $woocommerce->getCart(),
@@ -124,12 +130,14 @@ class Coupon {
 			return false;
 		}
 		// 4. extra validation filter
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! apply_filters( 'wlr_reward_coupon_is_valid', $is_valid, $coupon, $user_reward ) ) {
 			// $this->removeFreeProduct($code);
 			return false;
 		}
 
 		// 5. validate cart have valid product
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( apply_filters( 'wlr_check_normal_product_available', true, $is_valid, $coupon, $discount, $user_reward ) ) {
 			if ( ! self::getNormalProductCount() ) {
 				//$this->removeFreeProduct($code);
@@ -176,6 +184,7 @@ class Coupon {
 			return $message;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( apply_filters( 'wlr_is_validate_reward_coupon_error_message', false, $err_code, $coupon ) ) {
 			return $message;
 		}

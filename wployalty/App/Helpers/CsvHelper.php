@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 defined( 'ABSPATH' ) or die;
 
@@ -92,6 +93,7 @@ class CsvHelper extends Base {
 	 * @return string[]
 	 */
 	function getHeader() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_csv_header_list', array(
 			'email',
 			'points',

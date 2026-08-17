@@ -3,131 +3,132 @@
 use Wlr\App\Helpers\Settings;
 
 defined( "ABSPATH" ) or die();
-$earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
-$woocommerce_helper   = \Wlr\App\Helpers\Woocommerce::getInstance();
+$wlrf_earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
+$wlrf_woocommerce_helper   = \Wlr\App\Helpers\Woocommerce::getInstance();
 ?>
 <div class="wlr-coupons-list">
 	<?php if ( ! empty( $items ) ): ?>
 		<?php
-		$theme_color                    = Settings::get( 'theme_color', '#4F47EB' );
-		$apply_coupon_border_color      = Settings::get( 'apply_coupon_border_color', '#FF8E3D' );
-		$coupon_border                  = $apply_coupon_border_color ? "border:1px dashed " . $apply_coupon_border_color . ";" : "";
-		$apply_coupon_background        = Settings::get( 'apply_coupon_background', '#FFF8F3' );
-		$coupon_background              = $apply_coupon_background ? "background:" . $apply_coupon_background . ";" : "";
-		$apply_coupon_button_color      = Settings::get( 'apply_coupon_button_color', '#4F47EB' );
-		$button_color                   = $apply_coupon_button_color ? "background:" . $apply_coupon_button_color . ";" : "background:" . $theme_color . ";";
-		$apply_coupon_button_text_color = Settings::get( 'apply_coupon_button_text_color', '#ffffff' );
-		$button_text_color              = $apply_coupon_button_text_color ? "color:" . $apply_coupon_button_text_color . ";" : "";
-		$css_class_name                 = 'wlr-button-reward-apply wlr-button wlr-button-action';
-		$button_text                    = __( Settings::get( 'apply_coupon_button_text', 'Apply Coupon' ), 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
-		$card_key                       = 1;
-		foreach ( $items as $item ):?>
+		$wlrf_theme_color                    = Settings::get( 'theme_color', '#4F47EB' );
+		$wlrf_apply_coupon_border_color      = Settings::get( 'apply_coupon_border_color', '#FF8E3D' );
+		$wlrf_coupon_border                  = $wlrf_apply_coupon_border_color ? "border:1px dashed " . $wlrf_apply_coupon_border_color . ";" : "";
+		$wlrf_apply_coupon_background        = Settings::get( 'apply_coupon_background', '#FFF8F3' );
+		$wlrf_coupon_background              = $wlrf_apply_coupon_background ? "background:" . $wlrf_apply_coupon_background . ";" : "";
+		$wlrf_apply_coupon_button_color      = Settings::get( 'apply_coupon_button_color', '#4F47EB' );
+		$wlrf_button_color                   = $wlrf_apply_coupon_button_color ? "background:" . $wlrf_apply_coupon_button_color . ";" : "background:" . $wlrf_theme_color . ";";
+		$wlrf_apply_coupon_button_text_color = Settings::get( 'apply_coupon_button_text_color', '#ffffff' );
+		$wlrf_button_text_color              = $wlrf_apply_coupon_button_text_color ? "color:" . $wlrf_apply_coupon_button_text_color . ";" : "";
+		$wlrf_css_class_name                 = 'wlr-button-reward-apply wlr-button wlr-button-action';
+		//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		$wlrf_button_text                    = __( Settings::get( 'apply_coupon_button_text', 'Apply Coupon' ), 'wp-loyalty-rules' );
+		$wlrf_card_key                       = 1;
+		foreach ( $items as $wlrf_item ):?>
 			<?php
 			/* translators: %s: point label */
-			$revert_button   = sprintf( __( 'Revert to %s', 'wp-loyalty-rules' ), $earn_campaign_helper->getPointLabel( 3 ) );
-			$is_out_of_stock = ( $item->discount_type == 'free_product' && isset( $item->is_out_of_stock ) && ( $item->is_out_of_stock ) );
+			$wlrf_revert_button   = sprintf( __( 'Revert to %s', 'wp-loyalty-rules' ), $wlrf_earn_campaign_helper->getPointLabel( 3 ) );
+			$wlrf_is_out_of_stock = ( $wlrf_item->discount_type == 'free_product' && isset( $wlrf_item->is_out_of_stock ) && ( $wlrf_item->is_out_of_stock ) );
 			?>
-            <div class="wlr-coupons-content <?php echo ( ! empty( $item->discount_code ) ) ? 'wlr-new-coupon-card' : ''; ?> wlr-border-color
- <?php if ( $is_out_of_stock ) : ?> wlr-out-of-stock <?php endif; ?>" <?php if ( $is_out_of_stock ) : ?>   title="<?php echo esc_attr( $item->out_of_stock_message ); ?>" <?php endif; ?>>
-				<?php if ( $is_out_of_stock ) : ?>
+            <div class="wlr-coupons-content <?php echo ( ! empty( $wlrf_item->discount_code ) ) ? 'wlr-new-coupon-card' : ''; ?> wlr-border-color
+ <?php if ( $wlrf_is_out_of_stock ) : ?> wlr-out-of-stock <?php endif; ?>" <?php if ( $wlrf_is_out_of_stock ) : ?>   title="<?php echo esc_attr( $wlrf_item->out_of_stock_message ); ?>" <?php endif; ?>>
+				<?php if ( $wlrf_is_out_of_stock ) : ?>
                     <div class="wlr wlrf-lock wlr-lock-card"></div>
 				<?php endif; ?>
                 <div class="wlr-card-container"
-                     style="<?php echo ( $is_out_of_stock ) ? "opacity:0.6" : ""; ?>">
+                     style="<?php echo ( $wlrf_is_out_of_stock ) ? "opacity:0.6" : ""; ?>">
                     <div class="wlr-coupon-card-header">
                         <div class="wlr-title-icon">
                             <div class="wlr-card-icon-container">
                                 <div class="wlr-card-icon">
-									<?php $discount_type = ! empty( $item->discount_type ) ? $item->discount_type : ""; ?>
-									<?php $img_icon = ! empty( $item->icon ) ? $item->icon : ""; ?>
-									<?php echo wp_kses_post( \Wlr\App\Helpers\Base::setImageIcon( $img_icon, $discount_type, [ "alt" => $item->name ] ) ); ?>
+									<?php $wlrf_discount_type = ! empty( $wlrf_item->discount_type ) ? $wlrf_item->discount_type : ""; ?>
+									<?php $wlrf_img_icon = ! empty( $wlrf_item->icon ) ? $wlrf_item->icon : ""; ?>
+									<?php echo wp_kses_post( \Wlr\App\Helpers\Base::setImageIcon( $wlrf_img_icon, $wlrf_discount_type, [ "alt" => $wlrf_item->name ] ) ); ?>
                                 </div>
                             </div>
                             <div class="wlr-name-container">
                                 <h4 class="wlr-name wlr-text-color">
 									<?php //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-									echo \Wlr\App\Helpers\Base::readMoreLessContent( $item->name, $card_key, 60, esc_html__( "Show more", "wp-loyalty-rules" ), esc_html__( "Show less", "wp-loyalty-rules" ), 'card-my-reward-name', 'wlr-name wlr-pre-text wlr-text-color' ); ?>
+									echo \Wlr\App\Helpers\Base::readMoreLessContent( $wlrf_item->name, $wlrf_card_key, 60, esc_html__( "Show more", "wp-loyalty-rules" ), esc_html__( "Show less", "wp-loyalty-rules" ), 'card-my-reward-name', 'wlr-name wlr-pre-text wlr-text-color' ); ?>
                                 </h4>
                                 <p class="wlr-theme-color-apply">
-									<?php echo wp_kses_post( $item->reward_type_name ); ?>
-									<?php $discount_value = ! empty( $item->discount_value ) && ( $item->discount_value != 0 ) ? ( $item->discount_value ) : ''; ?>
-									<?php if ( $discount_value > 0 && isset( $item->discount_type ) && in_array( $item->discount_type, [
+									<?php echo wp_kses_post( $wlrf_item->reward_type_name ); ?>
+									<?php $wlrf_discount_value = ! empty( $wlrf_item->discount_value ) && ( $wlrf_item->discount_value != 0 ) ? ( $wlrf_item->discount_value ) : ''; ?>
+									<?php if ( $wlrf_discount_value > 0 && isset( $wlrf_item->discount_type ) && in_array( $wlrf_item->discount_type, [
 											'percent',
 											'fixed_cart',
 											'points_conversion'
 										] ) ): ?>
-										<?php if ( $item->discount_type == 'points_conversion' && ! empty( $item->discount_code ) ) : ?>
-											<?php echo $item->coupon_type != 'percent' ? wp_kses_post( " - " . $woocommerce_helper->convertPrice( $discount_value, true, $item->reward_currency ) ) : esc_html( " - " . number_format( $discount_value, 2 ) . '%' ); ?>
-										<?php elseif ( $item->discount_type != 'points_conversion' ): ?>
-											<?php echo ( $item->discount_type == 'percent' ) ? esc_html( " - " . round( $discount_value ) . "%" ) : wp_kses_post( " - " . $woocommerce_helper->convertPrice( $discount_value, true, $item->reward_currency ) ); ?>
+										<?php if ( $wlrf_item->discount_type == 'points_conversion' && ! empty( $wlrf_item->discount_code ) ) : ?>
+											<?php echo $wlrf_item->coupon_type != 'percent' ? wp_kses_post( " - " . $wlrf_woocommerce_helper->convertPrice( $wlrf_discount_value, true, $wlrf_item->reward_currency ) ) : esc_html( " - " . number_format( $wlrf_discount_value, 2 ) . '%' ); ?>
+										<?php elseif ( $wlrf_item->discount_type != 'points_conversion' ): ?>
+											<?php echo ( $wlrf_item->discount_type == 'percent' ) ? esc_html( " - " . round( $wlrf_discount_value ) . "%" ) : wp_kses_post( " - " . $wlrf_woocommerce_helper->convertPrice( $wlrf_discount_value, true, $wlrf_item->reward_currency ) ); ?>
 										<?php endif; ?>
 									<?php endif; ?>
                                 </p>
                             </div>
                         </div>
                         <div class="wlr-code-button">
-                            <div class="wlr-code" style="<?php echo esc_attr( $coupon_border );
-							echo ( $is_out_of_stock ) ? "cursor:not-allowed;" : ""; ?>">
+                            <div class="wlr-code" style="<?php echo esc_attr( $wlrf_coupon_border );
+							echo ( $wlrf_is_out_of_stock ) ? "cursor:not-allowed;" : ""; ?>">
                                 <div class="wlr-coupon-code"
-                                     style="<?php echo esc_attr( $coupon_background ); ?>">
+                                     style="<?php echo esc_attr( $wlrf_coupon_background ); ?>">
                                     <p title="<?php esc_html_e( 'Coupon Code', 'wp-loyalty-rules' ); ?>"
-										<?php if ( ! $is_out_of_stock ): ?>
-                                            onclick="wlr_jquery( 'body' ).trigger( 'wlr_copy_coupon',[ '<?php echo esc_js( '#wlr-' . $item->discount_code ) ?>','<?php echo esc_js( '#wlr-icon-' . $item->discount_code ) ?>'])"
+										<?php if ( ! $wlrf_is_out_of_stock ): ?>
+                                            onclick="wlr_jquery( 'body' ).trigger( 'wlr_copy_coupon',[ '<?php echo esc_js( '#wlr-' . $wlrf_item->discount_code ) ?>','<?php echo esc_js( '#wlr-icon-' . $wlrf_item->discount_code ) ?>'])"
 										<?php endif; ?>
                                     >
                                                 <span
-                                                        style="<?php echo ! empty( $apply_coupon_border_color ) ? esc_attr( "color:" . $apply_coupon_border_color . ";" ) : ""; ?>"
-                                                        id="<?php echo esc_attr( 'wlr-' . $item->discount_code ) ?>"><?php echo esc_html( $item->discount_code ); ?></span>
+                                                        style="<?php echo ! empty( $wlrf_apply_coupon_border_color ) ? esc_attr( "color:" . $wlrf_apply_coupon_border_color . ";" ) : ""; ?>"
+                                                        id="<?php echo esc_attr( 'wlr-' . $wlrf_item->discount_code ) ?>"><?php echo esc_html( $wlrf_item->discount_code ); ?></span>
                                     </p>
                                 </div>
                                 <div class="wlr-coupon-copy-icon"
-                                     style="<?php echo esc_attr( "color:" . $apply_coupon_border_color . ";" . $coupon_background ); ?>">
-                                    <i id="<?php echo esc_attr( 'wlr-icon-' . $item->discount_code ) ?>"
+                                     style="<?php echo esc_attr( "color:" . $wlrf_apply_coupon_border_color . ";" . $wlrf_coupon_background ); ?>">
+                                    <i id="<?php echo esc_attr( 'wlr-icon-' . $wlrf_item->discount_code ) ?>"
                                        class="wlr wlrf-copy wlr-icon"
                                        title="<?php esc_html_e( 'copy to clipboard', 'wp-loyalty-rules' ); ?>"
-										<?php if ( ! $is_out_of_stock ): ?>
-                                            onclick="wlr_jquery( 'body' ).trigger( 'wlr_copy_coupon',[ '<?php echo esc_js( '#wlr-' . $item->discount_code ) ?>','<?php echo esc_js( '#wlr-icon-' . $item->discount_code ) ?>'])"
+										<?php if ( ! $wlrf_is_out_of_stock ): ?>
+                                            onclick="wlr_jquery( 'body' ).trigger( 'wlr_copy_coupon',[ '<?php echo esc_js( '#wlr-' . $wlrf_item->discount_code ) ?>','<?php echo esc_js( '#wlr-icon-' . $wlrf_item->discount_code ) ?>'])"
 										<?php endif; ?>
                                        style="font-size:20px;"></i>
                                 </div>
                             </div>
 
-                            <div class="<?php echo esc_attr( $css_class_name ); ?> "
-                                 id="<?php echo esc_attr( 'wlr-button-coupon-action-' . $card_key ); ?>"
-                                 style="<?php echo esc_attr( $button_color );
-							     echo ( $is_out_of_stock ) ? "cursor:not-allowed;" : ""; ?>"
-								<?php if ( ! $is_out_of_stock ): ?>
-                                 onclick="wlr_jquery( 'body' ).trigger( 'wlr_apply_reward_action', [ '<?php echo esc_js( $item->id ); ?>', '<?php echo esc_js( $item->reward_table ); ?>', '<?php echo esc_js( '#wlr-button-coupon-action-' . $card_key ); ?>',<?php echo esc_js( $page_type ); ?>,'<?php
-								 $endpoint_url_with_params = add_query_arg( array( 'active_reward_page' => 'coupons' ), $endpoint_url );
-								 echo esc_url( $endpoint_url_with_params . '#wlr-my-rewards-sections' ) ?>'] )">
+                            <div class="<?php echo esc_attr( $wlrf_css_class_name ); ?> "
+                                 id="<?php echo esc_attr( 'wlr-button-coupon-action-' . $wlrf_card_key ); ?>"
+                                 style="<?php echo esc_attr( $wlrf_button_color );
+							     echo ( $wlrf_is_out_of_stock ) ? "cursor:not-allowed;" : ""; ?>"
+								<?php if ( ! $wlrf_is_out_of_stock ): ?>
+                                 onclick="wlr_jquery( 'body' ).trigger( 'wlr_apply_reward_action', [ '<?php echo esc_js( $wlrf_item->id ); ?>', '<?php echo esc_js( $wlrf_item->reward_table ); ?>', '<?php echo esc_js( '#wlr-button-coupon-action-' . $wlrf_card_key ); ?>',<?php echo esc_js( $page_type ); ?>,'<?php
+								 $wlrf_endpoint_url_with_params = add_query_arg( array( 'active_reward_page' => 'coupons' ), $endpoint_url );
+								 echo esc_url( $wlrf_endpoint_url_with_params . '#wlr-my-rewards-sections' ) ?>'] )">
 								<?php endif;
 								?>
                                 <span class="wlr-action-text"
-                                      style="<?php echo ( $is_out_of_stock ) ? "cursor:not-allowed;" : "";
-								      echo esc_attr( $button_text_color ); ?>"><?php echo esc_html( $button_text ); ?></span>
+                                      style="<?php echo ( $wlrf_is_out_of_stock ) ? "cursor:not-allowed;" : "";
+								      echo esc_attr( $wlrf_button_text_color ); ?>"><?php echo esc_html( $wlrf_button_text ); ?></span>
                             </div>
                         </div>
                     </div>
                     <div class="wlr-coupon-card-footer">
                         <div class="wlr-coupon-date-section">
-							<?php if ( ! empty( $item->expiry_date ) && ! empty( $item->discount_code ) ): ?>
+							<?php if ( ! empty( $wlrf_item->expiry_date ) && ! empty( $wlrf_item->discount_code ) ): ?>
                                 <div class="wlr-flex"><i class="wlrf-clock wlr-text-color"></i>
                                     <p class="wlr-expire-date wlr-text-color">
 										<?php /* translators: %s: expired date */
-										echo esc_html( sprintf( __( "Expires on %s", "wp-loyalty-rules" ), $item->expiry_date ) ); ?></p>
+										echo esc_html( sprintf( __( "Expires on %s", "wp-loyalty-rules" ), $wlrf_item->expiry_date ) ); ?></p>
                                 </div>
 							<?php endif; ?>
                         </div>
                         <div>
-							<?php if ( ! empty( $revert_button ) && ( $item->reward_type == 'redeem_point' ) && ! empty( $item->discount_code ) && isset( $is_revert_enabled ) && $is_revert_enabled ): ?>
+							<?php if ( ! empty( $wlrf_revert_button ) && ( $wlrf_item->reward_type == 'redeem_point' ) && ! empty( $wlrf_item->discount_code ) && isset( $is_revert_enabled ) && $is_revert_enabled ): ?>
                                 <div class="wlr-revert wlr-revert-active wlr-flex"
-                                     id="<?php echo esc_attr( 'wlr-' . $item->id . '-' . $item->discount_code ); ?>"
-                                     onclick="wlr_jquery( 'body' ).trigger('wlr_new_revoke_coupon',['<?php echo esc_js( $item->id ); ?>','<?php echo esc_js( $item->discount_code ); ?>','<?php
-								     $endpoint_url_with_params = add_query_arg( array( 'active_reward_page' => 'coupons' ), $endpoint_url );
-								     echo esc_url( $endpoint_url_with_params . '#wlr-my-rewards-sections' ); ?>']);">
+                                     id="<?php echo esc_attr( 'wlr-' . $wlrf_item->id . '-' . $wlrf_item->discount_code ); ?>"
+                                     onclick="wlr_jquery( 'body' ).trigger('wlr_new_revoke_coupon',['<?php echo esc_js( $wlrf_item->id ); ?>','<?php echo esc_js( $wlrf_item->discount_code ); ?>','<?php
+								     $wlrf_endpoint_url_with_params = add_query_arg( array( 'active_reward_page' => 'coupons' ), $endpoint_url );
+								     echo esc_url( $wlrf_endpoint_url_with_params . '#wlr-my-rewards-sections' ); ?>']);">
                                     <i class="wlrf-refresh_2 wlr-theme-color-apply"></i>
                                     <span
-                                            class="wlr-revert-reward wlr-theme-color-apply"><?php echo esc_html( $revert_button ); ?></span>
+                                            class="wlr-revert-reward wlr-theme-color-apply"><?php echo esc_html( $wlrf_revert_button ); ?></span>
                                 </div>
 							<?php endif; ?>
                         </div>
@@ -135,7 +136,7 @@ $woocommerce_helper   = \Wlr\App\Helpers\Woocommerce::getInstance();
                     </div>
                 </div>
             </div>
-			<?php $card_key ++; ?>
+			<?php $wlrf_card_key ++; ?>
 		<?php endforeach; ?>
 		<?php if ( isset( $total ) && $total > 0 ): ?>
             <div class="wlr-coupon-pagination">

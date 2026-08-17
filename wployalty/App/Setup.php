@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App;
 
 use Wlr\App\Controllers\Site\MyAccount;
@@ -99,6 +100,7 @@ class Setup {
 			$levels->create();
 			$points_ledger = new PointsLedger();
 			$points_ledger->create();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_create_required_table' );
 		} catch ( Exception $e ) {
 			exit( esc_html( WLR_PLUGIN_NAME . __( 'Plugin required table creation failed.', 'wp-loyalty-rules' ) ) );
@@ -178,6 +180,7 @@ class Setup {
 				$model->create();
 			}
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_create_required_table' );
 	}
 

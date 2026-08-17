@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 
 use Wlr\App\Helpers\Input;
@@ -16,7 +17,7 @@ use Exception;
 
 defined( 'ABSPATH' ) or die();
 
-class CampaignPage {
+class   CampaignPage {
 	/**
 	 * Retrieves the campaigns based on the provided parameters.
 	 *
@@ -139,6 +140,7 @@ class CampaignPage {
 
 		$selected_list = (string) $input->post_get( 'selected_list', '' );
 		$selected_list = explode( ',', $selected_list );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$validate_data = apply_filters( 'wlr_before_campaign_bulk_action', [], $action_mode, $selected_list );
 		if ( ! empty( $validate_data ) ) {
 			wp_send_json( $validate_data );
@@ -199,6 +201,7 @@ class CampaignPage {
 			wp_send_json_error( [ 'message' => __( 'Basic validation failed', 'wp-loyalty-rules' ) ] );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$validate_data = apply_filters( 'wlr_before_delete_campaign', [], $id );
 		if ( ! empty( $validate_data ) ) {
 			wp_send_json( $validate_data );
@@ -229,6 +232,7 @@ class CampaignPage {
 		try {
 			$earn_campaign = new EarnCampaign();
 			$campaign      = $earn_campaign->getByKey( $id );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$data          = apply_filters( 'wlr_before_toggle_campaign_active', [], $campaign );
 			if ( ! empty( $data ) ) {
 				wp_send_json( $data );
@@ -290,9 +294,9 @@ class CampaignPage {
 		}
 		$input     = new Input();
 		$post_data = $input->post();
-		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
 		$post_data['name'] = ! empty( $_REQUEST['name'] ) ? apply_filters( 'title_save_pre', sanitize_text_field( wp_unslash( $_REQUEST['name'] ) ) ) : '';
-		//phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
 		$post_data['description'] = ! empty( $_REQUEST['description'] ) ? apply_filters( 'title_save_pre', sanitize_textarea_field( wp_unslash( $_REQUEST['description'] ) ) ) : '';
 		$post_data['conditions']  = ! empty( $post_data['conditions'] ) ? json_decode( stripslashes( $post_data['conditions'] ), true ) : [];
 		$post_data['point_rule']  = ! empty( $post_data['point_rule'] ) ? json_decode( stripslashes( $post_data['point_rule'] ), true ) : [];
@@ -306,6 +310,7 @@ class CampaignPage {
 				'message'     => __( 'Campaign could not be saved', 'wp-loyalty-rules' )
 			] );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data = apply_filters( 'wlr_before_save_campaign_validation', [] );
 		if ( ! empty( $data ) ) {
 			wp_send_json( $data );

@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Models;
 defined( 'ABSPATH' ) or die();
 
@@ -146,9 +147,11 @@ class EarnCampaignTransactions extends Base {
 			'modified_at'      => 0,
 		);
 		$args      = array_merge( $args, $params );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$args      = apply_filters( 'wlr_before_save_extra_transaction', $args );
 		$insert_id = $this->insertRow( $args );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_after_save_extra_transaction', $insert_id, $args );
 	}
 

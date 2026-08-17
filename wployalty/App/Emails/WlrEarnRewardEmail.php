@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Emails;
 
 use Wlr\App\Emails\Traits\Common;
@@ -25,6 +26,7 @@ class WlrEarnRewardEmail extends \WC_Email {
 		$this->template_plain = 'emails/plain/wlr-earn-reward.php';
 		$this->template_base  = WLR_PLUGIN_PATH . 'templates/';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is dynamically prefixed by the existing wlr_ email ID.
 		$this->placeholders = apply_filters( $this->id . '_short_codes_list', [
 			'{wlr_reward_title}'              => '10$ discount',
 			'{wlr_reward_label}'              => 'rewards',
@@ -69,6 +71,7 @@ class WlrEarnRewardEmail extends \WC_Email {
 
 		$is_send_email  = isset( $loyal_user->is_allow_send_email ) && $loyal_user->is_allow_send_email > 0;
 		$is_banned_user = isset( $loyal_user->is_banned_user ) && $loyal_user->is_banned_user > 0;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! $is_send_email || $is_banned_user || ! apply_filters( 'wlr_before_send_email', true,
 				[
 					'email_type'  => $this->id,
@@ -124,9 +127,11 @@ class WlrEarnRewardEmail extends \WC_Email {
 		$this->placeholders['{wlr_used_point}']                = $loyal_user->used_total_points ?? 0;
 		$this->placeholders['{wlr_user_name}']                 = $this->getUserDisplayName( $email );
 		$this->placeholders['{wlr_order_id}']                  = $data['order_id'] ?? '';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$this->placeholders['{wlr_store_name}']                = apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) );
 		$this->placeholders['{wlr_customer_reward_page_link}'] = get_permalink( get_option( 'woocommerce_myaccount_page_id' ) );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$this->placeholders = apply_filters( 'wlr_earn_reward_email_short_codes', $this->placeholders, $email, $reward, $action_type, $data );
 		$content            = stripslashes( get_option( 'wlr_earn_reward_email_template' ) );
 		$content_html       = empty( $content ) ? $this->defaultContent() : $content;

@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Models;
 
 use Wlr\App\Helpers\Woocommerce;
@@ -326,6 +327,7 @@ class Logs extends Base {
 		$email                = sanitize_email( $email );
 		$query                = "SELECT * FROM {$this->table}";
 		$condition_where      = self::$db->prepare( 'id > %d AND user_email=%s', array( 0, $email ) );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$additional_condition = apply_filters( 'wlr_page_transaction_details_additional_conditions', array(), $email );
 		if ( ! empty( $additional_condition ) ) {
 			$condition_where .= $this->formDataAdditionalCondition( $additional_condition );
@@ -457,6 +459,7 @@ class Logs extends Base {
 		$email                = sanitize_email( $email );
 		$query                = "SELECT COUNT(DISTINCT id) as total_count FROM {$this->table}";
 		$condition_where      = self::$db->prepare( 'id > %d AND user_email=%s', array( 0, $email ) );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$additional_condition = apply_filters( 'wlr_page_transaction_details_additional_conditions', array(), $email );
 		if ( ! empty( $additional_condition ) ) {
 			$condition_where .= $this->formDataAdditionalCondition( $additional_condition );

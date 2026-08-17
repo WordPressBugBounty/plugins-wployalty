@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Models;
 defined( 'ABSPATH' ) or die();
 
@@ -120,6 +121,7 @@ class Users extends Base {
 				( isset( $user ) && ! empty( $user ) && isset( $user->$field_name ) ? $user->$field_name : $field_value );
 		}
 		$old_level_id            = $user_fields['level_id'];
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$user_fields['level_id'] = apply_filters( 'wlr_user_level_id', $user_fields['level_id'], $user_fields['earn_total_point'], $user_fields );
 		if ( ! empty( $id ) && $id > 0 && ! empty( $user ) ) {
 			$this->updateRow( $user_fields, array( 'id' => $user->id ) );
@@ -129,9 +131,11 @@ class Users extends Base {
 		}
 		if ( $status && ( $old_level_id != $user_fields['level_id'] ) ) {
 			\WC_Emails::instance();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_after_user_level_changed', $old_level_id, $user_fields );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_after_user_updated', $status, $user_fields );
 	}
 

@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 defined( 'ABSPATH' ) or die();
 
@@ -53,6 +54,7 @@ class Woocommerce {
 				'b'      => array( 'class' => array() ),
 				'i'      => array( 'class' => array() ),
 			);
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$allowed_html = apply_filters( 'wlr_get_clean_html_allowed_tags', $allowed_html, $html );
 
 			return wp_kses( $html, $allowed_html );
@@ -69,6 +71,7 @@ class Woocommerce {
 	 * @since 1.0.0
 	 */
 	public static function getDatePeriod() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_day_periods', [
 			'day'   => esc_html__( 'Day(s)', 'wp-loyalty-rules' ),
 			'week'  => esc_html__( 'Week(s)', 'wp-loyalty-rules' ),
@@ -172,6 +175,7 @@ class Woocommerce {
 		}
 		$date             = new DateTime( $date );
 		$converted_format = $date->format( $format );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( apply_filters( 'wlr_translate_display_date', false ) ) {
 			$time             = strtotime( $converted_format );
 			$converted_format = date_i18n( $format, $time );
@@ -192,6 +196,7 @@ class Woocommerce {
 		}
 
 		$converted_time = $this->convert_utc_to_wp_time( gmdate( 'Y-m-d H:i:s', $date ), $format );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( apply_filters( 'wlr_translate_display_date', true ) ) {
 			$datetime = DateTime::createFromFormat( $format, $converted_time );
 			if ( $datetime !== false ) {
@@ -228,6 +233,7 @@ class Woocommerce {
 				sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), $earn_helper->getPointLabel( 3 ) ),
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_action_types', $action_types );
 	}
 
@@ -240,6 +246,7 @@ class Woocommerce {
 	}
 
 	public static function getAllActionTypes() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_all_action_types', [
 			'point_for_purchase' => is_admin() ? __( 'Points For Purchase', 'wp-loyalty-rules' ) : /* translators: %s: point label */ sprintf( __( '%s For Purchase', 'wp-loyalty-rules' ), Settings::getPointLabel( 3 ) ),
 			'subtotal'           => __( 'Reward based on spending', 'wp-loyalty-rules' ),
@@ -263,6 +270,7 @@ class Woocommerce {
 	 * @return array Returns an array of reward discount types.
 	 */
 	public static function getRewardDiscountTypes() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_reward_types', [
 			'fixed_cart'        => __( 'Fixed discount', 'wp-loyalty-rules' ),
 			'percent'           => __( 'Percentage discount', 'wp-loyalty-rules' ),
@@ -318,6 +326,7 @@ class Woocommerce {
 	 * @return array
 	 */
 	public static function getRewardAcceptConditions() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_reward_conditions', [
 			'redeem_point'  => [
 				'Common'  => [
@@ -392,6 +401,7 @@ class Woocommerce {
 	 * @return array The list of campaign conditions.
 	 */
 	public static function getCampaignConditionList() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_all_campaign_condition_list', [
 			'user_role'             => __( 'User Role', 'wp-loyalty-rules' ),
 			'user_point'            => __( 'Customer Points', 'wp-loyalty-rules' ),
@@ -416,6 +426,7 @@ class Woocommerce {
 	}
 
 	public static function getActionAcceptConditions() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_action_conditions', [
 			'point_for_purchase' => [
 				'Common'          => [
@@ -554,6 +565,7 @@ class Woocommerce {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_cart_subtotal', $subtotal, $cart_data );
 	}
 
@@ -626,6 +638,7 @@ class Woocommerce {
 			$subtotal = $subtotal + $subtotal_tax;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_order_subtotal', $subtotal, $order_data );
 	}
 
@@ -654,6 +667,7 @@ class Woocommerce {
 
 	function getOrderTotal( $order ) {
 		if ( $this->isMethodExists( $order, 'get_total' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			return apply_filters( 'wlr_get_order_total', $order->get_total(), $order );
 		}
 
@@ -771,6 +785,7 @@ class Woocommerce {
 			$categories = $product->get_category_ids();
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_product_categories', $categories, $product );
 	}
 
@@ -791,6 +806,7 @@ class Woocommerce {
 			$parent_id = $product->get_parent_id();
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_rules_get_product_parent_id', $parent_id, $product );
 	}
 
@@ -801,6 +817,7 @@ class Woocommerce {
 		if ( isset( self::$products[ $product_id ] ) ) {
 			return self::$products[ $product_id ];
 		} else if ( function_exists( 'wc_get_product' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			self::$products[ $product_id ] = apply_filters( 'wlr_rules_get_wc_product', wc_get_product( $product_id ), $product_id );
 
 			return self::$products[ $product_id ];
@@ -823,6 +840,7 @@ class Woocommerce {
 			$status = true;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_is_on_sale', $status, $product );
 	}
 
@@ -1057,6 +1075,7 @@ class Woocommerce {
 					) );
 				}
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$productPrice = apply_filters( 'wlr_default_product_price', $productPrice, $product, $item, $is_redeem, $orderCurrency );
 		} elseif ( is_object( $item ) ) {
 			$itemData = method_exists( $item, 'get_data' ) ? $item->get_data() : array();
@@ -1066,6 +1085,7 @@ class Woocommerce {
 			} else if ( isset( $itemData['subtotal'] ) && isset( $itemData['subtotal_tax'] ) ) {
 				$productPrice = ( $itemData['subtotal'] + $itemData['subtotal_tax'] ) / $quantity;
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$productPrice = apply_filters( 'wlr_product_price', $productPrice, $item, $is_redeem, $orderCurrency );
 		}
 
@@ -1075,6 +1095,7 @@ class Woocommerce {
 	function getCurrentCurrency( $currency = '' ) {
 		$currency = empty( $currency ) ? get_woocommerce_currency() : $currency;
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_current_currency', $currency );
 	}
 
@@ -1082,11 +1103,13 @@ class Woocommerce {
 		if ( empty( $lang ) ) {
 			$lang = get_locale();
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing third-party integration hook retained for compatibility.
 		$wpml_lang = apply_filters( 'wpml_current_language', null );
 		if ( ! empty( $wpml_lang ) ) {
 			$lang = $wpml_lang;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_current_language', $lang );
 	}
 
@@ -1095,6 +1118,7 @@ class Woocommerce {
 		if ( $current_lang != $lang ) {
 			return $prod_id;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing third-party integration hook retained for compatibility.
 		$wpml_prod_id = apply_filters( 'translate_object_id', $prod_id, 'product', false, $current_lang );
 		if ( $prod_id != $wpml_prod_id ) {
 			$prod_id = $wpml_prod_id;
@@ -1115,6 +1139,7 @@ class Woocommerce {
 			$order_language = $this->getPluginBasedOrderLanguage( $order_id );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_order_language', $order_language, $order_id );
 	}
 
@@ -1151,6 +1176,7 @@ class Woocommerce {
 		}
 		$user    = get_user_by( 'email', $user_email );
 		$user_id = isset( $user->ID ) && ! empty( $user->ID ) ? $user->ID : 0;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! apply_filters( 'wlr_before_add_to_loyalty_customer', true,
 			$user_id, $user_email ) ) {
 			return true;
@@ -1206,6 +1232,7 @@ class Woocommerce {
 		$args         = array_merge( $default_args, $args );
 		$query        = new \WP_Query( $args );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_orders_through_wp_query', $query->get_posts(), $query, $args );
 	}
 
@@ -1242,6 +1269,7 @@ class Woocommerce {
 		);
 		$args         = array_merge( $default_args, $args );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_orders_through_wc_order_query', wc_get_orders( $args ), $args );
 	}
 
@@ -1390,6 +1418,7 @@ class Woocommerce {
 			$amount          = '<span class="woocommerce-Price-amount amount"><bdi>' . $formatted_price . '</bdi></span>';
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_custom_price_convert', $amount, $original_amount, $with_symbol, $currency );
 	}
 
@@ -1404,6 +1433,7 @@ class Woocommerce {
 			$amount          = '<span class="woocommerce-Price-amount amount"><bdi>' . $formatted_price . '</bdi></span>';
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_custom_price_convert', $amount, $original_amount, $with_symbol, $original_currency );
 	}
 
@@ -1412,6 +1442,7 @@ class Woocommerce {
 			$currency = get_woocommerce_currency();
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_custom_default_currency', $currency );
 	}
 
@@ -1431,6 +1462,7 @@ class Woocommerce {
 			$currency = get_woocommerce_currency();
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_custom_display_currency', $currency );
 	}
 
@@ -1470,6 +1502,7 @@ class Woocommerce {
 			$user_email = sanitize_email( $order->get_billing_email() );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_order_email', $user_email, $order );
 	}
 
@@ -1478,6 +1511,7 @@ class Woocommerce {
 			return $point;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_handle_number_format_i18n', number_format_i18n( $point ), $point );
 	}
 

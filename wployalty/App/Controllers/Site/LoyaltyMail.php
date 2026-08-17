@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Controllers\Base;
@@ -70,6 +71,7 @@ class LoyaltyMail extends Base {
 	}
 
 	public static function displayShortCodes( $email ) {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( is_object( $email ) && isset( $email->id ) && in_array( $email->id, apply_filters("wlr_allowed_email_ids", [
 				'wlr_earn_point_email',
 				'wlr_birthday_email',

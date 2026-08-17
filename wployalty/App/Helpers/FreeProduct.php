@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 
 defined( 'ABSPATH' ) or die;
@@ -58,6 +59,7 @@ class FreeProduct extends Base {
 		$free_product_ids = json_decode( $user_reward->free_product );
 		foreach ( $free_product_ids as $free_pro ) {
 			if ( isset( $free_pro->value ) && ! empty( $free_pro->value ) ) {
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$qty = apply_filters( 'wlr_change_free_product_quantity', 1, $free_pro, $user_reward );
 				if ( ! isset( self::$free_product_list[ $free_pro->value ] ) || empty( self::$free_product_list[ $free_pro->value ] ) ) {
 					$product_variant                             = self::$woocommerce_helper->get_variant_ids( $free_pro->value );
@@ -202,6 +204,7 @@ class FreeProduct extends Base {
 						$variation        = self::$woocommerce_helper->getProductAttributes( $product );
 					}
 
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 					$cart_item_data                    = apply_filters( 'wlr_free_product_cart_item_data', array(
 						'loyalty_free_product'    => 'yes',
 						'loyalty_product_id'      => $free_product['product_id'],

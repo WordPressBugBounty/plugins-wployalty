@@ -19,8 +19,9 @@ defined( 'WLPE_MINIMUM_WC_VERSION' ) or define( 'WLPE_MINIMUM_WC_VERSION', '3.0.
 /**
  * Function to check parent plugin wployalty activate or not
  */
-if ( ! function_exists( 'isWployaltyActiveOrNotInPointExpiry' ) ) {
-	function isWployaltyActiveOrNotInPointExpiry() {
+if ( ! function_exists( 'wlrf_is_loyalty_active_or_not_in_point_expiry' ) ) {
+	function wlrf_is_loyalty_active_or_not_in_point_expiry() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
@@ -29,7 +30,7 @@ if ( ! function_exists( 'isWployaltyActiveOrNotInPointExpiry' ) ) {
 		return array_key_exists( 'wp-loyalty-rules/wp-loyalty-rules.php', $active_plugins ) || in_array( 'wp-loyalty-rules/wp-loyalty-rules.php', $active_plugins, false ) || in_array( 'wp-loyalty-rules-lite/wp-loyalty-rules-lite.php', $active_plugins, false ) || in_array( 'wployalty/wp-loyalty-rules-lite.php', $active_plugins, false );
 	}
 }
-if ( isWployaltyActiveOrNotInPointExpiry() ) {
+if ( wlrf_is_loyalty_active_or_not_in_point_expiry() ) {
 	/**
 	 * Start Plugin
 	 */

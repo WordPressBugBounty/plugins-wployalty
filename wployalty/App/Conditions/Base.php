@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Conditions;
 defined( 'ABSPATH' ) or die();
 
@@ -38,6 +39,7 @@ abstract class Base {
 	}
 
 	function isValidCalculateBased( $is_calculate_based = '' ) {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return is_string( $is_calculate_based ) && in_array( $is_calculate_based, apply_filters( 'wlr_allowed_calculate_based', array(
 				'cart',
 				'order',
@@ -224,6 +226,7 @@ abstract class Base {
 			$status = ! $item->get_meta( '_bundled_by' );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_check_item_for_additional_restriction', $status, $item, $is_calculate_base );
 	}
 
@@ -347,6 +350,7 @@ abstract class Base {
 			$product_variation = self::$woocommerce_helper->getProduct( self::$woocommerce_helper->getProductParentId( $product ) );
 			foreach ( $attrs as $taxonomy => $value ) {
 				if ( $value ) {
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 					$taxonomy = apply_filters( 'wlr_rules_attribute_slug', urldecode( $taxonomy ), $taxonomy, $value );
 					$term_obj = get_term_by( 'slug', $value, $taxonomy );
 					if ( ! is_wp_error( $term_obj ) && $term_obj && $term_obj->name ) {
@@ -360,6 +364,7 @@ abstract class Base {
 						}
 					}
 				}
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$attr_ids = apply_filters( 'wlr_rules_get_attribute_id_from_taxonomy_name', $attr_ids, $taxonomy, $product, $cart_item, $operation_values );
 			}
 			if ( ! empty( $product_variation ) ) {
@@ -399,6 +404,7 @@ abstract class Base {
 
 	function compareWithSku( $product, $operation_values, $cart_item, $sale_badge = false ) {
 		$product_sku = self::$woocommerce_helper->getProductSku( $product );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$product_sku = apply_filters( 'wlr_check_sku_filter', $product_sku, $product, $operation_values, $cart_item, $sale_badge );
 
 		return in_array( $product_sku, $operation_values );
@@ -427,6 +433,7 @@ abstract class Base {
 		if ( empty( $products ) || ! is_array( $products ) ) {
 			return $products;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$apply_discount_to_child = apply_filters( 'wlr_apply_condition_to_child', false, $products );
 		if ( $apply_discount_to_child ) {
 			$product_variations = self::$woocommerce_helper->getVariantsOfProducts( $products );
@@ -462,6 +469,7 @@ abstract class Base {
 		if ( in_array( $product_id, $operation_values ) ) {
 			return true;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( self::$woocommerce_helper->isMethodExists( $product, 'get_variation_prices' ) && apply_filters( 'wlr_apply_condition_to_variants', true ) ) {
 			$variations = $product->get_variation_prices();
 			if ( is_array( $variations ) && isset( $variations['price'] ) && is_array( $variations['price'] ) ) {
@@ -520,6 +528,7 @@ abstract class Base {
 	 * @return array
 	 */
 	protected function getItemsWithoutFreeProduct( $items, $type = 'cart' ) {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( empty( $items ) || ! is_array( $items ) || apply_filters( 'wlr_is_condition_check_include_free_product', false, $items, $type ) ) {
 			return $items;
 		}

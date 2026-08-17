@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) or die;
                         <div class="lpr_card-body">
                             <form action="<?php echo esc_url( $base_url ); ?>" method="post" class="wlr-imprt-preview"
                                   id="wlr_imprt_preview_form_id" enctype="multipart/form-data">
-								<?php $total_count = ( isset( $total_count ) && ! empty( $total_count ) ) ? $total_count : 0; ?>
+								<?php $wlrf_total_count = ( isset( $total_count ) && ! empty( $total_count ) ) ? $total_count : 0; ?>
                                 <!-- file data -->
                                 <input type="hidden" name="name"
                                        value="<?php echo ( isset( $file['name'] ) && ! empty( $file['name'] ) ) ? esc_attr( $file['name'] ) : ''; ?>"/>
@@ -39,13 +39,13 @@ defined( 'ABSPATH' ) or die;
                                 <input type="hidden" name="size"
                                        value="<?php echo ( isset( $file['size'] ) && ! empty( $file['size'] ) ) ? esc_attr( $file['size'] ) : ''; ?>"/>
                                 <input type="hidden" id="wlr-total-count" name="total_count"
-                                       value="<?php echo esc_attr( $total_count ); ?>"/>
+                                       value="<?php echo esc_attr( $wlrf_total_count ); ?>"/>
                                 <input type="hidden" id="wlr-need-update" name="need_update"
                                        value="<?php echo ( isset( $need_update ) && ! empty( $need_update ) ) ? esc_attr( $need_update ) : 'no'; ?>"/>
                                 <table>
                                     <tr>
                                         <td><?php esc_html_e( 'Total items:', 'wp-loyalty-rules' ); ?></td>
-                                        <td><?php echo esc_html( sprintf( '%s', $total_count ) ); ?></td>
+                                        <td><?php echo esc_html( $wlrf_total_count ); ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php esc_html_e( 'Processed items:', 'wp-loyalty-rules' ); ?></td>
@@ -60,10 +60,10 @@ defined( 'ABSPATH' ) or die;
                                         <td><?php esc_html_e( 'Field Value', 'wp-loyalty-rules' ); ?></td>
                                     </tr>
 									<?php if ( isset( $header ) && ! empty( $header ) ): ?>
-										<?php foreach ( $header as $header_key => $header_value ): ?>
+										<?php foreach ( $header as $wlrf_header_key => $wlrf_header_value ): ?>
                                             <tr>
-                                                <td><?php echo esc_html( $header_key ); ?></td>
-                                                <td><?php echo esc_html( $header_value ); ?></td>
+                                                <td><?php echo esc_html( $wlrf_header_key ); ?></td>
+                                                <td><?php echo esc_html( $wlrf_header_value ); ?></td>
                                             </tr>
 										<?php endforeach; ?>
 									<?php endif; ?>

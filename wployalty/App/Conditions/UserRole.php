@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Conditions;
 defined( 'ABSPATH' ) or die();
 
@@ -28,6 +29,7 @@ class UserRole extends Base {
 		$user       = '';
 		if ( is_string( $user_email ) && ! empty( $user_email ) ) {
 			$user = get_user_by( 'email', $user_email );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$user = apply_filters( 'wlr_rule_user_role_on_condition_check', $user, $data );
 		}
 		if ( ! empty( $user ) ) {

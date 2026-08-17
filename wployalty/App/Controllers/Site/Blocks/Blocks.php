@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site\Blocks;
 
 use Automattic\WooCommerce\StoreApi\Exceptions\RouteException;
@@ -111,6 +112,7 @@ class Blocks {
 				}
 			}
 		}, 10, 2 );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_block_init' );
 	}
 

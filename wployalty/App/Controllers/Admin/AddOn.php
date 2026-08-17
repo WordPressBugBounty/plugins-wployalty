@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 
 use Automattic\WooCommerce\Admin\PluginsHelper;
@@ -32,6 +33,7 @@ class AddOn {
 		if ( ! empty( self::$addons_list ) ) {
 			return self::$addons_list;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$addons = apply_filters( 'wlr_addon_list', array_merge( self::getInternalAddonsList(), self::getRemoteAddonsList() ) );
 		if ( empty( $addons ) ) {
 			return [];
@@ -141,6 +143,7 @@ class AddOn {
 			'plugin_file'  => ''
 		];
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_internal_addons_list', $add_ons );
 	}
 

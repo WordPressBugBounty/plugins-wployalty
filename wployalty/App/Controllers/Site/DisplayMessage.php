@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Controllers\Base;
@@ -18,6 +19,7 @@ defined( 'ABSPATH' ) or die;
 class DisplayMessage extends Base {
 
 	function init() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( self::$woocommerce->isBannedUser() || ! apply_filters( 'wlr_before_display_messages', true ) ) {
 			return;
 		}
@@ -32,8 +34,10 @@ class DisplayMessage extends Base {
 		}
 		$wlr_settings                  = self::$woocommerce->getOptions( 'wlr_settings', [] );
 		$redeem_point_display_position = ! empty( $wlr_settings['wlr_cart_redeem_point_display'] ) ? $wlr_settings['wlr_cart_redeem_point_display'] : 'before';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$allowed_redeem_point_display_position = apply_filters('wlr_allowed_redeem_point_display_position', ['before', 'after']);
 		if ( in_array( $redeem_point_display_position, $allowed_redeem_point_display_position )
+		     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		     && apply_filters( 'wlr_is_cart_message_fragment_needed', true )
 		) {
 			$this->triggerCartFragmentDisplayMessage();
@@ -54,6 +58,7 @@ class DisplayMessage extends Base {
 	}
 
 	public function triggerProductDisplayMessage() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_before_trigger_product_display_message' );
 		$position = $this->getProductDisplayMessageOption();
 		switch ( $position ) {
@@ -97,6 +102,7 @@ class DisplayMessage extends Base {
 		$options                          = self::$woocommerce->getOptions( 'wlr_settings' );
 		$display_product_display_position = ( isset( $options['product_message_display_position'] ) && ! empty( $options['product_message_display_position'] ) ? $options['product_message_display_position'] : 'before_add_to_cart' );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_product_display_message_position', $display_product_display_position );
 	}
 
@@ -104,10 +110,12 @@ class DisplayMessage extends Base {
 		$options                 = self::$woocommerce->getOptions( 'wlr_settings' );
 		$cart_earn_point_display = ( isset( $options['wlr_is_cart_earn_message_enable'] ) && ! empty( $options['wlr_is_cart_earn_message_enable'] ) ? $options['wlr_is_cart_earn_message_enable'] : 'yes' ) == 'yes';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_is_cart_earn_message_enabled', $cart_earn_point_display );
 	}
 
 	function triggerCartEarnMessage() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_before_trigger_cart_earn_message' );
 		$position = $this->getCartEarnMessageOption();
 
@@ -130,6 +138,7 @@ class DisplayMessage extends Base {
 		$cart_earn_point_display = ( isset( $options['wlr_cart_earn_point_display'] ) && ! empty( $options['wlr_cart_earn_point_display'] )
 			? $options['wlr_cart_earn_point_display'] : 'before' );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_cart_earn_message_position', $cart_earn_point_display );
 	}
 
@@ -138,12 +147,15 @@ class DisplayMessage extends Base {
 		$cart_earn_point_display = ( isset( $options['wlr_is_checkout_earn_message_enable'] ) && ! empty( $options['wlr_is_checkout_earn_message_enable'] )
 				? $options['wlr_is_checkout_earn_message_enable'] : 'yes' ) == 'yes';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_is_checkout_earn_message_enabled', $cart_earn_point_display );
 	}
 
 	function triggerCheckoutEarnMessage() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_before_trigger_checkout_earn_message' );
 		add_action( 'woocommerce_before_checkout_form', [ $this, 'displayEarnPointsMessage' ], 5 );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_after_trigger_checkout_earn_message' );
 	}
 
@@ -157,10 +169,12 @@ class DisplayMessage extends Base {
 		$cart_redeem_point_display = ( isset( $options['wlr_is_cart_redeem_message_enable'] ) && ! empty( $options['wlr_is_cart_redeem_message_enable'] )
 				? $options['wlr_is_cart_redeem_message_enable'] : 'yes' ) == 'yes';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_is_cart_redeem_message_enabled', $cart_redeem_point_display );
 	}
 
 	function triggerCartRedeemMessage() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_before_trigger_cart_redeem_message' );
 
 		$position = $this->getCartRedeemMessageOption();
@@ -179,6 +193,7 @@ class DisplayMessage extends Base {
 		$cart_redeem_point_display = ( isset( $options['wlr_cart_redeem_point_display'] ) && ! empty( $options['wlr_cart_redeem_point_display'] )
 			? $options['wlr_cart_redeem_point_display'] : 'before' );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_cart_redeem_message_position', $cart_redeem_point_display );
 	}
 
@@ -187,12 +202,15 @@ class DisplayMessage extends Base {
 		$cart_redeem_point_display = ( isset( $options['wlr_is_checkout_redeem_message_enable'] ) && ! empty( $options['wlr_is_checkout_redeem_message_enable'] )
 				? $options['wlr_is_checkout_redeem_message_enable'] : 'yes' ) == 'yes';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_is_checkout_redeem_message_enabled', $cart_redeem_point_display );
 	}
 
 	function triggerCheckoutRedeemMessage() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_before_trigger_checkout_redeem_message' );
 		add_action( 'woocommerce_before_checkout_form', [ $this, 'displayRedeemPointsMessage' ], 6 );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_after_trigger_checkout_redeem_message' );
 	}
 
@@ -201,10 +219,12 @@ class DisplayMessage extends Base {
 		$cart_redeem_point_display = ( isset( $options['wlr_is_thank_you_message_enable'] ) && ! empty( $options['wlr_is_thank_you_message_enable'] )
 				? $options['wlr_is_thank_you_message_enable'] : 'yes' ) == 'yes';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_thank_you_message_enabled', $cart_redeem_point_display );
 	}
 
 	function triggerThankYouMessage() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_before_trigger_thankyou_message' );
 		$position = $this->getThankYouMessageOption();
 		switch ( $position ) {
@@ -222,6 +242,7 @@ class DisplayMessage extends Base {
 		$thank_you_msg_position = ( isset( $options['wlr_thank_you_position'] ) && ! empty( $options['wlr_thank_you_position'] )
 			? $options['wlr_thank_you_position'] : 'before' );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_thank_you_message_position', $thank_you_msg_position );
 	}
 
@@ -246,6 +267,7 @@ class DisplayMessage extends Base {
 			$message = $price;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_single_product_message', $message, $this );
 	}
 
@@ -338,6 +360,7 @@ class DisplayMessage extends Base {
 		$status = ( ( isset( $_REQUEST['app_name'] ) && isset( $_REQUEST['scope'] ) && isset( $_REQUEST['oauth_consumer_key'] ) )
 		            || ( isset( $_REQUEST['consumer_key'] ) && isset( $_REQUEST['consumer_secret'] ) ) );//phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_should_stop_processing_messages', $status );
 
 	}
@@ -354,6 +377,7 @@ class DisplayMessage extends Base {
 	function renderProductMessageCart() {
 		global $product;
 		$message = $this->commonProductMessage( $product );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		echo wp_kses_post( apply_filters( 'wlr_single_product_message', $message, $this ) );
 	}
 
@@ -374,6 +398,7 @@ class DisplayMessage extends Base {
 			$message = $cart_link;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_single_product_message', $message, $this );
 	}
 
@@ -431,6 +456,7 @@ class DisplayMessage extends Base {
 			'{wlr_cart_rewards}'         => $available_rewards
 		];
 		$message         = $earn_campaign->processShortCodes( $short_code_list, $message );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$message         = apply_filters( 'wlr_points_rewards_earn_points_message', $message, $short_code_list );
 		$message         = Woocommerce::getCleanHtml( $message );
 		$message         = $earn_campaign->getCartEarnMessageDesign( $message );//$message = '<div class="wlr-message-info wlr_points_rewards_earn_points">' . $message . '</div>';
@@ -487,6 +513,7 @@ class DisplayMessage extends Base {
 			'{wlr_cart_rewards}'         => $available_rewards,
 		);
 		$message                 = $earn_campaign->processShortCodes( $short_code_list, $message );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$message                 = apply_filters( 'wlr_points_rewards_earn_points_message', $message, $short_code_list );
 		$message                 = Woocommerce::getCleanHtml( $message );
 
@@ -563,6 +590,7 @@ class DisplayMessage extends Base {
 			$point_rewards = $reward_helper->getPointRewards( $user_email, $extra );
 			$reward_list   = array_merge( $user_reward, $point_rewards );
 			$status        = count( $reward_list ) > 0 || $points > 0;
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$status        = apply_filters( 'wlr_is_show_redeem_message', $status, $reward_list, $points );
 			if ( $status ) {
 				if ( is_checkout() || ! $is_cart ) {
@@ -582,6 +610,7 @@ class DisplayMessage extends Base {
 					'{wlr_reward_link}'        => '<a id="wlr-reward-link" href="javascript:void(0);">' . __( 'Click Here', 'wp-loyalty-rules' ) . '</a>'
 				);
 				$message                   = $order_helper->processShortCodes( $short_code_list, $message );
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$message                   = apply_filters( 'wlr_point_redeem_points_message', $message );
 				$cart_redeem_point_display = ( isset( $setting_option['wlr_cart_redeem_point_display'] ) && ! empty( $setting_option['wlr_cart_redeem_point_display'] )
 					? $setting_option['wlr_cart_redeem_point_display'] : 'before' );
@@ -648,6 +677,7 @@ class DisplayMessage extends Base {
 				];
 				$message         = $earn_campaign->processShortCodes( $short_code_list, $message );
 				$message         = $earn_campaign->getThankfulPageDesign( $message );
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				echo wp_kses_post( apply_filters( 'wlr_thank_you_message', $message, $point, $user_point, $rewards ) );
 			}
 		}

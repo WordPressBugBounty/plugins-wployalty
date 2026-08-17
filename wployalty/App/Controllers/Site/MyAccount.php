@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Controllers\Base;
@@ -17,6 +18,7 @@ defined( 'ABSPATH' ) or die;
 
 class MyAccount extends Base {
 	function includes() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( self::$woocommerce->isBannedUser() || ! apply_filters( 'wlr_before_adding_menu', true ) ) {
 			return;
 		}
@@ -40,6 +42,7 @@ class MyAccount extends Base {
 			$menu_items['customer-logout'] = $logout;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_myaccount_loyalty_menu_label', $menu_items );
 	}
 
@@ -58,6 +61,7 @@ class MyAccount extends Base {
 
 	function rewardPage( $page_type = '' ) {
 		if ( empty( $page_type ) || ! in_array( $page_type,
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				[ 'myaccount', 'page', 'cart' ] ) || ! apply_filters( 'wlr_before_render_reward_page', true ) ) {
 			return '';
 		}
@@ -92,11 +96,13 @@ class MyAccount extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_my_account_point_and_reward_page', $my_account_content, $main_page_params );
 	}
 
 	public function registerRewriteEndpoint() {
 		if ( self::$woocommerce->isBannedUser()
+		     // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		     || ! apply_filters( 'wlr_before_adding_menu_endpoint', true )
 		) {
 			return;
@@ -126,7 +132,9 @@ class MyAccount extends Base {
 		$option_flag       = get_option( 'wlr_is_flush_required', 'no' ) === 'yes';
 		$default_required  = $structure_changed || $option_flag;
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$is_flush_required = apply_filters('wlr_is_flush_required', $default_required );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status = apply_filters( 'wlr_flush_rewrite_rules', true );
 		if ( $status && $is_flush_required ) {
 			$this->registerRewriteEndpoint();

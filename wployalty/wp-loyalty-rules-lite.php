@@ -3,23 +3,24 @@
  * Plugin Name: WPLoyalty
  * Plugin URI: https://wployalty.net
  * Description: Loyalty Rules and Referrals for WooCommerce. Turn your hard-earned sales into repeat purchases by rewarding your customers and building loyalty.
- * Version: 1.4.6
+ * Version: 1.4.7
  * Author: wployalty
  * Slug: wp-loyalty-rules-lite
  * Text Domain: wp-loyalty-rules
  * Domain Path: /i18n/languages/
  * Requires Plugins: woocommerce
  * Requires at least: 6.0
- * WC requires at least: 6.5
- * WC tested up to: 10.8
+ * WC requires at least: 9.0
+ * WC tested up to: 11.0
  * Contributors: wployalty
  * Author URI: https://wployalty.net
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 defined( 'ABSPATH' ) || exit;
-if ( ! function_exists( 'isWoocommerceActive' ) ) {
-	function isWoocommerceActive() {
+if ( ! function_exists( 'wlrf_is_woocommerce_active' ) ) {
+	function wlrf_is_woocommerce_active() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
@@ -28,7 +29,7 @@ if ( ! function_exists( 'isWoocommerceActive' ) ) {
 		return in_array( 'woocommerce/woocommerce.php', $active_plugins, false ) || array_key_exists( 'woocommerce/woocommerce.php', $active_plugins );
 	}
 }
-if ( ! isWoocommerceActive() ) {
+if ( ! wlrf_is_woocommerce_active() ) {
 	return;
 }
 add_action( 'before_woocommerce_init', function () {
@@ -36,8 +37,9 @@ add_action( 'before_woocommerce_init', function () {
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 	}
 } );
-if ( ! function_exists( 'isWlrProActive' ) ) {
-	function isWlrProActive() {
+if ( ! function_exists( 'wlrf_is_pro_active' ) ) {
+	function wlrf_is_pro_active() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
 		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', [] ) );
 		if ( is_multisite() ) {
 			$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', [] ) );
@@ -46,11 +48,11 @@ if ( ! function_exists( 'isWlrProActive' ) ) {
 		return in_array( 'wp-loyalty-rules/wp-loyalty-rules.php', $active_plugins, false );
 	}
 }
-if ( isWlrProActive() ) {
+if ( wlrf_is_pro_active() ) {
 	return;
 }
 //Define the plugin version
-defined( 'WLR_PLUGIN_VERSION' ) or define( 'WLR_PLUGIN_VERSION', '1.4.6' );
+defined( 'WLR_PLUGIN_VERSION' ) or define( 'WLR_PLUGIN_VERSION', '1.4.7' );
 // Define the plugin text domain
 defined( 'WLR_TEXT_DOMAIN' ) or define( 'WLR_TEXT_DOMAIN', 'wp-loyalty-rules' );
 // Define the slug
@@ -67,9 +69,9 @@ defined( 'WLR_PLUGIN_PREFIX' ) or define( 'WLR_PLUGIN_PREFIX', 'wlr' );
 defined( 'WLR_PLUGIN_LANGUAGE' ) or define( 'WLR_PLUGIN_LANGUAGE', get_locale() );
 //defined plugin name
 defined( 'WLR_PLUGIN_NAME' ) or define( 'WLR_PLUGIN_NAME', 'WPLoyalty - WooCommerce Loyalty Points, Rewards and Referral' );
-defined( 'WLR_MINIMUM_PHP_VERSION' ) or define( 'WLR_MINIMUM_PHP_VERSION', '7.0.0' );
+defined( 'WLR_MINIMUM_PHP_VERSION' ) or define( 'WLR_MINIMUM_PHP_VERSION', '7.4.0' );
 defined( 'WLR_MINIMUM_WP_VERSION' ) or define( 'WLR_MINIMUM_WP_VERSION', '6.0' );
-defined( 'WLR_MINIMUM_WC_VERSION' ) or define( 'WLR_MINIMUM_WC_VERSION', '6.5' );
+defined( 'WLR_MINIMUM_WC_VERSION' ) or define( 'WLR_MINIMUM_WC_VERSION', '9.0' );
 // Autoload the vendor
 if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	return;
@@ -79,17 +81,17 @@ if ( ! file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 if ( ! class_exists( 'Wlr\App\Helpers\CompatibleCheck' ) ) {
 	return;
 }
-$activation_check = new \Wlr\App\Helpers\CompatibleCheck();
-if ( ! $activation_check->init_check() ) {
-	add_action( 'all_admin_notices', [ $activation_check, 'inActiveNotice' ] );
+$wlrf_activation_check = new \Wlr\App\Helpers\CompatibleCheck();
+if ( ! $wlrf_activation_check->init_check() ) {
+	add_action( 'all_admin_notices', [ $wlrf_activation_check, 'inActiveNotice' ] );
 
 	return;
 }
 if ( ! class_exists( '\Wlr\App\Router' ) ) {
 	return;
 }
-if ( ! function_exists( 'isWLRExtraPluginData' ) ) {
-	function isWLRExtraPluginData( $header ) {
+if ( ! function_exists( 'wlrf_is_extra_plugin_data' ) ) {
+	function wlrf_is_extra_plugin_data( $header ) {
 		$header[] = 'WPLoyalty';
 		$header[] = 'WPLoyalty Icon';
 		$header[] = 'WPLoyalty Document Link';
@@ -98,22 +100,23 @@ if ( ! function_exists( 'isWLRExtraPluginData' ) ) {
 		return $header;
 	}
 }
-$plugin_dir      = basename( WLR_PLUGIN_PATH );
-$plugin_rel_path = $plugin_dir . '/i18n/languages/';
-load_plugin_textdomain( WLR_TEXT_DOMAIN, false, $plugin_rel_path );
-add_filter( 'extra_plugin_headers', 'isWLRExtraPluginData' );
+$wlrf_plugin_dir      = basename( WLR_PLUGIN_PATH );
+$wlrf_plugin_rel_path = $wlrf_plugin_dir . '/i18n/languages/';
+//load_plugin_textdomain( WLR_TEXT_DOMAIN, false, $wlrf_plugin_rel_path );
+add_filter( 'extra_plugin_headers', 'wlrf_is_extra_plugin_data' );
 //Init the router
 \Wlr\App\Setup::init();
-$router = new \Wlr\App\Router();
-$router->init();
+$wlrf_router = new \Wlr\App\Router();
+$wlrf_router->init();
 
 // In-build plugin load
-$wlr_apps_class = [
+$wlrf_apps_class = [
 	'PointExpiry' => WLR_PLUGIN_PATH . 'App/Apps/PointExpiry/wp-loyalty-point-expire.php'
 ];
-$wlr_apps_class = apply_filters( 'wlr_app_init_class', $wlr_apps_class );
-foreach ( $wlr_apps_class as $app_name => $app_path ) {
-	if ( file_exists( $app_path ) ) {
-		include $app_path;
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
+$wlrf_apps_class = apply_filters( 'wlr_app_init_class', $wlrf_apps_class );
+foreach ( $wlrf_apps_class as $wlrf_app_name => $wlrf_app_path ) {
+	if ( file_exists( $wlrf_app_path ) ) {
+		include $wlrf_app_path;
 	}
 }

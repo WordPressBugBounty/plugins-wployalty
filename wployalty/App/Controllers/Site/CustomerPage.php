@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 
 use Wlr\App\Controllers\Base;
@@ -84,6 +85,7 @@ class CustomerPage extends Base {
 			//$page_params['user_rewards']                     = $this->getPageUserRewards( $user_email, array( 'page_type' => $page_type ) );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_myaccount_page_data', $page_params );
 	}
 
@@ -93,6 +95,7 @@ class CustomerPage extends Base {
 		}
 		$logs   = new Logs();
 		$offset = (int) self::$input->post_get( 'page_number', 1 );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$limit  = apply_filters( 'wlr_recent_activity_transaction_limit', 5 );
 		$start  = ( $offset - 1 ) * $limit;
 		$items  = $logs->getUserLogTransactions( $user_email, $limit, $start );
@@ -112,6 +115,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_recent_activity_content', $page_content, $recent_activity_params );
 	}
 
@@ -132,6 +136,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_transaction_details', $page_content, $transaction_params );
 	}
 
@@ -167,6 +172,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_customer_page_new_my_rewards_section', $my_rewards_and_coupons, $page_params );
 	}
 
@@ -174,6 +180,7 @@ class CustomerPage extends Base {
 		if ( empty( $user_email ) ) {
 			return [];
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$allowed_conditions   = apply_filters( 'wlr_page_allowed_conditions', [
 			'user_role',
 			'customer',
@@ -191,6 +198,7 @@ class CustomerPage extends Base {
 		$point_rewards        = $reward_helper->getPointRewards( $user_email, $extra );
 		$earned_coupon_reward = $reward_helper->getCouponRewards( $user_email, $extra );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_after_get_available_rewards', array_merge( $point_rewards, $earned_coupon_reward ), $user_email );
 	}
 
@@ -200,6 +208,7 @@ class CustomerPage extends Base {
 		}
 		$available_rewards = self::getAvailableRewards( $user_email );
 		$offset            = (int) self::$input->post_get( 'page_number', 1 );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$limit             = apply_filters( 'wlr_rewards_tab_card_count', 6 );
 		$start             = ( $offset - 1 ) * $limit;
 		$page_params       = [
@@ -216,6 +225,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_rewards_tab_content', $page_content, $page_params );
 	}
 
@@ -224,6 +234,7 @@ class CustomerPage extends Base {
 			return '';
 		}
 		$offset         = (int) self::$input->post_get( 'page_number', 1 );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$limit          = apply_filters( 'wlr_coupons_tab_card_count', 5 );
 		$user_rewards   = new UserRewards();
 		$page_params    = [
@@ -251,6 +262,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_coupons_tab_content', $page_content, $page_params );
 	}
 
@@ -272,6 +284,7 @@ class CustomerPage extends Base {
 			return '';
 		}
 		$offset                        = (int) self::$input->post_get( 'page_number', 1 );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$limit                         = apply_filters( 'wlr_expired_coupons_tab_card_count', 5 );
 		$user_rewards                  = new UserRewards();
 		$page_params                   = [];
@@ -292,6 +305,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/page-content/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_coupons_tab_content', $page_content, $page_params );
 	}
 
@@ -350,6 +364,7 @@ class CustomerPage extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_tab_process_reward_list', $reward_list );
 	}
 
@@ -439,6 +454,7 @@ class CustomerPage extends Base {
 			'yes'
 		) ) ? $setting_option['is_one_time_birthdate_edit'] : 'no';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_myaccount_page_data', $page_params );
 	}
 
@@ -457,6 +473,7 @@ class CustomerPage extends Base {
 		if ( $page_params['page_type'] != 'cart' ) {
 			$page_params['new_expired_coupon_section'] = $this->getExpiredCouponsPageContent( $page_params, $user_email );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$page_params            = apply_filters( 'wlr_customer_page_new_my_rewards_section_params', $page_params );
 		$template_name          = 'my_rewards_and_coupons.php';
 		$my_rewards_and_coupons = wc_get_template_html(
@@ -466,6 +483,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/rewards/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_customer_page_new_my_rewards_section', $my_rewards_and_coupons, $page_params );
 	}
 
@@ -480,6 +498,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/rewards/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_customer_page_new_rewards_section', $page_content, $page_params );
 	}
 
@@ -495,6 +514,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/rewards/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_customer_page_new_coupons_section', $page_content, $page_params );
 	}
 
@@ -510,6 +530,7 @@ class CustomerPage extends Base {
 			WLR_PLUGIN_PATH . 'App/Views/Site/rewards/'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_customer_page_new_coupons_section', $page_content, $page_params );
 	}
 
@@ -523,12 +544,14 @@ class CustomerPage extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_can_show_reward_page', $status, $page_type );
 	}
 
 	function getValidPageTypes() {
 		$valid_page_types = array( 'myaccount', 'cart', 'page' );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_valid_customer_page_types', $valid_page_types );
 	}
 
@@ -568,6 +591,7 @@ class CustomerPage extends Base {
 			), '*', array(), false );
 			$level_model      = new Levels();
 			$total_earn_point = isset( $loyalty_user ) && ! empty( $loyalty_user->earn_total_point ) ? $loyalty_user->earn_total_point : 0;
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$total_earn_point = apply_filters( 'wlr_points_for_campaigns_list', $total_earn_point, $loyalty_user );
 			$current_level    = $level_model->getCurrentLevelId( $total_earn_point );
 			$user_next_level  = $earn_campaign->getNextLevel( $total_earn_point );
@@ -616,6 +640,7 @@ class CustomerPage extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_campaign_list', $campaign_list );
 	}
 
@@ -651,6 +676,7 @@ class CustomerPage extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( "wlr_alter_campaign_selected_data", $active_campaigns );
 	}
 
@@ -812,6 +838,7 @@ class CustomerPage extends Base {
 		$reward_model = new Rewards();
 		$reward_list  = $reward_model->getCurrentRewardList();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_reward_list', $reward_list );
 	}
 
@@ -824,6 +851,7 @@ class CustomerPage extends Base {
 		$limit  = 5;
 		$start  = ( $offset - 1 ) * $limit;
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_transaction_details', array(
 			'transactions'        => $logs->getUserLogTransactions( $user_email, $limit, $start ),
 			'transaction_total'   => (int) $logs->getUserLogTransactionsCount( $user_email ),
@@ -864,6 +892,7 @@ class CustomerPage extends Base {
 			$used_expired_reward->reward_type_name = isset( $used_expired_reward->discount_type ) && ! empty( $used_expired_reward->discount_type ) && isset( $reward_types[ $used_expired_reward->discount_type ] ) && $reward_types[ $used_expired_reward->discount_type ] ? $reward_types[ $used_expired_reward->discount_type ] : '';
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_used_expired_coupon_details', array(
 			'expired_used_coupons'         => $used_expired_coupons['data'],
 			'expired_used_coupons_total'   => (int) $used_expired_coupons['total'],
@@ -915,6 +944,7 @@ class CustomerPage extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_social_share_list', $social_share_list );
 	}
 
@@ -932,6 +962,7 @@ class CustomerPage extends Base {
 		$cart_action_list = $earn_campaign->getSocialActionList();
 		$reward_list      = $earn_campaign->getActionEarning( $cart_action_list, $social_extra );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_social_reward_list', $reward_list, $user_email );
 	}
 
@@ -1006,6 +1037,7 @@ class CustomerPage extends Base {
 			return array();
 		}
 		$reward_helper      = \Wlr\App\Helpers\Rewards::getInstance();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$allowed_conditions = apply_filters( 'wlr_page_allowed_conditions', array(
 			'user_role',
 			'customer',
@@ -1067,6 +1099,7 @@ class CustomerPage extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_user_reward_list', $user_reward_list );
 	}
 
@@ -1078,6 +1111,7 @@ class CustomerPage extends Base {
 		$earn_campaign_helper = new EarnCampaign();
 		$available_point      = ( is_object( $user ) && ! empty( $user->points ) ) ? $user->points : 0;
 		$cart_amount          = self::$woocommerce->getCartSubtotal();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$cart_amount          = apply_filters('wlr_before_processing_cart_subtotal_for_point_conversion_data', $cart_amount, $user, $user_reward_data );
 		$cart_amount          = self::$woocommerce->getCustomPrice( $cart_amount, false );
 		$cart_required_point  = 0;
@@ -1091,6 +1125,7 @@ class CustomerPage extends Base {
 			$input_point = $user_reward_data->maximum_point;
 		}
 		$woocommerce_currency_symbol = self::$woocommerce->getCurrencySymbols( $woocommerce_currency );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$conversion_price_format     = apply_filters( 'wlr_user_reward_point_conversion_price_format', sprintf( '=(%s) %s', $woocommerce_currency, $woocommerce_currency_symbol ), $woocommerce_currency, $woocommerce_currency_symbol );
 		$max_allowed_point           = $user_reward_data->maximum_point ?? 0;
 		$min_allowed_point           = $user_reward_data->minimum_point ?? 0;
@@ -1124,6 +1159,7 @@ class CustomerPage extends Base {
 			$input_value = ( $input_point / $user_reward_data->require_point ) * $user_reward_data->discount_value;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$data = apply_filters( 'wlr_user_reward_point_conversion_redeem_data', array(
 			'reward_type_name'        => $reward_type_name,
 			'input_point'             => $input_point,
@@ -1180,10 +1216,12 @@ class CustomerPage extends Base {
 			$user->total_coupon_count = $used_coupon_count;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_user_details', $user );
 	}
 
 	function getBrandingData() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_page_branding_details', [
 			'theme_color'                    => Settings::get( 'theme_color', '#4F47EB' ),
 			'border_color'                   => Settings::get( 'border_color', '#CFCFCF' ),
@@ -1240,8 +1278,10 @@ class CustomerPage extends Base {
 	 */
 	public static function changeLevelId( $level_id, $point, $user_fields ) {
 		$level_model      = new Levels();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$point            = apply_filters( 'wlr_points_to_get_level_id', $point, $user_fields );
 		$current_level_id = $level_model->getCurrentLevelId( $point );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$current_level_id = apply_filters( 'wlr_after_level_update', $current_level_id, $point, $user_fields );
 
 		return $current_level_id > 0 ? $current_level_id : 0;

@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Admin;
 
 use Wlr\App\Helpers\AjaxCondition;
@@ -67,6 +68,7 @@ class Common {
 				$path = WLR_PLUGIN_PATH . 'App/Views/Admin/main.php';
 				Util::renderTemplate( $path, $main_page_params );
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_manage_pages', $view );
 		} else {
 			wp_die( esc_html( __( 'Page query params missing...', 'wp-loyalty-rules' ) ) );
@@ -117,6 +119,7 @@ class Common {
 		if ( ! EarnCampaignHelper::getInstance()->isPro() ) {
 			$action_links['pro'] = '<a style="color: #4f47eb; font-weight: bold;" target="_blank" href="https://wployalty.net/pricing/?utm_campaign=wployalty-link&utm_medium=pro_url&utm_source=pricing">' . __( 'Get Pro', 'wp-loyalty-rules' ) . '</a>';
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$action_links = apply_filters( 'wlr_point_action_links', $action_links );
 
 		return array_merge( $action_links, $links );
@@ -156,6 +159,7 @@ class Common {
 		if ( defined( 'SCRIPT_DEBUG' ) ) {
 			$suffix = SCRIPT_DEBUG ? '' : '.min';
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$cache_fix     = apply_filters( 'wlr_load_admin_asset_with_time', true );
 		$add_cache_fix = ( $cache_fix ) ? '&t=' . time() : '';
 		self::removeAdminNotice();
@@ -247,6 +251,7 @@ class Common {
 			if ( $woocommerce_helper->isMethodExists( $ajax_pro_condition, $method_name ) ) {
 				wp_send_json_success( $ajax_pro_condition->$method_name() );
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$data = apply_filters( 'wlr_condition_class_loading', [] );
 			if ( ! empty( $data ) ) {
 				wp_send_json( $data );

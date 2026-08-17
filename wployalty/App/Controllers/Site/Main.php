@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Controllers\Site;
 defined( 'ABSPATH' ) or die;
 
@@ -53,6 +54,7 @@ class Main extends Base {
 				$referral_helper->doReferralCheck( $action_data );
 			}
 			if ( is_array( $earning_status ) && in_array( $order_status, $earning_status ) ) {
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				if ( apply_filters( 'wlr_before_process_order_earning', true, $order_id ) ) {
 					$earn_campaign->processOrderEarnPoint( $order_id );
 				}
@@ -221,6 +223,7 @@ class Main extends Base {
 					Message::error( $json );
 				}
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			if ( ! apply_filters( 'wlr_apply_reward_validation', true, $reward, $user_email ) ) {
 				$json['message'] = __( 'Apologies, but you are not eligible to convert this coupon at the moment', 'wp-loyalty-rules' );
 				Message::error( $json );
@@ -660,9 +663,11 @@ class Main extends Base {
 		$display     = esc_html__( "Free", 'wp-loyalty-rules' );
 		$display     = '<span class="wlr_free_product_text">' . $display . '</span>';
 		$item_data[] = array(
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			'key'                  => apply_filters( 'wlr_free_product_key', $key ),
 			'loyalty_free_product' => 'yes',
 			'in_stock'             => $cart_item['data']->is_in_stock(),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			'display'              => apply_filters( 'wlr_free_product_display_name', $display ),
 		);
 
@@ -798,6 +803,7 @@ class Main extends Base {
 			foreach ( $cart_items as $key => $item ) {
 				if ( isset( $item['loyalty_free_product'] ) && $item['loyalty_free_product'] == 'yes' ) {
 					if ( ! empty( $item["data"] ) ) {
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 						$price = apply_filters( 'wlr_free_product_price', 0, $item );
 						self::$woocommerce->setCartProductPrice( $item["data"], $price );
 					}
@@ -821,6 +827,7 @@ class Main extends Base {
 			return;
 		}
 		$order_email = self::$woocommerce->getOrderEmail( $order );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! empty( $order_email ) && self::$woocommerce->isBannedUser( $order_email ) || ! apply_filters( 'wlr_not_eligible_to_earn_via_order', true, $order_email, $order ) ) {
 			return;
 		}
@@ -1068,6 +1075,7 @@ class Main extends Base {
 							'discount_code'       => null,
 						);
 						$earn_campaign_helper->add_note( $log_data );
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 						do_action( 'wlr_my_account_email_change', $new_user_email, $old_user_data['user_email'] );
 					}
 				} catch ( \Exception $e ) {

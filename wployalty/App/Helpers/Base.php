@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 defined( 'ABSPATH' ) or die;
 
@@ -36,6 +37,7 @@ class Base {
 
 	public static function readMoreLessContent( $message, $read_key, $length, $read_more_text, $read_less_text, $id_prefix = 'read-more-less', $class = '' ) {
 		$message_description = (string) ( isset( $message ) && ! empty( $message ) ) ? __( $message, 'wp-loyalty-rules' ) : '';//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! apply_filters( 'wlr_apply_show_more_show_less_option', true, $message_description ) ) {
 			return $message_description;
 		}
@@ -83,6 +85,7 @@ class Base {
 		}
 		$response_div .= '</p>';
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_read_more_less_content', $response_div, $message, $read_key, $length, $read_more_text, $read_less_text, $id_prefix, $class );
 	}
 
@@ -106,6 +109,7 @@ class Base {
 					$action_data[ $key ] = $value;
 				}
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$action_data = apply_filters( 'wlr_before_rule_data_process', $action_data, $campaign_list );
 			$order_id    = isset( $action_data['order'] ) && ! empty( $action_data['order'] ) ? $action_data['order']->get_id() : 0;
 			self::$woocommerce_helper->_log( 'getTotalEarning Action data:' . json_encode( $action_data ) );
@@ -152,6 +156,7 @@ class Base {
 	}
 
 	function isEligibleForEarn( $action_type, $extra = array() ) {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_is_eligible_for_earning', true, $action_type, $extra );
 	}
 
@@ -163,6 +168,7 @@ class Base {
 			'email_share'
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_social_action_list', $social_action_list );
 	}
 
@@ -236,6 +242,7 @@ class Base {
 			$message = str_replace( $key, $value, $message );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_process_message_short_codes', $message, $short_codes );
 	}
 
@@ -283,6 +290,7 @@ class Base {
 			return true;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! apply_filters( 'wlr_is_allow_earning_when_coupon', true, $coupons ) ) {
 			return false;
 		}
@@ -349,6 +357,7 @@ class Base {
 	}
 
 	function getPointOrRewardText( $point, $available_rewards, $with_label = false ) {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$with_label = apply_filters( 'wlr_earn_point_or_reward_label', $with_label );
 		$text       = '';
 		if ( $point > 0 ) {
@@ -382,6 +391,7 @@ class Base {
 		}
 		$point_label = ( $point == 0 || $point > 1 ) ? $plural : $singular;
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_point_label', $point_label, $point );
 	}
 
@@ -391,6 +401,7 @@ class Base {
 		$plural         = ( isset( $setting_option['reward_plural_label'] ) && ! empty( $setting_option['reward_plural_label'] ) ) ? __( $setting_option['reward_plural_label'], 'wp-loyalty-rules' ) : __( 'rewards', 'wp-loyalty-rules' );//phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText
 		$reward_label   = ( $reward_count == 0 || $reward_count > 1 ) ? $plural : $singular;
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_reward_label', $reward_label, $reward_count );
 	}
 
@@ -595,6 +606,7 @@ class Base {
 			if ( empty( $transaction_data ) ) {
 				$status = true;
 			}
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$status = apply_filters( 'wlr_check_social_share_status', $status, $transaction_data );
 		}
 
@@ -621,6 +633,7 @@ class Base {
 ' . $svg_file . '<p style="margin:0 0 0;">' . $message . '</p>' . '</div>';
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_cart_earn_message_after_design', $design_message );
 	}
 
@@ -725,6 +738,7 @@ class Base {
 	}
 
 	function isPro() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_is_pro', false );
 	}
 
@@ -786,6 +800,7 @@ class Base {
 			'birthday_change'          => __( 'Birthday change', 'wp-loyalty-rules' )
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( "wlr_extra_action_list", $action_list );
 	}
 
@@ -794,6 +809,7 @@ class Base {
 			'point_for_purchase',
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_product_action_list', $cart_action_list );
 	}
 
@@ -802,6 +818,7 @@ class Base {
 			'point_for_purchase',
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_cart_action_list', $cart_action_list );
 	}
 
@@ -816,6 +833,7 @@ class Base {
 			$url = site_url() . '?wlr_ref=' . $code;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_get_referral_url', $url, $code );
 	}
 
@@ -836,7 +854,9 @@ class Base {
 			return false;
 		}
 		try {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$reward     = apply_filters( 'wlr_before_add_earn_reward', $reward, $action_type, $action_data );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$reward     = apply_filters( 'wlr_notify_before_add_earn_reward', $reward, $action_type, $action_data );
 			$conditions = array(
 				'user_email' => array(
@@ -893,6 +913,7 @@ class Base {
 				$args['admin_user_id'] = $admin_user->ID;
 			}
 			$earn_trans_id = self::$earn_campaign_transaction_model->insertRow( $args );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$earn_trans_id = apply_filters( 'wlr_after_add_extra_earn_reward_transaction', $earn_trans_id, $args );
 			if ( $earn_trans_id == 0 ) {
 				return false;
@@ -986,7 +1007,9 @@ class Base {
 		}
 		\WC_Emails::instance();
 		$action_data['campaign_id'] = $campaign_id;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_after_add_extra_earn_reward', $action_data['user_email'], $reward, $action_type, $action_data );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_notify_after_add_extra_earn_reward', $action_data['user_email'], $reward, $action_type, $action_data );
 
 		return true;
@@ -1012,6 +1035,7 @@ class Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_generate_referral_code', $ref_code, $prefix, $email );
 	}
 
@@ -1057,6 +1081,7 @@ class Base {
 			'daily_login'   => __( 'Daily Login', 'wp-loyalty-rules' ),
 			'custom_action' => __( 'Custom Action', 'wp-loyalty-rules' ),
 		);
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$achievement_names = apply_filters( 'wlr_achievement_names', $achievement_names, $achievement_key );
 
 		return isset( $achievement_names[ $achievement_key ] ) && ! empty( $achievement_names[ $achievement_key ] ) ? $achievement_names[ $achievement_key ] : '';
@@ -1094,6 +1119,7 @@ class Base {
 		 * @param array $hook_data Complete hook data added while firing the action
 		 * @param int $point_balance Current point balance after the change
 		 */
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_customer_points_balance_changed', $user_email, $points, $transaction_type, $action_type, $hook_data, $point_balance );
 	}
 
@@ -1102,9 +1128,12 @@ class Base {
 		if ( ! is_array( $action_data ) || $point < 0 || empty( $action_data['user_email'] ) || empty( $action_type ) || ! $this->isValidExtraAction( $action_type ) ) {
 			return false;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$action_data = apply_filters( 'wlr_before_extra_point_data', $action_data, $point, $action_type );
 		$status      = true;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$point       = apply_filters( 'wlr_before_add_earn_point', $point, $action_type, $action_data );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$point       = apply_filters( 'wlr_notify_before_add_earn_point', $point, $action_type, $action_data );
 		$conditions  = array(
 			'user_email' => array(
@@ -1214,6 +1243,7 @@ class Base {
 					self::$woocommerce_helper->_log( 'Extra Action :' . $action_type . ',Point:' . $point . ', Earn Trans data:' . json_encode( $args ) );
 					$earn_trans_id = self::$earn_campaign_transaction_model->insertRow( $args );
 					self::$woocommerce_helper->_log( 'Extra Action :' . $action_type . ',Point:' . $point . ', Earn Trans id:' . $earn_trans_id );
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 					$earn_trans_id = apply_filters( 'wlr_after_add_extra_earn_point_transaction', $earn_trans_id, $args );
 					if ( $earn_trans_id == 0 ) {
 						$status = false;
@@ -1257,7 +1287,9 @@ class Base {
 		self::$woocommerce_helper->_log( 'Extra Action :' . $action_type . ',Point:' . $point . ', Extra Action status:' . $status );
 		if ( $status ) {
 			\WC_Emails::instance();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_after_add_extra_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_notify_after_add_extra_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
 			$this->firePointsBalanceChangedHook( $action_data['user_email'], $point, $trans_type, $action_type, $action_data );
 		}
@@ -1266,6 +1298,7 @@ class Base {
 	}
 
 	function isValidPointLedgerExtraAction( $action_type ) {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$action_types = apply_filters( 'wlr_extra_point_ledger_action_list', array(
 			'new_user_add',
 			'admin_change',

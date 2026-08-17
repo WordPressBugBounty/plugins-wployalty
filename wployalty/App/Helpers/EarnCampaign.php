@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 defined( 'ABSPATH' ) or die;
 
@@ -78,6 +79,7 @@ class EarnCampaign extends Base {
 				}
 			}
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$this->available_conditions = apply_filters( 'wlr_available_conditions', $available_conditions );
 
 		return $this->available_conditions;
@@ -101,6 +103,7 @@ class EarnCampaign extends Base {
 		} elseif ( $status && isset( $data['is_calculate_based'] ) && $data['is_calculate_based'] == 'order' ) {
 			$status = $this->isAllowEarningWhenCoupon( false, $data['order'] );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status = apply_filters( 'wlr_before_earn_reward_conditions', $status, $data );
 		/**
 		 * 2. check condition
@@ -108,6 +111,7 @@ class EarnCampaign extends Base {
 		if ( $status && ! $this->processCampaignCondition( $data, $is_product_level ) ) {
 			$status = false;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status = apply_filters( 'wlr_before_earn_reward_calculation', $status, $data );
 		/**
 		 * 3. calculate point based on action
@@ -210,6 +214,7 @@ class EarnCampaign extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_has_earn_campaign_conditions', $status, $this->earn_campaign );
 	}
 
@@ -236,6 +241,7 @@ class EarnCampaign extends Base {
 		}
 		if ( isset( $data['action_type'] ) && ! empty( $data['action_type'] ) && $action_type == $data['action_type'] ) {
 			$action_type = trim( $action_type );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$reward      = apply_filters( 'wlr_earn_' . strtolower( $type ) . '_' . strtolower( $action_type ), $reward, $campaign, $data );
 		}
 
@@ -259,6 +265,7 @@ class EarnCampaign extends Base {
 		} elseif ( $status && isset( $data['is_calculate_based'] ) && $data['is_calculate_based'] == 'order' ) {
 			$status = $this->isAllowEarningWhenCoupon( false, $data['order'] );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status = apply_filters( 'wlr_before_earn_point_conditions', $status, $data );
 		/**
 		 * 2. check condition
@@ -266,6 +273,7 @@ class EarnCampaign extends Base {
 		if ( $status && ! $this->processCampaignCondition( $data, $is_product_level ) ) {
 			$status = false;
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$status = apply_filters( 'wlr_before_earn_point_calculation', $status, $data );
 		/**
 		 * 3. calculate point based on action
@@ -404,7 +412,7 @@ class EarnCampaign extends Base {
 					$earn_campaign_tran->campaign_id,
 					$earn_campaign_tran->reward_id
 				] );
-				//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,
+				//phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 				$user_reward = $wpdb->get_row( $query . ' WHERE ' . $log_where, OBJECT );
 				if ( ! empty( $user_reward ) ) {
 					$date        = gmdate( 'Y-m-d H:i:s' );
@@ -445,6 +453,7 @@ class EarnCampaign extends Base {
 			}
 			try {
 				$insert_id = self::$earn_campaign_transaction_model->insertRow( $args );
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$insert_id = apply_filters( 'wlr_order_return_transaction', $insert_id, $args );
 			} catch ( \Exception $e ) {
 			}
@@ -625,7 +634,9 @@ class EarnCampaign extends Base {
 		}
 		self::$woocommerce_helper->_log( 'Action :' . $action_type . ',Campaign id:' . $campaign_id . ', Point :' . $point );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$point      = apply_filters( 'wlr_before_add_earn_point', $point, $action_type, $action_data );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$point      = apply_filters( 'wlr_notify_before_add_earn_point', $point, $action_type, $action_data );
 		$conditions = [
 			'user_email' => [
@@ -731,11 +742,13 @@ class EarnCampaign extends Base {
 			$this->updatePointLedger( $ledger_data );
 			self::$woocommerce_helper->_log( 'Action :' . $action_type . ',Campaign id:' . $campaign_id . ', Earn Trans id:' . $earn_trans_id );
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$earn_trans_id = apply_filters( 'wlr_after_add_earn_point_transaction', $earn_trans_id, $args );
 			if ( $earn_trans_id == 0 ) {
 				return false;
 			}
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$customer_note = apply_filters( 'wlr_earn_point_customer_note', $this->processLogData( 'point', $action_type, $point, '', $action_data ), [
 				'type'        => 'point',
 				'action_type' => $action_type,
@@ -770,6 +783,7 @@ class EarnCampaign extends Base {
 			];
 			self::$woocommerce_helper->_log( 'Action :' . $action_type . ',Campaign id:' . $campaign_id . ', Log data:' . json_encode( $log_data ) );
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$log_data = apply_filters( 'wlr_before_earn_point_log_data', $log_data, $action_type, $action_data );
 			$this->add_note( $log_data );
 		} catch ( \Exception $e ) {
@@ -781,7 +795,9 @@ class EarnCampaign extends Base {
 
 		\WC_Emails::instance();
 		$action_data['campaign_id'] = $campaign_id;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_after_add_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		do_action( 'wlr_notify_after_add_earn_point', $action_data['user_email'], $point, $action_type, $action_data );
 
 		$base_helper = new \Wlr\App\Helpers\Base();
@@ -800,7 +816,9 @@ class EarnCampaign extends Base {
 		}
 		self::$woocommerce_helper->_log( 'Action :' . $action_type . ',Campaign id:' . $campaign_id . ', Reward id :' . $reward->id );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$reward   = apply_filters( 'wlr_before_add_earn_reward', $reward, $action_type, $action_data );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$reward   = apply_filters( 'wlr_notify_before_add_earn_reward', $reward, $action_type, $action_data );
 		$user     = $this->getPointUserByEmail( $action_data['user_email'] );
 		$status   = true;
@@ -972,6 +990,7 @@ class EarnCampaign extends Base {
 				'referral_type'       => isset( $action_data['referral_type'] ) && ! empty( $action_data['referral_type'] ) ? $action_data['referral_type'] : '',
 			];
 			self::$woocommerce_helper->_log( 'Action :' . $action_type . ',Campaign id:' . $campaign_id . ',Reward id :' . $reward->id . ', Log data:' . json_encode( $log_data ) );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$log_data = apply_filters( 'wlr_before_earn_reward_log_data', $log_data, $action_type, $action_data, $reward );
 			$this->add_note( $log_data );
 			$options                    = self::$woocommerce_helper->getOptions( 'wlr_settings' );
@@ -1013,7 +1032,9 @@ class EarnCampaign extends Base {
 		if ( $status ) {
 			\WC_Emails::instance();
 			$action_data['campaign_id'] = $campaign_id;
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_after_add_earn_reward', $action_data['user_email'], $reward, $action_type, $action_data );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_notify_after_add_earn_reward', $action_data['user_email'], $reward, $action_type, $action_data );
 		}
 
@@ -1249,6 +1270,7 @@ class EarnCampaign extends Base {
 			}
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( "wlr_alter_campaign_selected_data", $active_campaigns );
 	}
 

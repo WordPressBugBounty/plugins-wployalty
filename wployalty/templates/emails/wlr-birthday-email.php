@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) or die;
 /*
  * @hooked WC_Emails::email_header() Output the email header
 */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WooCommerce hook retained because it is part of the public WooCommerce API.
 do_action( 'woocommerce_email_header', $email_heading, $email );
 ?>
     <h3><?php esc_html_e( 'We wish you a very Happy Birthday!', 'wp-loyalty-rules' ); ?></h3>
@@ -30,4 +31,5 @@ if ( $additional_content ) {
 	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WooCommerce hook retained because it is part of the public WooCommerce API.
 do_action( 'woocommerce_email_footer', $email );

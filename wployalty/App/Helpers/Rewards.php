@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Helpers;
 
 use Automattic\WooCommerce\StoreApi\Utilities\CartController;
@@ -218,6 +219,7 @@ class Rewards extends EarnCampaign {
 				$rewards[]                  = $point_reward;
 			}
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$rewards = apply_filters( 'wlr_user_point_reward_list', $rewards, $user_email, $user_point );
 
 		return self::$user_rewards[ $user_email ]['point_reward'] = $rewards;
@@ -227,6 +229,7 @@ class Rewards extends EarnCampaign {
 		self::$woocommerce_helper->setSession( 'wlr_discount_code', $discount_code );
 		$cart     = self::$woocommerce_helper->getCart();
 		$response = [];
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( self::$woocommerce_helper->isMethodExists( $cart, 'get_cart' ) && empty( $cart->get_cart() ) && apply_filters( 'wlr_show_coupon_will_apply_message', true, $user_reward ) ) {
 			$response['message_type'] = 'success';
 			$response['message']      = __( 'Coupon will apply when the cart has items', 'wp-loyalty-rules' );
@@ -269,6 +272,7 @@ class Rewards extends EarnCampaign {
 			$condition_data  = $this->convertCouponData( $conditions, $condition_type );
 			$discount_amount = $user_reward->discount_value;
 			if ( isset( $condition_data['currency'] ) && ! empty( $condition_data['currency'] ) && ( isset( $user_reward->discount_type ) && $user_reward->discount_type != 'percent' ) ) {
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 				$discount_amount = apply_filters( 'wlr_convert_to_default_currency', $discount_amount, $condition_data['currency'] );
 			}
 			$user_reward_model = new UserRewards();
@@ -317,6 +321,7 @@ class Rewards extends EarnCampaign {
 			$data['campaign_id']    = isset( $user_reward->campaign_id ) && ! empty( $user_reward->campaign_id ) ? $user_reward->campaign_id : 0;
 			$data['display_name']   = isset( $user_reward->display_name ) && ! empty( $user_reward->display_name ) ? $user_reward->display_name : '';
 			// else create woccommerce coupon and apply to cart
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$data   = apply_filters( 'wlr_before_create_coupon_data', $data, $user_reward );
 			$coupon = $this->create_coupon( $data );
 			if ( ! is_wp_error( $coupon ) ) {
@@ -389,6 +394,7 @@ class Rewards extends EarnCampaign {
 								wc_add_notice( $response['message'] );
 							}
 						}*/
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 						do_action( 'wlr_after_coupon_code_generation', $coupon_code, $user_reward );
 					}
 				} catch ( Exception $e ) {
@@ -425,12 +431,19 @@ class Rewards extends EarnCampaign {
 		$exclude_sale_items_conditions           = [];
 		$currency_conditions                     = [];
 		if ( $condition_relationship == 'and' ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$min_condition_list                      = apply_filters( 'wlr_minimum_amount_conditions', array( 'cart_subtotal' ), $available_conditions );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$max_condition_list                      = apply_filters( 'wlr_maximum_amount_conditions', array( 'cart_subtotal' ), $available_conditions );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$product_ids_conditions                  = apply_filters( 'wlr_product_ids_conditions', array( 'products' ), $available_conditions );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$exclude_product_ids_conditions          = apply_filters( 'wlr_exclude_product_ids_conditions', array( 'products' ), $available_conditions );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$product_category_ids_conditions         = apply_filters( 'wlr_product_category_ids_conditions', array( 'product_category' ), $available_conditions );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$exclude_product_category_ids_conditions = apply_filters( 'wlr_exclude_product_category_ids_conditions', array( 'product_category' ), $available_conditions );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$exclude_sale_items_conditions           = apply_filters( 'wlr_exclude_sale_items_conditions', array( 'product_onsale' ), $available_conditions );
 			$currency_conditions                     = array( 'currency' );
 		}
@@ -500,11 +513,13 @@ class Rewards extends EarnCampaign {
 		$random_code  = $this->get_random_code();
 		$reward_code  = strtoupper( $prefix . $random_code );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		return apply_filters( 'wlr_generate_reward_code', $reward_code, $prefix );
 	}
 
 	public function create_coupon( $data ) {
 		try {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			$data = apply_filters( 'wlr_create_coupon_data', $data, $this );
 			// Check if coupon code is specified
 			if ( ! isset( $data['code'] ) ) {
@@ -580,7 +595,9 @@ class Rewards extends EarnCampaign {
 			update_post_meta( $id, 'wlr_campaign_id', (int) isset( $data['campaign_id'] ) && ! empty( $data['campaign_id'] ) ? $data['campaign_id'] : 0 );
 			update_post_meta( $id, 'wlr_display_name', (string) isset( $data['display_name'] ) && ! empty( $data['display_name'] ) ? $data['display_name'] : '' );
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_create_coupon', $id, $data );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 			do_action( 'wlr_new_coupon', $id );
 
 			return new WC_Coupon( $id );

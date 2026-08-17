@@ -5,6 +5,7 @@
  * @link        https://www.wployalty.net
  * */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Integrations\MultiCurrency;
 
 use Aelia\WC\CurrencySwitcher\WC_Aelia_CurrencySwitcher;
@@ -16,6 +17,7 @@ class MultiCurrency {
 	public static $active_plugin_list = array();
 
 	function init() {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$is_multi_currency_filter_allowed = apply_filters( 'wlr_core_multicurrency_allowed', false );
 		if ( $is_multi_currency_filter_allowed ) {
 			add_filter( 'wlr_default_product_price', array( $this, 'getDefaultProductPrice' ), 10, 5 );
@@ -90,6 +92,7 @@ class MultiCurrency {
 
 	function getActivePlugins() {
 		if ( empty( self::$active_plugin_list ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing WordPress core hook retained because it is part of the public WordPress API.
 			$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins', array() ) );
 			if ( is_multisite() ) {
 				$active_plugins = array_merge( $active_plugins, get_site_option( 'active_sitewide_plugins', array() ) );
@@ -151,6 +154,7 @@ class MultiCurrency {
 		}
 		$status = false;//later use for other currency
 		if ( $this->isEnableRealMagCurrency() ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing third-party integration hook retained for compatibility.
 			$productPrice = apply_filters( 'woocs_convert_price', $productPrice, false );
 			$status       = true;
 		}

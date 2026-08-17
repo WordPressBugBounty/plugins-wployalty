@@ -1,6 +1,6 @@
 <?php
 defined( 'ABSPATH' ) or die;
-$earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
+$wlrf_earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
 ?>
 <?php if ( ! empty( $recent_activity_content ) ): ?>
     <div class="wlr-transaction-blog"
@@ -17,12 +17,13 @@ $earn_campaign_helper = \Wlr\App\Helpers\EarnCampaign::getInstance();
                     <th class="set-center wlr-text-color"><?php echo esc_html__( 'Order No.', 'wp-loyalty-rules' ) ?></th>
                     <th class="wlr-text-color"><?php echo esc_html__( 'Action Type', 'wp-loyalty-rules' ) ?></th>
                     <th class="wlr-text-color"><?php echo esc_html__( 'Message', 'wp-loyalty-rules' ) ?></th>
-                    <th class="set-center wlr-text-color"><?php echo esc_html( $earn_campaign_helper->getPointLabel( 3 ) ); ?></th>
-                    <th class="wlr-text-color"><?php echo esc_html( $earn_campaign_helper->getRewardLabel( 3 ) ) ?></th>
+                    <th class="set-center wlr-text-color"><?php echo esc_html( $wlrf_earn_campaign_helper->getPointLabel( 3 ) ); ?></th>
+                    <th class="wlr-text-color"><?php echo esc_html( $wlrf_earn_campaign_helper->getRewardLabel( 3 ) ) ?></th>
                 </tr>
                 </thead>
                 <tbody class="wlr-transaction-container">
-				<?php echo $recent_activity_content;//phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				echo $recent_activity_content; ?>
                 </tbody>
             </table>
         </div>

@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound -- Existing WPLoyalty namespace retained for backward compatibility.
 namespace Wlr\App\Emails;
 
 use Wlr\App\Emails\Traits\Common;
@@ -22,6 +23,7 @@ class WlrExpireEmail extends \WC_Email {
 		$this->template_html  = 'emails/wlr-expire-email.php';
 		$this->template_plain = 'emails/plain/wlr-expire-email.php';
 		$this->template_base  = WLR_PLUGIN_PATH . 'templates/';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Hook name is dynamically prefixed by the existing wlr_ email ID.
 		$this->placeholders   = apply_filters( $this->id . '_short_codes_list', [
 			'{wlr_reward_name}'       => 'WLR-YTE-F4D',
 			'{wlr_expiry_redeem_url}' => 'https://example.com',
@@ -62,6 +64,7 @@ class WlrExpireEmail extends \WC_Email {
 
 		$is_send_email  = isset( $loyal_user->is_allow_send_email ) && $loyal_user->is_allow_send_email > 0;
 		$is_banned_user = isset( $loyal_user->is_banned_user ) && $loyal_user->is_banned_user > 0;
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		if ( ! $is_send_email || $is_banned_user || ! apply_filters( 'wlr_before_send_email', true,
 				[
 					'email_type'  => $this->id,
@@ -82,6 +85,7 @@ class WlrExpireEmail extends \WC_Email {
 			$display_name = $user_reward->discount_code;
 		}
 		$expire_date_format = get_option( 'date_format', 'Y-m-d' );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$expire_date_format = apply_filters( 'wlr_expire_mail_date_format', $expire_date_format );
 		$expire_date        = ! empty( $user_reward->end_at ) ? $user_reward->end_at : 0;
 
@@ -95,9 +99,11 @@ class WlrExpireEmail extends \WC_Email {
 		$this->placeholders['{wlr_used_point}']                = $loyal_user->used_total_points ?? 0;
 		$this->placeholders['{wlr_user_name}']                 = $this->getUserDisplayName( $user_reward->email );
 		$this->placeholders['{wlr_order_id}']                  = $data['order_id'] ?? '';
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$this->placeholders['{wlr_store_name}']                = apply_filters( 'wlr_before_display_store_name', get_option( 'blogname' ) );
 		$this->placeholders['{wlr_customer_reward_page_link}'] = get_permalink( get_option( 'woocommerce_myaccount_page_id' ) );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Existing public WPLoyalty hook retained because customers may use it.
 		$this->placeholders = apply_filters( 'wlr_expire_coupon_email_short_codes', $this->placeholders, $user_reward );
 		$content            = stripslashes( get_option( 'wlr_expire_email_template' ) );
 		$content_html       = empty( $content ) ? $this->defaultContent() : $content;
